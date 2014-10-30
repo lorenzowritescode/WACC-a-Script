@@ -42,8 +42,7 @@ pair_elem: FST expr
 
 binaryOper : PLUS | MINUS ;
 
-param_list: param
-| param COMMA param_list
+param_list: param (COMMA param_list)*
 ;
 
 param: type ident;
@@ -74,9 +73,7 @@ expr : int_liter
 | expr binary_oper expr
 | OPEN_PARENTHESES expr CLOSE PARENTHESES
 ;
-
 array_elem : ident OPEN_SQUARE_BRACKET expr CLOSE_SQUARE BRACKET ;
-
 int-liter : int_sign INTEGER ;
 
 int_sign : PLUS
@@ -94,6 +91,31 @@ str_liter : DOUBLE_APOSTROPHE (character)* DOUBLE_APOSTROPHE ;
 pair_liter : NULL ;
 
 comment : HASH_TAG (character ^EOL)* EOL ;
+unary_oper: NOT
+| HYPHEN
+| LEN
+| ORD
+| CHR
+;
+
+binary_oper: MUL
+| DIV
+| MOD
+| PLUS
+| MINUS
+| GREATER
+| GREATER_EQUAL
+| LESS
+| LESS_EQUAL
+| DOUBLE_EQUALS
+| NOT_EQUAL
+| AND
+| OR
+;
+
+ident: ID_BEGIN_CHAR (ID_CHAR)* ;
+
+
 
 // EOF indicates that the program must consume to the end of the input.
 prog: (expr)*  EOF ;
