@@ -1,4 +1,4 @@
-lexer grammar BasicLexer;
+lexer grammar WACCLexer;
 
 //operators
 PLUS: '+' ;

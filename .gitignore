@@ -30,3 +30,11 @@
 *.vrb
 *.nav
 *.toc
+/bin/
+
+.project
+
+.classpath
+
+#ignore antlr build files
+src/antlr
