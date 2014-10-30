@@ -105,7 +105,7 @@ character : CHARACTER
 
 pair_liter : NULL ;
 
-comment : HASH_TAG (character [^(EOL)])* EOL ;
+comment : HASH_TAG (character ~(EOL))* EOL ;
 
 unary_oper: NOT
 | HYPHEN
