@@ -132,6 +132,5 @@ binary_oper: MUL
 ident: ID_BEGIN_CHAR (ID_CHAR)* ;
 
 
-
 // EOF indicates that the program must consume to the end of the input.
 prog: (expr)*  EOF ;
