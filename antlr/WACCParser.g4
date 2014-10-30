@@ -73,8 +73,12 @@ expr : int_liter
 | expr binary_oper expr
 | OPEN_PARENTHESES expr CLOSE PARENTHESES
 ;
-array_elem : ident OPEN_SQUARE_BRACKET expr CLOSE_SQUARE BRACKET ;
-int-liter : int_sign INTEGER ;
+
+array_elem : ident OPEN_SQUARE expr CLOSE_SQUARE ;
+
+int_liter : int_sign INTEGER
+| INTEGER
+;
 
 int_sign : PLUS
 | MINUS
@@ -84,13 +88,25 @@ bool_liter : TRUE
 | FALSE
 ;
 
-char_liter : APOSTROPHE character APOSTROPHE ;
+char_liter : CHARACTER ;
 
 str_liter : DOUBLE_APOSTROPHE (character)* DOUBLE_APOSTROPHE ;
 
+array_liter : OPEN_SQUARE (expr (COMMA (expr))*)? CLOSE_SQUARE ;
+
+pair_elem_type : base_type
+| array_type
+| PAIR
+;
+
+character : CHARACTER
+| BACKSLASH ESCAPE_CHAR
+;
+
 pair_liter : NULL ;
 
-comment : HASH_TAG (character ^EOL)* EOL ;
+comment : HASH_TAG (character [^(EOL)])* EOL ;
+
 unary_oper: NOT
 | HYPHEN
 | LEN
