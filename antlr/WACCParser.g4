@@ -5,11 +5,11 @@ options {
 }
 
 func : type ident OPEN_PARANTHESES 
-	  (param_list)? CLOSE PARENTHESES IS stat END ;
+	  (param_list)? CLOSE_PARENTHESES IS stat END ;
 
 stat : SKIP
-| type ident EQUALS assign_rhs
-| assign_lhs EQUALS assign_rhs
+| type ident DOUBLE_EQUALS assign_rhs
+| assign_lhs DOUBLE_EQUALS assign_rhs
 | READ assign_lhs
 | FREE expr
 | RETURN expr
@@ -58,7 +58,7 @@ base_type: INT
 | STRING
 ;
 
-array_type: type OPEN_SQUARE_BRACKET CLOSE_SQUARE_BRACKET ;
+array_type: type OPEN_SQUARE CLOSE_SQUARE ;
 
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COLON pair_elem_type CLOSE_PARENTHESES ;
 
@@ -71,7 +71,7 @@ expr : int_liter
 | array_elem
 | unary_oper expr
 | expr binary_oper expr
-| OPEN_PARENTHESES expr CLOSE PARENTHESES
+| OPEN_PARENTHESES expr CLOSE_PARENTHESES
 ;
 
 array_elem : ident OPEN_SQUARE expr CLOSE_SQUARE ;
@@ -88,7 +88,7 @@ bool_liter : TRUE
 | FALSE
 ;
 
-char_liter : CHARACTER ;
+char_liter : CHAR_LIT ;
 
 str_liter : DOUBLE_APOSTROPHE (character)* DOUBLE_APOSTROPHE ;
 

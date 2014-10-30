@@ -84,27 +84,22 @@ DO: 'do' ;
 
 //pairs
 NEWPAIR: 'newpair' ;
-FIRST: 'fst' ;
-SECOND: 'snd' ;
+FST: 'fst' ;
+SND: 'snd' ;
 
 //function call
 CALL: 'call' ;
 
 
 //escaped characters
-/* not working:
-END_OF_STRING: '\0' ;
-NEWLINE: '\n' ;
-TAB: '\t' ;
-CARRIAGE_RETURN: '\r';
-FORM_FEED: '\f';
-DOUBLE_QUOTES: '\"'
+END_OF_STRING: '\\0' ;
+NEWLINE: '\\n' ;
+TAB: '\\t' ;
+CARRIAGE_RETURN: '\\r';
+FORM_FEED: '\\f';
+DOUBLE_QUOTES: '"' ;
 BACKSLASH: '\\' ;
 APOSTROPHE: '\'' ;
-
-fragment ANY_CHAR: ~END_OF_STRING | ~NEWLINE ;
-CHAR_LIT: APOSTROPHE ANY_CHAR APOSTROPHE;
-*/
 
 //identities
 fragment ID_BEGIN_CHAR: '_' | 'a'..'z' | 'A'..'Z' ;
