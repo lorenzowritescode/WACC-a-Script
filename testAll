@@ -7,8 +7,8 @@ allFiles.delete("..")
 
 
 allFiles.each do |waccFile|
-	puts "§§§§§§§§§§§§§§§§§§
-		\nRunning file #{waccFile}\n" 
+	puts "§§§§§§§§§§§§§§§§§§\nRunning file #{waccFile}\n" 
 	waccFilePath = directory + waccFile
 	result = `./grun WACC prog < #{waccFilePath}`
+	puts result
 end
