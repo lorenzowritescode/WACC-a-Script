@@ -60,7 +60,7 @@ base_type: INT
 | STRING
 ;
 
-pair_type: PAIR OPEN_PARENTHESES pair_elem_type COLON pair_elem_type CLOSE_PARENTHESES ;
+pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
 
 expr : unary_oper expr
 | expr binary_oper expr
