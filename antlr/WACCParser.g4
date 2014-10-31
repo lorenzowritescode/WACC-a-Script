@@ -115,8 +115,6 @@ pair_elem_type : base_type
 
 pair_liter : NULL ;
 
-comment : HASH_KEY (ANY_CHAR ~(NEWLINE))* NEWLINE ;
-
 unary_oper: NOT
 | HYPHEN
 | LEN
@@ -144,4 +142,4 @@ ident: IDENTITY;
 
 
 // EOF indicates that the program must consume to the end of the input.
-prog: BEGIN (expr)*  END EOF ;
+prog: BEGIN (stat | func )*  END;

@@ -92,6 +92,8 @@ SND: 'snd' ;
 //function call
 CALL: 'call' ;
 
+//whitespace
+WS : [ \t\r\n]+ -> skip ;
 
 //escaped characters
 END_OF_STRING: '\\0' ;
@@ -103,6 +105,10 @@ DOUBLE_QUOTES: '"' ;
 BACKSLASH: '\\' ;
 APOSTROPHE: '\'' ;
 
+//comments
+COMMENT : HASH_KEY (ANY_CHAR)* NEWLINE -> skip;
+
+
 //identities
 fragment ID_BEGIN_CHAR: '_' | 'a'..'z' | 'A'..'Z' ;
 fragment ID_CHAR: ID_BEGIN_CHAR | '0'..'9' ;
@@ -110,4 +116,3 @@ IDENTITY: ID_BEGIN_CHAR ID_CHAR* ;
 
 //char literal:
 ANY_CHAR: ~('\\' | '\'' | '"') ;
-
