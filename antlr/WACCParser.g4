@@ -47,6 +47,8 @@ param_list: param (COMMA param_list)*
 
 param: type ident;
 
+array_type: ( base_type | pair_type ) (OPEN_SQUARE CLOSE_SQUARE)+ ;
+
 type: base_type
 | array_type
 | pair_type
@@ -55,16 +57,14 @@ type: base_type
 base_type: INT
 | BOOL
 | CHAR
-| STRING
+| string_char
 ;
-
-array_type: type OPEN_SQUARE CLOSE_SQUARE ;
 
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COLON pair_elem_type CLOSE_PARENTHESES ;
 
 expr : int_liter
 | bool_liter
-| char_liter
+| char_literal
 | str_liter
 | pair_liter
 | ident
@@ -88,9 +88,23 @@ bool_liter : TRUE
 | FALSE
 ;
 
-char_liter : CHAR_LIT ;
+char_literal : APOSTROPHE ANY_CHAR APOSTROPHE ;
 
-str_liter : DOUBLE_APOSTROPHE (character)* DOUBLE_APOSTROPHE ;
+escaped_char : END_OF_STRING
+| NEWLINE
+| TAB
+| CARRIAGE_RETURN
+| FORM_FEED
+| DOUBLE_QUOTES
+| BACKSLASH
+| APOSTROPHE
+;
+
+string_char : ANY_CHAR 
+| escaped_char 
+;
+
+str_liter : DOUBLE_QUOTES (string_char)* DOUBLE_QUOTES ;
 
 array_liter : OPEN_SQUARE (expr (COMMA (expr))*)? CLOSE_SQUARE ;
 
@@ -99,13 +113,9 @@ pair_elem_type : base_type
 | PAIR
 ;
 
-character : CHARACTER
-| BACKSLASH ESCAPE_CHAR
-;
-
 pair_liter : NULL ;
 
-comment : HASH_TAG (character ~(EOL))* EOL ;
+comment : HASH_KEY (ANY_CHAR ~(NEWLINE))* NEWLINE ;
 
 unary_oper: NOT
 | HYPHEN
@@ -129,7 +139,8 @@ binary_oper: MUL
 | OR
 ;
 
-ident: ID_BEGIN_CHAR (ID_CHAR)* ;
+// remove?
+ident: IDENTITY;
 
 
 // EOF indicates that the program must consume to the end of the input.

@@ -43,12 +43,10 @@ PAIR: 'pair' ;
 OPEN_PARENTHESES : '(' ;
 CLOSE_PARENTHESES : ')' ;
 OPEN_SQUARE: '[' ;
-CLOSE_SQAURE: ']' ;
-
+CLOSE_SQUARE: ']' ;
 
 //numbers
 fragment DIGIT : '0'..'9' ; 
-
 INTEGER: DIGIT+ ;
 
 //program keywords
@@ -66,10 +64,14 @@ RETURN: 'return' ;
 EXIT: 'exit' ;
 PRINTLN: 'println' ;
 PRINT: 'print' ;
+NULL: 'null' ;
 
 //punctuation
 SEMI_COLON: ';' ;
+COLON: ':' ;
 COMMA: ',' ;
+HASH_KEY: '#' ;
+HYPHEN: '-' ;
 
 //if then else
 IF: 'if' ;
@@ -105,4 +107,7 @@ APOSTROPHE: '\'' ;
 fragment ID_BEGIN_CHAR: '_' | 'a'..'z' | 'A'..'Z' ;
 fragment ID_CHAR: ID_BEGIN_CHAR | '0'..'9' ;
 IDENTITY: ID_BEGIN_CHAR ID_CHAR* ;
+
+//char literal:
+ANY_CHAR: ~('\\' | '\'' | '"') ;
 
