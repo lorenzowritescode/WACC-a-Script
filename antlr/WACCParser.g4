@@ -62,6 +62,13 @@ base_type: INT
 
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
 
+pair_elem_type : base_type
+| array_type
+| PAIR
+;
+
+pair_liter : NULL ;
+
 expr : unary_oper expr
 | expr binary_oper expr
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES
@@ -103,13 +110,6 @@ escaped_char : END_OF_STRING
 str_liter : STRING_LITER ;
 
 array_liter : OPEN_SQUARE (expr (COMMA (expr))*)? CLOSE_SQUARE ;
-
-pair_elem_type : base_type
-| array_type
-| PAIR
-;
-
-pair_liter : NULL ;
 
 unary_oper: NOT
 | HYPHEN

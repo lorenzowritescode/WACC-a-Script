@@ -119,4 +119,4 @@ fragment ID_CHAR: ID_BEGIN_CHAR | '0'..'9' ;
 IDENTITY: ID_BEGIN_CHAR ID_CHAR* ;
 
 //char literal:
-ANY_CHAR: ~('\\' | '\'' | '"') ;
+ANY_CHAR: ~('\\' | '\'' | '"' ) ;
