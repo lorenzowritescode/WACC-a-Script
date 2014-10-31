@@ -69,6 +69,9 @@ PRINTLN: 'println' ;
 PRINT: 'print' ;
 NULL: 'null' ;
 
+//comments
+COMMENT : '#' .*? '\n' -> skip ;
+
 //punctuation
 SEMI_COLON: ';' ;
 COLON: ':' ;
@@ -107,7 +110,7 @@ FORM_FEED: '\\f';
 DOUBLE_QUOTES: '"' ;
 BACKSLASH: '\\' ;
 APOSTROPHE: '\'' ;
-
+WHITESPACE: ' ' ;
 
 //identities
 fragment ID_BEGIN_CHAR: '_' | 'a'..'z' | 'A'..'Z' ;
