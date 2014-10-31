@@ -1,0 +1,14 @@
+#!/usr/bin/ruby
+directory = ARGV[0]
+
+allFiles = Dir.entries(directory)
+allFiles.delete(".")
+allFiles.delete("..")
+
+
+allFiles.each do |waccFile|
+	puts "§§§§§§§§§§§§§§§§§§
+		\nRunning file #{waccFile}\n" 
+	waccFilePath = directory + waccFile
+	result = `./grun WACC prog < #{waccFilePath}`
+end

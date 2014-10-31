@@ -8,8 +8,8 @@ func : type ident OPEN_PARENTHESES
 	  (param_list)? CLOSE_PARENTHESES IS stat END ;
 
 stat : SKIP
-| type ident DOUBLE_EQUALS assign_rhs
-| assign_lhs DOUBLE_EQUALS assign_rhs
+| type ident EQUAL assign_rhs
+| assign_lhs EQUAL assign_rhs
 | READ assign_lhs
 | FREE expr
 | RETURN expr
