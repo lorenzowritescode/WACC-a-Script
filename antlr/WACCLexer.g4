@@ -95,8 +95,12 @@ SND: 'snd' ;
 //function call
 CALL: 'call' ;
 
+//string literal
+STRING_LITER : '"' .*? '"';
+
 //whitespace
 WS : [ \t\r\n]+ -> skip ;
+
 
 //escaped characters
 END_OF_STRING: '\\0' ;
