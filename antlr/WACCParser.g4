@@ -67,7 +67,7 @@ expr : unary_oper expr
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES
 | int_liter
 | bool_liter
-| char_literal
+| CHAR_LITERAL
 | str_liter
 | pair_liter
 | ident
@@ -87,8 +87,6 @@ int_sign : PLUS
 bool_liter : TRUE
 | FALSE
 ;
-
-char_literal : APOSTROPHE ANY_CHAR APOSTROPHE ;
 
 escaped_char : END_OF_STRING
 | NEWLINE
