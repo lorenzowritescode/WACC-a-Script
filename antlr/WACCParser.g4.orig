@@ -4,8 +4,13 @@ options {
   tokenVocab=WACCLexer;
 }
 
+<<<<<<< HEAD
 func : type ident OPEN_PARENTHESES 
+	  (param_list)? CLOSE PARENTHESES IS stat END ;
+=======
+func : type ident OPEN_PARANTHESES 
 	  (param_list)? CLOSE_PARENTHESES IS stat END ;
+>>>>>>> 5c283cc6d164783300de28eb696f1dd0021ff33d
 
 stat : SKIP
 | type ident DOUBLE_EQUALS assign_rhs
