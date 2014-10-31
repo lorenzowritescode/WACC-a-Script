@@ -4,7 +4,7 @@ options {
   tokenVocab=WACCLexer;
 }
 
-func : type ident OPEN_PARANTHESES 
+func : type ident OPEN_PARENTHESES 
 	  (param_list)? CLOSE PARENTHESES IS stat END ;
 
 stat : SKIP
