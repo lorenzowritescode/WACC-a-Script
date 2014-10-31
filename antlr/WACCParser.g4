@@ -62,16 +62,16 @@ base_type: INT
 
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COLON pair_elem_type CLOSE_PARENTHESES ;
 
-expr : int_liter
+expr : unary_oper expr
+| expr binary_oper expr
+| OPEN_PARENTHESES expr CLOSE_PARENTHESES
+| int_liter
 | bool_liter
 | char_literal
 | str_liter
 | pair_liter
 | ident
 | array_elem
-| unary_oper expr
-| expr binary_oper expr
-| OPEN_PARENTHESES expr CLOSE_PARENTHESES
 ;
 
 array_elem : ident OPEN_SQUARE expr CLOSE_SQUARE ;
