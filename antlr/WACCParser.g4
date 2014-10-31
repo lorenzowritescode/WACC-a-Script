@@ -8,8 +8,8 @@ func : type ident OPEN_PARENTHESES
 	  (param_list)? CLOSE_PARENTHESES IS stat END ;
 
 stat : SKIP
-| type ident DOUBLE_EQUALS assign_rhs
-| assign_lhs DOUBLE_EQUALS assign_rhs
+| type ident EQUAL assign_rhs
+| assign_lhs EQUAL assign_rhs
 | READ assign_lhs
 | FREE expr
 | RETURN expr
@@ -57,7 +57,7 @@ type: base_type
 base_type: INT
 | BOOL
 | CHAR
-| string_char
+| STRING
 ;
 
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COLON pair_elem_type CLOSE_PARENTHESES ;
@@ -100,11 +100,7 @@ escaped_char : END_OF_STRING
 | APOSTROPHE
 ;
 
-string_char : ANY_CHAR 
-| escaped_char 
-;
-
-str_liter : DOUBLE_QUOTES (string_char)* DOUBLE_QUOTES ;
+str_liter : STRING_LITER ;
 
 array_liter : OPEN_SQUARE (expr (COMMA (expr))*)? CLOSE_SQUARE ;
 
