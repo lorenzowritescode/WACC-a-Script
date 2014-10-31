@@ -144,4 +144,4 @@ ident: IDENTITY;
 
 
 // EOF indicates that the program must consume to the end of the input.
-prog: (expr)*  EOF ;
+prog: BEGIN (expr)*  END EOF ;
