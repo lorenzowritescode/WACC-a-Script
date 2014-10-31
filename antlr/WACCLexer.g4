@@ -8,9 +8,6 @@ MUL: '*' ;
 DIV: '/' ;
 MOD: '%' ;
 
-//comments
-COMMENT : '#' (ANY_CHAR)*? NEWLINE -> skip;
-
 //binary equality opearators
 GREATER_EQUAL: '>=' ;
 GREATER: '>' ;
