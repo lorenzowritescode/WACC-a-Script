@@ -8,6 +8,9 @@ MUL: '*' ;
 DIV: '/' ;
 MOD: '%' ;
 
+//comments
+COMMENT : '#' (ANY_CHAR)*? NEWLINE -> skip;
+
 //binary equality opearators
 GREATER_EQUAL: '>=' ;
 GREATER: '>' ;
@@ -104,9 +107,6 @@ FORM_FEED: '\\f';
 DOUBLE_QUOTES: '"' ;
 BACKSLASH: '\\' ;
 APOSTROPHE: '\'' ;
-
-//comments
-COMMENT : HASH_KEY (ANY_CHAR)* NEWLINE -> skip;
 
 
 //identities
