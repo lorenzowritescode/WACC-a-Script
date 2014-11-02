@@ -11,14 +11,14 @@ def recursiveTest (directory)
 
 	allFiles.each do |waccFile|
 		waccFilePath = directory + waccFile
+		puts waccFilePath
 		if(File.extname(waccFilePath) == ".wacc")
 			testFile(waccFilePath)
 		elsif (File.directory?(waccFilePath))
-			recursiveTest(waccFilePath)
+			recursiveTest(waccFilePath + '/')
 		else
-			puts "?????? Ignoring file #{waccFilePath}\n???????"
+			puts "[INFO] Ignoring file #{waccFilePath}"
 		end
-		# break
 	end
 end
 
@@ -28,7 +28,7 @@ def testFile (waccFilePath)
 	resultLength = `wc -l testResult.txt`.scan(/[0-9]+/)[0].to_i
 	if(resultLength > 0)
 		puts "[][][] FAILURE AT #{waccFilePath}, running on gui: "
-		`./grun WACC prog -gui < #{waccFilePath}`
+		`./grun WACC prog -gui #{waccFilePath}`
 		finish()
 	end
 end
