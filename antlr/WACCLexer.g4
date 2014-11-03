@@ -74,7 +74,6 @@ SEMI_COLON: ';' ;
 COLON: ':' ;
 COMMA: ',' ;
 HASH_KEY: '#' ;
-HYPHEN: '-' ;
 
 //if then else
 IF: 'if' ;
