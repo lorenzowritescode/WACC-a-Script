@@ -72,7 +72,7 @@ expr : unary_oper expr
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES
 | int_liter
 | bool_liter
-| CHAR_LITER
+| char_liter
 | str_liter
 | pair_liter
 | ident
@@ -92,6 +92,8 @@ int_sign : PLUS
 bool_liter : TRUE
 | FALSE
 ;
+
+char_liter : CHAR_LITER ;
 
 str_liter : STRING_LITER ;
 
