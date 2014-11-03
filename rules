@@ -1,0 +1,6 @@
+src/antlr/WACCLexer.java
+src/antlr/WACCParser.java
+src/antlr/WACCParserBaseVisitor.java
+src/antlr/WACCParserVisitor.java
+src/compiler/antlr/SemanticChecker.java
+src/compiler/antlr/WACCCompiler.java
