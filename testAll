@@ -35,6 +35,9 @@ end
 
 arg0 = ARGV[0]
 
+puts "[INFO] Running make so everything's up to date"
+`make`
+
 if (arg0 == nil)
 	recursiveTest(".")
 elsif (File.directory?(arg0))
