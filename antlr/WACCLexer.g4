@@ -119,5 +119,5 @@ fragment ID_CHAR: ID_BEGIN_CHAR | '0'..'9' ;
 IDENTITY: ID_BEGIN_CHAR ID_CHAR* ;
 
 //char literal:
-fragment ANY_CHAR : ~('\\' | '\'' | '"') ;
-CHAR_LITERAL : APOSTROPHE ANY_CHAR APOSTROPHE APOSTROPHE;
+fragment ANY_CHAR : (~('\\' | '\'' | '"') | END_OF_STRING)  ;
+CHAR_LITERAL : APOSTROPHE ANY_CHAR APOSTROPHE;
