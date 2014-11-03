@@ -72,7 +72,7 @@ expr : unary_oper expr
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES
 | int_liter
 | bool_liter
-| CHAR_LITERAL
+| CHAR_LITER
 | str_liter
 | pair_liter
 | ident

@@ -102,7 +102,7 @@ WS : [ \t\r\n]+ -> skip ;
 
 APOSTROPHE: '\'' ;
 
-fragment ANY_CHAR : ~('\\' | '\'' | '"') ;
+fragment ANY_CHAR : ~('\\' | '\'' | '\"') | DOUBLE_QUOTES ;
 
 //escaped characters
 END_OF_STRING : '\\0' ;
@@ -110,7 +110,7 @@ NEWLINE : '\\n' ;
 TAB : '\\t' ;
 CARRIAGE_RETURN : '\\r';
 FORM_FEED : '\\f';
-DOUBLE_QUOTES : '\\"' ;
+DOUBLE_QUOTES : '\\\"' ;
 BACKSLASH : '\\' ;
 WHITESPACE : ' ' ;
 
@@ -120,4 +120,4 @@ fragment ID_CHAR: ID_BEGIN_CHAR | '0'..'9' ;
 IDENTITY: ID_BEGIN_CHAR ID_CHAR* ;
 
 //char literal:
-CHAR_LITERAL : APOSTROPHE ANY_CHAR APOSTROPHE ;
+CHAR_LITER : APOSTROPHE ANY_CHAR APOSTROPHE ;
