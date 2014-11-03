@@ -79,7 +79,7 @@ expr : unary_oper expr
 | array_elem
 ;
 
-array_elem : ident OPEN_SQUARE expr CLOSE_SQUARE ;
+array_elem : ident (OPEN_SQUARE expr CLOSE_SQUARE)+ ;
 
 int_liter : int_sign INTEGER
 | INTEGER
