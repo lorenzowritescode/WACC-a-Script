@@ -95,7 +95,7 @@ SND: 'snd' ;
 CALL: 'call' ;
 
 //string literal
-STRING_LITER : '"' .*? '"';
+STRING_LITER : '"' (.*? | ANY_CHAR*) '"';
 
 //whitespace
 WS : [ \t\r\n]+ -> skip ;
