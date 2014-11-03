@@ -1,14 +1,46 @@
 #!/usr/bin/ruby
-directory = ARGV[0]
+def finish ()
+	`rm testResult.txt`
+	exit!
+end
 
-allFiles = Dir.entries(directory)
-allFiles.delete(".")
-allFiles.delete("..")
+def recursiveTest (directory)
+	allFiles = Dir.entries(directory)
+	allFiles.delete(".")
+	allFiles.delete("..")
 
+	allFiles.each do |waccFile|
+		waccFilePath = directory + waccFile
+		puts waccFilePath
+		if(File.extname(waccFilePath) == ".wacc")
+			testFile(waccFilePath)
+		elsif (File.directory?(waccFilePath))
+			recursiveTest(waccFilePath + '/')
+		else
+			puts "[INFO] Ignoring file #{waccFilePath}"
+		end
+	end
+end
 
-allFiles.each do |waccFile|
-	puts "§§§§§§§§§§§§§§§§§§\nRunning file #{waccFile}\n" 
-	waccFilePath = directory + waccFile
-	result = `./grun WACC prog < #{waccFilePath}`
-	puts result
+def testFile (waccFilePath)
+	puts "§§§§§§§§§§§§§§§§§§\nRunning file #{waccFilePath}\n" 
+	`./grun WACC prog #{waccFilePath} 2> testResult.txt`
+	resultLength = `wc -l testResult.txt`.scan(/[0-9]+/)[0].to_i
+	if(resultLength > 0)
+		puts "[][][] FAILURE AT #{waccFilePath}, running on gui: "
+		`./grun WACC prog -gui #{waccFilePath}`
+		finish()
+	end
+end
+
+arg0 = ARGV[0]
+
+if (arg0 == nil)
+	recursiveTest(".")
+elsif (File.directory?(arg0))
+	recursiveTest(arg0)
+elsif (File.extname(arg0) == ".wacc")
+	testFile(arg0)
+else
+	puts "testAll: Invalid arguments provided"
 end

@@ -4,6 +4,17 @@ options {
   tokenVocab=WACCLexer;
 }
 
+base_type: INT
+| BOOL
+| CHAR
+| STRING
+;
+
+pair_elem_type : base_type
+| array_type
+| PAIR
+;
+
 func : type ident OPEN_PARENTHESES 
 	  (param_list)? CLOSE_PARENTHESES IS stat END ;
 
@@ -54,20 +65,7 @@ type: base_type
 | pair_type
 ;
 
-base_type: INT
-| BOOL
-| CHAR
-| STRING
-;
-
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
-
-pair_elem_type : base_type
-| array_type
-| PAIR
-;
-
-pair_liter : NULL ;
 
 expr : unary_oper expr
 | expr binary_oper expr
@@ -95,19 +93,11 @@ bool_liter : TRUE
 | FALSE
 ;
 
-escaped_char : END_OF_STRING
-| NEWLINE
-| TAB
-| CARRIAGE_RETURN
-| FORM_FEED
-| DOUBLE_QUOTES
-| BACKSLASH
-| APOSTROPHE
-;
-
 str_liter : STRING_LITER ;
 
 array_liter : OPEN_SQUARE (expr (COMMA (expr))*)? CLOSE_SQUARE ;
+
+pair_liter : NULL ;
 
 unary_oper: NOT
 | HYPHEN
