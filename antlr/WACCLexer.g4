@@ -95,14 +95,10 @@ SND: 'snd' ;
 CALL: 'call' ;
 
 //string literal
-STRING_LITER : '"' .*? '"';
+STRING_LITER : '"' (.*? | ANY_CHAR*) '"';
 
 //whitespace
 WS : [ \t\r\n]+ -> skip ;
-
-APOSTROPHE: '\'' ;
-
-fragment ANY_CHAR : ~('\\' | '\'' | '"') ;
 
 //escaped characters
 END_OF_STRING : '\\0' ;
@@ -113,6 +109,11 @@ FORM_FEED : '\\f';
 DOUBLE_QUOTES : '\\"' ;
 BACKSLASH : '\\' ;
 WHITESPACE : ' ' ;
+APOSTROPHE: '\'' ;
+
+fragment ANY_CHAR : ~('\\' | '\'' | '\"')  | END_OF_STRING |
+NEWLINE | TAB | CARRIAGE_RETURN | FORM_FEED | DOUBLE_QUOTES |
+BACKSLASH | WHITESPACE | '\\\'';
 
 //identities
 fragment ID_BEGIN_CHAR: '_' | 'a'..'z' | 'A'..'Z' ;
@@ -120,4 +121,4 @@ fragment ID_CHAR: ID_BEGIN_CHAR | '0'..'9' ;
 IDENTITY: ID_BEGIN_CHAR ID_CHAR* ;
 
 //char literal:
-CHAR_LITERAL : APOSTROPHE ANY_CHAR APOSTROPHE ;
+CHAR_LITER : APOSTROPHE ANY_CHAR APOSTROPHE ;
