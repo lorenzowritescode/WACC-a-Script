@@ -74,7 +74,6 @@ SEMI_COLON: ';' ;
 COLON: ':' ;
 COMMA: ',' ;
 HASH_KEY: '#' ;
-HYPHEN: '-' ;
 
 //if then else
 IF: 'if' ;
@@ -101,16 +100,18 @@ STRING_LITER : '"' .*? '"';
 //whitespace
 WS : [ \t\r\n]+ -> skip ;
 
+APOSTROPHE: '\'' ;
+
+fragment ANY_CHAR : ~('\\' | '\'' | '"') ;
 
 //escaped characters
 END_OF_STRING : '\\0' ;
-NEWLINE : '\n' ;
-TAB : '\t' ;
-CARRIAGE_RETURN : '\r';
-FORM_FEED : '\f';
-DOUBLE_QUOTES : '\"' ;
+NEWLINE : '\\n' ;
+TAB : '\\t' ;
+CARRIAGE_RETURN : '\\r';
+FORM_FEED : '\\f';
+DOUBLE_QUOTES : '\\"' ;
 BACKSLASH : '\\' ;
-APOSTROPHE: '\'' ;
 WHITESPACE : ' ' ;
 
 //identities
@@ -119,5 +120,4 @@ fragment ID_CHAR: ID_BEGIN_CHAR | '0'..'9' ;
 IDENTITY: ID_BEGIN_CHAR ID_CHAR* ;
 
 //char literal:
-fragment ANY_CHAR : ~('\\' | '\'' | '"') ;
-CHAR_LITERAL : [\''] ANY_CHAR [\''] ;
+CHAR_LITERAL : APOSTROPHE ANY_CHAR APOSTROPHE ;

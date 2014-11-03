@@ -100,7 +100,7 @@ array_liter : OPEN_SQUARE (expr (COMMA (expr))*)? CLOSE_SQUARE ;
 pair_liter : NULL ;
 
 unary_oper: NOT
-| HYPHEN
+| MINUS
 | LEN
 | ORD
 | CHR
