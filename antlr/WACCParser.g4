@@ -68,9 +68,47 @@ type: base_type
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
 
 expr : unary_oper expr
-| expr binary_oper expr
+| multdiv_expr
+| arithmetic_expr
+| greater_less_expr
+| equals_not_expr
+| and_expr
+| or_expr
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES
-| int_liter
+;
+
+multdiv_expr : multdiv_expr MUL factor
+| multdiv_expr DIV factor
+| multdiv_expr MOD factor
+| factor
+;
+
+arithmetic_expr : arithmetic_expr PLUS multdiv_expr
+| arithmetic_expr MINUS multdiv_expr
+| multdiv_expr
+;
+
+greater_less_expr : greater_less_expr GREATER arithmetic_expr
+| greater_less_expr GREATER_EQUAL arithmetic_expr
+| greater_less_expr LESS arithmetic_expr
+| greater_less_expr LESS_EQUAL arithmetic_expr
+| arithmetic_expr
+;
+
+equals_not_expr : greater_less_expr DOUBLE_EQUALS greater_less_expr
+| greater_less_expr NOT_EQUAL greater_less_expr
+| greater_less_expr
+;
+
+and_expr : and_expr AND equals_not_expr
+| equals_not_expr
+;
+
+or_expr : or_expr OR and_expr
+| and_expr
+;
+
+factor : int_liter
 | bool_liter
 | char_liter
 | str_liter
