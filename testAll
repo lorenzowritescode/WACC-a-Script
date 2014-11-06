@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 def finish ()
-	`rm testResult.txt`
+	`rm makeResult.txt`
 	exit!
 end
 
@@ -42,8 +42,7 @@ resultLength = `wc -l makeResult.txt`.scan(/[0-9]+/)[0].to_i
 if (resultLength > 7)
 	puts "[ERROR] Make failure"
 	puts `cat makeResult.txt`
-	`rm makeResult.txt`
-	exit(100)
+	finish()
 end
 
 if (arg0 == nil)
@@ -55,3 +54,5 @@ elsif (File.extname(arg0) == ".wacc")
 else
 	puts "testAll: Invalid arguments provided"
 end
+
+finish()
