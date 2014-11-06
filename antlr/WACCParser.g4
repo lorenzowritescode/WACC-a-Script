@@ -18,7 +18,7 @@ pair_elem_type : base_type
 func : type ident OPEN_PARENTHESES 
 	  (param_list)? CLOSE_PARENTHESES IS stat END ;
 
-stat : SKIP							# skip_stat2
+stat : SKIP							# skip_stat
 | type ident EQUAL assign_rhs		# variable_declaration
 | assign_lhs EQUAL assign_rhs		# variable_assigment
 | READ assign_lhs					# read_stat
