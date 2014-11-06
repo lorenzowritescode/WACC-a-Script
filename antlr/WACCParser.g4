@@ -68,19 +68,23 @@ type: base_type
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
 
 expr : unary_oper expr
+| single_expr
 | multdiv_expr
 | arithmetic_expr
 | greater_less_expr
 | equals_not_expr
 | and_expr
 | or_expr
-| OPEN_PARENTHESES expr CLOSE_PARENTHESES
 ;
 
-multdiv_expr : multdiv_expr MUL factor
-| multdiv_expr DIV factor
-| multdiv_expr MOD factor
-| factor
+single_expr : OPEN_PARENTHESES expr CLOSE_PARENTHESES 
+| factor 
+;
+
+multdiv_expr : single_expr MUL multdiv_expr
+| single_expr DIV multdiv_expr
+| single_expr MOD multdiv_expr
+| single_expr
 ;
 
 arithmetic_expr : arithmetic_expr PLUS multdiv_expr
