@@ -23,13 +23,13 @@ end
 
 def testFile (waccFilePath)
 	puts "[INFO] Running file #{waccFilePath}" 
-	`./grun WACC prog #{waccFilePath} 2> testResult.txt`
+	`./grun WACC prog < #{waccFilePath} 2> testResult.txt`
 	resultLength = `wc -l testResult.txt`.scan(/[0-9]+/)[0].to_i
 	`rm testResult.txt`
 	if(resultLength > 0)
 		puts "[ERROR] FAILURE AT #{waccFilePath}, running on gui: "
 		`open #{waccFilePath}`
-		`./grun WACC prog -gui #{waccFilePath}`
+		`./grun WACC prog -gui < #{waccFilePath}`
 		finish()
 	end
 end
@@ -39,9 +39,9 @@ arg0 = ARGV[0]
 puts "[INFO] Running make so everything's up to date"
 `make > makeResult.txt`
 resultLength = `wc -l makeResult.txt`.scan(/[0-9]+/)[0].to_i
-if (resultLength > 0)
+if (resultLength > 7)
 	puts "[ERROR] Make failure"
-	`echo makeResult.txt && rm makeResult.txt`
+	puts `cat makeResult.txt && rm makeResult.txt`
 	exit(100)
 end
 
