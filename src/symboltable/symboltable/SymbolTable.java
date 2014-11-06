@@ -7,7 +7,6 @@ public class SymbolTable {
 	HashMap<String, Identifier> dictionary;
 	SymbolTable parentTable;
 	final boolean isTopSymbolTable;
-	private String currentScope;
 	
 	public SymbolTable(SymbolTable parentTable){
 		this.parentTable = parentTable;
@@ -20,22 +19,19 @@ public class SymbolTable {
 		this.isTopSymbolTable = true;
 	}
 
-	public boolean contains(String identifier) {
+	public boolean containsRecursive(String identifier) {
 		if(this.isTopSymbolTable){
-			return dictionary.containsKey(identifier);
+			return containsCurrent(identifier);
 		}
-		return dictionary.containsKey(identifier) || parentTable.contains(identifier);
+		return containsCurrent(identifier) || parentTable.containsRecursive(identifier);
+	}
+	
+	public boolean containsCurrent(String identifier) {
+		return dictionary.containsKey(identifier);
 	}
 
 	public void add(String name, Identifier nodeIdentifier) {
-		if (nodeIdentifier instanceof FunctionIdentifier) {
-			this.currentScope = name;
-		}
 		dictionary.put(name, nodeIdentifier);
 	}
 
-	public String getCurrentFuction() {
-		return this.currentScope;
-	}
-	
 }

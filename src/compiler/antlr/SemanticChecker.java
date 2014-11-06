@@ -40,12 +40,11 @@ public class SemanticChecker extends WACCParserBaseVisitor<Void>{
 
 	@Override
 	public Void visitReturn_stat(Return_statContext ctx) {
-		st.getCurrentFuction();
 		return super.visitReturn_stat(ctx);
 	}
 
 	private void checkUniqueIdentifier(String identifier, SymbolTable symbolTable) {
-		if (symbolTable.contains(identifier)) {
+		if (symbolTable.containsRecursive(identifier)) {
 			throw new NotUniqueIdentifierException("The identifier " + identifier + " is already in use.");
 		}
 	}	
