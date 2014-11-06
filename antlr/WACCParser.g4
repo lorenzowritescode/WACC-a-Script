@@ -18,19 +18,19 @@ pair_elem_type : base_type
 func : type ident OPEN_PARENTHESES 
 	  (param_list)? CLOSE_PARENTHESES IS stat END ;
 
-stat : SKIP
-| type ident EQUAL assign_rhs
-| assign_lhs EQUAL assign_rhs
-| READ assign_lhs
-| FREE expr
-| RETURN expr
-| EXIT expr
-| PRINT expr
-| PRINTLN expr
-| IF expr THEN stat ELSE stat ENDIF
-| WHILE expr DO stat DONE
-| BEGIN stat END
-| stat SEMI_COLON stat
+stat : SKIP							# skip_stat2
+| type ident EQUAL assign_rhs		# variable_declaration
+| assign_lhs EQUAL assign_rhs		# variable_assigment
+| READ assign_lhs					# read_stat
+| FREE expr							# free_stat
+| RETURN expr						# return_stat
+| EXIT expr							# exit_stat
+| PRINT expr						# print_stat
+| PRINTLN expr 						# println_expr
+| IF expr THEN stat ELSE stat ENDIF	# if_stat
+| WHILE expr DO stat DONE			# while_stat
+| BEGIN stat END 					# block_stat
+| stat SEMI_COLON stat 				# sequential_stat
 ;
 
 assign_lhs : ident
@@ -166,4 +166,4 @@ ident: IDENTITY;
 
 
 // EOF indicates that the program must consume to the end of the input.
-prog: BEGIN (stat | func )*  END;
+prog: BEGIN ( stat | func )*  END;
