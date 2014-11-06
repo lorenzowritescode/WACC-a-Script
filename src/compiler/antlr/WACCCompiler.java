@@ -24,12 +24,18 @@ public class WACCCompiler {
 		
 		SemanticChecker semantic = new SemanticChecker(tree);
 		WACCCompiler compiler = new WACCCompiler(semantic);
+		compiler.init();
 	}
 
 	private SemanticChecker semanticChecker;
 	
 	public WACCCompiler(SemanticChecker s){
 		this.semanticChecker = s;
+	}
+	
+	private void init() {
+		//TODO: implement init
+		return;
 	}
 
 }

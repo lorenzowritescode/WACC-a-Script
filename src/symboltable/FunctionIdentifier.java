@@ -6,7 +6,10 @@ import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.TypeContext;
 
 public class FunctionIdentifier extends Identifier {
-
+	public FunctionIdentifier(FuncContext ctx) {
+		this.ctx = ctx;
+	}
+	
 	@Override
 	public TypeContext getType() {
 		FuncContext fctx = this.getSpecificContext();
