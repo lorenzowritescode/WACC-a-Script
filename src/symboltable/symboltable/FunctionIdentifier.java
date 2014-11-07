@@ -1,15 +1,18 @@
 package symboltable;
 
+import org.antlr.v4.runtime.RuleContext;
+
 import antlr.WACCParser.FuncContext;
 import antlr.WACCParser.ParamContext;
 import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.TypeContext;
 
 public class FunctionIdentifier extends Identifier {
-	public FunctionIdentifier(FuncContext ctx) {
-		this.ctx = ctx;
-	}
 	
+	public FunctionIdentifier(RuleContext ctx) {
+		super(ctx);
+	}
+
 	@Override
 	public TypeContext getType() {
 		FuncContext fctx = this.getSpecificContext();

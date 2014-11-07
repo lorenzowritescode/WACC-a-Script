@@ -34,4 +34,8 @@ public class SymbolTable {
 		dictionary.put(name, nodeIdentifier);
 	}
 
+	public SymbolTable getParent() {
+		return this.parentTable;
+	}
+
 }
