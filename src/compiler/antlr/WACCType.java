@@ -9,13 +9,13 @@ public enum WACCType {
 	public static WACCType evalType(TypeContext ctx){
 		String type = ctx.getText();
 		switch (type) {
-		case "INT":
+		case "int":
 			return INT;
-		case "BOOL":
+		case "bool":
 			return BOOL;
-		case "CHAR":
+		case "char":
 			return CHAR;
-		case "STRING":
+		case "string":
 			return STRING;
 		default:
 			throw new InvalidTypeException("The type provided was not recognised.", ctx);
