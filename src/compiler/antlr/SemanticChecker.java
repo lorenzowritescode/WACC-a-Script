@@ -6,10 +6,14 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import symboltable.FunctionIdentifier;
 import symboltable.FunctionSymbolTable;
 import symboltable.SymbolTable;
+import symboltable.VariableIdentifier;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
 import antlr.WACCParser.FuncContext;
+import antlr.WACCParser.ProgContext;
 import antlr.WACCParser.Return_statContext;
+import antlr.WACCParser.Sequential_statContext;
+import antlr.WACCParser.Variable_declarationContext;
 
 public class SemanticChecker extends WACCParserBaseVisitor<WACCType>{
 	
@@ -29,7 +33,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCType>{
 	public WACCType visitFunc(FuncContext ctx) {
 		// Checking if this function has already been defined
 		String functionName = ctx.ident().getText();
-		checkUniqueIdentifier(functionName, ctx);
+		checkUniqueIdentifierRecursive(functionName, ctx);
 		
 		// Adding function to the symboltable
 		currentSymbolTable.add( functionName, new FunctionIdentifier(ctx) );
@@ -59,8 +63,54 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCType>{
 		return super.visitReturn_stat(ctx);
 	}
 
-	private void checkUniqueIdentifier(String identifier, RuleContext ctx) {
+	@Override
+	public WACCType visitSequential_stat(Sequential_statContext ctx) {
+		for(ParseTree t : ctx.children){
+			visit(t);
+		}
+		return super.visitSequential_stat(ctx);
+	}
+
+	@Override
+	public WACCType visitProg(ProgContext ctx) {
+		// First we visit all functions
+		for(FuncContext funcTree:ctx.func()){
+			visit(funcTree);
+		}
+		
+		// Then we visit the statements
+		visit(ctx.stat());
+		
+		return super.visitProg(ctx);
+	}
+
+	@Override
+	public WACCType visitVariable_declaration(Variable_declarationContext ctx) {
+		// First we check the identifier is unique
+		String varName = ctx.ident().getText();
+		checkUniqueIdentifierLocal(varName, ctx);
+		
+		// We add the current var to the SymbolTable
+		currentSymbolTable.add(varName, new VariableIdentifier(ctx));
+		
+		// Compare type of lhs and rhs
+		WACCType lhsType = WACCType.evalType(ctx.type());
+		WACCType rhsType = visit(ctx.assign_rhs());
+		if (lhsType != rhsType) {
+			throw new IncompatibleTypesException("The types of the rhs and lhs of the variable declaration do not match." , ctx);
+		}
+		return super.visitVariable_declaration(ctx);
+	}
+	
+
+	private void checkUniqueIdentifierRecursive(String identifier, RuleContext ctx) {
 		if (currentSymbolTable.containsRecursive(identifier)) {
+			throw new NotUniqueIdentifierException("The identifier " + identifier + " is already in use.", ctx);
+		}
+	}
+	
+	private void checkUniqueIdentifierLocal(String identifier, RuleContext ctx) {
+		if (currentSymbolTable.containsCurrent(identifier)) {
 			throw new NotUniqueIdentifierException("The identifier " + identifier + " is already in use.", ctx);
 		}
 	}
