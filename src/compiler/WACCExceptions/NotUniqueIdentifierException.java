@@ -1,9 +1,11 @@
 package WACCExceptions;
 
-public class NotUniqueIdentifierException extends RuntimeException {
+import org.antlr.v4.runtime.RuleContext;
 
-	public NotUniqueIdentifierException(String exceptionMessage) {
-		super(exceptionMessage);
+public class NotUniqueIdentifierException extends WACCException {
+
+	public NotUniqueIdentifierException(String exceptionMessage, RuleContext ctx) {
+		super(exceptionMessage, ctx);
 	}
 
 	/**
