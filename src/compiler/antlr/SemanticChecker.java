@@ -1,5 +1,6 @@
 package antlr;
 
+import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import symboltable.FunctionIdentifier;
@@ -8,9 +9,8 @@ import symboltable.SymbolTable;
 import WACCExceptions.NotUniqueIdentifierException;
 import antlr.WACCParser.FuncContext;
 import antlr.WACCParser.Return_statContext;
-import antlr.WACCParser.TypeContext;
 
-public class SemanticChecker extends WACCParserBaseVisitor<Void>{
+public class SemanticChecker extends WACCParserBaseVisitor<WACCType>{
 	
 	private ParseTree waccTree;
 	private SymbolTable currentSymbolTable;
@@ -25,10 +25,10 @@ public class SemanticChecker extends WACCParserBaseVisitor<Void>{
 	}
 
 	@Override
-	public Void visitFunc(FuncContext ctx) {
+	public WACCType visitFunc(FuncContext ctx) {
 		// Checking if this function has already been defined
 		String functionName = ctx.ident().getText();
-		checkUniqueIdentifier(functionName, currentSymbolTable);
+		checkUniqueIdentifier(functionName, ctx);
 		
 		// Adding function to the symboltable
 		currentSymbolTable.add( functionName, new FunctionIdentifier(ctx) );
@@ -45,16 +45,15 @@ public class SemanticChecker extends WACCParserBaseVisitor<Void>{
 	}
 
 	@Override
-	public Void visitReturn_stat(Return_statContext ctx) {
+	public WACCType visitReturn_stat(Return_statContext ctx) {
 		visit(ctx.expr());
 		return super.visitReturn_stat(ctx);
 	}
 
-	private void checkUniqueIdentifier(String identifier, SymbolTable symbolTable) {
-		if (symbolTable.containsRecursive(identifier)) {
-			throw new NotUniqueIdentifierException("The identifier " + identifier + " is already in use.");
+	private void checkUniqueIdentifier(String identifier, RuleContext ctx) {
+		if (currentSymbolTable.containsRecursive(identifier)) {
+			throw new NotUniqueIdentifierException("The identifier " + identifier + " is already in use.", ctx);
 		}
 	}
-	
 
 }
