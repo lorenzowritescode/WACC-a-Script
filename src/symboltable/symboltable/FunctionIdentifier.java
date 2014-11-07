@@ -4,18 +4,17 @@ import org.antlr.v4.runtime.RuleContext;
 
 import antlr.WACCParser.FuncContext;
 import antlr.WACCParser.TypeContext;
+import antlr.WACCType;
 
 public class FunctionIdentifier extends Identifier {
 	
 	public FunctionIdentifier(RuleContext ctx) {
 		super(ctx);
+		// Extracting type
+		FuncContext fctx = (FuncContext) ctx;
+		identType = WACCType.evalType(fctx.type());
 	}
 
-	@Override
-	public TypeContext getType() {
-		FuncContext fctx = this.getSpecificContext();
-		return fctx.type();
-	}
 	/*
 	public Identifier[] getArguments(){
 		FuncContext fctx = getSpecificContext();
@@ -34,9 +33,5 @@ public class FunctionIdentifier extends Identifier {
 		}
 	}
 	*/
-
-	private FuncContext getSpecificContext() {
-		return (FuncContext) this.ctx;
-	}
 
 }
