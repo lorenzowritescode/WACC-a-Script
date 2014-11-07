@@ -23,8 +23,9 @@ public class WACCCompiler {
 		ParseTree tree = parser.prog();
 		
 		SemanticChecker semantic = new SemanticChecker(tree);
-		WACCCompiler compiler = new WACCCompiler(semantic);
-		compiler.init();
+		semantic.init();
+//		WACCCompiler compiler = new WACCCompiler(semantic);
+//		compiler.init();
 	}
 
 	private SemanticChecker semanticChecker;

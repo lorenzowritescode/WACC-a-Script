@@ -3,7 +3,6 @@ package symboltable;
 import org.antlr.v4.runtime.RuleContext;
 
 import antlr.WACCParser.FuncContext;
-import antlr.WACCParser.TypeContext;
 import antlr.WACCType;
 
 public class FunctionIdentifier extends Identifier {

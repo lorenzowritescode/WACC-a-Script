@@ -2,7 +2,6 @@ package symboltable;
 
 import org.antlr.v4.runtime.RuleContext;
 
-import antlr.WACCParser.TypeContext;
 import antlr.WACCType;
 
 public abstract class Identifier {
