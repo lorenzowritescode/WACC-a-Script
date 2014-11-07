@@ -112,13 +112,13 @@ or_expr : or_expr OR and_expr
 | and_expr
 ;
 
-factor : int_liter		# int_liter
-| bool_liter			# bool_liter
-| char_liter 			# char_liter
-| str_liter 			# str_liter
-| pair_liter 			# pair_liter
-| ident 				# ident
-| array_elem 			# array_elem
+factor : int_liter		
+| bool_liter			
+| char_liter 			
+| str_liter 			
+| pair_liter 			
+| ident 				
+| array_elem 			
 ;
 
 array_elem : ident (OPEN_SQUARE expr CLOSE_SQUARE)+ ;
