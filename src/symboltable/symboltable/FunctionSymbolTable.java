@@ -15,5 +15,7 @@ public class FunctionSymbolTable extends SymbolTable {
 	public WACCType getReturnType() {
 		return WACCType.evalType(ctx.type());		
 	}
+	
+	// TODO: add all function parameters to symboltable
 
 }
