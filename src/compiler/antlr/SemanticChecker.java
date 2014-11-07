@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import symboltable.FunctionIdentifier;
 import symboltable.FunctionSymbolTable;
 import symboltable.SymbolTable;
+import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
 import antlr.WACCParser.FuncContext;
 import antlr.WACCParser.Return_statContext;
@@ -46,7 +47,15 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCType>{
 
 	@Override
 	public WACCType visitReturn_stat(Return_statContext ctx) {
-		visit(ctx.expr());
+		WACCType exprType = visit(ctx.expr());
+		
+		//It is safe to assume that the currentSymbolTable is a FunctionSymbolTable
+		FunctionSymbolTable fst = (FunctionSymbolTable) currentSymbolTable;
+		
+		// Ensuring that declared and actual return type match
+		if (exprType != fst.getReturnType()) {
+			throw new IncompatibleTypesException("The declared return type does not match the actual return type of the function.", ctx);
+		}
 		return super.visitReturn_stat(ctx);
 	}
 

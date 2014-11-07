@@ -6,7 +6,7 @@ import antlr.WACCParser.TypeContext;
 public enum WACCType {
 	INT, BOOL, CHAR, STRING;
 	
-	public WACCType evalType(TypeContext ctx){
+	public static WACCType evalType(TypeContext ctx){
 		String type = ctx.getText();
 		switch (type) {
 		case "INT":

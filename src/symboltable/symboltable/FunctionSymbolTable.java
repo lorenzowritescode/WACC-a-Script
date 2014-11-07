@@ -1,7 +1,7 @@
 package symboltable;
 
 import antlr.WACCParser.FuncContext;
-import antlr.WACCParser.TypeContext;
+import antlr.WACCType;
 
 public class FunctionSymbolTable extends SymbolTable {
 
@@ -12,8 +12,8 @@ public class FunctionSymbolTable extends SymbolTable {
 		this.ctx = ctx;
 	}
 	
-	public TypeContext getReturnType() {
-		return ctx.type();		
+	public WACCType getReturnType() {
+		return WACCType.evalType(ctx.type());		
 	}
 
 }
