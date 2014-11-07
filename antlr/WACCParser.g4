@@ -170,4 +170,4 @@ ident: IDENTITY;
 
 
 // EOF indicates that the program must consume to the end of the input.
-prog: BEGIN ( stat | func )*  END;
+prog: BEGIN func* stat END;
