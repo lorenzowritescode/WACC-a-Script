@@ -1,78 +1,83 @@
+package antlr;
 
-import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import symboltable.FunctionIdentifier;
-import symboltable.FunctionSymbolTable;
 import symboltable.SymbolTable;
-import symboltable.VariableIdentifier;
-import WACCExceptions.IncompatibleTypesException;
-import WACCExceptions.NotUniqueIdentifierException;
+import tree.CharLeaf;
+import tree.FuncDecNode;
+import tree.IntLeaf;
+import tree.ReturnStatNode;
+import tree.SeqStatNode;
+import tree.StatNode;
+import tree.VarDecNode;
+import tree.WACCTree;
+import tree.WACCType;
 import antlr.WACCParser.Char_literContext;
 import antlr.WACCParser.FuncContext;
+import antlr.WACCParser.Int_literContext;
+import antlr.WACCParser.ParamContext;
 import antlr.WACCParser.ProgContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
 import antlr.WACCParser.Variable_declarationContext;
+import tree.ParamListNode;
+import tree.ParamNode;
 
-public class SemanticChecker extends WACCParserBaseVisitor<WACCType>{
+public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
-	private ParseTree waccTree;
+	private ParseTree parseTree;
 	private SymbolTable currentSymbolTable;
 
 	public SemanticChecker(ParseTree t){
-		this.waccTree = t;
+		this.parseTree = t;
 		this.currentSymbolTable = new SymbolTable();
 	}
 
 	public void init() {
-		waccTree.accept(this);
+		parseTree.accept(this);
 	}
 
 	@Override
-	public WACCType visitFunc(FuncContext ctx) {
-		// Checking if this function has already been defined
-		String functionName = ctx.ident().getText();
-		checkUniqueIdentifierRecursive(functionName, ctx);
-
-		// Adding function to the symboltable
-		currentSymbolTable.add( functionName, new FunctionIdentifier(ctx) );
-
-		// Initiating a new Symbol Table for the function scope
-		currentSymbolTable = new FunctionSymbolTable(currentSymbolTable, ctx);
-
-		// Checking function body
-		visit(ctx.stat());
-
-		//Resuming the previous symbol table scope
+	public WACCTree visitFunc(FuncContext ctx) {
+		ParamListNode params = new ParamListNode();
+		for (ParamContext p : ctx.param_list().param()){
+			ParamNode pn = (ParamNode) visit(p);
+			pn.check(currentSymbolTable);
+			params.add(pn);
+		}
+		
+		currentSymbolTable = new SymbolTable(currentSymbolTable);
+		
+		StatNode funcBody = (StatNode) visit(ctx.stat());
+		funcBody.check(currentSymbolTable);
+		
 		currentSymbolTable = currentSymbolTable.getParent();
-		return super.visitFunc(ctx);
+		WACCType returnType = WACCType.evalType(ctx.type());
+		String funcName = ctx.ident().getText();
+		return new FuncDecNode(returnType, funcName, params, funcBody);
 	}
 
 	@Override
-	public WACCType visitReturn_stat(Return_statContext ctx) {
-		WACCType exprType = visit(ctx.expr());
-
-		//It is safe to assume that the currentSymbolTable is a FunctionSymbolTable
-		FunctionSymbolTable fst = (FunctionSymbolTable) currentSymbolTable;
-
-		// Ensuring that declared and actual return type match
-		if (exprType != fst.getReturnType()) {
-			throw new IncompatibleTypesException("The declared return type does not match the actual return type of the function.", ctx);
-		}
-		return super.visitReturn_stat(ctx);
+	public WACCTree visitReturn_stat(Return_statContext ctx) {
+		WACCTree exprType = visit(ctx.expr());
+		exprType.check(currentSymbolTable);
+		
+		ReturnStatNode rst = new ReturnStatNode(exprType);
+		rst.check(currentSymbolTable);
+		return rst;
 	}
 
 	@Override
-	public WACCType visitSequential_stat(Sequential_statContext ctx) {
-		for(ParseTree t : ctx.children){
-			visit(t);
-		}
-		return super.visitSequential_stat(ctx);
+	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
+		StatNode lhs = (StatNode) visit(ctx.stat(0));
+		lhs.check(currentSymbolTable);
+		StatNode rhs = (StatNode) visit(ctx.stat(1));
+		rhs.check(currentSymbolTable);
+		return new SeqStatNode(lhs, rhs);
 	}
 
 	@Override
-	public WACCType visitProg(ProgContext ctx) {
+	public WACCTree visitProg(ProgContext ctx) {
 		// First we visit all functions
 		for(FuncContext funcTree:ctx.func()){
 			visit(funcTree);
@@ -85,39 +90,25 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCType>{
 	}
 
 	@Override
-	public WACCType visitVariable_declaration(Variable_declarationContext ctx) {
-		// First we check the identifier is unique
-		String varName = ctx.ident().getText();
-		checkUniqueIdentifierLocal(varName, ctx);
-
-		// We add the current var to the SymbolTable
-		currentSymbolTable.add(varName, new VariableIdentifier(ctx));
-
-		// Compare type of lhs and rhs
-		WACCType lhsType = WACCType.evalType(ctx.type());
-		WACCType rhsType = visit(ctx.assign_rhs());
-		if (lhsType != rhsType) {
-			throw new IncompatibleTypesException("The types of the rhs and lhs of the variable declaration do not match." , ctx);
-		}
-		return super.visitVariable_declaration(ctx);
+	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
+		WACCTree rhsTree = visit(ctx.assign_rhs());
+		VarDecNode vcd = new VarDecNode(ctx, rhsTree);
+		vcd.check(currentSymbolTable);
+		return vcd;
 	}
 
 
 	@Override
-	public WACCType visitChar_liter(Char_literContext ctx) {
-		return WACCType.CHAR;
+	public WACCTree visitChar_liter(Char_literContext ctx) {
+		CharLeaf charleaf = new CharLeaf(ctx.getText());
+		charleaf.check(currentSymbolTable);
+		return charleaf;
 	}
 
-	private void checkUniqueIdentifierRecursive(String identifier, RuleContext ctx) {
-		if (currentSymbolTable.containsRecursive(identifier)) {
-			throw new NotUniqueIdentifierException("The identifier " + identifier + " is already in use.", ctx);
-		}
-	}
-
-	private void checkUniqueIdentifierLocal(String identifier, RuleContext ctx) {
-		if (currentSymbolTable.containsCurrent(identifier)) {
-			throw new NotUniqueIdentifierException("The identifier " + identifier + " is already in use.", ctx);
-		}
+	@Override
+	public IntLeaf visitInt_liter(Int_literContext ctx) {
+		int value = Integer.parseInt(ctx.getText());
+		return new IntLeaf(value);
 	}
 
 }
