@@ -3,7 +3,6 @@ package tree;
 import symboltable.SymbolTable;
 
 public class BoolLeaf extends WACCTree {
-	private static final WACCType type = WACCType.BOOL;
 	
 	private boolean value;
 	
@@ -22,12 +21,12 @@ public class BoolLeaf extends WACCTree {
 
 	@Override
 	public boolean check(SymbolTable st) {
-		return value;
+		return true;
 	}
 
 	@Override
 	public WACCType getType() {
-		return type;
+		return WACCType.BOOL;
 	}
 
 }
