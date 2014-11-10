@@ -14,6 +14,10 @@ public class ParamListNode implements Iterable<ParamNode>{
 		params.add(pn);
 	}
 	
+	public ParamNode get(int i) {
+		return params.get(i);
+	}
+	
 	public int size() {
 		return params.size();
 	}
@@ -22,23 +26,21 @@ public class ParamListNode implements Iterable<ParamNode>{
 	public boolean equals(Object other) {
 		if(other instanceof ParamListNode) {
 			ParamListNode pln = (ParamListNode) other;
-			if(pln.size() == params.size()) {
-				Iterator<ParamNode> thisIter  = this.iterator();
-				Iterator<ParamNode> otherIter = ((ParamListNode)other).iterator();
-				while(thisIter.hasNext()){
-					if(thisIter.next() != otherIter.next()){
-						return false;
-					}
-				}
-				return true;
+			if(pln.size() != params.size()) {
+				return false;
 			}
+			for (int i = 0; i < this.size(); i++) {
+				if ( !this.get(i).equals(pln.get(i)) ) {
+					return false;
+				}
+			}
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public Iterator<ParamNode> iterator() {
-		// TODO Auto-generated method stub
 		return params.iterator();
 	}
 }
