@@ -2,9 +2,14 @@ package symboltable;
 
 import java.util.HashMap;
 
+import org.antlr.v4.runtime.RuleContext;
+
+import tree.WACCTree;
+import WACCExceptions.NotUniqueIdentifierException;
+
 public class SymbolTable {
 	
-	HashMap<String, Identifier> dictionary;
+	HashMap<String, WACCTree> dictionary;
 	SymbolTable parentTable;
 	final boolean isTopSymbolTable;
 	
@@ -30,12 +35,11 @@ public class SymbolTable {
 		return dictionary.containsKey(identifier);
 	}
 
-	public void add(String name, Identifier nodeIdentifier) {
-		dictionary.put(name, nodeIdentifier);
+	public void add(String name, WACCTree node) {
+		dictionary.put(name, node);
 	}
 
 	public SymbolTable getParent() {
 		return this.parentTable;
 	}
-
 }
