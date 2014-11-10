@@ -3,17 +3,21 @@ package tree;
 import symboltable.SymbolTable;
 
 public class FuncDecNode extends WACCTree {
-	
+
 	public final WACCType returnType;
 	private String funcName;
 	private ParamListNode params;
 	private StatNode funcBody;
-	
+
 	public FuncDecNode(WACCType returnType, String funcName, ParamListNode params, StatNode funcBody) {
-		this.returnType = returnType;
-		this.funcName = funcName;
+		this(returnType, funcName);
 		this.params = params;
 		this.funcBody = funcBody;
+	}
+
+	public FuncDecNode(WACCType returnType, String funcName) {
+		this.returnType = returnType;
+		this.funcName = funcName;
 	}
 
 	@Override
