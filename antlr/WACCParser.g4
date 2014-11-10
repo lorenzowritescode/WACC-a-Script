@@ -53,7 +53,7 @@ pair_elem: FST expr
 
 binaryOper : PLUS | MINUS ;
 
-param_list: param (COMMA param_list)*
+param_list: param (COMMA param)*
 ;
 
 param: type ident;
