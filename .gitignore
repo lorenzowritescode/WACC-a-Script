@@ -39,3 +39,5 @@
 #ignore antlr build files
 src/antlr
 /bin1/
+/.DS_Store
+/rules
