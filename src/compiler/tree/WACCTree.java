@@ -1,13 +1,11 @@
 package tree;
 
-import org.antlr.v4.runtime.RuleContext;
+import symboltable.SymbolTable;
+import WACCExceptions.ErrorListener;
 
 public abstract class WACCTree {
-	private RuleContext ctx;
-
-	public WACCTree(RuleContext ctx) {
-		this.ctx = ctx;
-	}
+	protected static ErrorListener el =  new ErrorListener();
 	
-	public abstract boolean check();
+	public abstract boolean check( SymbolTable st );
+	public abstract WACCType getType();
 }
