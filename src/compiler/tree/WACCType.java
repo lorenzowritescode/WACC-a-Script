@@ -1,6 +1,7 @@
-package antlr;
+package tree;
 
 import WACCExceptions.InvalidTypeException;
+import antlr.WACCParser;
 import antlr.WACCParser.TypeContext;
 
 public enum WACCType {
