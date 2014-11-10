@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import symboltable.SymbolTable;
+import tree.BoolLeaf;
 import tree.CharLeaf;
 import tree.FuncDecNode;
 import tree.IntLeaf;
@@ -17,6 +18,7 @@ import tree.StatNode;
 import tree.VarDecNode;
 import tree.WACCTree;
 import tree.WACCType;
+import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
 import antlr.WACCParser.FuncContext;
 import antlr.WACCParser.Int_literContext;
@@ -135,6 +137,11 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public IntLeaf visitInt_liter(Int_literContext ctx) {
 		int value = Integer.parseInt(ctx.getText());
 		return new IntLeaf(value);
+	}
+
+	@Override
+	public WACCTree visitBool_liter(Bool_literContext ctx) {
+		return new BoolLeaf(ctx.getText());
 	}
 
 }
