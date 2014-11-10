@@ -16,4 +16,9 @@ public class WACCException extends RuntimeException {
 	private void printContext(RuleContext ctx) {
 		// TODO: Implement method for printing an error message reference
 	}
+
+	public String printError() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
