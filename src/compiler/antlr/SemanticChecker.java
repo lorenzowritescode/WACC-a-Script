@@ -1,4 +1,3 @@
-package antlr;
 
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
