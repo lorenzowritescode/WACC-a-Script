@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 def finish ()
-	`rm testResult.txt`
+	`rm makeResult.txt`
 	exit!
 end
 
@@ -23,12 +23,13 @@ end
 
 def testFile (waccFilePath)
 	puts "[INFO] Running file #{waccFilePath}" 
-	`./grun WACC prog #{waccFilePath} 2> testResult.txt`
+	`./grun antlr.WACC prog < #{waccFilePath} 2> testResult.txt`
 	resultLength = `wc -l testResult.txt`.scan(/[0-9]+/)[0].to_i
+	`rm testResult.txt`
 	if(resultLength > 0)
 		puts "[ERROR] FAILURE AT #{waccFilePath}, running on gui: "
 		`open #{waccFilePath}`
-		`./grun WACC prog -gui #{waccFilePath}`
+		`./grun antlr.WACC prog -gui < #{waccFilePath}`
 		finish()
 	end
 end
@@ -36,7 +37,13 @@ end
 arg0 = ARGV[0]
 
 puts "[INFO] Running make so everything's up to date"
-`make`
+`make > makeResult.txt`
+resultLength = `wc -l makeResult.txt`.scan(/[0-9]+/)[0].to_i
+if (resultLength > 7)
+	puts "[ERROR] Make failure"
+	puts `cat makeResult.txt`
+	finish()
+end
 
 if (arg0 == nil)
 	recursiveTest(".")
@@ -47,3 +54,5 @@ elsif (File.extname(arg0) == ".wacc")
 else
 	puts "testAll: Invalid arguments provided"
 end
+
+finish()

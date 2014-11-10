@@ -18,19 +18,19 @@ pair_elem_type : base_type
 func : type ident OPEN_PARENTHESES 
 	  (param_list)? CLOSE_PARENTHESES IS stat END ;
 
-stat : SKIP
-| type ident EQUAL assign_rhs
-| assign_lhs EQUAL assign_rhs
-| READ assign_lhs
-| FREE expr
-| RETURN expr
-| EXIT expr
-| PRINT expr
-| PRINTLN expr
-| IF expr THEN stat ELSE stat ENDIF
-| WHILE expr DO stat DONE
-| BEGIN stat END
-| stat SEMI_COLON stat
+stat : SKIP							# skip_stat
+| type ident EQUAL assign_rhs		# variable_declaration
+| assign_lhs EQUAL assign_rhs		# variable_assigment
+| READ assign_lhs					# read_stat
+| FREE expr							# free_stat
+| RETURN expr						# return_stat
+| EXIT expr							# exit_stat
+| PRINT expr						# print_stat
+| PRINTLN expr 						# println_expr
+| IF expr THEN stat ELSE stat ENDIF	# if_stat
+| WHILE expr DO stat DONE			# while_stat
+| BEGIN stat END 					# block_stat
+| stat SEMI_COLON stat 				# sequential_stat
 ;
 
 assign_lhs : ident
@@ -68,15 +68,57 @@ type: base_type
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
 
 expr : unary_oper expr
-| expr binary_oper expr
-| OPEN_PARENTHESES expr CLOSE_PARENTHESES
-| int_liter
-| bool_liter
-| char_liter
-| str_liter
-| pair_liter
-| ident
-| array_elem
+| single_expr
+| multdiv_expr
+| arithmetic_expr
+| greater_less_expr
+| equals_not_expr
+| and_expr
+| or_expr
+;
+
+single_expr : OPEN_PARENTHESES expr CLOSE_PARENTHESES 
+| factor 
+;
+
+multdiv_expr : single_expr MUL multdiv_expr
+| single_expr DIV multdiv_expr
+| single_expr MOD multdiv_expr
+| single_expr
+;
+
+arithmetic_expr : arithmetic_expr PLUS multdiv_expr
+| arithmetic_expr MINUS multdiv_expr
+| multdiv_expr
+;
+
+greater_less_expr : greater_less_expr GREATER arithmetic_expr
+| greater_less_expr GREATER_EQUAL arithmetic_expr
+| greater_less_expr LESS arithmetic_expr
+| greater_less_expr LESS_EQUAL arithmetic_expr
+| arithmetic_expr
+;
+
+equals_not_expr : greater_less_expr DOUBLE_EQUALS greater_less_expr
+| greater_less_expr NOT_EQUAL greater_less_expr
+| greater_less_expr
+;
+
+and_expr : and_expr AND equals_not_expr
+| equals_not_expr
+;
+
+or_expr : or_expr OR and_expr
+| and_expr
+;
+
+factor : int_liter		
+| bool_liter			
+| char_liter 			
+| str_liter 			
+| pair_liter 			
+| ident 				
+| array_elem 			
 ;
 
 array_elem : ident (OPEN_SQUARE expr CLOSE_SQUARE)+ ;
@@ -128,4 +170,4 @@ ident: IDENTITY;
 
 
 // EOF indicates that the program must consume to the end of the input.
-prog: BEGIN (stat | func )*  END;
+prog: BEGIN func* stat END;

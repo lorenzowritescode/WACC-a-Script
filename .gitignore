@@ -38,3 +38,4 @@
 
 #ignore antlr build files
 src/antlr
+/bin1/
