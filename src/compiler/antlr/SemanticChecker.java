@@ -60,12 +60,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitFunc(FuncContext ctx) {
-		ParamListNode params = new ParamListNode();
-		for (ParamContext p : ctx.param_list().param()){
-			ParamNode pn = (ParamNode) visit(p);
-			pn.check(currentSymbolTable);
-			params.add(pn);
-		}
+		ParamListNode params = (ParamListNode) visit(ctx.param_list());
 		
 		currentSymbolTable = new SymbolTable(currentSymbolTable);
 		
@@ -173,8 +168,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitParam(ParamContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitParam(ctx);
+		ParamNode paramNode = new ParamNode(ctx);
+		paramNode.check(currentSymbolTable);
+		return paramNode;
 	}
 
 	@Override
@@ -221,8 +217,14 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitParam_list(Param_listContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitParam_list(ctx);
+		ParamListNode params = new ParamListNode();
+		for (ParamContext p : ctx.param()){
+			ParamNode pn = (ParamNode) visit(p);
+			pn.check(currentSymbolTable);
+			params.add(pn);
+		}
+		params.check(currentSymbolTable);
+		return params;
 	}
 
 	@Override

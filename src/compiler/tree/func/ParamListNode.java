@@ -3,7 +3,11 @@ package tree.func;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ParamListNode implements Iterable<ParamNode>{
+import symboltable.SymbolTable;
+import tree.WACCTree;
+import tree.type.WACCType;
+
+public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	ArrayList<ParamNode> params;
 	
 	public ParamListNode() {
@@ -42,5 +46,16 @@ public class ParamListNode implements Iterable<ParamNode>{
 	@Override
 	public Iterator<ParamNode> iterator() {
 		return params.iterator();
+	}
+
+	@Override
+	public boolean check(SymbolTable st) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public WACCType getType() {
+		throw new UnsupportedOperationException("ParamListNode has no type.");
 	}
 }
