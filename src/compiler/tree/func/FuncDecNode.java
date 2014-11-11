@@ -1,6 +1,9 @@
-package tree;
+package tree.func;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
+import tree.WACCType;
+import tree.stat.StatNode;
 
 public class FuncDecNode extends WACCTree {
 

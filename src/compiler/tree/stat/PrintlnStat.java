@@ -1,4 +1,4 @@
-package tree;
+package tree.stat;
 
 public class PrintlnStat extends StatNode {
 

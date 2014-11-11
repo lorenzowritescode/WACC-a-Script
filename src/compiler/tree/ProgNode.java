@@ -3,6 +3,8 @@ package tree;
 import java.util.List;
 
 import symboltable.SymbolTable;
+import tree.func.FuncDecNode;
+import tree.stat.StatNode;
 
 public class ProgNode extends WACCTree {
 	
