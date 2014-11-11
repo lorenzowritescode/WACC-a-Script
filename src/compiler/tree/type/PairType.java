@@ -1,6 +1,6 @@
 package tree.type;
 
-public class PairType implements WACCType {
+public class PairType extends WACCType {
 
 	private WACCType fst;
 	private WACCType snd;
