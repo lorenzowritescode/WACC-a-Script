@@ -1,4 +1,4 @@
-package tree;
+package tree.stat;
 
 import antlr.WACCParser.Variable_declarationContext;
 import WACCExceptions.UndeclaredVariableException;

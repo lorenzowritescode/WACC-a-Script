@@ -1,6 +1,8 @@
-package tree;
+package tree.stat;
 
 import symboltable.SymbolTable;
+import tree.ExprNode;
+import tree.WACCType;
 
 public class FreeStat extends StatNode {
 	

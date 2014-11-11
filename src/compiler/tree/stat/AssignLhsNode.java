@@ -1,6 +1,8 @@
-package tree;
+package tree.stat;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
+import tree.WACCType;
 
 public abstract class AssignLhsNode extends WACCTree {
 
