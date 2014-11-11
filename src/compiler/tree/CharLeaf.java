@@ -2,7 +2,6 @@ package tree;
 
 import symboltable.SymbolTable;
 
-
 public class CharLeaf extends WACCTree {
 	
 	private String text;
