@@ -1,7 +1,10 @@
 package tree.stat;
 
 import symboltable.SymbolTable;
-import tree.ExprNode;
+import tree.expr.ArrayLeaf;
+import tree.expr.ExprNode;
+import tree.type.ArrayTypeNode;
+import tree.type.PairTypeNode;
 import tree.type.WACCType;
 
 public class FreeStat extends StatNode {
@@ -14,13 +17,17 @@ public class FreeStat extends StatNode {
 
 	@Override
 	public boolean check(SymbolTable st) {
-		//TODO Implement check for 'Free' once pairs/arrays are implemented
+		if (en.getType() instanceof ArrayTypeNode) {
+			ArrayLeaf array = (ArrayLeaf) en;
+			if (!st.containsCurrent(array.getIdent())) {
+				return false;
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public WACCType getType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
