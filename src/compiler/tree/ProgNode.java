@@ -5,6 +5,7 @@ import java.util.List;
 import symboltable.SymbolTable;
 import tree.func.FuncDecNode;
 import tree.stat.StatNode;
+import tree.type.WACCType;
 
 public class ProgNode extends WACCTree {
 	

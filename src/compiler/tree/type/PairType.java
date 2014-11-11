@@ -1,4 +1,4 @@
-package tree;
+package tree.type;
 
 public class PairType implements WACCType {
 

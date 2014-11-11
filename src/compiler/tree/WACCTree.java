@@ -1,6 +1,7 @@
 package tree;
 
 import symboltable.SymbolTable;
+import tree.type.WACCType;
 import WACCExceptions.ErrorListener;
 
 public abstract class WACCTree {
