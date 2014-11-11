@@ -1,6 +1,8 @@
-package tree;
+package tree.func;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
+import tree.WACCType;
 
 public class ParamNode extends WACCTree {
 	private WACCType type;

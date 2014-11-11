@@ -1,6 +1,8 @@
-package tree;
+package tree.stat;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
+import tree.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
 import antlr.WACCParser.Variable_declarationContext;

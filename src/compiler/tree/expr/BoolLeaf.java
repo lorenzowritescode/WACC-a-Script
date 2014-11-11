@@ -1,6 +1,8 @@
-package tree;
+package tree.expr;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
+import tree.WACCType;
 
 public class BoolLeaf extends WACCTree {
 	
