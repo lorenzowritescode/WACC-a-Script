@@ -63,14 +63,14 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ParamListNode params = new ParamListNode();
 		for (ParamContext p : ctx.param_list().param()){
 			ParamNode pn = (ParamNode) visit(p);
-			pn.check(currentSymbolTable);
+			pn.check(currentSymbolTable, null);
 			params.add(pn);
 		}
 		
 		currentSymbolTable = new SymbolTable(currentSymbolTable);
 		
 		StatNode funcBody = (StatNode) visit(ctx.stat());
-		funcBody.check(currentSymbolTable);
+		funcBody.check(currentSymbolTable, null);
 		
 		currentSymbolTable = currentSymbolTable.getParent();
 		WACCType returnType = WACCType.evalType(ctx.type());
@@ -81,19 +81,19 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
 		WACCTree exprType = visit(ctx.expr());
-		exprType.check(currentSymbolTable);
+		exprType.check(currentSymbolTable, null);
 		
 		ReturnStatNode rst = new ReturnStatNode(exprType);
-		rst.check(currentSymbolTable);
+		rst.check(currentSymbolTable, null);
 		return rst;
 	}
 
 	@Override
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
-		lhs.check(currentSymbolTable);
+		lhs.check(currentSymbolTable, null);
 		StatNode rhs = (StatNode) visit(ctx.stat(1));
-		rhs.check(currentSymbolTable);
+		rhs.check(currentSymbolTable, null);
 		return new SeqStatNode(lhs, rhs);
 	}
 
@@ -108,13 +108,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		// We visit all the functions and create full nodes
 		for (FuncContext fctx : ctx.func()){
 			FuncDecNode fdec = (FuncDecNode) visit(fctx);
-			fdec.check(currentSymbolTable);
+			fdec.check(currentSymbolTable, null);
 			functions.add(fdec);
 		}
 		
 		// Then we visit the statement
 		StatNode progBody = (StatNode) visit(ctx.stat());
-		progBody.check(currentSymbolTable);
+		progBody.check(currentSymbolTable, null);
 		
 		// Finally, we return the program node
 		return new ProgNode(functions, progBody);
@@ -137,7 +137,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
 		WACCTree rhsTree = visit(ctx.assign_rhs());
 		VarDecNode vcd = new VarDecNode(ctx, rhsTree);
-		vcd.check(currentSymbolTable);
+		vcd.check(currentSymbolTable, null);
 		return vcd;
 	}
 
@@ -145,7 +145,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
 		CharLeaf charleaf = new CharLeaf(ctx.getText());
-		charleaf.check(currentSymbolTable);
+		charleaf.check(currentSymbolTable, null);
 		return charleaf;
 	}
 

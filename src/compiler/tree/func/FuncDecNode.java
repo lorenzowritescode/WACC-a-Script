@@ -1,5 +1,7 @@
 package tree.func;
 
+import org.antlr.v4.runtime.RuleContext;
+
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.stat.StatNode;
@@ -24,7 +26,7 @@ public class FuncDecNode extends WACCTree {
 	}
 
 	@Override
-	public boolean check(SymbolTable st) {
+	public boolean check(SymbolTable st, RuleContext ctx) {
 		// TODO we expect the function to already be in the TOP SymbolTable
 		return false;
 	}
