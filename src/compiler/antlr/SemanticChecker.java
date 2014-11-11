@@ -10,6 +10,7 @@ import tree.WACCTree;
 import tree.expr.BoolLeaf;
 import tree.expr.CharLeaf;
 import tree.expr.IntLeaf;
+import tree.expr.StringLeaf;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
@@ -18,15 +19,30 @@ import tree.stat.SeqStatNode;
 import tree.stat.StatNode;
 import tree.stat.VarDecNode;
 import tree.type.WACCType;
+import antlr.WACCParser.Array_typeContext;
+import antlr.WACCParser.Assign_lhsContext;
+import antlr.WACCParser.Assign_rhsContext;
 import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
+import antlr.WACCParser.Exit_statContext;
+import antlr.WACCParser.ExprContext;
+import antlr.WACCParser.Free_statContext;
 import antlr.WACCParser.FuncContext;
+import antlr.WACCParser.If_statContext;
 import antlr.WACCParser.Int_literContext;
+import antlr.WACCParser.Pair_typeContext;
 import antlr.WACCParser.ParamContext;
+import antlr.WACCParser.Param_listContext;
+import antlr.WACCParser.Print_statContext;
+import antlr.WACCParser.Println_exprContext;
 import antlr.WACCParser.ProgContext;
+import antlr.WACCParser.Read_statContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
+import antlr.WACCParser.Str_literContext;
+import antlr.WACCParser.Variable_assigmentContext;
 import antlr.WACCParser.Variable_declarationContext;
+import antlr.WACCParser.While_statContext;
 
 public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
@@ -47,14 +63,14 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ParamListNode params = new ParamListNode();
 		for (ParamContext p : ctx.param_list().param()){
 			ParamNode pn = (ParamNode) visit(p);
-			pn.check(currentSymbolTable);
+			pn.check(currentSymbolTable, null);
 			params.add(pn);
 		}
 		
 		currentSymbolTable = new SymbolTable(currentSymbolTable);
 		
 		StatNode funcBody = (StatNode) visit(ctx.stat());
-		funcBody.check(currentSymbolTable);
+		funcBody.check(currentSymbolTable, null);
 		
 		currentSymbolTable = currentSymbolTable.getParent();
 		WACCType returnType = WACCType.evalType(ctx.type());
@@ -65,19 +81,19 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
 		WACCTree exprType = visit(ctx.expr());
-		exprType.check(currentSymbolTable);
+		exprType.check(currentSymbolTable, null);
 		
 		ReturnStatNode rst = new ReturnStatNode(exprType);
-		rst.check(currentSymbolTable);
+		rst.check(currentSymbolTable, null);
 		return rst;
 	}
 
 	@Override
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
-		lhs.check(currentSymbolTable);
+		lhs.check(currentSymbolTable, null);
 		StatNode rhs = (StatNode) visit(ctx.stat(1));
-		rhs.check(currentSymbolTable);
+		rhs.check(currentSymbolTable, null);
 		return new SeqStatNode(lhs, rhs);
 	}
 
@@ -92,13 +108,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		// We visit all the functions and create full nodes
 		for (FuncContext fctx : ctx.func()){
 			FuncDecNode fdec = (FuncDecNode) visit(fctx);
-			fdec.check(currentSymbolTable);
+			fdec.check(currentSymbolTable, null);
 			functions.add(fdec);
 		}
 		
 		// Then we visit the statement
 		StatNode progBody = (StatNode) visit(ctx.stat());
-		progBody.check(currentSymbolTable);
+		progBody.check(currentSymbolTable, null);
 		
 		// Finally, we return the program node
 		return new ProgNode(functions, progBody);
@@ -121,7 +137,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
 		WACCTree rhsTree = visit(ctx.assign_rhs());
 		VarDecNode vcd = new VarDecNode(ctx, rhsTree);
-		vcd.check(currentSymbolTable);
+		vcd.check(currentSymbolTable, null);
 		return vcd;
 	}
 
@@ -129,19 +145,121 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
 		CharLeaf charleaf = new CharLeaf(ctx.getText());
-		charleaf.check(currentSymbolTable);
+		charleaf.check(currentSymbolTable, null);
 		return charleaf;
 	}
 
 	@Override
-	public IntLeaf visitInt_liter(Int_literContext ctx) {
+	public WACCTree visitInt_liter(Int_literContext ctx) {
 		int value = Integer.parseInt(ctx.getText());
-		return new IntLeaf(value);
+		IntLeaf intLeaf = new IntLeaf(value);
+		intLeaf.check(currentSymbolTable);
+		return intLeaf;
 	}
 
 	@Override
 	public WACCTree visitBool_liter(Bool_literContext ctx) {
-		return new BoolLeaf(ctx.getText());
+		BoolLeaf boolLeaf = new BoolLeaf(ctx.getText());
+		boolLeaf.check(currentSymbolTable);
+		return boolLeaf;
+	}
+
+	@Override
+	public WACCTree visitStr_liter(Str_literContext ctx) {
+		StringLeaf strLeaf = new StringLeaf(ctx.getText());
+		strLeaf.check(currentSymbolTable);
+		return strLeaf;
+	}
+
+	@Override
+	public WACCTree visitParam(ParamContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitParam(ctx);
+	}
+
+	@Override
+	public WACCTree visitVariable_assigment(Variable_assigmentContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitVariable_assigment(ctx);
+	}
+
+	@Override
+	public WACCTree visitExpr(ExprContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitExpr(ctx);
+	}
+
+	@Override
+	public WACCTree visitArray_type(Array_typeContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitArray_type(ctx);
+	}
+
+	@Override
+	public WACCTree visitExit_stat(Exit_statContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitExit_stat(ctx);
+	}
+
+	@Override
+	public WACCTree visitPrint_stat(Print_statContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitPrint_stat(ctx);
+	}
+
+	@Override
+	public WACCTree visitPair_type(Pair_typeContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitPair_type(ctx);
+	}
+
+	@Override
+	public WACCTree visitAssign_lhs(Assign_lhsContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitAssign_lhs(ctx);
+	}
+
+	@Override
+	public WACCTree visitParam_list(Param_listContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitParam_list(ctx);
+	}
+
+	@Override
+	public WACCTree visitFree_stat(Free_statContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitFree_stat(ctx);
+	}
+
+	@Override
+	public WACCTree visitRead_stat(Read_statContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitRead_stat(ctx);
+	}
+
+	@Override
+	public WACCTree visitAssign_rhs(Assign_rhsContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitAssign_rhs(ctx);
+	}
+
+	@Override
+	public WACCTree visitWhile_stat(While_statContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitWhile_stat(ctx);
+	}
+
+	@Override
+	public WACCTree visitIf_stat(If_statContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitIf_stat(ctx);
+	}
+	
+
+	@Override
+	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitPrintln_expr(ctx);
 	}
 
 }

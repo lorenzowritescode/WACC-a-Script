@@ -2,6 +2,8 @@ package tree;
 
 import java.util.List;
 
+import org.antlr.v4.runtime.RuleContext;
+
 import symboltable.SymbolTable;
 import tree.func.FuncDecNode;
 import tree.stat.StatNode;
@@ -18,7 +20,7 @@ public class ProgNode extends WACCTree {
 	}
 
 	@Override
-	public boolean check(SymbolTable st) {
+	public boolean check(SymbolTable st, RuleContext ctx) {
 		return true;
 	}
 

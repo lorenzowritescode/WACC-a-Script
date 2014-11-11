@@ -1,5 +1,7 @@
 package tree.stat;
 
+import org.antlr.v4.runtime.RuleContext;
+
 import symboltable.SymbolTable;
 import tree.expr.ArrayLeaf;
 import tree.expr.ExprNode;
@@ -16,7 +18,7 @@ public class FreeStat extends StatNode {
 	}
 
 	@Override
-	public boolean check(SymbolTable st) {
+	public boolean check(SymbolTable st, RuleContext ctx) {
 		if (en.getType() instanceof ArrayTypeNode) {
 			ArrayLeaf array = (ArrayLeaf) en;
 			if (!st.containsCurrent(array.getIdent())) {

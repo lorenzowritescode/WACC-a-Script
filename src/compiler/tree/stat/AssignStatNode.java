@@ -1,5 +1,7 @@
 package tree.stat;
 
+import org.antlr.v4.runtime.RuleContext;
+
 import antlr.WACCParser.Variable_declarationContext;
 import WACCExceptions.UndeclaredVariableException;
 import symboltable.SymbolTable;
@@ -16,7 +18,7 @@ public class AssignStatNode extends StatNode {
 	}
 	
 	@Override
-	public boolean check(SymbolTable st) {
+	public boolean check(SymbolTable st, RuleContext ctx) {
 		if (st.containsRecursive(lhs.getIdent())) {	
 			//TODO: complete check for assign stat node
 			return true;

@@ -1,6 +1,7 @@
 package tree.stat;
 
 import WACCExceptions.InvalidTypeException;
+
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
@@ -10,12 +11,12 @@ public class ExitStat extends StatNode {
 	
 	private ExprNode exitVal;
 	
-	public ExitStat(ExprNode exitVal, ) {
+	public ExitStat(ExprNode exitVal) {
 		this.exitVal = exitVal;
 	}
 	
 	@Override
-	public boolean check( SymbolTable st ) {
+	public boolean check( SymbolTable st, RuleContext ctx ) {
 		if (exitVal.getType() == WACCType.INT) {
 			return true;
 		}

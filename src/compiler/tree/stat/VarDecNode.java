@@ -1,5 +1,7 @@
 package tree.stat;
 
+import org.antlr.v4.runtime.RuleContext;
+
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
@@ -23,7 +25,7 @@ public class VarDecNode extends WACCTree {
 	}
 
 	@Override
-	public boolean check( SymbolTable st ) {		
+	public boolean check( SymbolTable st, RuleContext ctx ) {		
 		// First we check the identifier is unique
 		if ( st.containsCurrent(identifier) ) {
 			el.record( new NotUniqueIdentifierException(
