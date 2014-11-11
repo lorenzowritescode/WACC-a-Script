@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import symboltable.SymbolTable;
+import tree.ExprNode;
 import tree.ProgNode;
 import tree.WACCTree;
 import tree.expr.BoolLeaf;
@@ -14,10 +15,12 @@ import tree.expr.StringLeaf;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
+import tree.stat.IfStatNode;
 import tree.stat.ReturnStatNode;
 import tree.stat.SeqStatNode;
 import tree.stat.StatNode;
 import tree.stat.VarDecNode;
+import tree.stat.WhileStatNode;
 import tree.type.WACCType;
 import antlr.WACCParser.Array_typeContext;
 import antlr.WACCParser.Assign_lhsContext;
@@ -153,21 +156,21 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitInt_liter(Int_literContext ctx) {
 		int value = Integer.parseInt(ctx.getText());
 		IntLeaf intLeaf = new IntLeaf(value);
-		intLeaf.check(currentSymbolTable);
+		intLeaf.check(currentSymbolTable, ctx);
 		return intLeaf;
 	}
 
 	@Override
 	public WACCTree visitBool_liter(Bool_literContext ctx) {
 		BoolLeaf boolLeaf = new BoolLeaf(ctx.getText());
-		boolLeaf.check(currentSymbolTable);
+		boolLeaf.check(currentSymbolTable, ctx);
 		return boolLeaf;
 	}
 
 	@Override
 	public WACCTree visitStr_liter(Str_literContext ctx) {
 		StringLeaf strLeaf = new StringLeaf(ctx.getText());
-		strLeaf.check(currentSymbolTable);
+		strLeaf.check(currentSymbolTable, ctx);
 		return strLeaf;
 	}
 
@@ -245,13 +248,17 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitWhile_stat(While_statContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitWhile_stat(ctx);
+		ExprNode loopCond = (ExprNode) visit(ctx.expr());
+		WhileStatNode whileStat = new WhileStatNode(loopCond);
+		whileStat.check(currentSymbolTable, ctx);
+		return whileStat;
 	}
 
 	@Override
 	public WACCTree visitIf_stat(If_statContext ctx) {
-		// TODO Auto-generated method stub
+		ExprNode ifCond = (ExprNode) visit(ctx.expr());
+		IfStatNode ifStat = new IfStatNode(ifCond);
+		ifStat.check(currentSymbolTable, ctx);
 		return super.visitIf_stat(ctx);
 	}
 	
