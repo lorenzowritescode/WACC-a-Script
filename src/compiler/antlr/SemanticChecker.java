@@ -60,7 +60,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitFunc(FuncContext ctx) {
-		ParamListNode params = new ParamListNode();
+		ParamListNode params = (ParamListNode) visit(ctx.param_list());
 		for (ParamContext p : ctx.param_list().param()){
 			ParamNode pn = (ParamNode) visit(p);
 			pn.check(currentSymbolTable, null);
@@ -153,28 +153,29 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitInt_liter(Int_literContext ctx) {
 		int value = Integer.parseInt(ctx.getText());
 		IntLeaf intLeaf = new IntLeaf(value);
-		intLeaf.check(currentSymbolTable);
+		intLeaf.check(currentSymbolTable, ctx);
 		return intLeaf;
 	}
 
 	@Override
 	public WACCTree visitBool_liter(Bool_literContext ctx) {
 		BoolLeaf boolLeaf = new BoolLeaf(ctx.getText());
-		boolLeaf.check(currentSymbolTable);
+		boolLeaf.check(currentSymbolTable, ctx);
 		return boolLeaf;
 	}
 
 	@Override
 	public WACCTree visitStr_liter(Str_literContext ctx) {
 		StringLeaf strLeaf = new StringLeaf(ctx.getText());
-		strLeaf.check(currentSymbolTable);
+		strLeaf.check(currentSymbolTable, ctx);
 		return strLeaf;
 	}
 
 	@Override
 	public WACCTree visitParam(ParamContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitParam(ctx);
+		ParamNode paramNode = new ParamNode(ctx);
+		paramNode.check(currentSymbolTable, ctx);
+		return paramNode;
 	}
 
 	@Override
@@ -221,8 +222,14 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitParam_list(Param_listContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitParam_list(ctx);
+		ParamListNode params = new ParamListNode();
+		for (ParamContext p : ctx.param()){
+			ParamNode pn = (ParamNode) visit(p);
+			pn.check(currentSymbolTable, ctx);
+			params.add(pn);
+		}
+		params.check(currentSymbolTable, ctx);
+		return params;
 	}
 
 	@Override
