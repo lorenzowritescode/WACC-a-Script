@@ -2,6 +2,7 @@ package tree.func;
 
 import org.antlr.v4.runtime.RuleContext;
 
+import antlr.WACCParser.ParamContext;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
@@ -9,15 +10,17 @@ import tree.type.WACCType;
 public class ParamNode extends WACCTree {
 	private WACCType type;
 	private String ident;
+	private final ParamContext ctx;
 	
-	public ParamNode(WACCType t, String ident) {
-		this.type = t;
-		this.ident = ident;
+	public ParamNode(ParamContext ctx) {
+		this.ctx = ctx;
+		this.type = WACCType.evalType(ctx.type());
+		this.ident = ctx.ident().getText();
 	}
 
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx) {
-		return true;
+	public boolean check(SymbolTable st, RuleContext ctx)  {
+			return true;
 	}
 
 	@Override
@@ -35,4 +38,13 @@ public class ParamNode extends WACCTree {
 		}
 		return false;
 	}
+	
+	public String getIdent() {
+		return ident;
+	}
+	
+	public ParamContext getContext() {
+		return ctx;
+	}
+
 }
