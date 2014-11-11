@@ -2,7 +2,7 @@ package tree.expr;
 
 import symboltable.SymbolTable;
 import tree.WACCTree;
-import tree.WACCType;
+import tree.type.WACCType;
 
 public class IntLeaf extends WACCTree {
 

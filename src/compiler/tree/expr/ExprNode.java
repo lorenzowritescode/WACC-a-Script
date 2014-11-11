@@ -1,6 +1,7 @@
 package tree;
 
 import symboltable.SymbolTable;
+import tree.type.WACCType;
 
 public abstract class ExprNode extends WACCTree {
 

@@ -2,7 +2,7 @@ package tree.stat;
 
 import symboltable.SymbolTable;
 import tree.ExprNode;
-import tree.WACCType;
+import tree.type.WACCType;
 
 public class FreeStat extends StatNode {
 	
