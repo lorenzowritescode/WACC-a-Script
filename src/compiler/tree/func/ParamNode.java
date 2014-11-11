@@ -1,5 +1,7 @@
 package tree.func;
 
+import org.antlr.v4.runtime.RuleContext;
+
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
@@ -14,7 +16,7 @@ public class ParamNode extends WACCTree {
 	}
 
 	@Override
-	public boolean check(SymbolTable st) {
+	public boolean check(SymbolTable st, RuleContext ctx) {
 		return true;
 	}
 
