@@ -37,4 +37,12 @@ public class ParamNode extends WACCTree {
 		}
 		return false;
 	}
+	
+	public String getIdent() {
+		return ident;
+	}
+	
+	public ParamContext getContext() {
+		return ctx;
+	}
 }

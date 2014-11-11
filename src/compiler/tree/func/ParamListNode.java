@@ -3,6 +3,7 @@ package tree.func;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import WACCExceptions.NotUniqueIdentifierException;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
@@ -50,7 +51,15 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 
 	@Override
 	public boolean check(SymbolTable st) {
-		// TODO Auto-generated method stub
+		ArrayList<String> paramIdents = new ArrayList<String>();
+		for (ParamNode param : params) {
+			if (paramIdents.contains(param.getIdent())) {
+				el.record( new NotUniqueIdentifierException(
+						"A variable with identifier " + this.identifier + " was already declared", 
+						this.ctx)
+				);
+			}
+		}
 		return false;
 	}
 
