@@ -4,33 +4,33 @@ import WACCExceptions.InvalidTypeException;
 import antlr.WACCParser.TypeContext;
 
 
-public interface WACCType {
+public abstract class WACCType {
 
-	boolean isCompatible(WACCType other);
+	public abstract boolean isCompatible(WACCType other);
 	
 	// Static instances of base types
-	static final WACCType BOOL = new WACCType() {
+	public static final WACCType BOOL = new WACCType() {
 		
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return other == BOOL;
 		}
 	};
-	static final WACCType INT = new WACCType() {
+	public static final WACCType INT = new WACCType() {
 		
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return other == INT;
 		}
 	};
-	static final WACCType STRING = new WACCType() {
+	public static final WACCType STRING = new WACCType() {
 		
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return other == STRING;
 		}
 	};
-	static final WACCType CHAR = new WACCType() {
+	public static final WACCType CHAR = new WACCType() {
 		
 		@Override
 		public boolean isCompatible(WACCType other) {
