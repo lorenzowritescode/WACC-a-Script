@@ -1,10 +1,9 @@
 package tree.expr;
 
 import symboltable.SymbolTable;
-import tree.WACCTree;
 import tree.type.WACCType;
 
-public class CharLeaf extends WACCTree {
+public class CharLeaf extends ExprNode {
 	
 	private String text;
 

@@ -4,7 +4,7 @@ import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
 
-public class IntLeaf extends WACCTree {
+public class IntLeaf extends ExprNode {
 
 	private int value;
 	
