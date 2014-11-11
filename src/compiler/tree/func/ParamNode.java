@@ -22,4 +22,15 @@ public class ParamNode extends WACCTree {
 	public WACCType getType() {
 		return type;
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof ParamNode) {
+			ParamNode pn = (ParamNode) other;
+			if (pn.getType() == type) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
