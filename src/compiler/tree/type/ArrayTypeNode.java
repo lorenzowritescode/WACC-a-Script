@@ -1,7 +1,7 @@
-package tree;
+package tree.type;
 
 
-public class ArrayTypeNode implements WACCType {
+public class ArrayTypeNode extends WACCType {
 	
 	private WACCType baseType;
 	
