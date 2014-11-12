@@ -7,8 +7,6 @@ import tree.WACCTree;
 import tree.type.WACCType;
 
 public class AssignRhsNode extends WACCTree {
-	
-	
 
 	@Override
 	public boolean check(SymbolTable st, RuleContext ctx) {
