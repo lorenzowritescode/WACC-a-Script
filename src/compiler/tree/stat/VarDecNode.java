@@ -2,38 +2,38 @@ package tree.stat;
 
 import org.antlr.v4.runtime.RuleContext;
 
+import assignments.AssignRhsNode;
 import symboltable.SymbolTable;
-import tree.WACCTree;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
-import antlr.WACCParser.Variable_declarationContext;
 
 public class VarDecNode extends StatNode {
 	
-	private final WACCType varType;
-	private final String identifier;
-	private WACCTree rhsTree;
+	private AssignRhsNode rhsTree;
+	private WACCType varType;
+	private String ident;
 
-	public VarDecNode(WACCTree rhsTree) {
-		this.identifier = ctx.ident().getText();
-		this.varType = WACCType.evalType(ctx.type());
+	public VarDecNode(WACCType varType, String ident, AssignRhsNode rhsTree) {
+		this.ident = ident;
+		this.varType = varType;
 		this.rhsTree = rhsTree;
 	}
 
 	@Override
-	public boolean check( SymbolTable st, RuleContext ctx ) {		
+	public boolean check( SymbolTable st, RuleContext ctx ) {
+		
 		// First we check the identifier is unique
-		if ( st.containsCurrent(identifier) ) {
+		if ( st.containsCurrent(ident) ) {
 			el.record( new NotUniqueIdentifierException(
-						"A variable with identifier " + this.identifier + " was already declared", 
+						"A variable with identifier " + ident + " was already declared", 
 						ctx)
 			);
 			return false;
 		} 
 		
 		// We add the current var to the SymbolTable
-		st.add(identifier, this);
+		st.add(ident, this);
 		
 		if ( varType != rhsTree.getType() ) {
 			el.record( new IncompatibleTypesException("The types of the rhs and lhs of the variable declaration do not match." , ctx));

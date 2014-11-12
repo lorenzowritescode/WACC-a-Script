@@ -6,7 +6,7 @@ import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
 
-public class StringLeaf extends WACCTree {
+public class StringLeaf extends ExprNode {
 	
 	private String text;
 	

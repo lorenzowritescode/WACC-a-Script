@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import symboltable.SymbolTable;
-import tree.ExprNode;
 import tree.ProgNode;
 import tree.WACCTree;
 import tree.expr.AndExpr;
 import tree.expr.ArithExpr;
 import tree.expr.BoolLeaf;
 import tree.expr.CharLeaf;
+import tree.expr.ExprNode;
 import tree.expr.EqNotExpr;
 import tree.expr.GrtLessExpr;
 import tree.expr.IntLeaf;
@@ -31,14 +31,21 @@ import tree.type.WACCType;
 import antlr.WACCParser.And_exprContext;
 import antlr.WACCParser.Arithmetic_exprContext;
 import antlr.WACCParser.Binary_operContext;
+import antlr.WACCParser.Array_typeContext;
+import antlr.WACCParser.Assign_lhsContext;
+import antlr.WACCParser.Assign_rhsContext;
 import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
 import antlr.WACCParser.Equals_not_exprContext;
+import antlr.WACCParser.Exit_statContext;
+import antlr.WACCParser.ExprContext;
+import antlr.WACCParser.Free_statContext;
 import antlr.WACCParser.FuncContext;
 import antlr.WACCParser.Greater_less_exprContext;
 import antlr.WACCParser.If_statContext;
 import antlr.WACCParser.Int_literContext;
 import antlr.WACCParser.Multdiv_exprContext;
+import antlr.WACCParser.Pair_typeContext;
 import antlr.WACCParser.Or_exprContext;
 import antlr.WACCParser.ParamContext;
 import antlr.WACCParser.Param_listContext;
@@ -49,6 +56,7 @@ import antlr.WACCParser.Single_exprContext;
 import antlr.WACCParser.Str_literContext;
 import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
+import assignments.AssignRhsNode;
 
 public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
@@ -146,8 +154,10 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
-		WACCTree rhsTree = visit(ctx.assign_rhs());
-		VarDecNode vcd = new VarDecNode(rhsTree);
+		AssignRhsNode rhsTree = (AssignRhsNode) visit(ctx.assign_rhs());
+		WACCType varType = WACCType.evalType(ctx.type());
+		String ident = ctx.ident().getText();
+		VarDecNode vcd = new VarDecNode(varType, ident, rhsTree);
 		vcd.check(currentSymbolTable, null);
 		return vcd;
 	}

@@ -6,7 +6,7 @@ import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
 
-public class BoolLeaf extends WACCTree {
+public class BoolLeaf extends ExprNode {
 	
 	private boolean value;
 	

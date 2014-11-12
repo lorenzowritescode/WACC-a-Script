@@ -2,9 +2,11 @@ package tree.stat;
 
 import org.antlr.v4.runtime.RuleContext;
 
+import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
-import tree.ExprNode;
+import tree.expr.ExprNode;
 import tree.type.WACCType;
+
 
 public class ExitStat extends StatNode {
 	
@@ -19,6 +21,7 @@ public class ExitStat extends StatNode {
 		if (exitVal.getType() == WACCType.INT) {
 			return true;
 		}
+		el.record(new InvalidTypeException("Exit statements must have an int as the argument", ctx));
 		return false;
 	}
 

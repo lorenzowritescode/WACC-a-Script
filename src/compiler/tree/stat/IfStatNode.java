@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.RuleContext;
 
 import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
-import tree.ExprNode;
+import tree.expr.ExprNode;
 import tree.type.WACCType;
 
 public class IfStatNode extends StatNode {

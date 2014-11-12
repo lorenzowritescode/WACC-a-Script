@@ -1,4 +1,4 @@
-package tree.stat;
+package assignments;
 
 import org.antlr.v4.runtime.RuleContext;
 
