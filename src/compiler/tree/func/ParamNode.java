@@ -2,7 +2,6 @@ package tree.func;
 
 import org.antlr.v4.runtime.RuleContext;
 
-import antlr.WACCParser.ParamContext;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
