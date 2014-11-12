@@ -39,4 +39,8 @@ public class SymbolTable {
 	public SymbolTable getParent() {
 		return this.parentTable;
 	}
+	
+	public WACCTree get(String key) {
+		return dictionary.get(key);
+	}
 }
