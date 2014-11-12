@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.RuleContext;
 
 import WACCExceptions.IncompatibleTypesException;
 import symboltable.SymbolTable;
-import tree.ExprNode;
+import tree.expr.ExprNode;
 import tree.type.WACCType;
 
 public class EqNotExpr extends ExprNode {
@@ -29,7 +29,7 @@ public class EqNotExpr extends ExprNode {
 
 	@Override
 	public WACCType getType() {
-		return null;
+		return WACCType.BOOL;
 	}
 
 }

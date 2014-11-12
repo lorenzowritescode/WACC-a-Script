@@ -30,7 +30,6 @@ import tree.stat.WhileStatNode;
 import tree.type.WACCType;
 import antlr.WACCParser.And_exprContext;
 import antlr.WACCParser.Arithmetic_exprContext;
-import antlr.WACCParser.Binary_operContext;
 import antlr.WACCParser.Array_typeContext;
 import antlr.WACCParser.Assign_lhsContext;
 import antlr.WACCParser.Assign_rhsContext;
@@ -52,8 +51,8 @@ import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.ProgContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
-import antlr.WACCParser.Single_exprContext;
 import antlr.WACCParser.Str_literContext;
+import antlr.WACCParser.Unary_operContext;
 import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
 import assignments.AssignRhsNode;
@@ -161,7 +160,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		vcd.check(currentSymbolTable, null);
 		return vcd;
 	}
-
 
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
@@ -282,4 +280,5 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return arithExpr;
 	}
 	
+
 }

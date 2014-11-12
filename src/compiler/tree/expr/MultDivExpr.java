@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.RuleContext;
 
 import WACCExceptions.IncompatibleTypesException;
 import symboltable.SymbolTable;
-import tree.ExprNode;
+import tree.expr.ExprNode;
 import tree.type.WACCType;
 
 public class MultDivExpr extends ExprNode {
@@ -20,7 +20,7 @@ public class MultDivExpr extends ExprNode {
 	@Override
 	public boolean check(SymbolTable st, RuleContext ctx) {
 		if (lhsExpr.getType() != WACCType.INT
-		   ||rhsExpr.getType() != WACCType.INT) {
+		   &&rhsExpr.getType() != WACCType.INT) {
 			el.record(new IncompatibleTypesException("Only integers can be multiplied or divided", ctx));
 			return false;
 		} else {
@@ -30,6 +30,6 @@ public class MultDivExpr extends ExprNode {
 
 	@Override
 	public WACCType getType() {
-		return null;
+		return WACCType.INT;
 	}
 }

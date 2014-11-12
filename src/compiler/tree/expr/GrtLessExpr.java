@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.RuleContext;
 
 import WACCExceptions.IncompatibleTypesException;
 import symboltable.SymbolTable;
-import tree.ExprNode;
+import tree.expr.ExprNode;
 import tree.type.WACCType;
 
 public class GrtLessExpr extends ExprNode {
@@ -21,20 +21,21 @@ public class GrtLessExpr extends ExprNode {
 	@Override
 	public boolean check(SymbolTable st, RuleContext ctx) {
 		//ask about table
-		if (lhsExpr.getType() == WACCType.BOOL
-			||lhsExpr.getType() == WACCType.INT
-			||rhsExpr.getType() == WACCType.BOOL
-			||rhsExpr.getType() == WACCType.INT) {
+		if ((lhsExpr.getType() == WACCType.CHAR
+			&&rhsExpr.getType() == WACCType.CHAR)
+			||(lhsExpr.getType() == WACCType.INT
+			&&rhsExpr.getType() == WACCType.INT)) {
 			return true;
 		} else {
-			el.record(new IncompatibleTypesException("Only integers or characters can be compared using <, <=, > or >=", ctx));
+			el.record(new IncompatibleTypesException(
+					"Only integers or characters can be compared using <, <=, > or >=", ctx));
 			return false;
 		}
 	}
 
 	@Override
 	public WACCType getType() {
-		return null;
+		return WACCType.BOOL;
 	}
 
 }
