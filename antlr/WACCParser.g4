@@ -51,8 +51,6 @@ pair_elem: FST expr
 | SND expr
 ;
 
-binaryOper : PLUS | MINUS ;
-
 param_list: param (COMMA param)*
 ;
 
