@@ -8,7 +8,11 @@ public abstract class WACCType {
 
 	public abstract boolean isCompatible(WACCType other);
 	
-	// Static instances of base types
+	/*
+	 * The following are here as they are definite types,
+	 * with no fields or parameters. Any reference to basic
+	 * types will be references to these objects.
+	 */
 	public static final WACCType BOOL = new WACCType() {
 		
 		@Override
