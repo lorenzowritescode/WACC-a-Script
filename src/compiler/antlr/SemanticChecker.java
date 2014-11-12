@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import symboltable.SymbolTable;
+import tree.ExprNode;
 import tree.ProgNode;
 import tree.WACCTree;
 import tree.expr.BoolLeaf;
@@ -14,10 +15,12 @@ import tree.expr.StringLeaf;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
+import tree.stat.IfStatNode;
 import tree.stat.ReturnStatNode;
 import tree.stat.SeqStatNode;
 import tree.stat.StatNode;
 import tree.stat.VarDecNode;
+import tree.stat.WhileStatNode;
 import tree.type.WACCType;
 import antlr.WACCParser.Array_typeContext;
 import antlr.WACCParser.Assign_lhsContext;
@@ -141,7 +144,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
 		WACCTree rhsTree = visit(ctx.assign_rhs());
-		VarDecNode vcd = new VarDecNode(ctx, rhsTree);
+		VarDecNode vcd = new VarDecNode(rhsTree);
 		vcd.check(currentSymbolTable, null);
 		return vcd;
 	}
@@ -186,48 +189,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 
 	@Override
-	public WACCTree visitVariable_assigment(Variable_assigmentContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitVariable_assigment(ctx);
-	}
-
-	@Override
-	public WACCTree visitExpr(ExprContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitExpr(ctx);
-	}
-
-	@Override
-	public WACCTree visitArray_type(Array_typeContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitArray_type(ctx);
-	}
-
-	@Override
-	public WACCTree visitExit_stat(Exit_statContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitExit_stat(ctx);
-	}
-
-	@Override
-	public WACCTree visitPrint_stat(Print_statContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitPrint_stat(ctx);
-	}
-
-	@Override
-	public WACCTree visitPair_type(Pair_typeContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitPair_type(ctx);
-	}
-
-	@Override
-	public WACCTree visitAssign_lhs(Assign_lhsContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitAssign_lhs(ctx);
-	}
-
-	@Override
 	public WACCTree visitParam_list(Param_listContext ctx) {
 		ParamListNode params = new ParamListNode();
 		for (ParamContext p : ctx.param()){
@@ -239,40 +200,19 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 
 	@Override
-	public WACCTree visitFree_stat(Free_statContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitFree_stat(ctx);
-	}
-
-	@Override
-	public WACCTree visitRead_stat(Read_statContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitRead_stat(ctx);
-	}
-
-	@Override
-	public WACCTree visitAssign_rhs(Assign_rhsContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitAssign_rhs(ctx);
-	}
-
-	@Override
 	public WACCTree visitWhile_stat(While_statContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitWhile_stat(ctx);
+		ExprNode loopCond = (ExprNode) visit(ctx.expr());
+		WhileStatNode whileStat = new WhileStatNode(loopCond);
+		whileStat.check(currentSymbolTable, ctx);
+		return whileStat;
 	}
 
 	@Override
 	public WACCTree visitIf_stat(If_statContext ctx) {
-		// TODO Auto-generated method stub
+		ExprNode ifCond = (ExprNode) visit(ctx.expr());
+		IfStatNode ifStat = new IfStatNode(ifCond);
+		ifStat.check(currentSymbolTable, ctx);
 		return super.visitIf_stat(ctx);
 	}
 	
-
-	@Override
-	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitPrintln_expr(ctx);
-	}
-
 }

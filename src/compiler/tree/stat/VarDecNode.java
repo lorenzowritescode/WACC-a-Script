@@ -27,7 +27,7 @@ public class VarDecNode extends StatNode {
 		if ( st.containsCurrent(identifier) ) {
 			el.record( new NotUniqueIdentifierException(
 						"A variable with identifier " + this.identifier + " was already declared", 
-						this.ctx)
+						ctx)
 			);
 			return false;
 		} 
