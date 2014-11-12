@@ -2,10 +2,7 @@ package symboltable;
 
 import java.util.HashMap;
 
-import org.antlr.v4.runtime.RuleContext;
-
 import tree.WACCTree;
-import WACCExceptions.NotUniqueIdentifierException;
 
 public class SymbolTable {
 	
