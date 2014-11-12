@@ -7,10 +7,16 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
+import tree.expr.AndExpr;
+import tree.expr.ArithExpr;
 import tree.expr.BoolLeaf;
 import tree.expr.CharLeaf;
 import tree.expr.ExprNode;
+import tree.expr.EqNotExpr;
+import tree.expr.GrtLessExpr;
 import tree.expr.IntLeaf;
+import tree.expr.MultDivExpr;
+import tree.expr.OrExpr;
 import tree.expr.StringLeaf;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
@@ -22,17 +28,31 @@ import tree.stat.StatNode;
 import tree.stat.VarDecNode;
 import tree.stat.WhileStatNode;
 import tree.type.WACCType;
+import antlr.WACCParser.And_exprContext;
+import antlr.WACCParser.Arithmetic_exprContext;
+import antlr.WACCParser.Array_typeContext;
+import antlr.WACCParser.Assign_lhsContext;
+import antlr.WACCParser.Assign_rhsContext;
 import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
+import antlr.WACCParser.Equals_not_exprContext;
+import antlr.WACCParser.Exit_statContext;
+import antlr.WACCParser.ExprContext;
+import antlr.WACCParser.Free_statContext;
 import antlr.WACCParser.FuncContext;
+import antlr.WACCParser.Greater_less_exprContext;
 import antlr.WACCParser.If_statContext;
 import antlr.WACCParser.Int_literContext;
+import antlr.WACCParser.Multdiv_exprContext;
+import antlr.WACCParser.Pair_typeContext;
+import antlr.WACCParser.Or_exprContext;
 import antlr.WACCParser.ParamContext;
 import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.ProgContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
 import antlr.WACCParser.Str_literContext;
+import antlr.WACCParser.Unary_operContext;
 import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
 import assignments.AssignRhsNode;
@@ -141,7 +161,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return vcd;
 	}
 
-
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
 		CharLeaf charleaf = new CharLeaf(ctx.getText());
@@ -204,7 +223,62 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
 		IfStatNode ifStat = new IfStatNode(ifCond);
 		ifStat.check(currentSymbolTable, ctx);
-		return super.visitIf_stat(ctx);
+		return ifStat;
+	}
+
+	@Override
+	public WACCTree visitAnd_expr(And_exprContext ctx) {
+		ExprNode lhsExpr = (ExprNode) visit(ctx.getChild(0));
+		ExprNode rhsExpr = (ExprNode) visit(ctx.getChild(1));
+		AndExpr andExpr = new AndExpr(lhsExpr, rhsExpr);
+		andExpr.check(currentSymbolTable, ctx);
+		return andExpr;
+	}
+
+	@Override
+	public WACCTree visitOr_expr(Or_exprContext ctx) {
+		ExprNode lhsExpr = (ExprNode) visit(ctx.getChild(0));
+		ExprNode rhsExpr = (ExprNode) visit(ctx.getChild(1));
+		OrExpr orExpr = new OrExpr(lhsExpr, rhsExpr);
+		orExpr.check(currentSymbolTable, ctx);
+		return orExpr;
+	}
+
+	@Override
+	public WACCTree visitGreater_less_expr(Greater_less_exprContext ctx) {
+		ExprNode lhsExpr = (ExprNode) visit(ctx.getChild(0));
+		ExprNode rhsExpr = (ExprNode) visit(ctx.getChild(1));
+		GrtLessExpr grtLessExpr = new GrtLessExpr(lhsExpr, rhsExpr);
+		grtLessExpr.check(currentSymbolTable, ctx);
+		return grtLessExpr;
+	}
+
+	@Override
+	public WACCTree visitEquals_not_expr(Equals_not_exprContext ctx) {
+		ExprNode lhsExpr = (ExprNode) visit(ctx.getChild(0));
+		ExprNode rhsExpr = (ExprNode) visit(ctx.getChild(1));
+		EqNotExpr eqNotExpr = new EqNotExpr(lhsExpr, rhsExpr);
+		eqNotExpr.check(currentSymbolTable, ctx);
+		return eqNotExpr;
+	}
+
+	@Override
+	public WACCTree visitMultdiv_expr(Multdiv_exprContext ctx) {
+		ExprNode lhsExpr = (ExprNode) visit(ctx.getChild(0));
+		ExprNode rhsExpr = (ExprNode) visit(ctx.getChild(1));
+		MultDivExpr multDivExpr = new MultDivExpr(lhsExpr, rhsExpr);
+		multDivExpr.check(currentSymbolTable, ctx);
+		return multDivExpr;
+	}
+
+	@Override
+	public WACCTree visitArithmetic_expr(Arithmetic_exprContext ctx) {
+		ExprNode lhsExpr = (ExprNode) visit(ctx.getChild(0));
+		ExprNode rhsExpr = (ExprNode) visit(ctx.getChild(1));
+		ArithExpr arithExpr = new ArithExpr(lhsExpr, rhsExpr);
+		arithExpr.check(currentSymbolTable, ctx);
+		return arithExpr;
 	}
 	
+
 }
