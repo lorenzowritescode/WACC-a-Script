@@ -144,7 +144,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
 		WACCTree rhsTree = visit(ctx.assign_rhs());
-		VarDecNode vcd = new VarDecNode(ctx, rhsTree);
+		VarDecNode vcd = new VarDecNode(rhsTree);
 		vcd.check(currentSymbolTable, null);
 		return vcd;
 	}
