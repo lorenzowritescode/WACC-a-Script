@@ -4,20 +4,15 @@ options {
   tokenVocab=WACCLexer;
 }
 
-base_type: INT
-| BOOL
-| CHAR
-| STRING
-;
-
-pair_elem_type : base_type
-| array_type
-| PAIR
-;
-
+// functions
 func : type ident OPEN_PARENTHESES 
-	  (param_list)? CLOSE_PARENTHESES IS stat END ;
+	  (param_list)? CLOSE_PARENTHESES IS stat END;
 
+param_list: param (COMMA param)*;
+
+param: type ident;
+
+// statements
 stat : SKIP							# skip_stat
 | type ident EQUAL assign_rhs		# variable_declaration
 | assign_lhs EQUAL assign_rhs		# variable_assigment
@@ -33,39 +28,47 @@ stat : SKIP							# skip_stat
 | stat SEMI_COLON stat 				# sequential_stat
 ;
 
+// Assignments
 assign_lhs : ident
 | array_elem
 | pair_elem
 ;
-
 assign_rhs : expr
 | array_liter
 | NEWPAIR OPEN_PARENTHESES expr COMMA expr CLOSE_PARENTHESES
 | pair_elem
 | CALL ident OPEN_PARENTHESES (arg_list)? CLOSE_PARENTHESES
 ;
-
 arg_list : expr (COMMA (expr))* ;
+
+// Pairs. There can be pairs of pairs but when nested the inside type is not declared.
+pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
 
 pair_elem: FST expr
 | SND expr
 ;
 
-param_list: param (COMMA param)*
+pair_elem_type : base_type
+| array_type
+| PAIR
 ;
 
-param: type ident;
-
+// Arrays
 array_type: ( base_type | pair_type ) (OPEN_SQUARE CLOSE_SQUARE)+ ;
 
+// WACC Types
 type: base_type
 | array_type
 | pair_type
 ;
 
-pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
+base_type: INT
+| BOOL
+| CHAR
+| STRING
+;
 
-// binary arithmetic expressions
+// Expressions.
 expr : expr (MUL | DIV | MOD) expr
 | expr (PLUS | MINUS) expr
 | expr (GREATER | GREATER_EQUAL | LESS | LESS_EQUAL) expr
@@ -83,12 +86,8 @@ expr : expr (MUL | DIV | MOD) expr
 
 array_elem : ident (OPEN_SQUARE expr CLOSE_SQUARE)+ ;
 
-int_liter : int_sign INTEGER
+int_liter : (PLUS | MINUS) INTEGER
 | INTEGER
-;
-
-int_sign : PLUS
-| MINUS
 ;
 
 bool_liter : TRUE
@@ -101,33 +100,12 @@ str_liter : STRING_LITER ;
 
 array_liter : OPEN_SQUARE (expr (COMMA (expr))*)? CLOSE_SQUARE ;
 
+// There is no such thing as a pair literal
 pair_liter : NULL ;
 
-unary_oper: NOT
-| MINUS
-| LEN
-| ORD
-| CHR
-;
-
-binary_oper: MUL
-| DIV
-| MOD
-| PLUS
-| MINUS
-| GREATER
-| GREATER_EQUAL
-| LESS
-| LESS_EQUAL
-| DOUBLE_EQUALS
-| NOT_EQUAL
-| AND
-| OR
-;
-
-// remove?
+// This is here for legacy purposes
 ident: IDENTITY;
 
 
-// EOF indicates that the program must consume to the end of the input.
+// Program
 prog: BEGIN func* stat END;
