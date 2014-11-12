@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import symboltable.SymbolTable;
+import tree.ExprNode;
 import tree.ProgNode;
 import tree.WACCTree;
 import tree.expr.BoolLeaf;
@@ -14,10 +15,12 @@ import tree.expr.StringLeaf;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
+import tree.stat.IfStatNode;
 import tree.stat.ReturnStatNode;
 import tree.stat.SeqStatNode;
 import tree.stat.StatNode;
 import tree.stat.VarDecNode;
+import tree.stat.WhileStatNode;
 import tree.type.WACCType;
 import antlr.WACCParser.Array_typeContext;
 import antlr.WACCParser.Assign_lhsContext;
@@ -196,4 +199,20 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return params;
 	}
 
+	@Override
+	public WACCTree visitWhile_stat(While_statContext ctx) {
+		ExprNode loopCond = (ExprNode) visit(ctx.expr());
+		WhileStatNode whileStat = new WhileStatNode(loopCond);
+		whileStat.check(currentSymbolTable, ctx);
+		return whileStat;
+	}
+
+	@Override
+	public WACCTree visitIf_stat(If_statContext ctx) {
+		ExprNode ifCond = (ExprNode) visit(ctx.expr());
+		IfStatNode ifStat = new IfStatNode(ifCond);
+		ifStat.check(currentSymbolTable, ctx);
+		return super.visitIf_stat(ctx);
+	}
+	
 }

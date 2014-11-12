@@ -9,15 +9,17 @@ import tree.type.WACCType;
 
 public class WhileStatNode extends StatNode {
 	
-	private ExprNode expr;
+	private ExprNode loopCond;
+	//private StatNode doStat;
 	
-	public WhileStatNode(ExprNode expr) {
-		this.expr = expr;
+	public WhileStatNode(ExprNode expr/*, StatNode doStat*/) {
+		this.loopCond = expr;
+		//this.doStat = doStat;
 	}
 	
 	@Override
 	public boolean check(SymbolTable st, RuleContext ctx) {
-		if (expr.getType() == WACCType.BOOL) {
+		if (loopCond.getType() == WACCType.BOOL) {
 			return true;
 		} else {
 			el.record(new InvalidTypeException("While statement should have an expr of type BOOL", ctx));
