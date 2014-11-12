@@ -63,22 +63,27 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitFunc(FuncContext ctx) {
+		// Visit the param list and get the ParamListNode
 		ParamListNode params = (ParamListNode) visit(ctx.param_list());
-		for (ParamContext p : ctx.param_list().param()){
-			ParamNode pn = (ParamNode) visit(p);
-			pn.check(currentSymbolTable, null);
-			params.add(pn);
-		}
 		
+		// Create an inner scope Symbol Table for the function body.
 		currentSymbolTable = new SymbolTable(currentSymbolTable);
 		
+		// Create the functionBody node
 		StatNode funcBody = (StatNode) visit(ctx.stat());
-		funcBody.check(currentSymbolTable, null);
 		
+		// restore the scope to the original table
 		currentSymbolTable = currentSymbolTable.getParent();
+		
+		// Pull out type and function name
 		WACCType returnType = WACCType.evalType(ctx.type());
 		String funcName = ctx.ident().getText();
-		return new FuncDecNode(returnType, funcName, params, funcBody);
+		
+		// Create new functionNode and check it
+		FuncDecNode funcNode = new FuncDecNode(returnType, funcName, params, funcBody);
+		funcNode.check(currentSymbolTable, ctx);
+		
+		return funcNode;
 	}
 
 	@Override
@@ -176,7 +181,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitParam(ParamContext ctx) {
-		ParamNode paramNode = new ParamNode(ctx);
+		WACCType paramType = WACCType.evalType(ctx.type());
+		String ident = ctx.ident().getText();
+		ParamNode paramNode = new ParamNode(paramType, ident);
 		paramNode.check(currentSymbolTable, ctx);
 		return paramNode;
 	}
@@ -228,7 +235,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ParamListNode params = new ParamListNode();
 		for (ParamContext p : ctx.param()){
 			ParamNode pn = (ParamNode) visit(p);
-			pn.check(currentSymbolTable, ctx);
 			params.add(pn);
 		}
 		params.check(currentSymbolTable, ctx);

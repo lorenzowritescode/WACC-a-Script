@@ -12,7 +12,7 @@ public class AssignStatNode extends StatNode {
 	private AssignRhsNode rhs;
 	private Variable_declarationContext ctx;
 	
-	public AssignStatNode(Variable_declarationContext ctx, AssignLhsNode lhs, AssignRhsNode rhs) {
+	public AssignStatNode(AssignLhsNode lhs, AssignRhsNode rhs) {
 		this.lhs = lhs;
 		this.rhs = rhs;
 	}

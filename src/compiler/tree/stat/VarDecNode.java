@@ -9,16 +9,13 @@ import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
 import antlr.WACCParser.Variable_declarationContext;
 
-public class VarDecNode extends WACCTree {
+public class VarDecNode extends StatNode {
 	
 	private final WACCType varType;
 	private final String identifier;
 	private WACCTree rhsTree;
-	private Variable_declarationContext ctx;
 
-	public VarDecNode(Variable_declarationContext ctx,
-			WACCTree rhsTree) {
-		this.ctx = ctx;
+	public VarDecNode(WACCTree rhsTree) {
 		this.identifier = ctx.ident().getText();
 		this.varType = WACCType.evalType(ctx.type());
 		this.rhsTree = rhsTree;

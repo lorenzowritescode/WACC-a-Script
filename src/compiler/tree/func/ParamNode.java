@@ -10,12 +10,10 @@ import tree.type.WACCType;
 public class ParamNode extends WACCTree {
 	private WACCType type;
 	private String ident;
-	private final ParamContext ctx;
 	
-	public ParamNode(ParamContext ctx) {
-		this.ctx = ctx;
-		this.type = WACCType.evalType(ctx.type());
-		this.ident = ctx.ident().getText();
+	public ParamNode(WACCType paramType, String ident) {
+		this.type = paramType;
+		this.ident = ident;
 	}
 
 	@Override
