@@ -31,6 +31,9 @@ public class AssignStatNode extends StatNode {
 					+ "to a " + lhs.getType().toString(), ctx));
 			return false;
 		}
+		//TODO: will this work with arrays? or will it assign the entire 
+		//array to equal the rhs node?
+		st.add(lhs.getIdent(), rhs);
 		return true;
 		
 	}
