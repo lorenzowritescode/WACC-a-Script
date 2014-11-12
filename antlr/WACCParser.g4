@@ -65,27 +65,20 @@ type: base_type
 
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
 
-single_expr : OPEN_PARENTHESES expr CLOSE_PARENTHESES 
-| factor 
-;
-
+// binary arithmetic expressions
 expr : expr (MUL | DIV | MOD) expr
 | expr (PLUS | MINUS) expr
 | expr (GREATER | GREATER_EQUAL | LESS | LESS_EQUAL) expr
 | expr (DOUBLE_EQUALS | NOT_EQUAL) expr
+// binary boolean expressions
 | expr AND expr
 | expr OR expr
-| unary_oper expr
-| single_expr
-;
-
-factor : int_liter		
-| bool_liter			
-| char_liter 			
-| str_liter 			
-| pair_liter 			
-| ident 				
-| array_elem 			
+// unary expressions
+| (NOT | MINUS | LEN | ORD | CHR) expr
+// atomic expressions
+| OPEN_PARENTHESES expr CLOSE_PARENTHESES
+// expression literals
+| (int_liter | bool_liter | char_liter | str_liter | pair_liter | ident | array_elem )
 ;
 
 array_elem : ident (OPEN_SQUARE expr CLOSE_SQUARE)+ ;
