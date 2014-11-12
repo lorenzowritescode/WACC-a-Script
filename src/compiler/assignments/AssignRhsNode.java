@@ -7,16 +7,16 @@ import tree.WACCTree;
 import tree.type.WACCType;
 
 public class AssignRhsNode extends WACCTree {
+	
+	
 
 	@Override
 	public boolean check(SymbolTable st, RuleContext ctx) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public WACCType getType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
