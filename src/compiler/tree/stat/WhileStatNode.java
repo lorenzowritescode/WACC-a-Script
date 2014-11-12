@@ -10,9 +10,11 @@ import tree.type.WACCType;
 public class WhileStatNode extends StatNode {
 	
 	private ExprNode loopCond;
+	//private StatNode doStat;
 	
-	public WhileStatNode(ExprNode expr) {
+	public WhileStatNode(ExprNode expr/*, StatNode doStat*/) {
 		this.loopCond = expr;
+		//this.doStat = doStat;
 	}
 	
 	@Override

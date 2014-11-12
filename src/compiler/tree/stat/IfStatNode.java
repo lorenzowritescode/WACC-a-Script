@@ -10,9 +10,13 @@ import tree.type.WACCType;
 public class IfStatNode extends StatNode {
 	
 	private ExprNode ifCond;
+	//private StatNode thenStat;
+	//private StatNode elseStat;
 	
-	public IfStatNode(ExprNode expr) {
+	public IfStatNode(ExprNode expr/*, StatNode thenStat, StatNode elseStat*/) {
 		this.ifCond = expr;
+		//this.thenStat = thenStat;
+		//this.elseStat = elseStat;
 	}
 	
 	@Override

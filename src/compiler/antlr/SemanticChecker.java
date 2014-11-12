@@ -269,7 +269,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return super.visitIf_stat(ctx);
 	}
 	
-
 	@Override
 	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
 		// TODO Auto-generated method stub
