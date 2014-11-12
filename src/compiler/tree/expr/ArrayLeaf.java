@@ -1,6 +1,8 @@
 package tree.expr;
 
 
+import org.antlr.v4.runtime.RuleContext;
+
 import symboltable.SymbolTable;
 import tree.type.ArrayTypeNode;
 import tree.type.WACCType;
@@ -16,7 +18,7 @@ public class ArrayLeaf extends ExprNode {
 	}
 	
 	@Override
-	public boolean check(SymbolTable st) {
+	public boolean check(SymbolTable st, RuleContext ctx) {
 		return true;
 	}
 
