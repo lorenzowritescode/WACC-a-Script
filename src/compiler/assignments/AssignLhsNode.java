@@ -6,7 +6,7 @@ import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
 
-public abstract class AssignLhsNode extends WACCTree {
+public abstract class AssignLhsNode extends Assignable {
 
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {

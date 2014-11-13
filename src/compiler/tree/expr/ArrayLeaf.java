@@ -7,7 +7,9 @@ import symboltable.SymbolTable;
 import tree.type.ArrayTypeNode;
 import tree.type.WACCType;
 
-
+/*
+ * This class represents th
+ */
 public class ArrayLeaf extends ExprNode {
 	
 	private WACCType baseType;

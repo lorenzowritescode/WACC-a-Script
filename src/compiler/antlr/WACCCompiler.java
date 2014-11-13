@@ -20,12 +20,29 @@ public class WACCCompiler {
 		WACCLexer lexer = new WACCLexer(antrlInput);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		WACCParser parser = new WACCParser(tokens);
-		ParseTree tree = parser.prog();
 		
-		SemanticChecker semantic = new SemanticChecker(tree);
-		semantic.init();
+		try {
+			ParseTree tree = parser.prog();
+			SemanticChecker semantic = new SemanticChecker(tree);
+			semantic.init();
+		} catch (ClassCastException e) {
+			System.err.println("Illformed instruction: ");
+			e.printStackTrace();
+			exitSemanticFailure();
+		} catch (Exception e) {
+			e.printStackTrace();
+			exitSyntaxError();
+		}
 //		WACCCompiler compiler = new WACCCompiler(semantic);
 //		compiler.init();
+	}
+
+	private static void exitSyntaxError() {
+		System.exit(100);
+	}
+
+	private static void exitSemanticFailure() {
+		System.exit(200);
 	}
 
 	private SemanticChecker semanticChecker;

@@ -18,6 +18,7 @@ import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
 import tree.stat.IfStatNode;
+import tree.stat.PrintStat;
 import tree.stat.ReturnStatNode;
 import tree.stat.SeqStatNode;
 import tree.stat.StatNode;
@@ -34,13 +35,14 @@ import antlr.WACCParser.If_statContext;
 import antlr.WACCParser.Int_literContext;
 import antlr.WACCParser.ParamContext;
 import antlr.WACCParser.Param_listContext;
+import antlr.WACCParser.Print_statContext;
 import antlr.WACCParser.ProgContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
 import antlr.WACCParser.Str_literContext;
 import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
-import assignments.AssignRhsNode;
+import assignments.Assignable;
 
 public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
@@ -137,15 +139,23 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 
 	@Override
+	public WACCTree visitPrint_stat(Print_statContext ctx) {
+		ExprNode expr = (ExprNode) visit(ctx.expr());
+		PrintStat ps = new PrintStat(expr);
+		ps.check(currentSymbolTable, ctx);
+		return ps;
+	}
+
+	@Override
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
-		AssignRhsNode rhsTree = (AssignRhsNode) visit(ctx.assign_rhs());
+		Assignable rhsTree = (Assignable) visit(ctx.assign_rhs());
 		WACCType varType = WACCType.evalType(ctx.type());
 		String ident = ctx.ident().getText();
 		VarDecNode vcd = new VarDecNode(varType, ident, rhsTree);
 		vcd.check(currentSymbolTable, null);
 		return vcd;
 	}
-
+	
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
 		CharLeaf charleaf = new CharLeaf(ctx.getText());
