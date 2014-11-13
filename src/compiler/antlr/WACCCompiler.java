@@ -22,6 +22,7 @@ public class WACCCompiler {
 		WACCParser parser = new WACCParser(tokens);
 		
 		try {
+			System.out.println("Parsing program...");
 			ParseTree tree = parser.prog();
 			SemanticChecker semantic = new SemanticChecker(tree);
 			semantic.init();
