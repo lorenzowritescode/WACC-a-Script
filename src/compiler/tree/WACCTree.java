@@ -1,6 +1,6 @@
 package tree;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import antlr.SemanticChecker;
 import symboltable.SymbolTable;
@@ -10,7 +10,7 @@ import WACCExceptions.ErrorListener;
 public abstract class WACCTree {
 	public static ErrorListener el = SemanticChecker.ERROR_LISTENER;
 	
-	public abstract boolean check( SymbolTable st, RuleContext ctx );
+	public abstract boolean check( SymbolTable st, ParserRuleContext ctx );
 	public abstract WACCType getType();
 	
 	public static boolean isCorrect() {

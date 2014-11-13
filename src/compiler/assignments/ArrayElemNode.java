@@ -1,6 +1,6 @@
 package assignments;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
@@ -20,7 +20,7 @@ public class ArrayElemNode extends AssignLhsNode {
 	}
 	
 	@Override
-	public boolean check( SymbolTable st, RuleContext ctx ) {
+	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		if(!(pos.getType() == WACCType.INT)) {
 			el.record(new InvalidTypeException("Array position can only be found using an Int", ctx));
 			return false;

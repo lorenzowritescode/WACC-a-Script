@@ -3,7 +3,7 @@ package assignments;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.WACCTree;
@@ -70,7 +70,7 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 	}
 
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx) {
+	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		return true;
 	}
 
