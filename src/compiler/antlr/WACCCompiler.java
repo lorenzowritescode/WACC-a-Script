@@ -22,9 +22,11 @@ public class WACCCompiler {
 		WACCParser parser = new WACCParser(tokens);
 		
 		try {
-			System.out.println("Parsing program...");
 			ParseTree tree = parser.prog();
 			SemanticChecker semantic = new SemanticChecker(tree);
+			if (args.length <= 1 || args[1] != "debug") {
+				SemanticChecker.dbh.turnOff();
+			}
 			semantic.init();
 		} catch (ClassCastException e) {
 			System.err.println("Illformed instruction: ");
