@@ -2,10 +2,9 @@ package tree.expr;
 
 import org.antlr.v4.runtime.RuleContext;
 
-import assignments.AssignRhsNode;
 import symboltable.SymbolTable;
-import tree.WACCTree;
 import tree.type.WACCType;
+import assignments.AssignRhsNode;
 
 public abstract class ExprNode extends AssignRhsNode  {
 
