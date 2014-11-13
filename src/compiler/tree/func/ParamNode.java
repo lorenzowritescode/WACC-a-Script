@@ -1,6 +1,6 @@
 package tree.func;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.WACCTree;
@@ -16,7 +16,7 @@ public class ParamNode extends WACCTree {
 	}
 
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx)  {
+	public boolean check(SymbolTable st, ParserRuleContext ctx)  {
 			return true;
 	}
 

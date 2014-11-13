@@ -1,6 +1,6 @@
 package assignments;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
@@ -15,7 +15,7 @@ public class AssigningExprNode extends AssignRhsNode {
 		this.expr = expr;
 	}
 	
-	public boolean check( SymbolTable st, RuleContext ctx ) {
+	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		return true;
 	}
 

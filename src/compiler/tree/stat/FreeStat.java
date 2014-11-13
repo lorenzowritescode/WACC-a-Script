@@ -1,6 +1,6 @@
 package tree.stat;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ArrayLeaf;
@@ -17,7 +17,7 @@ public class FreeStat extends StatNode {
 	}
 
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx) {
+	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		if (en.getType() instanceof ArrayTypeNode) {
 			ArrayLeaf array = (ArrayLeaf) en;
 			if (!st.containsCurrent(array.getIdent())) {

@@ -1,6 +1,6 @@
 package assignments;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.func.FuncDecNode;
@@ -23,7 +23,7 @@ public class CallStatNode extends AssignRhsNode {
 		this.args = args;
 	}
 	
-	public boolean check( SymbolTable st, RuleContext ctx ) {
+	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		if (!st.containsRecursive(ident)) {
 			el.record(new UndefinedFunctionException(
 					"Function " + ident + " has not been delcared", ctx));

@@ -1,6 +1,6 @@
 package tree.stat;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import assignments.AssignRhsNode;
 import symboltable.SymbolTable;
@@ -21,7 +21,7 @@ public class VarDecNode extends StatNode {
 	}
 
 	@Override
-	public boolean check( SymbolTable st, RuleContext ctx ) {
+	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		
 		// First we check the identifier is unique
 		if ( st.containsCurrent(ident) ) {
