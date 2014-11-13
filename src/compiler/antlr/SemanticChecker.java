@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
+
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
@@ -21,6 +25,7 @@ import tree.stat.AssignStatNode;
 import tree.stat.ExitStat;
 import tree.stat.FreeStat;
 import tree.stat.IfStatNode;
+import tree.stat.PrintLnStat;
 import tree.stat.PrintStat;
 import tree.stat.PrintlnStat;
 import tree.stat.ReadStatNode;
@@ -53,6 +58,7 @@ import antlr.WACCParser.ProgContext;
 import antlr.WACCParser.Read_statContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
+import antlr.WACCParser.StatContext;
 import antlr.WACCParser.Skip_statContext;
 import antlr.WACCParser.Str_literContext;
 import antlr.WACCParser.Variable_assigmentContext;
@@ -75,7 +81,12 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	public void init() {
 		System.out.println("Checking sematic integrity...");
-		parseTree.accept(this);
+		WACCTree tree = parseTree.accept(this);
+//		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+//        xstream.setMode(XStream.NO_REFERENCES);
+//        xstream.alias("WACCTree", WACCTree.class);
+//        xstream.setMode(XStream.NO_REFERENCES);
+//        System.out.println(xstream.toXML(tree));
 	}
 
 	@Override
@@ -107,6 +118,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
 		WACCTree exprType = visit(ctx.expr());
 		exprType.check(currentSymbolTable, ctx);
+		
 		ReturnStatNode rst = new ReturnStatNode(exprType);
 		rst.check(currentSymbolTable, ctx);
 		return rst;
@@ -114,9 +126,15 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
+		System.out.println("SEQUENTIAL STAT: ");
+		for(StatContext s:ctx.stat()) {
+			System.out.println(s.getText());
+		}
+
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
-		StatNode rhs = (StatNode) visit(ctx.stat(1));
-		SeqStatNode seqStat = new SeqStatNode(lhs, rhs);
+		WACCTree rhs = visit(ctx.stat(1));
+		StatNode srhs = (StatNode) rhs;
+		SeqStatNode seqStat = new SeqStatNode(lhs, srhs);
 		seqStat.check(currentSymbolTable, ctx);
 		return seqStat;
 	}
@@ -203,7 +221,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		
 		// Then we visit the statement
 		StatNode progBody = (StatNode) visit(ctx.stat());
-		//progBody.check(currentSymbolTable, ctx);
 		
 		// Finally, we return the program node
 		return new ProgNode(functions, progBody);
@@ -247,6 +264,16 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 
 	@Override
+	
+
+	@Override
+	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
+		ExprNode expr = (ExprNode) visit(ctx.expr());
+		PrintLnStat pls = new PrintLnStat(expr);
+		pls.check(currentSymbolTable, ctx);
+		return pls;
+	}
+	
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
 		Assignable rhsTree = (Assignable) visit(ctx.assign_rhs());
 		WACCType varType = WACCType.evalType(ctx.type());
