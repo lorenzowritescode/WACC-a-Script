@@ -2,139 +2,87 @@ package tree.type;
 
 import tree.expr.ExprNode;
 
+/*
+ * This class is used to represent the behaviour of WACC Binary Operators.
+ * Their role is to check wether two provided expression (`lhs`, `rhs`) can be used in a binary expression with a given operator;
+ * They are also used to infer the type of any given binary expression.
+ */
 public abstract class WACCBinOp {
-	private WACCType returnType;
-
-	public WACCBinOp(WACCType returnType) {
-		this.returnType = returnType;
-	}
+	
+	public WACCBinOp() {}
 
 	public abstract boolean check(ExprNode lhs, ExprNode rhs);
 
-	public WACCType getType() {
-		return this.returnType;
-	};
+	public abstract WACCType getType();
 
 	/*
-	 * There are only 3 types of logic to check that `rhs BinOp lhs` is correct:
-	 * 1 - lhs and rhs must have same type as returnType (Arithmetic BinOps, && and ||)
+	 * There are only 4 types of logic to check that `rhs BinOp lhs` is correct:
+	 * 1 - lhs and rhs must be INT  (Arithmetic BinOps)
 	 * 2 - lhs and rhs must be of equal type, which must be either INT or CHAR (>=, >, <, <=)
 	 * 3 - always correct (== and !=)
+	 * 4 - lhs and rhs must be BOOL (&& and ||)
 	 */
+	
+	// 1:
+	public static final WACCBinOp MUL = new WACCArithBinOp();
+	public static final WACCBinOp DIV = new WACCArithBinOp();
+	public static final WACCBinOp MOD = new WACCArithBinOp();
+	public static final WACCBinOp ADD = new WACCArithBinOp();
+	public static final WACCBinOp SUB = new WACCArithBinOp();
+	
+	// 2:
+	public static final WACCBinOp GRT = new WACCCompBinOp();
+	public static final WACCBinOp GRT_EQ = new WACCCompBinOp();
+	public static final WACCBinOp LESS = new WACCCompBinOp();
+	public static final WACCBinOp LESS_EQ = new WACCCompBinOp();
+	
+	// 3:
+	public static final WACCBinOp EQ = new WACCEqualBinOp();
+	public static final WACCBinOp NOT_EQ = new WACCEqualBinOp();
+	
+	// 4:
+	public static final WACCBinOp AND = new WACCBoolBinOp();
+	public static final WACCBinOp OR = new WACCBoolBinOp();
+	
+	/*
+	 * Utility method to convert a String to a Binary Operator
+	 */
+	public static WACCBinOp evalBinOp(String operator) {
+		switch (operator) {
+		// 1:
+		case "*":
+			return MUL;
+		case "/":
+			return DIV;
+		case "%":
+			return MOD;
+		case "+":
+			return ADD;
+		case "-":
+			return SUB;
+		// 2:
+		case ">":
+			return GRT;
+		case ">=":
+			return GRT_EQ;
+		case "<":
+			return LESS;
+		case "<=":
+			return LESS_EQ;
+		// 3:
+		case "==":
+			return EQ;
+		case "!=":
+			return NOT_EQ;
+		// 4:
+		case "&&":
+			return AND;
+		case "||":
+			return OR;
 
-	private boolean mustEqualReturn(ExprNode lhs, ExprNode rhs) {
-		return lhs.getType() == rhs.getType() && lhs.getType() == this.returnType;
-	};
-	private boolean typesMustMatch(ExprNode lhs, ExprNode rhs) {
-		if (lhs.getType() == WACCType.INT)
-			return rhs.getType() == WACCType.INT;
-		else if (lhs.getType() == WACCType.CHAR)
-			return rhs.getType() == WACCType.CHAR;
-		else
-			return false;
+		default:
+			throw new IllegalArgumentException("The provided String does not match any operators.");
+		}
 	}
-	private boolean alwaysTrue(ExprNode lhs, ExprNode rhs) {
-		return true;
-	}
-
-	/*
-	 *  Arithmetic Operators return their input type.
-	 */
-	public final WACCBinOp MUL =  new WACCBinOp(WACCType.INT) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return mustEqualReturn(lhs, rhs);
-		}
-	};
-	public final WACCBinOp DIV =  new WACCBinOp(WACCType.INT) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return mustEqualReturn(lhs, rhs);
-		}
-	};
-	public final WACCBinOp MOD =  new WACCBinOp(WACCType.INT) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return mustEqualReturn(lhs, rhs);
-		}
-	};
-	public final WACCBinOp ADD =  new WACCBinOp(WACCType.INT) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return mustEqualReturn(lhs, rhs);
-		}
-	};
-	public final WACCBinOp SUB =  new WACCBinOp(WACCType.INT) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return mustEqualReturn(lhs, rhs);
-		}
-	};
-	/*
-	 *  Boolean operators return BOOL, but input may be either INT or CHAR
-	 */
-	public final WACCBinOp GRT =  new WACCBinOp(WACCType.BOOL) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return typesMustMatch(lhs, rhs);
-		}
-	};
-	public final WACCBinOp GRT_EQ =  new WACCBinOp(WACCType.BOOL) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return typesMustMatch(lhs, rhs);
-		}
-	};
-	public final WACCBinOp LESS =  new WACCBinOp(WACCType.BOOL) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return typesMustMatch(lhs, rhs);
-		}
-	};
-	public final WACCBinOp LESS_EQ =  new WACCBinOp(WACCType.BOOL) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return typesMustMatch(lhs, rhs);
-		}
-	};
-	public final WACCBinOp DOUBLE_EQUAL =  new WACCBinOp(WACCType.BOOL) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return alwaysTrue(lhs, rhs);
-		}
-	};
-	public final WACCBinOp NOT_EQUAL =  new WACCBinOp(WACCType.BOOL) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return alwaysTrue(lhs, rhs);
-		}
-	};
-	/*
-	 * Binary Boolean Operators return BOOL and take BOOl
-	 */
-	public final WACCBinOp AND =  new WACCBinOp(WACCType.BOOL) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return mustEqualReturn(lhs, rhs);
-		}
-	};
-	public final WACCBinOp OR =  new WACCBinOp(WACCType.BOOL) {
-
-		@Override
-		public boolean check(ExprNode lhs, ExprNode rhs) {
-			return mustEqualReturn(lhs, rhs);
-		}
-	};
+	
 }
