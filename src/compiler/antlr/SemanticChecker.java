@@ -7,11 +7,13 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
+import tree.expr.BinExprNode;
 import tree.expr.BoolLeaf;
 import tree.expr.CharLeaf;
 import tree.expr.ExprNode;
 import tree.expr.IntLeaf;
 import tree.expr.StringLeaf;
+import tree.expr.UnExprNode;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
@@ -21,9 +23,12 @@ import tree.stat.SeqStatNode;
 import tree.stat.StatNode;
 import tree.stat.VarDecNode;
 import tree.stat.WhileStatNode;
+import tree.type.WACCBinOp;
 import tree.type.WACCType;
+import tree.type.WACCUnOp;
 import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
+import antlr.WACCParser.ExprContext;
 import antlr.WACCParser.FuncContext;
 import antlr.WACCParser.If_statContext;
 import antlr.WACCParser.Int_literContext;
@@ -204,6 +209,35 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		IfStatNode ifStat = new IfStatNode(ifCond);
 		ifStat.check(currentSymbolTable, ctx);
 		return ifStat;
+	}
+
+	@Override
+	public WACCTree visitExpr(ExprContext ctx) {
+		// if it's an atomic `( expr )` expression, we just call visit on the inner expr
+		if (ctx.OPEN_PARENTHESES() != null) {
+			assert(ctx.children.size() == 3);
+			return visit(ctx.expr(0));
+		}
+		
+		switch (ctx.getChildCount()) {
+		case 3: // Binary Expression of type `lhs OP rhs`
+			ExprNode lhs = (ExprNode) visit(ctx.expr(0));
+			ExprNode rhs = (ExprNode) visit(ctx.expr(1));
+			WACCBinOp binaryOp = WACCBinOp.evalBinOp(ctx.getChild(1).getText());
+			BinExprNode binExpr = new BinExprNode(lhs, binaryOp, rhs);
+			binExpr.check(currentSymbolTable, ctx);
+			return binExpr;
+		
+		case 2: // Unary Expression of type `OP expr`
+			ExprNode expr = (ExprNode) visit(ctx.expr(0));
+			WACCUnOp unaryOp = WACCUnOp.evalUnOp(ctx.getChild(0).getText());
+			UnExprNode unaryExpr  = new UnExprNode(unaryOp, expr);
+			unaryExpr.check(currentSymbolTable, ctx);
+			return expr;
+
+		default: // in this case this is a single rule (i.e. int_liter, char_liter)
+			return visit(ctx.getChild(0));
+		}
 	}
 
 }

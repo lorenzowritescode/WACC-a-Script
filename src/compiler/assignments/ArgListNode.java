@@ -8,6 +8,8 @@ import org.antlr.v4.runtime.RuleContext;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.expr.ExprNode;
+import tree.func.ParamListNode;
+import tree.func.ParamNode;
 import tree.type.WACCType;
 
 public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
@@ -29,9 +31,24 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 		return args.size();
 	}
 	
+	//For comparisons during function calls
+	public boolean compareToParamList(ParamListNode params) {
+		if(!(args.size() == params.size())) {
+			return false;
+		}
+		Iterator<ExprNode> argIter = iterator();
+		Iterator<ParamNode> paramIter = params.iterator();
+		while(argIter.hasNext()) {
+			if (argIter.next().getType() != paramIter.next().getType()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	@Override
 	public boolean equals(Object other) {
-		//Checks that types or arg lists are the same
+		//Checks that types of arg lists are the same
 		if(!(other instanceof ArgListNode)) {
 			return false;
 		}

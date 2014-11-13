@@ -35,5 +35,13 @@ public class FuncDecNode extends WACCTree {
 	public WACCType getType() {
 		return this.returnType;
 	}
+	
+	public String getFuncName() {
+		return funcName;
+	}
+
+	public ParamListNode getParams() {
+		return params;
+	}
 
 }

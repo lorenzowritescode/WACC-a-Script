@@ -6,7 +6,6 @@ import symboltable.SymbolTable;
 import tree.expr.ArrayLeaf;
 import tree.expr.ExprNode;
 import tree.type.ArrayTypeNode;
-import tree.type.PairTypeNode;
 import tree.type.WACCType;
 
 public class FreeStat extends StatNode {

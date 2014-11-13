@@ -24,7 +24,7 @@ public class PairTypeNode extends WACCType {
 			return false;
 		}
 		PairTypeNode otherPair = (PairTypeNode) other;
-		if (!fst.isCompatible(otherPair.getFst()) && !snd.isCompatible(otherPair.getSnd())) {
+		if (!fst.isCompatible(otherPair.getFst()) || !snd.isCompatible(otherPair.getSnd())) {
 			return false;
 		}
 		return true;
