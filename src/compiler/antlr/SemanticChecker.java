@@ -27,6 +27,7 @@ import tree.stat.WhileStatNode;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
+import WACCExceptions.ErrorListener;
 import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
 import antlr.WACCParser.ExprContext;
@@ -46,6 +47,7 @@ import assignments.Assignable;
 
 public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
+	public static final ErrorListener ERROR_LISTENER = new ErrorListener();
 	private ParseTree parseTree;
 	private SymbolTable currentSymbolTable;
 

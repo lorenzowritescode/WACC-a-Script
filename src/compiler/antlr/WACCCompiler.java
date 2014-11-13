@@ -33,6 +33,11 @@ public class WACCCompiler {
 			e.printStackTrace();
 			exitSyntaxError();
 		}
+		
+		if (SemanticChecker.ERROR_LISTENER.errorCount() > 0) {
+			System.err.println(SemanticChecker.ERROR_LISTENER.printErrors());
+			exitSemanticFailure();
+		}
 //		WACCCompiler compiler = new WACCCompiler(semantic);
 //		compiler.init();
 	}

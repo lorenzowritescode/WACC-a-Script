@@ -22,4 +22,8 @@ public class ErrorListener {
 		
 		return errorPrintout;
 	}
+
+	public int errorCount() {
+		return errorList.size();
+	}
 }
