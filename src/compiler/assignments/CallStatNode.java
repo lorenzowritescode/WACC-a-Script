@@ -9,7 +9,7 @@ import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndefinedFunctionException;
 
 
-public class CallStatNode extends AssignRhsNode {
+public class CallStatNode extends Assignable {
 	
 	private String ident;
 	private ArgListNode args;

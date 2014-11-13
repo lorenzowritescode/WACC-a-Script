@@ -3,7 +3,7 @@ package tree.stat;
 import org.antlr.v4.runtime.RuleContext;
 
 import assignments.AssignLhsNode;
-import assignments.AssignRhsNode;
+import assignments.Assignable;
 import symboltable.SymbolTable;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredVariableException;
@@ -11,9 +11,9 @@ import WACCExceptions.UndeclaredVariableException;
 public class AssignStatNode extends StatNode {
 	
 	private AssignLhsNode lhs;
-	private AssignRhsNode rhs;
+	private Assignable rhs;
 	
-	public AssignStatNode(AssignLhsNode lhs, AssignRhsNode rhs) {
+	public AssignStatNode(AssignLhsNode lhs, Assignable rhs) {
 		this.lhs = lhs;
 		this.rhs = rhs;
 	}

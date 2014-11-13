@@ -2,7 +2,7 @@ package tree.stat;
 
 import org.antlr.v4.runtime.RuleContext;
 
-import assignments.AssignRhsNode;
+import assignments.Assignable;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
@@ -10,11 +10,11 @@ import WACCExceptions.NotUniqueIdentifierException;
 
 public class VarDecNode extends StatNode {
 	
-	private AssignRhsNode rhsTree;
+	private Assignable rhsTree;
 	private WACCType varType;
 	private String ident;
 
-	public VarDecNode(WACCType varType, String ident, AssignRhsNode rhsTree) {
+	public VarDecNode(WACCType varType, String ident, Assignable rhsTree) {
 		this.ident = ident;
 		this.varType = varType;
 		this.rhsTree = rhsTree;
