@@ -4,5 +4,4 @@
 # but do *not* change its name.
 waccFile = ARGV[0]
 system("java -cp bin:lib/xstream-1.4.7.jar:lib/antlr-4.4-complete.jar antlr.WACCCompiler #{waccFile}")
-puts "Exit Status" + $?.to_s
 exit($?.exitstatus)
