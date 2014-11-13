@@ -22,6 +22,7 @@ public class WACCCompiler {
 		WACCParser parser = new WACCParser(tokens);
 		
 		try {
+			System.out.println("Parsing program...");
 			ParseTree tree = parser.prog();
 			SemanticChecker semantic = new SemanticChecker(tree);
 			semantic.init();
@@ -32,6 +33,11 @@ public class WACCCompiler {
 		} catch (Exception e) {
 			e.printStackTrace();
 			exitSyntaxError();
+		}
+		
+		if (SemanticChecker.ERROR_LISTENER.errorCount() > 0) {
+			System.err.println(SemanticChecker.ERROR_LISTENER.printErrors());
+			exitSemanticFailure();
 		}
 //		WACCCompiler compiler = new WACCCompiler(semantic);
 //		compiler.init();

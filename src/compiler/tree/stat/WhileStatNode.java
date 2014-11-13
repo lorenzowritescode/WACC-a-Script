@@ -1,11 +1,11 @@
 package tree.stat;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
-import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
+import WACCExceptions.InvalidTypeException;
 
 public class WhileStatNode extends StatNode {
 	
@@ -18,7 +18,7 @@ public class WhileStatNode extends StatNode {
 	}
 	
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx) {
+	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		if (loopCond.getType() == WACCType.BOOL) {
 			return true;
 		} else {

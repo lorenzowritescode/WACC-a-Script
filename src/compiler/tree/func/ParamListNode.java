@@ -3,7 +3,7 @@ package tree.func;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import WACCExceptions.NotUniqueIdentifierException;
 import symboltable.SymbolTable;
@@ -52,7 +52,7 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	}
 
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx) {
+	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		ArrayList<String> paramIdents = new ArrayList<String>();
 		//Check whether there are duplicate comments
 		for (ParamNode param : params) {

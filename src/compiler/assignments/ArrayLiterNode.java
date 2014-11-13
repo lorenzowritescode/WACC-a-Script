@@ -2,6 +2,7 @@ package assignments;
 
 import java.util.ArrayList;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 
 import symboltable.SymbolTable;
@@ -22,7 +23,7 @@ public class ArrayLiterNode extends Assignable {
 	}
 	
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx) {
+	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		//Iterates through array  and checks all elements are of the same type (i.e. baseType)
 		for(int i = 0; i < elems.size(); i++) {
 			if (!elems.get(i).getType().isCompatible(baseType)) {
