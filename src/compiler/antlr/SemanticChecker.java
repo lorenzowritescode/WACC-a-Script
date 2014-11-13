@@ -32,6 +32,7 @@ import tree.stat.WhileStatNode;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
+import util.DebugHelper;
 import WACCExceptions.ErrorListener;
 import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
@@ -55,6 +56,7 @@ import assignments.Assignable;
 public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	public static final ErrorListener ERROR_LISTENER = new ErrorListener();
+	public static final DebugHelper dbh = new DebugHelper();
 	private ParseTree parseTree;
 	private SymbolTable currentSymbolTable;
 
@@ -64,13 +66,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 
 	public void init() {
-		System.out.println("Checking sematic integrity...");
+		dbh.print("Checking sematic integrity...");
 		WACCTree tree = parseTree.accept(this);
-//		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
-//        xstream.setMode(XStream.NO_REFERENCES);
-//        xstream.alias("WACCTree", WACCTree.class);
-//        xstream.setMode(XStream.NO_REFERENCES);
-//        System.out.println(xstream.toXML(tree));
+		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+        xstream.setMode(XStream.NO_REFERENCES);
+        xstream.alias("WACCTree", WACCTree.class);
+        xstream.setMode(XStream.NO_REFERENCES);
+        dbh.print(xstream.toXML(tree));
 	}
 
 	@Override
@@ -110,9 +112,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
-		System.out.println("SEQUENTIAL STAT: ");
+		dbh.print("SEQUENTIAL STAT: ");
 		for(StatContext s:ctx.stat()) {
-			System.out.println(s.getText());
+			dbh.print(s.getText());
 		}
 
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
