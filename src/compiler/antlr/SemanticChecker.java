@@ -80,13 +80,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 
 	public void init() {
-		dbh.print("Checking sematic integrity...");
+		dbh.printV("Checking sematic integrity...");
 		WACCTree tree = parseTree.accept(this);
 		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
         xstream.setMode(XStream.NO_REFERENCES);
         xstream.alias("WACCTree", WACCTree.class);
         xstream.setMode(XStream.NO_REFERENCES);
-        dbh.print(xstream.toXML(tree));
+        dbh.printD(xstream.toXML(tree));
 	}
 
 	@Override
@@ -137,9 +137,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
-		dbh.print("SEQUENTIAL STAT: ");
+		dbh.printD("SEQUENTIAL STAT: ");
 		for(StatContext s:ctx.stat()) {
-			dbh.print(s.getText());
+			dbh.printD(s.getText());
 		}
 
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
@@ -417,6 +417,14 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		default: // in this case this is a single rule (i.e. int_liter, char_liter)
 			return visit(ctx.getChild(0));
 		}
+	}
+
+	/**
+	 * @return
+	 * 		Returns true iff there were no semantic error in the compiler.
+	 */
+	public boolean terminate() {
+		return ERROR_LISTENER.finish();
 	}
 
 }
