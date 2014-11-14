@@ -3,6 +3,7 @@ package assignments;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
 import tree.type.WACCType;
 
 public interface AssignLhsNode {
@@ -12,5 +13,9 @@ public interface AssignLhsNode {
 	public WACCType getType();
 	
 	public String getIdent();
+	
+	public void setParent(WACCTree tree);
+	
+	public WACCTree getParent();
 
 }
