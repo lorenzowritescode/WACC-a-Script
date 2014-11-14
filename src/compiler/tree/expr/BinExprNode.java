@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
+import WACCExceptions.InvalidTypeException;
 
 public class BinExprNode extends ExprNode {
 	
@@ -20,7 +21,11 @@ public class BinExprNode extends ExprNode {
 
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
-		return operator.check(lhs, rhs);
+		if (!operator.check(lhs, rhs)) {
+			el.record(new InvalidTypeException("The types in the Binary expression are not compatable", ctx));
+			return false;
+		}
+		return true;
 	}
 
 	@Override
