@@ -2,6 +2,7 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
@@ -18,7 +19,11 @@ public class UnExprNode extends ExprNode{
 
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
-		return operator.check(expr);
+		if (!operator.check(expr)) {
+			el.record(new InvalidTypeException("The type in the Unary operator expression is not valid", ctx));
+			return false;
+		}
+		return true;
 	}
 
 	@Override

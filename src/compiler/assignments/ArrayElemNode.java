@@ -7,7 +7,7 @@ import tree.expr.ExprNode;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 
-public class ArrayElemNode extends AssignLhsNode {
+public class ArrayElemNode extends ExprNode {
 	
 	String ident;
 	ExprNode pos;
@@ -33,7 +33,7 @@ public class ArrayElemNode extends AssignLhsNode {
 		return arrayType;
 	}
 	
-	@Override
+	
 	public String getIdent() {
 		return ident;
 	}

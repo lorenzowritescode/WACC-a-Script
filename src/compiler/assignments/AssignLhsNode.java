@@ -5,20 +5,12 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 
-public abstract class AssignLhsNode extends Assignable {
+public interface AssignLhsNode {
 
-	@Override
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
-		return true;
-	}
+	public boolean check( SymbolTable st, ParserRuleContext ctx );
 
-	@Override
-	public WACCType getType() {
-		throw new UnsupportedOperationException("It's not possible to call getType() on a Assign LHS Node.");
-	}
+	public WACCType getType();
 	
-	public String getIdent() {
-		throw new UnsupportedOperationException("It's not possible to call getIdent() on a Assign LHS Node.");
-	}
+	public String getIdent();
 
 }

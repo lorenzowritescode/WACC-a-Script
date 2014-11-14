@@ -41,6 +41,12 @@ public class SymbolTable {
 	}
 	
 	public WACCTree get(String key) {
+		if (this.isTopSymbolTable) {
+			return dictionary.get(key);
+		}
+		if (!containsCurrent(key)) {
+			return parentTable.get(key);
+		}
 		return dictionary.get(key);
 	}
 }
