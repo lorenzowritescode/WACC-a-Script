@@ -1,6 +1,6 @@
 package tree.stat;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import assignments.AssignLhsNode;
 import assignments.Assignable;
@@ -19,7 +19,7 @@ public class AssignStatNode extends StatNode {
 	}
 	
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx) {
+	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		
 		//check lhs is already declared
 		if (!st.containsRecursive(lhs.getIdent())) {	

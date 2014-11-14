@@ -17,35 +17,60 @@ import tree.expr.UnExprNode;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
+import tree.stat.AssignStatNode;
+import tree.stat.ExitStat;
+import tree.stat.FreeStat;
 import tree.stat.IfStatNode;
+import tree.stat.PrintLnStat;
 import tree.stat.PrintStat;
+import tree.stat.ReadStatNode;
 import tree.stat.ReturnStatNode;
 import tree.stat.SeqStatNode;
+import tree.stat.SkipStatNode;
 import tree.stat.StatNode;
 import tree.stat.VarDecNode;
 import tree.stat.WhileStatNode;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
+import util.DebugHelper;
+import WACCExceptions.ErrorListener;
+import antlr.WACCParser.Assign_lhsContext;
+import antlr.WACCParser.Assign_rhsContext;
 import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
+import antlr.WACCParser.Exit_statContext;
 import antlr.WACCParser.ExprContext;
+import antlr.WACCParser.Free_statContext;
 import antlr.WACCParser.FuncContext;
+import antlr.WACCParser.IdentContext;
 import antlr.WACCParser.If_statContext;
 import antlr.WACCParser.Int_literContext;
 import antlr.WACCParser.ParamContext;
 import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.Print_statContext;
+import antlr.WACCParser.Println_exprContext;
 import antlr.WACCParser.ProgContext;
+import antlr.WACCParser.Read_statContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
+import antlr.WACCParser.Skip_statContext;
+import antlr.WACCParser.StatContext;
 import antlr.WACCParser.Str_literContext;
+import antlr.WACCParser.Variable_assigmentContext;
 import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
+import assignments.AssignLhsNode;
 import assignments.Assignable;
+import assignments.IdentNode;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 
 public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
+	public static final ErrorListener ERROR_LISTENER = new ErrorListener();
+	public static final DebugHelper dbh = new DebugHelper();
 	private ParseTree parseTree;
 	private SymbolTable currentSymbolTable;
 
@@ -55,7 +80,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 
 	public void init() {
-		parseTree.accept(this);
+		dbh.print("Checking sematic integrity...");
+		WACCTree tree = parseTree.accept(this);
+		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+        xstream.setMode(XStream.NO_REFERENCES);
+        xstream.alias("WACCTree", WACCTree.class);
+        xstream.setMode(XStream.NO_REFERENCES);
+        dbh.print(xstream.toXML(tree));
 	}
 
 	@Override
@@ -86,20 +117,91 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
 		WACCTree exprType = visit(ctx.expr());
-		exprType.check(currentSymbolTable, null);
+		exprType.check(currentSymbolTable, ctx);
 		
 		ReturnStatNode rst = new ReturnStatNode(exprType);
-		rst.check(currentSymbolTable, null);
+		rst.check(currentSymbolTable, ctx);
 		return rst;
 	}
 
 	@Override
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
+		dbh.print("SEQUENTIAL STAT: ");
+		for(StatContext s:ctx.stat()) {
+			dbh.print(s.getText());
+		}
+
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
-		lhs.check(currentSymbolTable, null);
-		StatNode rhs = (StatNode) visit(ctx.stat(1));
-		rhs.check(currentSymbolTable, null);
-		return new SeqStatNode(lhs, rhs);
+		WACCTree rhs = visit(ctx.stat(1));
+		StatNode srhs = (StatNode) rhs;
+		SeqStatNode seqStat = new SeqStatNode(lhs, srhs);
+		seqStat.check(currentSymbolTable, ctx);
+		return seqStat;
+	}
+
+	@Override
+	public WACCTree visitPrint_stat(Print_statContext ctx) {
+		ExprNode expr = (ExprNode) visit(ctx.expr());
+		PrintStat ps = new PrintStat(expr);
+		ps.check(currentSymbolTable, ctx);
+		return ps;
+	}
+	
+	@Override
+	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
+		ExprNode expr = (ExprNode) visit(ctx.expr());
+		PrintLnStat ps = new PrintLnStat(expr);
+		ps.check(currentSymbolTable, ctx);
+		return ps;
+	}
+	
+	@Override
+	public WACCTree visitRead_stat(Read_statContext ctx) {
+		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.assign_lhs());
+		ReadStatNode rsn = new ReadStatNode(lhs);
+		rsn.check(currentSymbolTable, ctx);
+		return rsn;
+	}
+
+	@Override
+	public WACCTree visitFree_stat(Free_statContext ctx) {
+		ExprNode expr = (ExprNode) visit(ctx.expr());
+		FreeStat stat = new FreeStat(expr);
+		stat.check(currentSymbolTable, ctx);
+		return stat;
+	}
+
+	@Override
+	public WACCTree visitExit_stat(Exit_statContext ctx) {
+		ExprNode exitVal = (ExprNode) visit(ctx.expr());
+		ExitStat stat = new ExitStat(exitVal);
+		stat.check(currentSymbolTable, ctx);
+		return stat;
+	}
+	
+	@Override
+	public WACCTree visitSkip_stat(Skip_statContext ctx) {
+		SkipStatNode ssn = new SkipStatNode();
+		return ssn;
+	}
+	
+	
+
+	@Override
+	public WACCTree visitIdent(IdentContext ctx) {
+		String ident = ctx.IDENTITY().getText();
+		if(currentSymbolTable.containsRecursive(ident)) {
+			WACCTree var = currentSymbolTable.get(ident);
+			WACCType varType = var.getType();
+			IdentNode idNode = new IdentNode(varType, ident);
+			idNode.check(currentSymbolTable, ctx);
+			return idNode;
+		}
+		//If ident is not present in symboltable, and ident with a null
+		//type will be returned. 
+		//TODO: find a better way around this
+		return new IdentNode(null, ident);
+		
 	}
 
 	@Override
@@ -113,16 +215,39 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		// We visit all the functions and create full nodes
 		for (FuncContext fctx : ctx.func()){
 			FuncDecNode fdec = (FuncDecNode) visit(fctx);
-			fdec.check(currentSymbolTable, null);
+			fdec.check(currentSymbolTable, ctx);
 			functions.add(fdec);
 		}
 		
 		// Then we visit the statement
 		StatNode progBody = (StatNode) visit(ctx.stat());
-		progBody.check(currentSymbolTable, null);
 		
 		// Finally, we return the program node
 		return new ProgNode(functions, progBody);
+	}
+	
+	
+
+	@Override
+	public WACCTree visitAssign_lhs(Assign_lhsContext ctx) {
+		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.getChild(0));
+		return lhs;
+	}
+
+	@Override
+	public WACCTree visitAssign_rhs(Assign_rhsContext ctx) {
+		Assignable rhs = (Assignable) visit(ctx.getChild(0));
+		return rhs;
+	}
+	
+
+	@Override
+	public WACCTree visitVariable_assigment(Variable_assigmentContext ctx) {
+		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.assign_lhs());
+		Assignable rhs = (Assignable) visit(ctx.assign_rhs());
+		AssignStatNode assignment = new AssignStatNode(lhs, rhs);
+		assignment.check(currentSymbolTable, ctx);
+		return assignment;
 	}
 
 	/**
@@ -137,29 +262,20 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		FuncDecNode funcStub = new FuncDecNode(returnType, funcName);
 		currentSymbolTable.add(funcName, funcStub);
 	}
-
-	@Override
-	public WACCTree visitPrint_stat(Print_statContext ctx) {
-		ExprNode expr = (ExprNode) visit(ctx.expr());
-		PrintStat ps = new PrintStat(expr);
-		ps.check(currentSymbolTable, ctx);
-		return ps;
-	}
-
-	@Override
+	
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
 		Assignable rhsTree = (Assignable) visit(ctx.assign_rhs());
 		WACCType varType = WACCType.evalType(ctx.type());
 		String ident = ctx.ident().getText();
 		VarDecNode vcd = new VarDecNode(varType, ident, rhsTree);
-		vcd.check(currentSymbolTable, null);
+		vcd.check(currentSymbolTable, ctx);
 		return vcd;
 	}
 	
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
 		CharLeaf charleaf = new CharLeaf(ctx.getText());
-		charleaf.check(currentSymbolTable, null);
+		charleaf.check(currentSymbolTable, ctx);
 		return charleaf;
 	}
 

@@ -1,6 +1,6 @@
 package tree.expr;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
@@ -17,7 +17,7 @@ public class UnExprNode extends ExprNode{
 	}
 
 	@Override
-	public boolean check(SymbolTable st, RuleContext ctx) {
+	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		return operator.check(expr);
 	}
 

@@ -1,10 +1,10 @@
 package WACCExceptions;
 
-import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.ParserRuleContext;
 
 public class NotUniqueIdentifierException extends WACCException {
 
-	public NotUniqueIdentifierException(String exceptionMessage, RuleContext ctx) {
+	public NotUniqueIdentifierException(String exceptionMessage, ParserRuleContext ctx) {
 		super(exceptionMessage, ctx);
 	}
 

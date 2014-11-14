@@ -17,9 +17,13 @@ public class ErrorListener {
 	public String printErrors() {
 		String errorPrintout = "";
 		for (WACCException e : errorList) {
-			errorPrintout += e.printError();
+			errorPrintout += e.toString();
 		}
 		
 		return errorPrintout;
+	}
+
+	public int errorCount() {
+		return errorList.size();
 	}
 }

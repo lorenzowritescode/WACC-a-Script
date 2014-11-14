@@ -1,0 +1,20 @@
+package tree.stat;
+
+<<<<<<< HEAD
+import org.antlr.v4.runtime.RuleContext;
+
+import symboltable.SymbolTable;
+import tree.WACCTree;
+import tree.type.WACCType;
+
+public class SkipStatNode extends StatNode {
+
+
+=======
+public class SkipStatNode extends StatNode {
+
+	//Skip statement does nothing
+	public SkipStatNode() {
+	}
+>>>>>>> f61dc49609366953c32cc96093e0cd6c21ed62f0
+}
