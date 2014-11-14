@@ -41,7 +41,7 @@ public class WACCCompiler {
 		SemanticChecker sc = checkSemanticIntegrity(tree);
 		
 		// Check that the Error Listener has not recorded any exceptions
-		if ( sc.terminate() ) {
+		if ( !sc.terminate() ) {
 			exitSemanticFailure();
 		}
 //		WACCCompiler compiler = new WACCCompiler(semantic);
