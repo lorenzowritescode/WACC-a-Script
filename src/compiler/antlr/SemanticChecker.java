@@ -83,9 +83,8 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		dbh.printV("Checking sematic integrity...");
 		WACCTree tree = parseTree.accept(this);
 		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
-        xstream.setMode(XStream.NO_REFERENCES);
+        xstream.setMode(XStream.ID_REFERENCES);
         xstream.alias("WACCTree", WACCTree.class);
-        xstream.setMode(XStream.NO_REFERENCES);
         dbh.printD(xstream.toXML(tree));
 	}
 
