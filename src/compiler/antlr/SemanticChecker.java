@@ -1,6 +1,7 @@
 package antlr;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -36,6 +37,7 @@ import tree.type.WACCType;
 import tree.type.WACCUnOp;
 import util.DebugHelper;
 import WACCExceptions.ErrorListener;
+import antlr.WACCParser.Array_elemContext;
 import antlr.WACCParser.Assign_lhsContext;
 import antlr.WACCParser.Assign_rhsContext;
 import antlr.WACCParser.Bool_literContext;
@@ -61,6 +63,7 @@ import antlr.WACCParser.Str_literContext;
 import antlr.WACCParser.Variable_assigmentContext;
 import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
+import assignments.ArrayElemNode;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
 
@@ -276,6 +279,12 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitVariable_assigment(Variable_assigmentContext ctx) {
 		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.assign_lhs());
 		Assignable rhs = (Assignable) visit(ctx.assign_rhs());
+		if(lhs == null) {
+			System.out.println("buttpoop");
+		}
+		if(rhs == null) {
+			System.out.println("poopButt rhs");
+		}
 		AssignStatNode assignment = new AssignStatNode(lhs, rhs);
 		assignment.check(currentSymbolTable, ctx);
 		
@@ -310,6 +319,21 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return vcd;
 	}
 	
+	
+	
+	@Override
+	public WACCTree visitArray_elem(Array_elemContext ctx) {
+		String ident = ctx.ident().getText();
+		List<ExprContext> exprCtxs =  ctx.expr();
+		ArrayList<ExprNode> exprs = new ArrayList<ExprNode>();
+		for (ExprContext ec : exprCtxs) {
+			exprs.add((ExprNode) visit(ec));
+		}
+		WACCType type = currentSymbolTable.get(ident).getType();
+		ArrayElemNode arrayElem = new ArrayElemNode(ident, exprs, type); 
+		return arrayElem;
+	}
+
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
 		CharLeaf charleaf = new CharLeaf(ctx.getText());
