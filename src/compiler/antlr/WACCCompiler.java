@@ -24,9 +24,8 @@ public class WACCCompiler {
 		try {
 			ParseTree tree = parser.prog();
 			SemanticChecker semantic = new SemanticChecker(tree);
-			if (args.length <= 1 || args[1] != "debug") {
-				SemanticChecker.dbh.turnOff();
-			}
+			// Comment out next line for debugging
+			// SemanticChecker.dbh.turnOff();
 			semantic.init();
 		} catch (ClassCastException e) {
 			System.err.println("Illformed instruction: ");

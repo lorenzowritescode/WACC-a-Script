@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
-import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
-
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
@@ -27,7 +23,6 @@ import tree.stat.FreeStat;
 import tree.stat.IfStatNode;
 import tree.stat.PrintLnStat;
 import tree.stat.PrintStat;
-import tree.stat.PrintlnStat;
 import tree.stat.ReadStatNode;
 import tree.stat.ReturnStatNode;
 import tree.stat.SeqStatNode;
@@ -59,8 +54,8 @@ import antlr.WACCParser.ProgContext;
 import antlr.WACCParser.Read_statContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
-import antlr.WACCParser.StatContext;
 import antlr.WACCParser.Skip_statContext;
+import antlr.WACCParser.StatContext;
 import antlr.WACCParser.Str_literContext;
 import antlr.WACCParser.Variable_assigmentContext;
 import antlr.WACCParser.Variable_declarationContext;
@@ -68,6 +63,9 @@ import antlr.WACCParser.While_statContext;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
 import assignments.IdentNode;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 
 public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
@@ -152,7 +150,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
-		PrintlnStat ps = new PrintlnStat(expr);
+		PrintLnStat ps = new PrintLnStat(expr);
 		ps.check(currentSymbolTable, ctx);
 		return ps;
 	}
@@ -263,17 +261,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		WACCType returnType = WACCType.evalType(fctx.type());
 		FuncDecNode funcStub = new FuncDecNode(returnType, funcName);
 		currentSymbolTable.add(funcName, funcStub);
-	}
-
-	@Override
-	
-
-	@Override
-	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
-		ExprNode expr = (ExprNode) visit(ctx.expr());
-		PrintLnStat pls = new PrintLnStat(expr);
-		pls.check(currentSymbolTable, ctx);
-		return pls;
 	}
 	
 	public WACCTree visitVariable_declaration(Variable_declarationContext ctx) {
