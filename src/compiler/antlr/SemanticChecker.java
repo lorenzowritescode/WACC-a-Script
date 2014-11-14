@@ -11,6 +11,7 @@ import tree.expr.BinExprNode;
 import tree.expr.BoolLeaf;
 import tree.expr.CharLeaf;
 import tree.expr.ExprNode;
+import tree.expr.IdentNode;
 import tree.expr.IntLeaf;
 import tree.expr.StringLeaf;
 import tree.expr.UnExprNode;
@@ -62,7 +63,6 @@ import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
-import assignments.IdentNode;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
@@ -143,6 +143,8 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		seqStat.check(currentSymbolTable, ctx);
 		return seqStat;
 	}
+	
+	
 
 	@Override
 	public WACCTree visitPrint_stat(Print_statContext ctx) {
@@ -235,7 +237,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitAssign_lhs(Assign_lhsContext ctx) {
-		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.getChild(0));
+		Assignable lhs = (Assignable) visit(ctx.getChild(0));
 		return lhs;
 	}
 

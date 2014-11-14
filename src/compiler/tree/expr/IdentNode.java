@@ -1,11 +1,12 @@
-package assignments;
+package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assignments.AssignLhsNode;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 
-public class IdentNode extends AssignLhsNode {
+public class IdentNode extends ExprNode implements AssignLhsNode {
 	
 	private String ident;
 	private WACCType type;

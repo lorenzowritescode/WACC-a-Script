@@ -7,7 +7,7 @@ import tree.expr.ExprNode;
 import tree.type.PairTypeNode;
 import tree.type.WACCType;
 
-public class PairElemNode extends AssignLhsNode {
+public class PairElemNode extends Assignable implements AssignLhsNode {
 	
 	private ExprNode expr;
 	private String pairName;

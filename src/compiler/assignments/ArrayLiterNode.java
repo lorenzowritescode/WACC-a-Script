@@ -3,7 +3,6 @@ package assignments;
 import java.util.ArrayList;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.RuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
