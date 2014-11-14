@@ -16,20 +16,4 @@ public class FreeStat extends StatNode {
 		this.en = en;
 	}
 
-	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
-		if (en.getType() instanceof ArrayTypeNode) {
-			ArrayLeaf array = (ArrayLeaf) en;
-			if (!st.containsCurrent(array.getIdent())) {
-				return false;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public WACCType getType() {
-		return null;
-	}
-
 }
