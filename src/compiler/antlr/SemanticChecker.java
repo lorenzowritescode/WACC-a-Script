@@ -1,6 +1,7 @@
 package antlr;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
@@ -311,6 +312,21 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return vcd;
 	}
 	
+	
+	
+	@Override
+	public WACCTree visitArray_elem(Array_elemContext ctx) {
+		String ident = ctx.ident().getText();
+		List<ExprContext> exprCtxs =  ctx.expr();
+		ArrayList<ExprNode> exprs = new ArrayList<ExprNode>();
+		for (ExprContext ec : exprCtxs) {
+			exprs.add((ExprNode) visit(ec));
+		}
+		WACCType type = currentSymbolTable.get(ident).getType();
+		ArrayElemNode arrayElem = new ArrayElemNode(ident, exprs, type); 
+		return arrayElem;
+	}
+
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
 		CharLeaf charleaf = new CharLeaf(ctx.getText());
