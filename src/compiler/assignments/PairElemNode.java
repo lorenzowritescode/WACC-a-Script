@@ -37,7 +37,10 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	public WACCType getType() {
 		return type;
 	}
-	
-	
+
+	@Override
+	public boolean checkPreDef(SymbolTable st, String identName) {
+		return true;
+	}
 
 }
