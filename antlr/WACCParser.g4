@@ -33,19 +33,19 @@ assign_lhs : ident
 | array_elem
 | pair_elem
 ;
-assign_rhs : expr
-| array_liter
-| NEWPAIR OPEN_PARENTHESES expr COMMA expr CLOSE_PARENTHESES
-| pair_elem
-| CALL ident OPEN_PARENTHESES (arg_list)? CLOSE_PARENTHESES
+assign_rhs : expr                                             # expr_arhs
+| array_liter                                                 # array_liter_arhs
+| NEWPAIR OPEN_PARENTHESES expr COMMA expr CLOSE_PARENTHESES  # newpair_assignment
+| pair_elem                                                   # pair_elem_arhs
+| CALL ident OPEN_PARENTHESES (arg_list)? CLOSE_PARENTHESES   # func_call_assignment
 ;
 arg_list : expr (COMMA (expr))* ;
 
 // Pairs. There can be pairs of pairs but when nested the inside type is not declared.
 pair_type: PAIR OPEN_PARENTHESES pair_elem_type COMMA pair_elem_type CLOSE_PARENTHESES ;
 
-pair_elem: FST expr
-| SND expr
+pair_elem: FST expr     
+| SND expr                     
 ;
 
 pair_elem_type : base_type
