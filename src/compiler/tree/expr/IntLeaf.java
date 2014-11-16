@@ -15,7 +15,7 @@ public class IntLeaf extends ExprNode {
 
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
-		// If the `value` hds been tokenised as an int literal we know that it is numeric.
+		// If the `value` has been tokenised as an int literal we can assume it is numeric.
 		// Size is checked at runtime.
 		return true;
 	}
