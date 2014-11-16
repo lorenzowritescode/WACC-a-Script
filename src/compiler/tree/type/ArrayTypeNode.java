@@ -24,5 +24,10 @@ public class ArrayTypeNode extends WACCType {
 	private WACCType getBaseType() {
 		return baseType;
 	}
+	
+	@Override
+	public String toString() {
+		return "array";
+	}
 
 }
