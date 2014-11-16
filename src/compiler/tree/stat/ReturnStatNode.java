@@ -2,6 +2,7 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.IncompatibleTypesException;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.expr.ExprNode;
@@ -17,13 +18,9 @@ public class ReturnStatNode extends StatNode {
 
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
-		WACCTree node = this;
-		while (!(node instanceof FuncDecNode)) {
-			node = node.getParent();
-		}
-		FuncDecNode funcNode = (FuncDecNode) node;
-		WACCType type = expr.getType();
-		if (type != funcNode.returnType) {
+		WACCType returnType = expr.getType();
+		if( !st.checkType(returnType) ) {
+			new IncompatibleTypesException("A return of type " + returnType.toString() + " was not expected.", ctx);
 			return false;
 		}
 		return true;

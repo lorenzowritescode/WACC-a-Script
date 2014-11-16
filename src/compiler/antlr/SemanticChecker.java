@@ -36,8 +36,8 @@ import tree.type.WACCBinOp;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
 import util.DebugHelper;
-import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
+import antlr.WACCParser.Array_elemContext;
 import antlr.WACCParser.Assign_lhsContext;
 import antlr.WACCParser.Assign_rhsContext;
 import antlr.WACCParser.Bool_literContext;
@@ -63,6 +63,7 @@ import antlr.WACCParser.Str_literContext;
 import antlr.WACCParser.Variable_assigmentContext;
 import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
+import assignments.ArrayElemNode;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
 
@@ -91,29 +92,30 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitFunc(FuncContext ctx) {
-
-		// Create an inner scope Symbol Table for the function body.
-		currentSymbolTable = new SymbolTable(currentSymbolTable);
 		
 		// Pull out type and function name
 		WACCType returnType = WACCType.evalType(ctx.type());
 		String funcName = ctx.ident().getText();
-		
-		// Add FuncNode to function scope
-		FuncDecNode funcNode = new FuncDecNode(returnType, funcName);
-		currentSymbolTable.add(funcName, funcNode);
+
+		// Create an inner scope Symbol Table for the function body.
+		currentSymbolTable = new SymbolTable(currentSymbolTable, returnType);
 		
 		// Visit the param list and get the ParamListNode
-		ParamListNode params = (ParamListNode) visit(ctx.param_list());		
+		ParamListNode params = (ParamListNode) visit(ctx.param_list());	
+		
+		// Add FuncNode to function scope
+		FuncDecNode funcNode = new FuncDecNode(returnType, funcName, params);
+		currentSymbolTable.add(funcName, funcNode);	
 		
 		// Create the functionBody node
 		StatNode funcBody = (StatNode) visit(ctx.stat());
 		
-		// restore the scope to the original table
+		// finalise the current symbolTable and restore the parent scope
+		currentSymbolTable.finaliseScope(funcName);
 		currentSymbolTable = currentSymbolTable.getParent();
 		
-		// Create new functionNode and check it
-		funcNode.addParamsStat(params, funcBody);
+		// Add function body statement to the function node
+		funcNode.addFuncBody(funcBody);
 		funcNode.check(currentSymbolTable, ctx);
 		
 		params.setParent(funcNode);
