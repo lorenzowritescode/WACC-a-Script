@@ -32,4 +32,12 @@ public class DebugHelper {
 			this.debuggingEnvironment = true;
 		}
 	}
+
+	public void printD(int indentation, String text) {
+		String res = "";
+		for (int i = 0; i < indentation; i++) {
+			res += '\t';
+		}
+		printD(res + text);
+	}
 }

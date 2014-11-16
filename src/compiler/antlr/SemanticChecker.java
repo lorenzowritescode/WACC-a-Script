@@ -36,6 +36,7 @@ import tree.type.WACCType;
 import tree.type.WACCUnOp;
 import util.DebugHelper;
 import WACCExceptions.ErrorListener;
+import WACCExceptions.WACCException;
 import antlr.WACCParser.Assign_lhsContext;
 import antlr.WACCParser.Assign_rhsContext;
 import antlr.WACCParser.Bool_literContext;
@@ -68,8 +69,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 
 public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
-
-	public static final ErrorListener ERROR_LISTENER = new ErrorListener();
+	
 	public static final DebugHelper dbh = new DebugHelper();
 	private ParseTree parseTree;
 	private SymbolTable currentSymbolTable;
@@ -124,7 +124,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
 		ExprNode exprType = (ExprNode) visit(ctx.expr());
-		exprType.check(currentSymbolTable, ctx);
 		
 		ReturnStatNode rst = new ReturnStatNode(exprType);
 		rst.check(currentSymbolTable, ctx);
@@ -133,13 +132,15 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		
 		return rst;
 	}
-
+	
+	private static int depth = 0;
 	@Override
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
-		dbh.printD("SEQUENTIAL STAT: ");
+		dbh.printD(depth, "SEQUENTIAL STAT: ");
 		for(StatContext s:ctx.stat()) {
-			dbh.printD(s.getText());
+			dbh.printD(depth, s.getText());
 		}
+		depth++;
 
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
 		StatNode rhs = (StatNode) visit(ctx.stat(1));;
@@ -423,7 +424,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	 * 		Returns true iff there were no semantic error in the compiler.
 	 */
 	public boolean terminate() {
-		return ERROR_LISTENER.finish();
+		return WACCException.ERROR_LISTENER.finish();
 	}
 
 }

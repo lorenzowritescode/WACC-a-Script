@@ -22,7 +22,7 @@ public class BinExprNode extends ExprNode {
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		if (!operator.check(lhs, rhs)) {
-			el.record(new InvalidTypeException("The types in the Binary expression are not compatable", ctx));
+			new InvalidTypeException("The types in the Binary expression are not compatible.", ctx);
 			return false;
 		}
 		return true;

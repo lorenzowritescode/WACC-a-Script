@@ -22,7 +22,7 @@ public class ArrayElemNode extends ExprNode {
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		if(!(pos.getType() == WACCType.INT)) {
-			el.record(new InvalidTypeException("Array position can only be found using an Int", ctx));
+			new InvalidTypeException("Array position can only be found using an Int", ctx);
 			return false;
 		}
 		return true;

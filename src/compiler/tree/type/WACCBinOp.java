@@ -81,7 +81,7 @@ public abstract class WACCBinOp {
 			return OR;
 
 		default:
-			throw new IllegalArgumentException("The provided String does not match any operators.");
+			throw new IllegalArgumentException("The provided String does not match any operators: " + operator);
 		}
 	}
 	

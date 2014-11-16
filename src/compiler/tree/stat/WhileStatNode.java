@@ -22,7 +22,7 @@ public class WhileStatNode extends StatNode {
 		if (loopCond.getType() == WACCType.BOOL) {
 			return true;
 		} else {
-			el.record(new InvalidTypeException("While statement should have an expr of type BOOL", ctx));
+			new InvalidTypeException("While statement should have an expr of type BOOL", ctx);
 			return false;
 		}
 	}

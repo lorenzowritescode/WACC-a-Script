@@ -24,7 +24,7 @@ public class IfStatNode extends StatNode {
 		if (ifCond.getType() == WACCType.BOOL) {
 			return true;
 		} else {
-			el.record(new InvalidTypeException("If statements should have an expr of type BOOL", ctx));
+			new InvalidTypeException("If statements should have an expr of type BOOL", ctx);
 		    return false;
 		}
 	}

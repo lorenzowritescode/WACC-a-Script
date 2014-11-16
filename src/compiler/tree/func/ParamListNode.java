@@ -54,13 +54,11 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		ArrayList<String> paramIdents = new ArrayList<String>();
-		//Check whether there are duplicate comments
+		//Check whether there are duplicate arguments
 		for (ParamNode param : params) {
 			if (paramIdents.contains(param.getIdent())) {
-				el.record( new NotUniqueIdentifierException(
-						"A variable with identifier " + param.getIdent() + " was already declared", 
-						ctx)
-				);
+				new NotUniqueIdentifierException(
+						"A variable with identifier " + param.getIdent() + " was already declared", ctx);
 				return false;
 			}
 			

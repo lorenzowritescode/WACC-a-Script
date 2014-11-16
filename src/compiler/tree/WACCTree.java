@@ -2,13 +2,13 @@ package tree;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import antlr.SemanticChecker;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 import WACCExceptions.ErrorListener;
+import WACCExceptions.WACCException;
 
 public abstract class WACCTree {
-	public static ErrorListener el = SemanticChecker.ERROR_LISTENER;
+	public static ErrorListener el = WACCException.ERROR_LISTENER;
 	private WACCTree parent;
 	
 	public abstract boolean check( SymbolTable st, ParserRuleContext ctx );

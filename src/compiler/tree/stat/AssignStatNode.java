@@ -22,17 +22,16 @@ public class AssignStatNode extends StatNode {
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		
 		//check lhs is already declared
-		if (!st.containsRecursive(lhs.getIdent())) {	
-			el.record(new UndeclaredVariableException(
-					"Variable " + lhs.getIdent() + " has not been declared", ctx));
+		if (!st.containsRecursive(lhs.getIdent())) {
+			new UndeclaredVariableException( "Variable " + lhs.getIdent() + " has not been declared", ctx);
 			return false;	
 		}
 		
 		//Check types are compatible
 		if (!lhs.getType().isCompatible(rhs.getType())) {
-			el.record(new IncompatibleTypesException(
+			new IncompatibleTypesException(
 					"Cannot assign a " + rhs.getType().toString()
-					+ "to a " + lhs.getType().toString(), ctx));
+					+ "to a " + lhs.getType().toString(), ctx);
 			return false;
 		}
 		
