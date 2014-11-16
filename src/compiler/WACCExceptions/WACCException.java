@@ -16,20 +16,36 @@ public class WACCException extends RuntimeException {
 		this.ctx = ctx;
 		ERROR_LISTENER.record(this);
 	}
+	
+	public WACCException(String message) {
+		this.message = message;
+		this.ctx = null;
+	}
+	
+	public WACCException() {
+		this.message = "Semantic Error found.";
+		this.ctx = null;
+	}
 
 	@Override
 	public String toString() {
-		String s = "";
+		String errorString = this.getClass().getName() + ": ";
+		//print our error message
+		errorString += this.message +"\n";
+		
+		if (ctx == null) {
+			errorString += "[INFO] Position information is not available for this error.";
+			return errorString;
+		}
+		
 		ErrorPosition epos = new ErrorPosition(ctx);
 		//print line number and column
 		int line = epos.getLine();
 		int pos  = epos.getCharPos();
-		s += "Error at " + line + ":" + pos + " : ";
-		//print our error message
-		s += this.message +"\n";
+		errorString += "Error at " + line + ":" + pos + " : ";
 		//print source code
-		s += "Source Code: " + epos.getText() + "\n\n";
-		return s;
+		errorString += "Source Code: " + epos.getText() + "\n\n";
+		return errorString;
 	}
 
 	private class ErrorPosition {
