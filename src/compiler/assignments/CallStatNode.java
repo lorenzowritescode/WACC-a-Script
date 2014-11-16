@@ -21,6 +21,7 @@ public class CallStatNode extends Assignable {
 		this.retType = func.returnType;
 		this.ident = func.getFuncName();
 		this.args = args;
+		this.decNode = func; /* Not sure if needed */
 	}
 	
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {

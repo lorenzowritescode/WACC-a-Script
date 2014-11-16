@@ -30,4 +30,9 @@ public class PairTypeNode extends WACCType {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "pair";
+	}
+
 }

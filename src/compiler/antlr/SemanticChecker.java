@@ -38,6 +38,7 @@ import tree.type.WACCUnOp;
 import util.DebugHelper;
 import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
+import antlr.WACCParser.Array_elemContext;
 import antlr.WACCParser.Assign_lhsContext;
 import antlr.WACCParser.Assign_rhsContext;
 import antlr.WACCParser.Bool_literContext;
@@ -63,6 +64,7 @@ import antlr.WACCParser.Str_literContext;
 import antlr.WACCParser.Variable_assigmentContext;
 import antlr.WACCParser.Variable_declarationContext;
 import antlr.WACCParser.While_statContext;
+import assignments.ArrayElemNode;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
 
