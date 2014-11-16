@@ -21,7 +21,7 @@ public class ExitStat extends StatNode {
 		if (exitVal.getType() == WACCType.INT) {
 			return true;
 		}
-		el.record(new InvalidTypeException("Exit statements must have an int as the argument", ctx));
+		new InvalidTypeException("Exit statements must have an int as the argument", ctx);
 		return false;
 	}
 

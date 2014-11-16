@@ -25,10 +25,8 @@ public class VarDecNode extends StatNode {
 		
 		// First we check the identifier is unique
 		if ( st.containsCurrent(ident) ) {
-			el.record( new NotUniqueIdentifierException(
-						"A variable with identifier " + ident + " was already declared", 
-						ctx)
-			);
+			new NotUniqueIdentifierException(
+						"A variable with identifier " + ident + " was already declared", ctx);
 			return false;
 		} 
 		
@@ -36,7 +34,7 @@ public class VarDecNode extends StatNode {
 		st.add(ident, this);
 		
 		if ( varType != rhsTree.getType() ) {
-			el.record( new IncompatibleTypesException("The types of the rhs and lhs of the variable declaration do not match." , ctx));
+			new IncompatibleTypesException("The types of the rhs and lhs of the variable declaration do not match." , ctx);
 			return false;
 		}
 		return true;

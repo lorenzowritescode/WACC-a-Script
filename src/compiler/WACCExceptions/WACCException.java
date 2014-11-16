@@ -3,20 +3,18 @@ package WACCExceptions;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 
+@SuppressWarnings("serial")
 public class WACCException extends RuntimeException {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8463718756840085322L;
+	
+	public static final ErrorListener ERROR_LISTENER = new ErrorListener();
 	
 	private ParserRuleContext ctx;
+	private String message;
 
 	public WACCException(String exceptionMessage, ParserRuleContext ctx){
-		super(exceptionMessage);
-		if (ctx == null) {
-			throw new RuntimeException("WHAT THE ACTUAL FUCK");
-		}
+		this.message = exceptionMessage;
 		this.ctx = ctx;
+		ERROR_LISTENER.record(this);
 	}
 
 	@Override
@@ -28,12 +26,12 @@ public class WACCException extends RuntimeException {
 		int pos  = epos.getCharPos();
 		s += "Error at " + line + ":" + pos + " : ";
 		//print our error message
-		s += this.getMessage() +"\n";
+		s += this.message +"\n";
 		//print source code
 		s += "Source Code: " + epos.getText() + "\n\n";
 		return s;
 	}
-	
+
 	private class ErrorPosition {
 		private ParserRuleContext ctx;
 		private Token firstValidToken;
@@ -57,7 +55,7 @@ public class WACCException extends RuntimeException {
 		
 		private Token findToken(ParserRuleContext rule) {
 			if (rule == null)
-				throw new RuntimeException("BLAHHHHHH");
+				throw new RuntimeException("the rule provided to the exception was null");
 			if (rule.start == null)
 				return findToken((ParserRuleContext) ctx.getChild(0));
 			

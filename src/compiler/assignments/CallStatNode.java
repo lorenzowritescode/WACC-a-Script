@@ -26,14 +26,12 @@ public class CallStatNode extends Assignable {
 	
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		if (!st.containsRecursive(ident)) {
-			el.record(new UndefinedFunctionException(
-					"Function " + ident + " has not been delcared", ctx));
+			new UndefinedFunctionException("Function " + ident + " has not been delcared", ctx);
 			return false;
 		}
 		
 		if(!(args.compareToParamList(decNode.getParams()))) {
-			el.record(new IncompatibleTypesException(
-					"Arguments in call to " + ident + "Have incorrect Types", ctx));
+			new IncompatibleTypesException("Arguments in call to " + ident + " have incorrect types.", ctx);
 			return false;
 		}
 		return true;
