@@ -15,7 +15,7 @@ public class ArrayType extends WACCType {
 			return false;
 		}
 		if (!(baseType == null)) {
-			ArrayTypeNode otherArray = (ArrayTypeNode) other;
+			ArrayType otherArray = (ArrayType) other;
 			if (!baseType.isCompatible(otherArray.getBaseType())) {
 				return false;
 			}
