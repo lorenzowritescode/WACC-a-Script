@@ -2,12 +2,10 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import WACCExceptions.IncompatibleTypesException;
 import symboltable.SymbolTable;
-import tree.WACCTree;
 import tree.expr.ExprNode;
-import tree.func.FuncDecNode;
 import tree.type.WACCType;
+import WACCExceptions.IncompatibleTypesException;
 
 public class ReturnStatNode extends StatNode {
 	private ExprNode expr;
