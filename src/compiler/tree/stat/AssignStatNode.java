@@ -36,7 +36,7 @@ public class AssignStatNode extends StatNode {
 		}
 		
 		//TODO: will this work with arrays? or will it assign the entire 
-		//array to equal the rhs node?
+		// array to equal the rhs node?
 		st.add(lhs.getIdent(), rhs);
 		return true;
 		

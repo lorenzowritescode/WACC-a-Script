@@ -29,9 +29,7 @@ public class FuncDecNode extends WACCTree {
 
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
-		// TODO we expect the function to already be in the TOP SymbolTable
-		if (complete == false) return false;
-		return true;
+		return complete;
 	}
 
 	@Override

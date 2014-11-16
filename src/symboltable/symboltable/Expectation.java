@@ -45,11 +45,11 @@ public class Expectation {
 		
 		// TODO: here we need a stricter type of equality
 		if (!hasBeenCalled) {
-			//
 			hasBeenCalled = true;
 			resolved = expectedType != null 
 					&& actualType.isCompatible(expectedType);
 		} else {
+			// after the first call, `resolved` depends on its previous value
 			resolved = resolved 
 					&& expectedType != null 
 					&& actualType.isCompatible(expectedType);
