@@ -78,6 +78,8 @@ public abstract class WACCType {
 			return CHAR;
 		case "string":
 			return STRING;
+		case "pair":
+			return new PairType(null, null);
 		default:
 			//matches any array
 			if (typeString.matches("*[]")) {
