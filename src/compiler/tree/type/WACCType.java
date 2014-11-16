@@ -1,5 +1,8 @@
 package tree.type;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import WACCExceptions.InvalidTypeException;
 import antlr.WACCParser.TypeContext;
 
@@ -67,7 +70,21 @@ public abstract class WACCType {
 		return evalType(ctx.getText());
 	}
 	
+	public static final String pairRegexSplitter = " *[\\)\\(,] *";
+	public static final String arrayRegexSplitter = "[\\[\\]]";
 	// Utility method for converting a WACCParser.TypeContext into a WACCType
+	public static final WACCType NULL = new WACCType() {
+		
+		@Override
+		public String toString() {
+			return "WACC-null";
+		}
+		
+		@Override
+		public boolean isCompatible(WACCType other) {
+			return true;
+		}
+	};
 	public static WACCType evalType(String typeString) {
 		switch (typeString) {
 		case "int":
@@ -82,14 +99,23 @@ public abstract class WACCType {
 			return new PairType(null, null);
 		default:
 			//matches any array
-			if (typeString.matches("*[]")) {
-				WACCType baseType = evalType(typeString.split("[")[0]);
+			Pattern arrayPattern = Pattern.compile("\\[\\]");
+			Matcher arrayMatcher = arrayPattern.matcher(typeString);
+			if (arrayMatcher.find()) {
+				WACCType baseType = evalType(typeString.split(arrayRegexSplitter)[0]);
 				return new ArrayType(baseType);
-			} 
+			}
 			//matches any pair
-			if (typeString.matches("pair(*")) { 
-				WACCType fstType = evalType(typeString.split("(|,|)")[1]);
-				WACCType sndType = evalType(typeString.split("(|,|)")[2]);
+			if (typeString.contains("pair")) {
+				// Extract inner types
+				String[] innerTypes = typeString.split(pairRegexSplitter);
+				String fstString = innerTypes[1];
+				String sndString = innerTypes[2];
+				
+				// Pairs of pairs have type `pair(null, null)` 
+				WACCType fstType = fstString.equals("pair") ? WACCType.NULL : evalType(fstString);
+				WACCType sndType = sndString.equals("pair") ? WACCType.NULL : evalType(sndString);
+				
 				return new PairType(fstType, sndType); 
 			}
 			

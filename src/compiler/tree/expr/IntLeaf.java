@@ -7,15 +7,17 @@ import tree.type.WACCType;
 
 public class IntLeaf extends ExprNode {
 
-	private int value;
+	private String value;
 	
-	public IntLeaf(int val) {
+	public IntLeaf(String val) {
 		this.value = val;
 	}
 
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
-		return value < Integer.MAX_VALUE && value > Integer.MIN_VALUE;
+		// If the `value` has been tokenised as an int literal we can assume it is numeric.
+		// Size is checked at runtime.
+		return true;
 	}
 
 	@Override

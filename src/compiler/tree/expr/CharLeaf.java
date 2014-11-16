@@ -11,7 +11,6 @@ public class CharLeaf extends ExprNode {
 
 	public CharLeaf(String text) {
 		this.text = text;
-		// TODO: what is contained in test??
 	}
 
 	@Override

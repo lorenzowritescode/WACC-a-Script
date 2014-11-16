@@ -129,10 +129,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		// Add function body statement to the function node
 		funcNode.addFuncBody(funcBody);
 		funcNode.check(currentSymbolTable, ctx);
-		
-		params.setParent(funcNode);
-		funcBody.setParent(funcNode);
-		
+
 		return funcNode;
 	}
 
@@ -142,29 +139,17 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		
 		ReturnStatNode rst = new ReturnStatNode(exprType);
 		rst.check(currentSymbolTable, ctx);
-		
-		exprType.setParent(rst);
-		
+
 		return rst;
 	}
-	
-	private static int depth = 0;
+
 	@Override
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
-		dbh.printD(depth, "SEQUENTIAL STAT: ");
-		for(StatContext s:ctx.stat()) {
-			dbh.printD(depth, s.getText());
-		}
-		depth++;
-
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
 		StatNode rhs = (StatNode) visit(ctx.stat(1));;
 		SeqStatNode seqStat = new SeqStatNode(lhs, rhs);
 		seqStat.check(currentSymbolTable, ctx);
-		
-		lhs.setParent(seqStat);
-		rhs.setParent(seqStat);
-		
+
 		return seqStat;
 	}
 	
@@ -175,9 +160,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		PrintStat ps = new PrintStat(expr);
 		ps.check(currentSymbolTable, ctx);
-		
-		expr.setParent(ps);
-		
+
 		return ps;
 	}
 	
@@ -186,9 +169,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		PrintLnStat ps = new PrintLnStat(expr);
 		ps.check(currentSymbolTable, ctx);
-		
-		expr.setParent(ps);
-		
+
 		return ps;
 	}
 	
@@ -197,9 +178,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.assign_lhs());
 		ReadStatNode rsn = new ReadStatNode(lhs);
 		rsn.check(currentSymbolTable, ctx);
-		
-		lhs.setParent(rsn);
-		
+
 		return rsn;
 	}
 
@@ -208,9 +187,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		FreeStat stat = new FreeStat(expr);
 		stat.check(currentSymbolTable, ctx);
-		
-		expr.setParent(stat);
-		
+
 		return stat;
 	}
 
@@ -219,9 +196,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ExprNode exitVal = (ExprNode) visit(ctx.expr());
 		ExitStat stat = new ExitStat(exitVal);
 		stat.check(currentSymbolTable, ctx);
-		
-		exitVal.setParent(stat);
-		
+
 		return stat;
 	}
 	
@@ -232,7 +207,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 	
 	
-
+	// TODO: remove this method -- there is no such thing as a standalone ident
 	@Override
 	public WACCTree visitIdent(IdentContext ctx) {
 		String ident = ctx.IDENTITY().getText();
@@ -252,7 +227,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitProg(ProgContext ctx) {
-		//TODO: Set parents of functions
 		// First we visit all functions and register a stub of its return type
 		for (FuncContext fctx : ctx.func()) {
 			registerFunction(fctx);
@@ -296,9 +270,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		AssignStatNode assignment = new AssignStatNode(lhs, rhs);
 		assignment.check(currentSymbolTable, ctx);
 		
-		lhs.setParent(assignment);
-		rhs.setParent(assignment);
-		
 		return assignment;
 	}
 
@@ -321,8 +292,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		String ident = ctx.ident().getText();
 		VarDecNode vcd = new VarDecNode(varType, ident, rhsTree);
 		vcd.check(currentSymbolTable, ctx);
-		
-		rhsTree.setParent(vcd);
 		
 		return vcd;
 	}
@@ -414,8 +383,8 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 
 	@Override
 	public WACCTree visitInt_liter(Int_literContext ctx) {
-		int value = Integer.parseInt(ctx.getText());
-		IntLeaf intLeaf = new IntLeaf(value);
+		String intValue = ctx.getText();
+		IntLeaf intLeaf = new IntLeaf(intValue);
 		intLeaf.check(currentSymbolTable, ctx);
 		return intLeaf;
 	}
@@ -449,7 +418,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		for (ParamContext p : ctx.param()){
 			ParamNode pn = (ParamNode) visit(p);
 			params.add(pn);
-			pn.setParent(params);
 		}
 		params.check(currentSymbolTable, ctx);
 		return params;
@@ -461,8 +429,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		WhileStatNode whileStat = new WhileStatNode(loopCond);
 		whileStat.check(currentSymbolTable, ctx);
 		
-		loopCond.setParent(whileStat);
-		
 		return whileStat;
 	}
 
@@ -471,8 +437,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
 		IfStatNode ifStat = new IfStatNode(ifCond);
 		ifStat.check(currentSymbolTable, ctx);
-		
-		ifCond.setParent(ifStat);
 		
 		return ifStat;
 	}
@@ -492,10 +456,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 			WACCBinOp binaryOp = WACCBinOp.evalBinOp(ctx.getChild(1).getText());
 			BinExprNode binExpr = new BinExprNode(lhs, binaryOp, rhs);
 			binExpr.check(currentSymbolTable, ctx);
-			
-			lhs.setParent(binExpr);
-			rhs.setParent(binExpr);
-			
+
 			return binExpr;
 		
 		case 2: // Unary Expression of type `OP expr`
@@ -503,8 +464,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 			WACCUnOp unaryOp = WACCUnOp.evalUnOp(ctx.getChild(0).getText());
 			UnExprNode unaryExpr  = new UnExprNode(unaryOp, expr);
 			unaryExpr.check(currentSymbolTable, ctx);
-			
-			expr.setParent(unaryExpr);
 			
 			return expr;
 
