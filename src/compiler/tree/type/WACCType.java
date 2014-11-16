@@ -75,6 +75,10 @@ public abstract class WACCType {
 			return CHAR;
 		case "string":
 			return STRING;
+		case "pair":
+			return new PairTypeNode(null, null);
+		case "array":
+			return new ArrayTypeNode(null);
 		default:
 			throw new InvalidTypeException("The type provided was not recognised.", ctx);
 		}
