@@ -6,15 +6,77 @@ import java.util.List;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import symboltable.SymbolTable;
-import tree.expr.*;
-import tree.stat.*;
-import tree.*;
-import tree.func.*;
-import tree.type.*;
+import tree.ProgNode;
+import tree.WACCTree;
+import tree.expr.BinExprNode;
+import tree.expr.BoolLeaf;
+import tree.expr.CharLeaf;
+import tree.expr.ExprNode;
+import tree.expr.IdentNode;
+import tree.expr.IntLeaf;
+import tree.expr.StringLeaf;
+import tree.expr.UnExprNode;
+import tree.func.FuncDecNode;
+import tree.func.ParamListNode;
+import tree.func.ParamNode;
+import tree.stat.AssignStatNode;
+import tree.stat.ExitStat;
+import tree.stat.FreeStat;
+import tree.stat.IfStatNode;
+import tree.stat.PrintLnStat;
+import tree.stat.PrintStat;
+import tree.stat.ReadStatNode;
+import tree.stat.ReturnStatNode;
+import tree.stat.SeqStatNode;
+import tree.stat.SkipStatNode;
+import tree.stat.StatNode;
+import tree.stat.VarDecNode;
+import tree.stat.WhileStatNode;
+import tree.type.PairType;
+import tree.type.WACCBinOp;
+import tree.type.WACCType;
+import tree.type.WACCUnOp;
 import util.DebugHelper;
 import WACCExceptions.WACCException;
-import antlr.WACCParser.*;
-import assignments.*;
+import antlr.WACCParser.Arg_listContext;
+import antlr.WACCParser.Array_elemContext;
+import antlr.WACCParser.Array_literContext;
+import antlr.WACCParser.Array_liter_arhsContext;
+import antlr.WACCParser.Assign_lhsContext;
+import antlr.WACCParser.Bool_literContext;
+import antlr.WACCParser.Char_literContext;
+import antlr.WACCParser.Exit_statContext;
+import antlr.WACCParser.ExprContext;
+import antlr.WACCParser.Free_statContext;
+import antlr.WACCParser.FuncContext;
+import antlr.WACCParser.Func_call_assignmentContext;
+import antlr.WACCParser.IdentContext;
+import antlr.WACCParser.If_statContext;
+import antlr.WACCParser.Int_literContext;
+import antlr.WACCParser.Newpair_assignmentContext;
+import antlr.WACCParser.Pair_elemContext;
+import antlr.WACCParser.ParamContext;
+import antlr.WACCParser.Param_listContext;
+import antlr.WACCParser.Print_statContext;
+import antlr.WACCParser.Println_exprContext;
+import antlr.WACCParser.ProgContext;
+import antlr.WACCParser.Read_statContext;
+import antlr.WACCParser.Return_statContext;
+import antlr.WACCParser.Sequential_statContext;
+import antlr.WACCParser.Skip_statContext;
+import antlr.WACCParser.StatContext;
+import antlr.WACCParser.Str_literContext;
+import antlr.WACCParser.Variable_assigmentContext;
+import antlr.WACCParser.Variable_declarationContext;
+import antlr.WACCParser.While_statContext;
+import assignments.ArgListNode;
+import assignments.ArrayElemNode;
+import assignments.ArrayLiterNode;
+import assignments.AssignLhsNode;
+import assignments.Assignable;
+import assignments.CallStatNode;
+import assignments.NewPairNode;
+import assignments.PairElemNode;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
@@ -29,6 +91,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		this.parseTree = t;
 		this.currentSymbolTable = new SymbolTable();
 	}
+
 
 	public void init() {
 		dbh.printV("Checking sematic integrity...");
@@ -218,11 +281,12 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return lhs;
 	}
 
-	@Override
-	public WACCTree visitAssign_rhs(Assign_rhsContext ctx) {
-		Assignable rhs = (Assignable) visit(ctx.getChild(0));
-		return rhs;
-	}
+//	@Override
+//	public WACCTree visitAssign_rhs(Assign_rhsContext ctx) {
+//		Assignable rhs = (Assignable) visit(ctx.getChild(0));
+//		return rhs;
+//	}
+	
 	
 
 	@Override
@@ -265,6 +329,69 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	
 	
 	
+	@Override
+	public WACCTree visitNewpair_assignment(Newpair_assignmentContext ctx) {
+		ExprNode fst = (ExprNode) visit(ctx.expr(0));
+		ExprNode snd = (ExprNode) visit(ctx.expr(1));
+		NewPairNode pair = new NewPairNode(fst, snd);
+		pair.check(currentSymbolTable, ctx);
+		return pair;
+	}
+
+	@Override
+	public WACCTree visitFunc_call_assignment(Func_call_assignmentContext ctx) {
+		String ident = ctx.ident().getText();
+		FuncDecNode funcDef = (FuncDecNode) currentSymbolTable.get(ident);
+		ArgListNode args = (ArgListNode) visit(ctx.arg_list());
+		CallStatNode callStat = new CallStatNode(funcDef, args);
+		callStat.check(currentSymbolTable, ctx);
+		return callStat;
+	}
+
+	@Override
+	public WACCTree visitArg_list(Arg_listContext ctx) {
+		int argListLength = ctx.getChildCount();
+		ArgListNode args = new ArgListNode();
+		for (int i=0; i<argListLength; i++) {
+			args.add((ExprNode) ctx.getChild(i));
+		}
+		args.check(currentSymbolTable, ctx);
+		return args;
+	}
+
+	@Override
+	public WACCTree visitPair_elem(Pair_elemContext ctx) {
+		ExprNode expr = (ExprNode) visit(ctx.expr());
+		PairType type = (PairType) expr.getType();
+		String ident = ((IdentNode) expr).getIdent();
+		WACCType innerType;
+		if (ctx.FST() != null) {
+			innerType = type.getFst();
+		} else {
+			innerType = type.getSnd();
+		}
+		PairElemNode pairElem = new PairElemNode(expr, ident, innerType);
+		pairElem.check(currentSymbolTable, ctx);
+		return pairElem;
+	}
+	
+
+	@Override
+	public WACCTree visitArray_liter(Array_literContext ctx) {
+		ArrayList<ExprNode> elems = new ArrayList<ExprNode>();
+		int arrayLength = ctx.getChildCount();
+		for(int i=0; i<arrayLength; i++) {
+			elems.add((ExprNode) visit(ctx.expr(i)));
+		}
+		ArrayLiterNode arrayLiter = new ArrayLiterNode(elems);
+		arrayLiter.check(currentSymbolTable, ctx);
+		return arrayLiter;
+	}
+	
+	
+
+	
+
 	@Override
 	public WACCTree visitArray_elem(Array_elemContext ctx) {
 		String ident = ctx.ident().getText();
