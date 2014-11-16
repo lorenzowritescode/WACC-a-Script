@@ -18,4 +18,6 @@ public interface AssignLhsNode {
 	
 	public WACCTree getParent();
 
+	boolean checkPreDef(SymbolTable st, String identName);
+
 }

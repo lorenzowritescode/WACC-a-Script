@@ -24,10 +24,29 @@ public class PairType extends WACCType {
 			return false;
 		}
 		PairType otherPair = (PairType) other;
-		if (!fst.isCompatible(otherPair.getFst()) || !snd.isCompatible(otherPair.getSnd())) {
-			return false;
+		if (!(fst == null) && !(snd == null)) {
+			if (!fst.isCompatible(otherPair.getFst()) || !snd.isCompatible(otherPair.getSnd())) {
+				return false;
+			}
+			return true;
+		} else if (fst == null) {
+			//if fst is null, only snd needs to be checked
+			if (!snd.isCompatible(otherPair.getSnd())) {
+				return false;
+			}
+			return true;
+		} else {
+			//if snd is null, only fst needs to be checked
+			if (!fst.isCompatible(otherPair.getFst())) {
+				return false;
+			}
+			return true;
 		}
-		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "pair";
 	}
 
 }

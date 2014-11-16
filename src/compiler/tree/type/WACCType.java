@@ -7,6 +7,7 @@ import antlr.WACCParser.TypeContext;
 public abstract class WACCType {
 
 	public abstract boolean isCompatible(WACCType other);
+	public abstract String toString();
 	
 	/*
 	 * The following are here as they are definite types,
@@ -19,12 +20,22 @@ public abstract class WACCType {
 		public boolean isCompatible(WACCType other) {
 			return other == BOOL;
 		}
+		
+		@Override
+		public String toString() {
+			return "bool";
+		}
 	};
 	public static final WACCType INT = new WACCType() {
 		
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return other == INT;
+		}
+		
+		@Override
+		public String toString() {
+			return "int";
 		}
 	};
 	public static final WACCType STRING = new WACCType() {
@@ -33,12 +44,22 @@ public abstract class WACCType {
 		public boolean isCompatible(WACCType other) {
 			return other == STRING;
 		}
+		
+		@Override
+		public String toString() {
+			return "string";
+		}
 	};
 	public static final WACCType CHAR = new WACCType() {
 		
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return other == CHAR;
+		}
+		
+		@Override
+		public String toString() {
+			return "char";
 		}
 	};
 	
@@ -54,8 +75,13 @@ public abstract class WACCType {
 			return CHAR;
 		case "string":
 			return STRING;
+		case "pair":
+			return new PairTypeNode(null, null);
+		case "array":
+			return new ArrayTypeNode(null);
 		default:
 			throw new InvalidTypeException("The type provided was not recognised.", ctx);
 		}
 	}
+	
 }

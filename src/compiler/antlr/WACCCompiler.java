@@ -32,7 +32,7 @@ public class WACCCompiler {
 		WACCLexer lexer = new WACCLexer(antrlInput);
 		
 		// Tokenise the input stream
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		CommonTokenStream tokens = tokenise(lexer);
 		
 		// Build the tokens AST
 		ParseTree tree = getParseTree(tokens);
@@ -48,6 +48,17 @@ public class WACCCompiler {
 //		compiler.init();
 	}
 	
+	private static CommonTokenStream tokenise(WACCLexer lexer) {
+		CommonTokenStream tokens = null;
+		try {
+			tokens = new CommonTokenStream(lexer);
+		} catch (Exception e) {
+			e.printStackTrace();
+			exitSemanticFailure();
+		}
+		return tokens;
+	}
+
 	/**
 	 * @param tree
 	 * 		An ANTLR.ParseTree that represents a WACC program

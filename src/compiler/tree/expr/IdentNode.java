@@ -20,6 +20,14 @@ public class IdentNode extends ExprNode implements AssignLhsNode {
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		return true;
 	}
+	
+	@Override
+	public boolean checkPreDef( SymbolTable st, String identName) {
+		if (!st.containsRecursive(identName)) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public WACCType getType() {
@@ -29,6 +37,5 @@ public class IdentNode extends ExprNode implements AssignLhsNode {
 	public String getIdent() {
 		return ident;
 	}
-	
-	
+
 }

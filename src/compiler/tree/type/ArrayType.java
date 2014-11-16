@@ -14,15 +14,23 @@ public class ArrayType extends WACCType {
 		if (!(other instanceof ArrayType)) {
 			return false;
 		}
-		ArrayType otherArray = (ArrayType) other;
-		if (!baseType.isCompatible(otherArray.getBaseType())) {
-			return false;
+		if (!(baseType == null)) {
+			ArrayTypeNode otherArray = (ArrayTypeNode) other;
+			if (!baseType.isCompatible(otherArray.getBaseType())) {
+				return false;
+			}
+			return true;
 		}
 		return true;
 	}
 
 	private WACCType getBaseType() {
 		return baseType;
+	}
+	
+	@Override
+	public String toString() {
+		return "array";
 	}
 
 }
