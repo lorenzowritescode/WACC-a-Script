@@ -322,7 +322,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		int argListLength = ctx.getChildCount();
 		ArgListNode args = new ArgListNode();
 		for (int i=0; i<argListLength; i++) {
-			args.add((ExprNode) ctx.getChild(i));
+			args.add((ExprNode) visit(ctx.getChild(i)));
 		}
 		args.check(currentSymbolTable, ctx);
 		return args;
@@ -348,10 +348,11 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitArray_liter(Array_literContext ctx) {
 		ArrayList<ExprNode> elems = new ArrayList<ExprNode>();
-		int arrayLength = ctx.getChildCount();
-		for(int i=0; i<arrayLength; i++) {
+		
+		for(int i=0; i< ctx.expr().size() ; i++) {
 			elems.add((ExprNode) visit(ctx.expr(i)));
 		}
+		
 		ArrayLiterNode arrayLiter = new ArrayLiterNode(elems);
 		arrayLiter.check(currentSymbolTable, ctx);
 		return arrayLiter;
