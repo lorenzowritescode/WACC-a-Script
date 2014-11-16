@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 
-public class ArrayElemNode extends ExprNode {
+public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
 	String ident;
 	ArrayList<ExprNode> locations;
@@ -40,6 +41,24 @@ public class ArrayElemNode extends ExprNode {
 	
 	public String getIdent() {
 		return ident;
+	}
+
+	@Override
+	public void setParent(WACCTree tree) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public WACCTree getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean checkPreDef(SymbolTable st, String identName) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

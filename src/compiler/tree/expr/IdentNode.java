@@ -21,7 +21,8 @@ public class IdentNode extends ExprNode implements AssignLhsNode {
 		return true;
 	}
 	
-	public boolean checkPredef( SymbolTable st, String identName) {
+	@Override
+	public boolean checkPreDef( SymbolTable st, String identName) {
 		if (!st.containsRecursive(identName)) {
 			return false;
 		}
@@ -36,6 +37,5 @@ public class IdentNode extends ExprNode implements AssignLhsNode {
 	public String getIdent() {
 		return ident;
 	}
-	
-	
+
 }
