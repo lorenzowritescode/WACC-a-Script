@@ -63,10 +63,13 @@ public abstract class WACCType {
 		}
 	};
 	
-	// Utility method for converting a WACCParser.TypeContext into a WACCType
 	public static WACCType evalType(TypeContext ctx) {
-		String type = ctx.getText();
-		switch (type) {
+		return evalType(ctx.getText());
+	}
+	
+	// Utility method for converting a WACCParser.TypeContext into a WACCType
+	public static WACCType evalType(String typeString) {
+		switch (typeString) {
 		case "int":
 			return INT;
 		case "bool":
@@ -75,12 +78,20 @@ public abstract class WACCType {
 			return CHAR;
 		case "string":
 			return STRING;
-		case "pair":
-			return new PairTypeNode(null, null);
-		case "array":
-			return new ArrayTypeNode(null);
 		default:
-			throw new InvalidTypeException("The type provided was not recognised.", ctx);
+			//matches any array
+			if (typeString.matches("*[]")) {
+				WACCType baseType = evalType(typeString.split("[")[0]);
+				return new ArrayType(baseType);
+			} 
+			//matches any pair
+			if (typeString.matches("pair(*")) { 
+				WACCType fstType = evalType(typeString.split("(|,|)")[1]);
+				WACCType sndType = evalType(typeString.split("(|,|)")[2]);
+				return new PairType(fstType, sndType); 
+			}
+			
+			throw new InvalidTypeException("The type provided was not recognised.");
 		}
 	}
 	
