@@ -6,7 +6,7 @@ import assignments.AssignLhsNode;
 import assignments.Assignable;
 import symboltable.SymbolTable;
 import WACCExceptions.IncompatibleTypesException;
-import WACCExceptions.UndeclaredVariableException;
+import WACCExceptions.UndeclaredIdentifierException;
 
 public class AssignStatNode extends StatNode {
 	
@@ -23,7 +23,7 @@ public class AssignStatNode extends StatNode {
 		
 		//check lhs is already declared
 		if (!st.containsRecursive(lhs.getIdent())) {
-			new UndeclaredVariableException( "Variable " + lhs.getIdent() + " has not been declared", ctx);
+			new UndeclaredIdentifierException( "Variable " + lhs.getIdent() + " has not been declared", ctx);
 			return false;	
 		}
 		

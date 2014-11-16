@@ -1,11 +1,11 @@
 package tree.type;
 
-public class PairTypeNode extends WACCType {
+public class PairType extends WACCType {
 
 	private WACCType fst;
 	private WACCType snd;
 
-	public PairTypeNode(WACCType fst, WACCType snd) {
+	public PairType(WACCType fst, WACCType snd) {
 		this.fst = fst;
 		this.snd = snd;
 	}
@@ -20,10 +20,10 @@ public class PairTypeNode extends WACCType {
 
 	@Override
 	public boolean isCompatible(WACCType other) {
-		if (!(other instanceof PairTypeNode)) {
+		if (!(other instanceof PairType)) {
 			return false;
 		}
-		PairTypeNode otherPair = (PairTypeNode) other;
+		PairType otherPair = (PairType) other;
 		if (!fst.isCompatible(otherPair.getFst()) || !snd.isCompatible(otherPair.getSnd())) {
 			return false;
 		}

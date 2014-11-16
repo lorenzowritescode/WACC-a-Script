@@ -66,7 +66,7 @@ public abstract class WACCUnOp {
 		
 		@Override
 		public boolean check(ExprNode e) {
-			return e.getType() instanceof ArrayTypeNode;
+			return e.getType() instanceof ArrayType;
 		}
 	};
 	

@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
-import tree.type.ArrayTypeNode;
+import tree.type.ArrayType;
 import tree.type.WACCType;
 
 public class ArrayLiterNode extends Assignable {
@@ -35,7 +35,7 @@ public class ArrayLiterNode extends Assignable {
 	@Override
 	public WACCType getType() {
 		//Base Type might be null if empty array
-		return new ArrayTypeNode(baseType);
+		return new ArrayType(baseType);
 	}
 
 }

@@ -1,20 +1,20 @@
 package tree.type;
 
 
-public class ArrayTypeNode extends WACCType {
+public class ArrayType extends WACCType {
 	
 	private WACCType baseType;
 	
-	public ArrayTypeNode(WACCType baseType) {
+	public ArrayType(WACCType baseType) {
 		this.baseType = baseType;
 	}
 
 	@Override
 	public boolean isCompatible(WACCType other) {
-		if (!(other instanceof ArrayTypeNode)) {
+		if (!(other instanceof ArrayType)) {
 			return false;
 		}
-		ArrayTypeNode otherArray = (ArrayTypeNode) other;
+		ArrayType otherArray = (ArrayType) other;
 		if (!baseType.isCompatible(otherArray.getBaseType())) {
 			return false;
 		}
