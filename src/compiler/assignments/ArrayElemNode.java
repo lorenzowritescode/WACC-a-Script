@@ -36,7 +36,11 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 
 	@Override
 	public WACCType getType() {
-		return arrayType;
+		if (arrayType == WACCType.STRING) {
+			return WACCType.CHAR;
+		} else {
+			return arrayType;
+		}
 	}
 	
 	
