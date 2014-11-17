@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
 import symboltable.SymbolTable;
+import tree.func.FuncDecNode;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
 
@@ -25,6 +26,10 @@ public class AssignStatNode extends StatNode {
 		if (!st.containsRecursive(lhs.getIdent())) {
 			new UndeclaredIdentifierException( "Variable " + lhs.getIdent() + " has not been declared", ctx);
 			return false;	
+		}
+		
+		if (st.get(lhs.getIdent()) instanceof FuncDecNode) {
+			new IncompatibleTypesException("Cannot assign to function!", ctx);
 		}
 		
 		//Check types are compatible
