@@ -60,11 +60,7 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 				new NotUniqueIdentifierException(
 						"A variable with identifier " + param.getIdent() + " was already declared", ctx);
 				return false;
-			}
-			
-			//else add to the symbol table
-			st.add(param.getIdent(), param);
-			
+			}	
 		}
 		return true;
 	}

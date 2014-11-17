@@ -14,7 +14,9 @@ import tree.func.*;
 import tree.stat.*;
 import tree.type.*;
 import util.DebugHelper;
+import WACCExceptions.UndeclaredIdentifierException;
 import WACCExceptions.WACCException;
+import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.*;
 import assignments.*;
 
@@ -52,6 +54,10 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		// Create an inner scope Symbol Table for the function body.
 		currentSymbolTable = new SymbolTable(currentSymbolTable, func.getType());
 		
+		//Add params to current SymbolTable
+		ParamListNode paramList = func.getParams();
+		registerParams(currentSymbolTable, paramList);
+		
 		// Create the functionBody node
 		StatNode funcBody = (StatNode) visit(ctx.stat());
 		
@@ -65,10 +71,17 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return func;
 	}
 
+	private void registerParams(SymbolTable st,
+			ParamListNode paramList) {
+		for (ParamNode param : paramList) {
+			st.add(param.getIdent(), param);
+		}
+	}
+
+
 	@Override
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
 		ExprNode exprType = (ExprNode) visit(ctx.expr());
-		checkPredefinedLHS(ctx, exprType);
 		ReturnStatNode rst = new ReturnStatNode(exprType);
 		rst.check(currentSymbolTable, ctx);
 
@@ -90,7 +103,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitPrint_stat(Print_statContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
-		checkPredefinedLHS(ctx, expr);
 		PrintStat ps = new PrintStat(expr);
 		ps.check(currentSymbolTable, ctx);
 
@@ -100,7 +112,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
-		checkPredefinedLHS(ctx, expr);
 		PrintLnStat ps = new PrintLnStat(expr);
 		ps.check(currentSymbolTable, ctx);
 
@@ -110,7 +121,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitRead_stat(Read_statContext ctx) {
 		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.assign_lhs());
-		lhs.checkPreDef(currentSymbolTable, lhs.getIdent(), ctx);
 		ReadStatNode rsn = new ReadStatNode(lhs);
 		rsn.check(currentSymbolTable, ctx);
 		
@@ -120,7 +130,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitFree_stat(Free_statContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
-		checkPredefinedLHS(ctx, expr);
 		FreeStat stat = new FreeStat(expr);
 		stat.check(currentSymbolTable, ctx);
 
@@ -130,7 +139,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitExit_stat(Exit_statContext ctx) {
 		ExprNode exitVal = (ExprNode) visit(ctx.expr());
-		checkPredefinedLHS(ctx, exitVal);
 		ExitStat stat = new ExitStat(exitVal);
 		stat.check(currentSymbolTable, ctx);
 		
@@ -144,8 +152,12 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return ssn;
 	}
 	
-	
-	// TODO: remove this method -- there is no such thing as a standalone ident
+
+	/* This method will only be reached in the case of a variable assignment.
+	 * If the variable is undeclared we want to throw an axeption and stop checking further.
+	 * (non-Javadoc)
+	 * @see antlr.WACCParserBaseVisitor#visitIdent(antlr.WACCParser.IdentContext)
+	 */
 	@Override
 	public WACCTree visitIdent(IdentContext ctx) {
 		String ident = ctx.IDENTITY().getText();
@@ -153,14 +165,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 			WACCTree var = currentSymbolTable.get(ident);
 			WACCType varType = var.getType();
 			IdentNode idNode = new IdentNode(varType, ident);
-			idNode.check(currentSymbolTable, ctx);
 			return idNode;
 		}
-		//If ident is not present in symboltable, and ident with a null
-		//type will be returned. 
-		//TODO: find a better way around this
-		return new IdentNode(null, ident);
-		
+		throw new UndeclaredIdentifierException("The variable " + ident + " was undefined", ctx);
 	}
 
 	@Override
@@ -214,7 +221,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		//This no longer uses function stubs, but instead adds full functions to symbol table
 		String funcName = fctx.ident().getText();
 		WACCType returnType = WACCType.evalType(fctx.type());
-		ParamListNode params = (ParamListNode) visit(fctx.param_list());	
+		Param_listContext paramCtx = fctx.param_list();
+		ParamListNode params = null;
+		if (paramCtx != null) {
+			params = (ParamListNode) visit(fctx.param_list());
+		} else {
+			params = new ParamListNode();
+		}
 		FuncDecNode func = new FuncDecNode(returnType, funcName, params);
 		currentSymbolTable.add(funcName, func);
 	}
@@ -267,16 +280,23 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return args;
 	}
 
+	/* Rule: (FST | SND) ident = expr
+	 * Example Case:
+	 * 		fst p = 5
+	 * (non-Javadoc)
+	 * @see antlr.WACCParserBaseVisitor#visitPair_elem(antlr.WACCParser.Pair_elemContext)
+	 */
 	@Override
+	// TODO: revisit this
 	public WACCTree visitPair_elem(Pair_elemContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		PairType type = (PairType) expr.getType();
 		String ident = ((IdentNode) expr).getIdent();
 		WACCType innerType;
 		if (ctx.FST() != null) {
-			innerType = type.getFst();
+			innerType = type.getFstType();
 		} else {
-			innerType = type.getSnd();
+			innerType = type.getSndType();
 		}
 		PairElemNode pairElem = new PairElemNode(expr, ident, innerType);
 		pairElem.check(currentSymbolTable, ctx);
@@ -361,7 +381,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitWhile_stat(While_statContext ctx) {
 		ExprNode loopCond = (ExprNode) visit(ctx.expr());
-		checkPredefinedLHS(ctx, loopCond);
 		WhileStatNode whileStat = new WhileStatNode(loopCond);
 		whileStat.check(currentSymbolTable, ctx);
 		
@@ -371,7 +390,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitIf_stat(If_statContext ctx) {
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
-		checkPredefinedLHS(ctx, ifCond);
 		IfStatNode ifStat = new IfStatNode(ifCond);
 		ifStat.check(currentSymbolTable, ctx);
 		
@@ -416,13 +434,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		currentSymbolTable.finaliseScope();
 		currentSymbolTable = currentSymbolTable.getParent();
 		return stat;
-	}
-
-	private void checkPredefinedLHS(ParserRuleContext ctx, ExprNode expr) {
-		if (expr instanceof AssignLhsNode) {
-			AssignLhsNode lhsExpr = (AssignLhsNode) expr;
-			lhsExpr.checkPreDef(currentSymbolTable, lhsExpr.getIdent(), ctx);
-		}
 	}
 
 	/**

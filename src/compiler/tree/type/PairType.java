@@ -3,23 +3,22 @@ package tree.type;
 import WACCExceptions.IncompatibleTypesException;
 
 public class PairType extends WACCType {
-
+	private static PairType NULL_PAIR = new PairType(WACCType.NULL, WACCType.NULL);
 	private WACCType fst;
 	private WACCType snd;
 
 	public PairType(WACCType fst, WACCType snd) {
-		this.fst = fst;
-		this.snd = snd;
+		this.fst = (fst instanceof PairType) ? NULL_PAIR : fst;
+		this.snd = (snd instanceof PairType) ? NULL_PAIR : snd;
 	}
 
-	public WACCType getFst() {
+	public WACCType getFstType() {
 		return fst;
 	}
 
-	public WACCType getSnd() {
+	public WACCType getSndType() {
 		return snd;
 	}
-	
 	
 	@Override
 	public boolean isCompatible(WACCType other) {
@@ -34,8 +33,8 @@ public class PairType extends WACCType {
 		
 		PairType otherPair = (PairType) other;
 		
-		return 	checkType(this.getFst(), otherPair.getFst()) 
-				&& checkType(this.getFst(), otherPair.getFst());
+		return 	checkType(this.getFstType(), otherPair.getFstType()) 
+				&& checkType(this.getFstType(), otherPair.getFstType());
 	}
 	
 	// utility method for checking pair types

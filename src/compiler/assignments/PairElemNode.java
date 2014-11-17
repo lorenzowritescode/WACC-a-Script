@@ -2,6 +2,7 @@ package assignments;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.UndeclaredIdentifierException;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
@@ -25,6 +26,9 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 		if (!(expr.getType() instanceof PairType)) {
 			return false;
 		}
+		if (!st.containsRecursive(pairName)) {
+			throw new UndeclaredIdentifierException(pairName + " hasn't been defined", ctx);
+		}
 		return true;
 	}
 	
@@ -37,10 +41,4 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	public WACCType getType() {
 		return type;
 	}
-
-	@Override
-	public boolean checkPreDef(SymbolTable st, String identName, ParserRuleContext ctx) {
-		return true;
-	}
-
 }
