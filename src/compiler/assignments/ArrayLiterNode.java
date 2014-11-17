@@ -18,6 +18,8 @@ public class ArrayLiterNode extends Assignable {
 		this.elems = elems;
 		if (elems.size() > 0) {
 			baseType = elems.get(0).getType();
+		} else {
+			baseType = WACCType.NULL;
 		}
 	}
 	

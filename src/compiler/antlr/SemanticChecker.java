@@ -14,7 +14,9 @@ import tree.func.*;
 import tree.stat.*;
 import tree.type.*;
 import util.DebugHelper;
+import WACCExceptions.UndeclaredIdentifierException;
 import WACCExceptions.WACCException;
+import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.*;
 import assignments.*;
 
@@ -150,22 +152,22 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return ssn;
 	}
 	
-	
-	// TODO: remove this method -- there is no such thing as a standalone ident
+
+	/* This method will only be reached in the case of a variable assignment.
+	 * If the variable is undeclared we want to throw an axeption and stop checking further.
+	 * (non-Javadoc)
+	 * @see antlr.WACCParserBaseVisitor#visitIdent(antlr.WACCParser.IdentContext)
+	 */
 	@Override
 	public WACCTree visitIdent(IdentContext ctx) {
 		String ident = ctx.IDENTITY().getText();
-		IdentNode idNode = new IdentNode(null, ident);
 		if(currentSymbolTable.containsRecursive(ident)) {
 			WACCTree var = currentSymbolTable.get(ident);
 			WACCType varType = var.getType();
-			idNode = new IdentNode(varType, ident);
+			IdentNode idNode = new IdentNode(varType, ident);
+			return idNode;
 		}
-		//If ident is not present in symboltable, and ident with a null
-		//type will be returned. 
-		//TODO: find a better way around this
-		idNode.check(currentSymbolTable, ctx);
-		return idNode;
+		throw new UndeclaredIdentifierException("The variable " + ident + " was undefined", ctx);
 	}
 
 	@Override
@@ -219,7 +221,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		//This no longer uses function stubs, but instead adds full functions to symbol table
 		String funcName = fctx.ident().getText();
 		WACCType returnType = WACCType.evalType(fctx.type());
-		ParamListNode params = (ParamListNode) visit(fctx.param_list());	
+		Param_listContext paramCtx = fctx.param_list();
+		ParamListNode params = null;
+		if (paramCtx != null) {
+			params = (ParamListNode) visit(fctx.param_list());
+		} else {
+			params = new ParamListNode();
+		}
 		FuncDecNode func = new FuncDecNode(returnType, funcName, params);
 		currentSymbolTable.add(funcName, func);
 	}
@@ -255,7 +263,15 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitFunc_call_assignment(Func_call_assignmentContext ctx) {
 		String ident = ctx.ident().getText();
 		FuncDecNode funcDef = (FuncDecNode) currentSymbolTable.get(ident);
-		ArgListNode args = (ArgListNode) visit(ctx.arg_list());
+		ArgListNode args;
+		
+		//Here we check that the call has arguments
+		//if no arguments are present, a new empty arg_list will be made.
+		if (ctx.arg_list() == null) {
+			args = new ArgListNode();
+		} else {
+			args = (ArgListNode) visit(ctx.arg_list());
+		}
 		CallStatNode callStat = new CallStatNode(funcDef, args);
 		callStat.check(currentSymbolTable, ctx);
 		return callStat;
@@ -264,24 +280,35 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitArg_list(Arg_listContext ctx) {
 		int argListLength = ctx.getChildCount();
+		
+		//This will compensate for the commas, as they are 
+		//included in getChildCount.
+		argListLength = argListLength / 2;
 		ArgListNode args = new ArgListNode();
 		for (int i=0; i<argListLength; i++) {
-			args.add((ExprNode) visit(ctx.getChild(i)));
+			args.add((ExprNode) visit(ctx.expr(i)));
 		}
 		args.check(currentSymbolTable, ctx);
 		return args;
 	}
 
+	/* Rule: (FST | SND) ident = expr
+	 * Example Case:
+	 * 		fst p = 5
+	 * (non-Javadoc)
+	 * @see antlr.WACCParserBaseVisitor#visitPair_elem(antlr.WACCParser.Pair_elemContext)
+	 */
 	@Override
+	// TODO: revisit this
 	public WACCTree visitPair_elem(Pair_elemContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		PairType type = (PairType) expr.getType();
 		String ident = ((IdentNode) expr).getIdent();
 		WACCType innerType;
 		if (ctx.FST() != null) {
-			innerType = type.getFst();
+			innerType = type.getFstType();
 		} else {
-			innerType = type.getSnd();
+			innerType = type.getSndType();
 		}
 		PairElemNode pairElem = new PairElemNode(expr, ident, innerType);
 		pairElem.check(currentSymbolTable, ctx);
