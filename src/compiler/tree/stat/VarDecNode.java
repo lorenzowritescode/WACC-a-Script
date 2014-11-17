@@ -37,7 +37,10 @@ public class VarDecNode extends StatNode {
 		st.add(ident, this);
 		
 		if ( !varType.isCompatible(rhsTree.getType()) ) {
-			new IncompatibleTypesException("The types of the rhs and lhs of the variable declaration do not match." , ctx);
+			new IncompatibleTypesException(
+					"The types of the rhs and lhs of the variable declaration do not match.\n"
+							+ "LHS: " + varType.toString() + ",\n"
+							+ "RHS: " + rhsTree.getType().toString(), ctx);
 			return false;
 		}
 		return true;
