@@ -69,6 +69,16 @@ public class SymbolTable {
 		return dictionary.get(key);
 	}
 	
+	public void remove(String key) {
+		if (this.isTopSymbolTable) {
+			dictionary.remove(key);
+		}
+		if (!containsCurrent(key)) {
+			parentTable.remove(key);
+		}
+		dictionary.remove(key);
+	}
+	
 	/** This method is used by the ReturnStat to check that the expression it holds is the one expected by the current scope.
 	 * @param returnType
 	 * 		The WACCType of the ExprNode in the ReturnStat
