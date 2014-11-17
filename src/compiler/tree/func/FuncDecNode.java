@@ -7,6 +7,11 @@ import tree.WACCTree;
 import tree.stat.StatNode;
 import tree.type.WACCType;
 
+/* Represents a Function declaration
+ * Contains information of the function name, return type, function parameters, 
+ * function body and a Bool that becomes true once the function body has been added.
+ */
+
 public class FuncDecNode extends WACCTree {
 
 	public final WACCType returnType;
@@ -18,7 +23,6 @@ public class FuncDecNode extends WACCTree {
 	public FuncDecNode(WACCType returnType, String funcName, ParamListNode params) {
 		this(returnType, funcName);
 		this.params = params;
-		//TODO: think this should be true?
 		complete = false;
 	}
 

@@ -10,6 +10,10 @@ import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
 
+/* Represents a list of parameter that can be compared to check equality
+ * and checks for functionality 
+ */
+
 public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	ArrayList<ParamNode> params;
 	
