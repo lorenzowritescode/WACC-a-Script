@@ -52,6 +52,10 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		// Create an inner scope Symbol Table for the function body.
 		currentSymbolTable = new SymbolTable(currentSymbolTable, func.getType());
 		
+		//Add params to current SymbolTable
+		ParamListNode paramList = func.getParams();
+		registerParams(currentSymbolTable, paramList);
+		
 		// Create the functionBody node
 		StatNode funcBody = (StatNode) visit(ctx.stat());
 		
@@ -64,6 +68,14 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		func.check(currentSymbolTable, ctx);
 		return func;
 	}
+
+	private void registerParams(SymbolTable st,
+			ParamListNode paramList) {
+		for (ParamNode param : paramList) {
+			st.add(param.getIdent(), param);
+		}
+	}
+
 
 	@Override
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
