@@ -148,8 +148,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 			WACCTree var = currentSymbolTable.get(ident);
 			WACCType varType = var.getType();
 			idNode = new IdentNode(varType, ident);
-			idNode.check(currentSymbolTable, ctx);
-			return idNode;
 		}
 		//If ident is not present in symboltable, and ident with a null
 		//type will be returned. 
