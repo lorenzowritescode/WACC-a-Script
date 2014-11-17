@@ -2,9 +2,11 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
 import assignments.AssignLhsNode;
 import symboltable.SymbolTable;
+import tree.func.FuncDecNode;
 import tree.type.WACCType;
 
 public class IdentNode extends ExprNode implements AssignLhsNode {
@@ -21,6 +23,9 @@ public class IdentNode extends ExprNode implements AssignLhsNode {
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		if (!st.containsRecursive(ident)) {
 			throw new UndeclaredIdentifierException(ident + " hasn't been defined", ctx);
+		}
+		if (st.getParent().get(ident) instanceof FuncDecNode) {
+			throw new IncompatibleTypesException("Cannot assign to a function", ctx);
 		}
 		return true;
 	}

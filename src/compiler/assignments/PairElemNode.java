@@ -2,9 +2,11 @@ package assignments;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
+import tree.func.FuncDecNode;
 import tree.type.PairType;
 import tree.type.WACCType;
 
@@ -28,6 +30,9 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 		}
 		if (!st.containsRecursive(pairName)) {
 			throw new UndeclaredIdentifierException(pairName + " hasn't been defined", ctx);
+		}
+		if (st.getParent().get(pairName) instanceof FuncDecNode) {
+			throw new IncompatibleTypesException("Cannot assign to a function", ctx);
 		}
 		return true;
 	}
