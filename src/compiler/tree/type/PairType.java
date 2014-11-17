@@ -1,5 +1,7 @@
 package tree.type;
 
+import WACCExceptions.IncompatibleTypesException;
+
 public class PairType extends WACCType {
 
 	private WACCType fst;
@@ -17,36 +19,37 @@ public class PairType extends WACCType {
 	public WACCType getSnd() {
 		return snd;
 	}
-
+	
+	
 	@Override
 	public boolean isCompatible(WACCType other) {
+		// NULL can be assigned to pairs
+		if (other == WACCType.NULL) {
+			return true;
+		}
+		
 		if (!(other instanceof PairType)) {
 			return false;
 		}
+		
 		PairType otherPair = (PairType) other;
-		if (!(fst == null) && !(snd == null)) {
-			if (!fst.isCompatible(otherPair.getFst()) || !snd.isCompatible(otherPair.getSnd())) {
-				return false;
-			}
-			return true;
-		} else if (fst == null) {
-			//if fst is null, only snd needs to be checked
-			if (!snd.isCompatible(otherPair.getSnd())) {
-				return false;
-			}
-			return true;
-		} else {
-			//if snd is null, only fst needs to be checked
-			if (!fst.isCompatible(otherPair.getFst())) {
-				return false;
-			}
-			return true;
+		
+		return 	checkType(this.getFst(), otherPair.getFst()) 
+				&& checkType(this.getFst(), otherPair.getFst());
+	}
+	
+	// utility method for checking pair types
+	private static boolean checkType(WACCType lhs, WACCType rhs) {
+		boolean compatible = lhs == WACCType.NULL || lhs.isCompatible(rhs);
+		if (!compatible) {
+			new IncompatibleTypesException("The types " + lhs.toString() + " and " + rhs.toString() + "are incompatible.");
 		}
+		return compatible;
 	}
 
 	@Override
 	public String toString() {
-		return "pair";
+		return "pair("+fst.toString()+", "+snd.toString()+")";
 	}
 
 }
