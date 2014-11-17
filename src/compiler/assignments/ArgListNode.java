@@ -33,9 +33,6 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 	
 	//For comparisons during function calls
 	public boolean compareToParamList(ParamListNode params) {
-		if(!(args.size() == params.size())) {
-			return false;
-		}
 		Iterator<ExprNode> argIter = iterator();
 		Iterator<ParamNode> paramIter = params.iterator();
 		while(argIter.hasNext()) {
@@ -57,7 +54,8 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 				return false;
 			}
 			for (int i = 0; i < this.size(); i++) {
-				if ( !this.get(i).getType().isCompatible((aln.get(i).getType())) ) {
+				WACCType otherType = aln.get(i).getType();
+				if ( !this.get(i).getType().isCompatible((otherType)) ) {
 					return false;
 				}
 			}
