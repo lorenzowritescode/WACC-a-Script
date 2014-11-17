@@ -161,13 +161,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitIdent(IdentContext ctx) {
 		String ident = ctx.IDENTITY().getText();
-		IdentNode idNode = new IdentNode(null, ident);
 		if(currentSymbolTable.containsRecursive(ident)) {
 			WACCTree var = currentSymbolTable.get(ident);
 			WACCType varType = var.getType();
-			idNode = new IdentNode(varType, ident);
+			IdentNode idNode = new IdentNode(varType, ident);
+			return idNode;
 		}
-		throw new UndeclaredIdentifierException("The variable" + ident + "was undefined", ctx);
+		throw new UndeclaredIdentifierException("The variable " + ident + " was undefined", ctx);
 	}
 
 	@Override

@@ -18,9 +18,11 @@ public class ArrayType extends WACCType {
 			}
 			return true;
 		}
-		if (baseType != null) {
+		if (!(baseType == WACCType.NULL)) {
 			ArrayType otherArray = (ArrayType) other;
-			if (!baseType.isCompatible(otherArray.getBaseType())) {
+			if ( otherArray.getBaseType() == WACCType.NULL) {
+				return true;
+			} else if (!baseType.isCompatible(otherArray.getBaseType())) {
 				return false;
 			}
 			return true;

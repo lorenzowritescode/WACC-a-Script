@@ -102,7 +102,11 @@ public abstract class WACCType {
 			Matcher arrayMatcher = arrayPattern.matcher(typeString);
 			if (arrayMatcher.find()) {
 				WACCType baseType = evalType(typeString.split(arrayRegexSplitter)[0]);
-				return new ArrayType(baseType);
+				ArrayType array = new ArrayType(baseType);
+				while(arrayMatcher.find()) {
+					array = new ArrayType(array);
+				}
+				return array;
 			}
 			//matches any pair
 			if (typeString.contains("pair")) {
