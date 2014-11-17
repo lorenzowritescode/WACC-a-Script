@@ -2,9 +2,11 @@ package assignments;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
+import tree.func.FuncDecNode;
 import tree.type.PairType;
 import tree.type.WACCType;
 

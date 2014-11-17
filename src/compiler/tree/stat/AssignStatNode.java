@@ -2,9 +2,11 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assignments.ArrayElemNode;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
 import symboltable.SymbolTable;
+import tree.func.FuncDecNode;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
 
@@ -27,6 +29,10 @@ public class AssignStatNode extends StatNode {
 			return false;	
 		}
 		
+		if (st.get(lhs.getIdent()) instanceof FuncDecNode) {
+			new IncompatibleTypesException("Cannot assign to function!", ctx);
+		}
+		
 		//Check types are compatible
 		if (!lhs.getType().isCompatible(rhs.getType())) {
 			new IncompatibleTypesException(
@@ -37,7 +43,9 @@ public class AssignStatNode extends StatNode {
 		
 		//TODO: will this work with arrays? or will it assign the entire 
 		// array to equal the rhs node?
-		st.update(lhs.getIdent(), rhs);
+		if (!(lhs instanceof ArrayElemNode)) {
+			st.update(lhs.getIdent(), rhs);
+		}
 		return true;
 		
 	}

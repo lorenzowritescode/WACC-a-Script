@@ -2,9 +2,11 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
 import assignments.AssignLhsNode;
 import symboltable.SymbolTable;
+import tree.func.FuncDecNode;
 import tree.type.WACCType;
 
 public class IdentNode extends ExprNode implements AssignLhsNode {
