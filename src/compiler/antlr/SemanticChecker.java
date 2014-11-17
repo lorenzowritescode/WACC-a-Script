@@ -33,6 +33,7 @@ import tree.stat.SkipStatNode;
 import tree.stat.StatNode;
 import tree.stat.VarDecNode;
 import tree.stat.WhileStatNode;
+import tree.type.ArrayType;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
@@ -78,6 +79,7 @@ import assignments.Assignable;
 import assignments.CallStatNode;
 import assignments.NewPairNode;
 import assignments.PairElemNode;
+
 
 // library used for debugging
 import com.thoughtworks.xstream.XStream;
@@ -381,8 +383,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		for (ExprContext ec : exprCtxs) {
 			exprs.add((ExprNode) visit(ec));
 		}
-		WACCType type = currentSymbolTable.get(ident).getType();
-		ArrayElemNode arrayElem = new ArrayElemNode(ident, exprs, type);
+		
+		ArrayType t = (ArrayType) currentSymbolTable.get(ident).getType();
+		ArrayElemNode arrayElem = new ArrayElemNode(exprs, t);
 		return arrayElem;
 	}
 

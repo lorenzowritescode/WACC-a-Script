@@ -35,7 +35,7 @@ public class ArrayType extends WACCType {
 		return true;
 	}
 
-	private WACCType getBaseType() {
+	public WACCType getBaseType() {
 		return baseType;
 	}
 	
