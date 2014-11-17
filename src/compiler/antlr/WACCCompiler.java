@@ -27,9 +27,7 @@ public class WACCCompiler {
 		String waccFilePath = cmd.getOptionValue("f");
 		InputStream waccInput = getInputStream(waccFilePath);
 		
-		// Create ANTLR Input stream
-		ANTLRInputStream antrlInput = new ANTLRInputStream(waccInput);
-		WACCLexer lexer = new WACCLexer(antrlInput);
+		WACCLexer lexer = getLexer(waccInput);
 		
 		// Tokenise the input stream
 		CommonTokenStream tokens = tokenise(lexer);
@@ -46,6 +44,28 @@ public class WACCCompiler {
 		}
 //		WACCCompiler compiler = new WACCCompiler(semantic);
 //		compiler.init();
+	}
+
+	/**
+	 * @param waccInput
+	 * 		The InputStream containing the WACC program
+	 * @return
+	 * 		A WACCLexer
+	 * @throws IOException
+	 */
+	private static WACCLexer getLexer(InputStream waccInput) throws IOException {
+		// Create ANTLR Input stream
+		WACCLexer lexer = null;
+		try {
+			ANTLRInputStream antrlInput = new ANTLRInputStream(waccInput);
+			lexer = new WACCLexer(antrlInput);
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			exitSyntaxError();
+		}
+		return lexer;
 	}
 	
 	private static CommonTokenStream tokenise(WACCLexer lexer) {
@@ -83,11 +103,12 @@ public class WACCCompiler {
 	 * 		An ANTLR AST representing the program
 	 */
 	private static ParseTree getParseTree(CommonTokenStream tokens) {
-		// Create Parser from Tokens
-		WACCParser parser = new WACCParser(tokens);
-		// Set tree to null for the moment
+		WACCParser parser = null;
 		ParseTree tree = null;
 		try {
+			// Create Parser from Tokens
+			parser = new WACCParser(tokens);
+			// Set tree to null for the moment
 			tree = parser.prog();
 		} catch (Exception e) {
 			e.printStackTrace();

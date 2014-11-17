@@ -2,15 +2,13 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assignments.ArrayElemNode;
-import assignments.AssignLhsNode;
-import assignments.Assignable;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.expr.IdentNode;
 import tree.func.FuncDecNode;
 import WACCExceptions.IncompatibleTypesException;
-import WACCExceptions.UndeclaredIdentifierException;
+import assignments.AssignLhsNode;
+import assignments.Assignable;
 
 /**
  * Class to represent variable assignment statements

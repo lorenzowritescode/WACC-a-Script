@@ -3,7 +3,6 @@ package tree.expr;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
-import tree.WACCTree;
 import tree.type.WACCType;
 
 /**

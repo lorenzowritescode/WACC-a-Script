@@ -2,12 +2,10 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import WACCExceptions.IncompatibleTypesException;
+import symboltable.SymbolTable;
+import tree.type.WACCType;
 import WACCExceptions.UndeclaredIdentifierException;
 import assignments.AssignLhsNode;
-import symboltable.SymbolTable;
-import tree.func.FuncDecNode;
-import tree.type.WACCType;
 
 /* Represents an Identifier and its declared type
  * Constructed with and type and string (e.g BOOL, "myBool")

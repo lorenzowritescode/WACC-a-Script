@@ -6,7 +6,12 @@ import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
 
+/* Represents a single parameter of a function
+ * Contains information of the type and identifier * 
+ */
+
 public class ParamNode extends WACCTree {
+	
 	private WACCType type;
 	private String ident;
 	
