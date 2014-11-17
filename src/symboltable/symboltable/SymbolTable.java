@@ -107,16 +107,5 @@ public class SymbolTable {
 			new UnresolvedExpectationException("The expectations of this code block were not met.");
 		}
 	}
-
-	public void update(String key, WACCTree node) {
-		if (this.isTopSymbolTable) {
-			dictionary.remove(key);
-			add(key, node);
-		} else if (!containsCurrent(key)) {
-			parentTable.update(key, node);
-		} else {
-			dictionary.remove(key);
-			add(key, node);
-		}
-	}
+	
 }

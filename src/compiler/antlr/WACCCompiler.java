@@ -15,6 +15,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
 import WACCExceptions.IntOverflowException;
+import WACCExceptions.UnresolvedExpectationException;
 
 public class WACCCompiler {
 
@@ -92,6 +93,9 @@ public class WACCCompiler {
 		SemanticChecker semantic = new SemanticChecker(tree);
 		try {
 			semantic.init();
+		} catch (UnresolvedExpectationException e) {
+			e.printStackTrace();
+			exitSyntaxError();
 		} catch (IntOverflowException e) {
 			e.printStackTrace();
 			exitSyntaxError();
