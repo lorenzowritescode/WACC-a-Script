@@ -3,6 +3,8 @@ package WACCExceptions;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 
+import antlr.WACCParser.StatContext;
+
 @SuppressWarnings("serial")
 public class WACCException extends RuntimeException {
 	
@@ -51,10 +53,16 @@ public class WACCException extends RuntimeException {
 	private class ErrorPosition {
 		private ParserRuleContext ctx;
 		private Token firstValidToken;
+		private ParserRuleContext firstStatParent;
 
 		public ErrorPosition(ParserRuleContext ctx) {
 			this.ctx = ctx;
 			this.firstValidToken = findToken(ctx);
+			try {
+				this.firstStatParent = findParentRule(ctx);
+			} catch (Exception e) {
+				this.firstStatParent = ctx;
+			}
 		}
 
 		public int getLine() {
@@ -66,7 +74,7 @@ public class WACCException extends RuntimeException {
 		}
 		
 		public String getText() {
-			return firstValidToken.getText();
+			return firstStatParent.getText();
 		}
 		
 		private Token findToken(ParserRuleContext rule) {
@@ -76,6 +84,18 @@ public class WACCException extends RuntimeException {
 				return findToken((ParserRuleContext) ctx.getChild(0));
 			
 			return rule.start;
+		}
+		
+		private ParserRuleContext findParentRule(ParserRuleContext ctx) throws Exception {
+			int MAX_DEPTH = 15;
+			ParserRuleContext current = ctx;
+			int i = 0;
+			while(!(ctx instanceof StatContext) && i++ < MAX_DEPTH) {
+				current = ctx.getParent();
+				if (current == null)
+					throw new Exception("Could not find a Stat parent");
+			}
+			return current;
 		}
 	}
 }
