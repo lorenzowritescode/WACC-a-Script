@@ -280,11 +280,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 	@Override
 	public WACCTree visitArg_list(Arg_listContext ctx) {
-		int argListLength = ctx.getChildCount();
-		
-		//This will compensate for the commas, as they are 
-		//included in getChildCount.
-		argListLength = argListLength / 2;
+		int argListLength = ctx.expr().size();
 		ArgListNode args = new ArgListNode();
 		for (int i = 0; i < argListLength; i++) {
 			args.add((ExprNode) visit(ctx.expr(i)));
