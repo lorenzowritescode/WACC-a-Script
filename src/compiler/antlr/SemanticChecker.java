@@ -16,7 +16,6 @@ import tree.type.*;
 import util.DebugHelper;
 import WACCExceptions.UndeclaredIdentifierException;
 import WACCExceptions.WACCException;
-import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.*;
 import assignments.*;
 
@@ -246,10 +245,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	// Pair literals are null by default.
 	@Override
 	public WACCTree visitPair_liter(Pair_literContext ctx) {
-		return new PaiLiterNode();
+		return new PairLiterNode();
 	}
 
 
+	/* 
+	 * Rule: `newpair`(expr, expr)
+	 */
 	@Override
 	public WACCTree visitNewpair_assignment(Newpair_assignmentContext ctx) {
 		ExprNode fst = (ExprNode) visit(ctx.expr(0));
