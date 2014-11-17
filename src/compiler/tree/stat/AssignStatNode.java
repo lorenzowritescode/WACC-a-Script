@@ -2,6 +2,7 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assignments.ArrayElemNode;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
 import symboltable.SymbolTable;
@@ -37,7 +38,9 @@ public class AssignStatNode extends StatNode {
 		
 		//TODO: will this work with arrays? or will it assign the entire 
 		// array to equal the rhs node?
-		st.update(lhs.getIdent(), rhs);
+		if (!(lhs instanceof ArrayElemNode)) {
+			st.update(lhs.getIdent(), rhs);
+		}
 		return true;
 		
 	}
