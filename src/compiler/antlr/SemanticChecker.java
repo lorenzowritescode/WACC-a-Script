@@ -15,6 +15,7 @@ import tree.stat.*;
 import tree.type.*;
 import util.DebugHelper;
 import WACCExceptions.WACCException;
+import antlr.WACCParser.Param_listContext;
 import antlr.WACCParser.*;
 import assignments.*;
 
@@ -219,7 +220,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		//This no longer uses function stubs, but instead adds full functions to symbol table
 		String funcName = fctx.ident().getText();
 		WACCType returnType = WACCType.evalType(fctx.type());
-		ParamListNode params = (ParamListNode) visit(fctx.param_list());	
+		Param_listContext paramCtx = fctx.param_list();
+		ParamListNode params = null;
+		if (paramCtx != null) {
+			params = (ParamListNode) visit(fctx.param_list());
+		} else {
+			params = new ParamListNode();
+		}
 		FuncDecNode func = new FuncDecNode(returnType, funcName, params);
 		currentSymbolTable.add(funcName, func);
 	}
