@@ -1,5 +1,10 @@
 package tree.type;
 
+/* Class for the Array type
+ * Contains the Array's Base Type
+ * Functionality to check if other types are compatible with the array
+ * Rule: type '[' ']'
+ */
 
 public class ArrayType extends WACCType {
 	
@@ -36,7 +41,7 @@ public class ArrayType extends WACCType {
 	
 	@Override
 	public String toString() {
-		return "array";
+		return "array-" + baseType.toString();
 	}
 
 }

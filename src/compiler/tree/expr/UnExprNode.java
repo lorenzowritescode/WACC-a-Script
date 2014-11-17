@@ -7,6 +7,13 @@ import symboltable.SymbolTable;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
 
+/* Represents a Unary Operator expression
+ * Holds the operator and the expression
+ * Checks expression type is compatible with the operator
+ * Rule: unary-oper expr
+ * Where unary-oper is '!' | '-' | 'len' | 'ord' | 'chr'
+ */
+
 public class UnExprNode extends ExprNode{
 
 	private WACCUnOp operator;

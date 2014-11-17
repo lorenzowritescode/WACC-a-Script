@@ -2,6 +2,12 @@ package tree.type;
 
 import tree.expr.ExprNode;
 
+/* Contains specific behavior for Comparative Binary Expressions
+ * See WACCBinOp.java for more 
+ * Rule: expr binary-oper expr
+ * Where binary-oper is '>' | '>=' | '<' | '<='
+ */
+
 public class WACCCompBinOp extends WACCBinOp {
 	
 	@Override

@@ -6,6 +6,11 @@ import symboltable.SymbolTable;
 import tree.type.PairType;
 import tree.type.WACCType;
 
+/* Represents a declared pair
+ * Contains type information for 1st and 2nd elements of pair
+ * Contains identifier string
+ */
+
 public class PairLeaf extends ExprNode {
 
 	private WACCType fstType;

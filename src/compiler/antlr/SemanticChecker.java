@@ -192,12 +192,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	}
 
 	@Override
-	public WACCTree visitAssign_lhs(Assign_lhsContext ctx) {
-		Assignable lhs = (Assignable) visit(ctx.getChild(0));
-		return lhs;
-	}
-
-	@Override
 	public WACCTree visitVariable_assigment(Variable_assigmentContext ctx) {
 		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.assign_lhs());
 		Assignable rhs = (Assignable) visit(ctx.assign_rhs());
