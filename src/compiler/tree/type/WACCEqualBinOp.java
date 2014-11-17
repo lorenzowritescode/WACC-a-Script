@@ -4,6 +4,10 @@ import tree.expr.ExprNode;
 
 public class WACCEqualBinOp extends WACCBinOp {
 	
+	/* Contains specific behavior for Equals and Not Equals Binary Expressions
+	 * See WACCBinOp.java for more 
+	 */
+	
 	@Override
 	public boolean check(ExprNode lhs, ExprNode rhs) {
 		return true;

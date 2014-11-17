@@ -3,6 +3,11 @@ package tree.type;
 
 public class ArrayType extends WACCType {
 	
+    /* Class for the Array type
+	 * Contains the Array's Base Type
+	 * Functionality to check if other types are compatible with the array
+	 */
+	
 	private WACCType baseType;
 	
 	public ArrayType(WACCType baseType) {
