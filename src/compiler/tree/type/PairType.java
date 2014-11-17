@@ -3,6 +3,12 @@ package tree.type;
 import WACCExceptions.IncompatibleTypesException;
 
 public class PairType extends WACCType {
+	
+	/* Class for the Pair Type
+	 * Contains type info for 1st and 2nd elements and functionality for NULLs
+	 * Functionality to check other types are compatible with the pair
+	 */
+	
 	private static PairType NULL_PAIR = new PairType(WACCType.NULL, WACCType.NULL);
 	private WACCType fst;
 	private WACCType snd;
