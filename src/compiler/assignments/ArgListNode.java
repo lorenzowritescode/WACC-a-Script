@@ -12,6 +12,11 @@ import tree.func.ParamListNode;
 import tree.func.ParamNode;
 import tree.type.WACCType;
 
+/* Represents a list of arguments for the call to a function
+ * Used to perform checks on provided arguments with the parameter list
+ * declared for the given functions
+ */
+
 public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 	ArrayList<ExprNode> args;
 	
