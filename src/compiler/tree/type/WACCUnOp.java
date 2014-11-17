@@ -42,6 +42,11 @@ public abstract class WACCUnOp {
 		public boolean check(ExprNode e) {
 			return e.getType() == WACCType.BOOL;
 		}
+
+		@Override
+		public String toString() {
+			return "NOT";
+		}
 	};
 	
 	public static final WACCUnOp NEG = new WACCUnOp() {
@@ -54,6 +59,11 @@ public abstract class WACCUnOp {
 		@Override
 		public boolean check(ExprNode e) {
 			return e.getType() == WACCType.INT;
+		}
+		
+		@Override
+		public String toString() {
+			return "NEG";
 		}
 	};
 	
@@ -68,6 +78,11 @@ public abstract class WACCUnOp {
 		public boolean check(ExprNode e) {
 			return e.getType() instanceof ArrayType;
 		}
+		
+		@Override
+		public String toString() {
+			return "LEN";
+		}
 	};
 	
 	public static final WACCUnOp ORD = new WACCUnOp() {
@@ -81,6 +96,11 @@ public abstract class WACCUnOp {
 		public boolean check(ExprNode e) {
 			return e.getType() == WACCType.CHAR;
 		}
+		
+		@Override
+		public String toString() {
+			return "ORD";
+		}
 	};
 	
 	public static final WACCUnOp CHR = new WACCUnOp() {
@@ -93,6 +113,11 @@ public abstract class WACCUnOp {
 		@Override
 		public boolean check(ExprNode e) {
 			return e.getType() == WACCType.INT;
+		}
+		
+		@Override
+		public String toString() {
+			return "CHR";
 		}
 	};
 }
