@@ -263,7 +263,15 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitFunc_call_assignment(Func_call_assignmentContext ctx) {
 		String ident = ctx.ident().getText();
 		FuncDecNode funcDef = (FuncDecNode) currentSymbolTable.get(ident);
-		ArgListNode args = (ArgListNode) visit(ctx.arg_list());
+		ArgListNode args;
+		
+		//Here we check that the call has arguments
+		//if no arguments are present, a new empty arg_list will be made.
+		if (ctx.arg_list() == null) {
+			args = new ArgListNode();
+		} else {
+			args = (ArgListNode) visit(ctx.arg_list());
+		}
 		CallStatNode callStat = new CallStatNode(funcDef, args);
 		callStat.check(currentSymbolTable, ctx);
 		return callStat;
@@ -272,9 +280,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitArg_list(Arg_listContext ctx) {
 		int argListLength = ctx.getChildCount();
+		
+		//This will compensate for the commas, as they are 
+		//included in getChildCount.
+		argListLength = argListLength / 2;
 		ArgListNode args = new ArgListNode();
 		for (int i=0; i<argListLength; i++) {
-			args.add((ExprNode) visit(ctx.getChild(i)));
+			args.add((ExprNode) visit(ctx.expr(i)));
 		}
 		args.check(currentSymbolTable, ctx);
 		return args;
