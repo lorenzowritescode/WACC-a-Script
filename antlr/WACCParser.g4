@@ -108,4 +108,4 @@ ident: IDENTITY;
 
 
 // Program
-prog: BEGIN func* stat END;
+prog: BEGIN func* stat END EOF;
