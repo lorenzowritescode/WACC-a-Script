@@ -2,10 +2,9 @@ package symboltable;
 
 import java.util.HashMap;
 
-import assignments.Assignable;
-import WACCExceptions.UnresolvedExpectationException;
 import tree.WACCTree;
 import tree.type.WACCType;
+import WACCExceptions.UnresolvedExpectationException;
 
 public class SymbolTable {
 	

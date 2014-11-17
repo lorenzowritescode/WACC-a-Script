@@ -14,8 +14,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
-import com.sun.javafx.scene.paint.GradientUtils.Parser;
-
 public class WACCCompiler {
 
 	public static void main(String[] args) throws IOException {

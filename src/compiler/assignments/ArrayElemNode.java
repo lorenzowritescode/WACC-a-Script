@@ -6,9 +6,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
-import tree.func.FuncDecNode;
 import tree.type.WACCType;
-import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.InvalidTypeException;
 import WACCExceptions.UndeclaredIdentifierException;
 
