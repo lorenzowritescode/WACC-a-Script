@@ -9,6 +9,12 @@ import tree.type.ArrayType;
 import tree.type.PairType;
 import WACCExceptions.InvalidTypeException;
 
+/**
+ * Class to represent free statements used to free array or pair variables
+ * Rule: 'free' expr
+ *
+ */
+
 public class FreeStat extends StatNode {
 	
 	private ExprNode en;
@@ -17,11 +23,6 @@ public class FreeStat extends StatNode {
 		this.en = en;
 	}
 	
-	/* (non-Javadoc)
-	 * @see tree.stat.StatNode#check(symboltable.SymbolTable, org.antlr.v4.runtime.ParserRuleContext)
-	 * Checks to see if expr is an identifier, and if it is,
-	 * checks that if that the identifier is in symbol table, it is a pair or an array type
-	 */
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		if (en instanceof IdentNode) {
 			IdentNode identN = (IdentNode) en;

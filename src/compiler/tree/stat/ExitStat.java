@@ -7,6 +7,11 @@ import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
 
+/**
+ * Class to represent exit statements for exiting a program
+ * Rule: 'exit' expr
+ *
+ */
 
 public class ExitStat extends StatNode {
 	

@@ -8,6 +8,11 @@ import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import assignments.AssignLhsNode;
 
+/**
+ * Class to represent read statements  
+ * Rule: 'read' assign-lhs
+ */
+
 public class ReadStatNode extends StatNode {
 
 	private WACCTree lhs;
