@@ -31,7 +31,7 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 		if (!st.containsRecursive(pairName)) {
 			throw new UndeclaredIdentifierException(pairName + " hasn't been defined", ctx);
 		}
-		if (st.get(pairName) instanceof FuncDecNode) {
+		if (st.getParent().get(pairName) instanceof FuncDecNode) {
 			throw new IncompatibleTypesException("Cannot assign to a function", ctx);
 		}
 		return true;
