@@ -2,6 +2,7 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.IntOverflowException;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 
@@ -20,8 +21,10 @@ public class IntLeaf extends ExprNode {
 
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
-		// If the `value` has been tokenised as an int literal we can assume it is numeric.
-		// Size is checked at runtime.
+		long integer = Long.valueOf(value);
+		if (integer < (-(2^31)) | integer > (2^31 + 1)) {
+			throw new IntOverflowException("The absolute value, " + value + " is too large");
+		}
 		return true;
 	}
 
