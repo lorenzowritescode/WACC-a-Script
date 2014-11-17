@@ -39,7 +39,7 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	}
 
 	@Override
-	public boolean checkPreDef(SymbolTable st, String identName) {
+	public boolean checkPreDef(SymbolTable st, String identName, ParserRuleContext ctx) {
 		return true;
 	}
 
