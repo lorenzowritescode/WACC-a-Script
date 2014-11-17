@@ -34,11 +34,13 @@ public class WACCException extends RuntimeException {
 	public WACCException(String message) {
 		this.message = message;
 		this.ctx = null;
+		ERROR_LISTENER.record(this);
 	}
 	
 	public WACCException() {
 		this.message = "Semantic Error found.";
 		this.ctx = null;
+		ERROR_LISTENER.record(this);
 	}
 
 	@Override

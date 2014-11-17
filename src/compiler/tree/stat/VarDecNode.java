@@ -29,13 +29,11 @@ public class VarDecNode extends StatNode {
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		
-		// First we check the identifier is unique
-		if ( st.containsCurrent(ident) ) {
-			if (!(st.get(ident) instanceof FuncDecNode)) {
-				new NotUniqueIdentifierException(
-						"A variable with identifier " + ident + " was already declared", ctx);
-				return false;
-			}
+		// First we check the identifier is unique and it is not a function
+		if ( st.containsCurrent(ident) && !(st.get(ident) instanceof FuncDecNode) ) {
+			new NotUniqueIdentifierException(
+					"A variable with identifier " + ident + " was already declared", ctx);
+			return false;
 		} 
 		
 		// We add the current var to the SymbolTable
