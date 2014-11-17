@@ -229,7 +229,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 	
 	
-	
+	// Pair literals are null by default.
+	@Override
+	public WACCTree visitPair_liter(Pair_literContext ctx) {
+		return new PaiLiterNode();
+	}
+
+
 	@Override
 	public WACCTree visitNewpair_assignment(Newpair_assignmentContext ctx) {
 		ExprNode fst = (ExprNode) visit(ctx.expr(0));

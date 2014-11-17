@@ -68,11 +68,8 @@ public abstract class WACCType {
 	
 	public static WACCType evalType(TypeContext ctx) {
 		return evalType(ctx.getText());
-	}
+	}	
 	
-	public static final String pairRegexSplitter = " *[\\)\\(,] *";
-	public static final String arrayRegexSplitter = "[\\[\\]]";
-	// Utility method for converting a WACCParser.TypeContext into a WACCType
 	public static final WACCType NULL = new WACCType() {
 		
 		@Override
@@ -85,6 +82,10 @@ public abstract class WACCType {
 			return true;
 		}
 	};
+	
+	public static final String pairRegexSplitter = " *[\\)\\(,] *";
+	public static final String arrayRegexSplitter = "[\\[\\]]";
+	// Utility method for converting a WACCParser.TypeContext into a WACCType
 	public static WACCType evalType(String typeString) {
 		switch (typeString) {
 		case "int":
@@ -115,6 +116,7 @@ public abstract class WACCType {
 				// Pairs of pairs have type `pair(null, null)` 
 				WACCType fstType = fstString.equals("pair") ? WACCType.NULL : evalType(fstString);
 				WACCType sndType = sndString.equals("pair") ? WACCType.NULL : evalType(sndString);
+				
 				
 				return new PairType(fstType, sndType); 
 			}
