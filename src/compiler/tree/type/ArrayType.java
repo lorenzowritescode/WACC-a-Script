@@ -12,7 +12,10 @@ public class ArrayType extends WACCType {
 	@Override
 	public boolean isCompatible(WACCType other) {
 		if (!(other instanceof ArrayType)) {
-			return false;
+			if(!baseType.isCompatible(other)) {
+				return false;
+			}
+			return true;
 		}
 		if (!(baseType == null)) {
 			ArrayType otherArray = (ArrayType) other;

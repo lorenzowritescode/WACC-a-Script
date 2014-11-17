@@ -31,7 +31,7 @@ public class AssignStatNode extends StatNode {
 		if (!lhs.getType().isCompatible(rhs.getType())) {
 			new IncompatibleTypesException(
 					"Cannot assign a " + rhs.getType().toString()
-					+ "to a " + lhs.getType().toString(), ctx);
+					+ " to a " + lhs.getType().toString(), ctx);
 			return false;
 		}
 		
