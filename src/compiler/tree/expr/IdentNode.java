@@ -19,13 +19,8 @@ public class IdentNode extends ExprNode implements AssignLhsNode {
 	
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
-		return true;
-	}
-	
-	@Override
-	public boolean checkPreDef( SymbolTable st, String identName, ParserRuleContext ctx) {
-		if (!st.containsRecursive(identName)) {
-			throw new UndeclaredIdentifierException(identName + " hasn't been defined", ctx);
+		if (!st.containsRecursive(ident)) {
+			throw new UndeclaredIdentifierException(ident + " hasn't been defined", ctx);
 		}
 		return true;
 	}

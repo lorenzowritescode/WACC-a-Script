@@ -31,6 +31,9 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 				return false;
 			}
 		}
+		if (!st.containsRecursive(ident)) {
+			throw new UndeclaredIdentifierException(ident + " hasn't been defined", ctx);
+		}
 		return true;
 	}
 
@@ -42,14 +45,6 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
 	public String getIdent() {
 		return ident;
-	}
-	
-	@Override
-	public boolean checkPreDef(SymbolTable st, String identName, ParserRuleContext ctx) {
-		if (!st.containsRecursive(identName)) {
-			throw new UndeclaredIdentifierException(identName + " hasn't been defined", ctx);
-		}
-		return true;
 	}
 
 }
