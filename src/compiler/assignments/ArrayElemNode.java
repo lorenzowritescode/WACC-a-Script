@@ -35,7 +35,7 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		if (!st.containsRecursive(ident)) {
 			throw new UndeclaredIdentifierException(ident + " hasn't been defined", ctx);
 		}
-		if (st.getParent().get(ident) instanceof FuncDecNode) {
+		if (st.get(ident) instanceof FuncDecNode) {
 			throw new IncompatibleTypesException("Cannot assign to a function", ctx);
 		}
 		return true;
