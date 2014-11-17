@@ -143,18 +143,19 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitIdent(IdentContext ctx) {
 		String ident = ctx.IDENTITY().getText();
+		IdentNode idNode = new IdentNode(null, ident);
 		if(currentSymbolTable.containsRecursive(ident)) {
 			WACCTree var = currentSymbolTable.get(ident);
 			WACCType varType = var.getType();
-			IdentNode idNode = new IdentNode(varType, ident);
+			idNode = new IdentNode(varType, ident);
 			idNode.check(currentSymbolTable, ctx);
 			return idNode;
 		}
 		//If ident is not present in symboltable, and ident with a null
 		//type will be returned. 
 		//TODO: find a better way around this
-		return new IdentNode(null, ident);
-		
+		idNode.check(currentSymbolTable, ctx);
+		return idNode;
 	}
 
 	@Override
