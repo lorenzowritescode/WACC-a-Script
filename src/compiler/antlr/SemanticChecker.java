@@ -3,6 +3,7 @@ package antlr;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import symboltable.SymbolTable;
@@ -76,7 +77,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
 		ExprNode exprType = (ExprNode) visit(ctx.expr());
-		
+		checkPredefinedLHS(ctx, exprType);
 		ReturnStatNode rst = new ReturnStatNode(exprType);
 		rst.check(currentSymbolTable, ctx);
 
@@ -98,10 +99,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitPrint_stat(Print_statContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
-		if (expr instanceof AssignLhsNode) {
-			AssignLhsNode lhsExpr = (AssignLhsNode) expr;
-			lhsExpr.checkPreDef(currentSymbolTable, lhsExpr.getIdent(), ctx);
-		}
+		checkPredefinedLHS(ctx, expr);
 		PrintStat ps = new PrintStat(expr);
 		ps.check(currentSymbolTable, ctx);
 
@@ -111,10 +109,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
-		if (expr instanceof AssignLhsNode) {
-			AssignLhsNode lhsExpr = (AssignLhsNode) expr;
-			lhsExpr.checkPreDef(currentSymbolTable, lhsExpr.getIdent(), ctx);
-		}
+		checkPredefinedLHS(ctx, expr);
 		PrintLnStat ps = new PrintLnStat(expr);
 		ps.check(currentSymbolTable, ctx);
 
@@ -134,6 +129,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitFree_stat(Free_statContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
+		checkPredefinedLHS(ctx, expr);
 		FreeStat stat = new FreeStat(expr);
 		stat.check(currentSymbolTable, ctx);
 
@@ -143,6 +139,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitExit_stat(Exit_statContext ctx) {
 		ExprNode exitVal = (ExprNode) visit(ctx.expr());
+		checkPredefinedLHS(ctx, exitVal);
 		ExitStat stat = new ExitStat(exitVal);
 		stat.check(currentSymbolTable, ctx);
 		
@@ -370,10 +367,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitWhile_stat(While_statContext ctx) {
 		ExprNode loopCond = (ExprNode) visit(ctx.expr());
-		if (loopCond instanceof AssignLhsNode) {
-			AssignLhsNode lhsExpr = (AssignLhsNode) loopCond;
-			lhsExpr.checkPreDef(currentSymbolTable, lhsExpr.getIdent(), ctx);
-		}
+		checkPredefinedLHS(ctx, loopCond);
 		WhileStatNode whileStat = new WhileStatNode(loopCond);
 		whileStat.check(currentSymbolTable, ctx);
 		
@@ -383,10 +377,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	@Override
 	public WACCTree visitIf_stat(If_statContext ctx) {
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
-		if (ifCond instanceof AssignLhsNode) {
-			AssignLhsNode lhsExpr = (AssignLhsNode) ifCond;
-			lhsExpr.checkPreDef(currentSymbolTable, lhsExpr.getIdent(), ctx);
-		}
+		checkPredefinedLHS(ctx, ifCond);
 		IfStatNode ifStat = new IfStatNode(ifCond);
 		ifStat.check(currentSymbolTable, ctx);
 		
@@ -433,6 +424,12 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return stat;
 	}
 
+	private void checkPredefinedLHS(ParserRuleContext ctx, ExprNode expr) {
+		if (expr instanceof AssignLhsNode) {
+			AssignLhsNode lhsExpr = (AssignLhsNode) expr;
+			lhsExpr.checkPreDef(currentSymbolTable, lhsExpr.getIdent(), ctx);
+		}
+	}
 
 	/**
 	 * @return
