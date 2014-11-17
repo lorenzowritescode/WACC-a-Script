@@ -184,7 +184,7 @@ public class WACCCompiler {
 	}
 	
 	private void init() {
-		//TODO: implement init
+		//TODO: Milestone 2 - Code Generation
 		return;
 	}
 

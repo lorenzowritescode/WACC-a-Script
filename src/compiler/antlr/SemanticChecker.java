@@ -353,7 +353,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	 * 		(FST | SND) ident 
 	 */
 	@Override
-	// TODO: revisit this
 	public WACCTree visitPair_elem(Pair_elemContext ctx) {
 		String fstOrSnd = ctx.getChild(0).getText();
 		ExprNode expr = (ExprNode) visit(ctx.expr());
