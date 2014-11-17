@@ -41,8 +41,8 @@ import WACCExceptions.WACCException;
 import antlr.WACCParser.Arg_listContext;
 import antlr.WACCParser.Array_elemContext;
 import antlr.WACCParser.Array_literContext;
-import antlr.WACCParser.Array_liter_arhsContext;
 import antlr.WACCParser.Assign_lhsContext;
+import antlr.WACCParser.Block_statContext;
 import antlr.WACCParser.Bool_literContext;
 import antlr.WACCParser.Char_literContext;
 import antlr.WACCParser.Exit_statContext;
@@ -64,7 +64,6 @@ import antlr.WACCParser.Read_statContext;
 import antlr.WACCParser.Return_statContext;
 import antlr.WACCParser.Sequential_statContext;
 import antlr.WACCParser.Skip_statContext;
-import antlr.WACCParser.StatContext;
 import antlr.WACCParser.Str_literContext;
 import antlr.WACCParser.Variable_assigmentContext;
 import antlr.WACCParser.Variable_declarationContext;
@@ -253,15 +252,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitAssign_lhs(Assign_lhsContext ctx) {
 		Assignable lhs = (Assignable) visit(ctx.getChild(0));
 		return lhs;
-	}
-
-//	@Override
-//	public WACCTree visitAssign_rhs(Assign_rhsContext ctx) {
-//		Assignable rhs = (Assignable) visit(ctx.getChild(0));
-//		return rhs;
-//	}
-	
-	
+	}	
 
 	@Override
 	public WACCTree visitVariable_assigment(Variable_assigmentContext ctx) {
@@ -344,7 +335,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return pairElem;
 	}
 	
-
 	@Override
 	public WACCTree visitArray_liter(Array_literContext ctx) {
 		ArrayList<ExprNode> elems = new ArrayList<ExprNode>();
@@ -358,10 +348,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return arrayLiter;
 	}
 	
-	
-
-	
-
 	@Override
 	public WACCTree visitArray_elem(Array_elemContext ctx) {
 		String ident = ctx.ident().getText();
@@ -472,6 +458,16 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 			return visit(ctx.getChild(0));
 		}
 	}
+
+	@Override
+	public WACCTree visitBlock_stat(Block_statContext ctx) {
+		currentSymbolTable = new SymbolTable(currentSymbolTable);
+		StatNode stat = (StatNode) visit(ctx.stat());
+		currentSymbolTable.finaliseScope();
+		currentSymbolTable = currentSymbolTable.getParent();
+		return stat;
+	}
+
 
 	/**
 	 * @return
