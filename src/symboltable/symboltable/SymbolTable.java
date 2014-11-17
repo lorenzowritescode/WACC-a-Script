@@ -40,6 +40,13 @@ public class SymbolTable {
 	}
 	
 
+	public SymbolTable(SymbolTable currentSymbolTable) {
+		this.dictionary = new HashMap<>();
+		this.isTopSymbolTable = false;
+		this.expectation = new Expectation();
+		this.parentTable = currentSymbolTable;
+	}
+
 	public boolean containsRecursive(String identifier) {
 		if(this.isTopSymbolTable){
 			return containsCurrent(identifier);
@@ -91,7 +98,13 @@ public class SymbolTable {
 	
 	public void finaliseScope(String funcName) {
 		if(!expectation.isResolved()) {
-			new UnresolvedExpectationException("The expectation of the function " + funcName + " were not met.");
+			new UnresolvedExpectationException("The expectations of the function " + funcName + " were not met.");
+		}
+	}
+	
+	public void finaliseScope() {
+		if(!expectation.isResolved()) {
+			new UnresolvedExpectationException("The expectations of this code block were not met.");
 		}
 	}
 }

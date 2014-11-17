@@ -8,76 +8,16 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
-import tree.expr.BinExprNode;
-import tree.expr.BoolLeaf;
-import tree.expr.CharLeaf;
-import tree.expr.ExprNode;
-import tree.expr.IdentNode;
-import tree.expr.IntLeaf;
-import tree.expr.StringLeaf;
-import tree.expr.UnExprNode;
-import tree.func.FuncDecNode;
-import tree.func.ParamListNode;
-import tree.func.ParamNode;
-import tree.stat.AssignStatNode;
-import tree.stat.ExitStat;
-import tree.stat.FreeStat;
-import tree.stat.IfStatNode;
-import tree.stat.PrintLnStat;
-import tree.stat.PrintStat;
-import tree.stat.ReadStatNode;
-import tree.stat.ReturnStatNode;
-import tree.stat.SeqStatNode;
-import tree.stat.SkipStatNode;
-import tree.stat.StatNode;
-import tree.stat.VarDecNode;
-import tree.stat.WhileStatNode;
-import tree.type.PairType;
-import tree.type.WACCBinOp;
-import tree.type.WACCType;
-import tree.type.WACCUnOp;
+import tree.expr.*;
+import tree.func.*;
+import tree.stat.*;
+import tree.type.*;
 import util.DebugHelper;
 import WACCExceptions.WACCException;
-import antlr.WACCParser.Arg_listContext;
-import antlr.WACCParser.Array_elemContext;
-import antlr.WACCParser.Array_literContext;
-import antlr.WACCParser.Array_liter_arhsContext;
-import antlr.WACCParser.Assign_lhsContext;
-import antlr.WACCParser.Bool_literContext;
-import antlr.WACCParser.Char_literContext;
-import antlr.WACCParser.Exit_statContext;
-import antlr.WACCParser.ExprContext;
-import antlr.WACCParser.Free_statContext;
-import antlr.WACCParser.FuncContext;
-import antlr.WACCParser.Func_call_assignmentContext;
-import antlr.WACCParser.IdentContext;
-import antlr.WACCParser.If_statContext;
-import antlr.WACCParser.Int_literContext;
-import antlr.WACCParser.Newpair_assignmentContext;
-import antlr.WACCParser.Pair_elemContext;
-import antlr.WACCParser.ParamContext;
-import antlr.WACCParser.Param_listContext;
-import antlr.WACCParser.Print_statContext;
-import antlr.WACCParser.Println_exprContext;
-import antlr.WACCParser.ProgContext;
-import antlr.WACCParser.Read_statContext;
-import antlr.WACCParser.Return_statContext;
-import antlr.WACCParser.Sequential_statContext;
-import antlr.WACCParser.Skip_statContext;
-import antlr.WACCParser.StatContext;
-import antlr.WACCParser.Str_literContext;
-import antlr.WACCParser.Variable_assigmentContext;
-import antlr.WACCParser.Variable_declarationContext;
-import antlr.WACCParser.While_statContext;
-import assignments.ArgListNode;
-import assignments.ArrayElemNode;
-import assignments.ArrayLiterNode;
-import assignments.AssignLhsNode;
-import assignments.Assignable;
-import assignments.CallStatNode;
-import assignments.NewPairNode;
-import assignments.PairElemNode;
+import antlr.WACCParser.*;
+import assignments.*;
 
+// library used for debugging
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 
@@ -263,15 +203,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	public WACCTree visitAssign_lhs(Assign_lhsContext ctx) {
 		Assignable lhs = (Assignable) visit(ctx.getChild(0));
 		return lhs;
-	}
-
-//	@Override
-//	public WACCTree visitAssign_rhs(Assign_rhsContext ctx) {
-//		Assignable rhs = (Assignable) visit(ctx.getChild(0));
-//		return rhs;
-//	}
-	
-	
+	}	
 
 	@Override
 	public WACCTree visitVariable_assigment(Variable_assigmentContext ctx) {
@@ -307,7 +239,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 	}
 	
 	
-	
+	// Pair literals are null by default.
+	@Override
+	public WACCTree visitPair_liter(Pair_literContext ctx) {
+		return new PaiLiterNode();
+	}
+
+
 	@Override
 	public WACCTree visitNewpair_assignment(Newpair_assignmentContext ctx) {
 		ExprNode fst = (ExprNode) visit(ctx.expr(0));
@@ -354,7 +292,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return pairElem;
 	}
 	
-
 	@Override
 	public WACCTree visitArray_liter(Array_literContext ctx) {
 		ArrayList<ExprNode> elems = new ArrayList<ExprNode>();
@@ -368,10 +305,6 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return arrayLiter;
 	}
 	
-	
-
-	
-
 	@Override
 	public WACCTree visitArray_elem(Array_elemContext ctx) {
 		String ident = ctx.ident().getText();
@@ -490,6 +423,16 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 			return visit(ctx.getChild(0));
 		}
 	}
+
+	@Override
+	public WACCTree visitBlock_stat(Block_statContext ctx) {
+		currentSymbolTable = new SymbolTable(currentSymbolTable);
+		StatNode stat = (StatNode) visit(ctx.stat());
+		currentSymbolTable.finaliseScope();
+		currentSymbolTable = currentSymbolTable.getParent();
+		return stat;
+	}
+
 
 	/**
 	 * @return
