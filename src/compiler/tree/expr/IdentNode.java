@@ -9,6 +9,11 @@ import symboltable.SymbolTable;
 import tree.func.FuncDecNode;
 import tree.type.WACCType;
 
+/* Represents an Identifier and its declared type
+ * Constructed with and type and string (e.g BOOL, "myBool")
+ * Rule: (' '|'a'-'z'|'A'-'Z')(' '|'a'-'z'|'A'-'Z'|'0'-'9')*
+ */
+
 public class IdentNode extends ExprNode implements AssignLhsNode {
 	
 	private String ident;

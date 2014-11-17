@@ -9,6 +9,11 @@ import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
 
+/**
+ * Class to represent variable declaration statements
+ * Rule: type ident '=' assign-rhs
+ */
+
 public class VarDecNode extends StatNode {
 	
 	private Assignable rhsTree;

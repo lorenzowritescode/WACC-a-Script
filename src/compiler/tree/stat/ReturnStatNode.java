@@ -7,6 +7,11 @@ import tree.expr.ExprNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 
+/**
+ * Class to represent return statements for functions
+ * Rule: 'return' expr
+ */
+
 public class ReturnStatNode extends StatNode {
 	private ExprNode expr;
 

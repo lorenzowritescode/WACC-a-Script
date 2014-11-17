@@ -12,7 +12,15 @@ import tree.func.FuncDecNode;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
 
+/**
+ * Class to represent variable assignment statements
+ * Rule: assign-lhs '=' assign-rhs
+ *
+ */
+
 public class AssignStatNode extends StatNode {
+	
+	
 	
 	private WACCTree lhs;
 	private WACCTree rhs;

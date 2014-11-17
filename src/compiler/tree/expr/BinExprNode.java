@@ -7,6 +7,13 @@ import tree.type.WACCBinOp;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 
+/* Represents a Binary Operator expression
+ * Holds the operator and the expressions
+ * Checks expression types are compatible with the operator
+ * Rule: expr binary-oper expr
+ * Where binary-oper is '*'|'/'|'%'|'+'|'-'|'>'|'>='|'<'|'<='|'=='|'!='|'&&'|'||'
+ */
+
 public class BinExprNode extends ExprNode {
 	
 	private ExprNode lhs;

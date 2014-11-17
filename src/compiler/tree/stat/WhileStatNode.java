@@ -7,14 +7,18 @@ import tree.expr.ExprNode;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 
+/**
+ * Class to represent while statements.
+ * Rule: 'while' expr 'do' stat 'done'
+ * 
+ */
+
 public class WhileStatNode extends StatNode {
 	
 	private ExprNode loopCond;
-	//private StatNode doStat;
 	
-	public WhileStatNode(ExprNode expr/*, StatNode doStat*/) {
+	public WhileStatNode(ExprNode expr) {
 		this.loopCond = expr;
-		//this.doStat = doStat;
 	}
 	
 	@Override

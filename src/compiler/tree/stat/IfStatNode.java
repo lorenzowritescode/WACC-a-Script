@@ -7,6 +7,12 @@ import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
 
+/**
+ * Class to represent if statements 
+ * Rule: 'if' expr 'then' stat 'else' stat 'fi'
+ *
+ */
+
 public class IfStatNode extends StatNode {
 	
 	private ExprNode ifCond;
