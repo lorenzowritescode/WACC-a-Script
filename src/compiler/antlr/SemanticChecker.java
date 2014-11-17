@@ -13,6 +13,7 @@ import tree.func.*;
 import tree.stat.*;
 import tree.type.*;
 import util.DebugHelper;
+import WACCExceptions.UndeclaredIdentifierException;
 import WACCExceptions.WACCException;
 import antlr.WACCParser.*;
 import assignments.*;
@@ -146,8 +147,12 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return ssn;
 	}
 	
-	
-	// TODO: remove this method -- there is no such thing as a standalone ident
+
+	/* This method will only be reached in the case of a variable assignment.
+	 * If the variable is undeclared we want to throw an axeption and stop checking further.
+	 * (non-Javadoc)
+	 * @see antlr.WACCParserBaseVisitor#visitIdent(antlr.WACCParser.IdentContext)
+	 */
 	@Override
 	public WACCTree visitIdent(IdentContext ctx) {
 		String ident = ctx.IDENTITY().getText();
@@ -158,11 +163,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 			idNode.check(currentSymbolTable, ctx);
 			return idNode;
 		}
-		//If ident is not present in symboltable, and ident with a null
-		//type will be returned. 
-		//TODO: find a better way around this
-		return new IdentNode(null, ident);
-		
+		throw new UndeclaredIdentifierException("The variable" + ident + "was undefined", ctx);
 	}
 
 	@Override
@@ -266,16 +267,23 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree>{
 		return args;
 	}
 
+	/* Rule: (FST | SND) ident = expr
+	 * Example Case:
+	 * 		fst p = 5
+	 * (non-Javadoc)
+	 * @see antlr.WACCParserBaseVisitor#visitPair_elem(antlr.WACCParser.Pair_elemContext)
+	 */
 	@Override
+	// TODO: revisit this
 	public WACCTree visitPair_elem(Pair_elemContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		PairType type = (PairType) expr.getType();
 		String ident = ((IdentNode) expr).getIdent();
 		WACCType innerType;
 		if (ctx.FST() != null) {
-			innerType = type.getFst();
+			innerType = type.getFstType();
 		} else {
-			innerType = type.getSnd();
+			innerType = type.getSndType();
 		}
 		PairElemNode pairElem = new PairElemNode(expr, ident, innerType);
 		pairElem.check(currentSymbolTable, ctx);
