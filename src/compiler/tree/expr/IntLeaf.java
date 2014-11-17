@@ -5,6 +5,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 
+/* Represents the value of an Integer
+ * Constructed with a String (e.g "42") 
+ * Rule: int-sign? digit+
+ */
+
 public class IntLeaf extends ExprNode {
 
 	private String value;

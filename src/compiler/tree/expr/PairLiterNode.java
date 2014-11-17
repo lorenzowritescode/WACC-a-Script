@@ -7,7 +7,7 @@ import tree.WACCTree;
 import tree.type.WACCType;
 
 /**
- *	Rule: NULL
+ *	Rule: WACCType.NULL
  */
 public class PairLiterNode extends ExprNode {
 

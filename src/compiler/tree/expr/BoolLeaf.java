@@ -5,6 +5,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 
+/* Represents the value of a Bool
+ * Constructed with a String (e.g "true")
+ * Rule: 'true' | 'false'
+ */
+
 public class BoolLeaf extends ExprNode {
 	
 	private boolean value;
