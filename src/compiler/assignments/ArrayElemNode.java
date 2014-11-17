@@ -9,7 +9,7 @@ import tree.WACCTree;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
-import WACCExceptions.UndeclaredVariableException;
+import WACCExceptions.UndeclaredIdentifierException;
 
 public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
@@ -47,7 +47,7 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	@Override
 	public boolean checkPreDef(SymbolTable st, String identName, ParserRuleContext ctx) {
 		if (!st.containsRecursive(identName)) {
-			throw new UndeclaredVariableException(identName + " hasn't been defined", ctx);
+			throw new UndeclaredIdentifierException(identName + " hasn't been defined", ctx);
 		}
 		return true;
 	}
