@@ -3,7 +3,7 @@ package tree.expr;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
-import tree.type.PairTypeNode;
+import tree.type.PairType;
 import tree.type.WACCType;
 
 public class PairLeaf extends ExprNode {
@@ -24,7 +24,7 @@ public class PairLeaf extends ExprNode {
 
 	@Override
 	public WACCType getType() {
-		return new PairTypeNode(fstType, sndType);
+		return new PairType(fstType, sndType);
 	}
 
 	public String getIdent() {

@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
-import tree.type.PairTypeNode;
+import tree.type.PairType;
 import tree.type.WACCType;
 
 public class NewPairNode extends Assignable {
@@ -24,6 +24,6 @@ public class NewPairNode extends Assignable {
 
 	@Override
 	public WACCType getType() {
-		return new PairTypeNode(fst.getType(), snd.getType());
+		return new PairType(fst.getType(), snd.getType());
 	}
 }

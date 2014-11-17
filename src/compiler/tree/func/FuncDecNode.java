@@ -15,11 +15,11 @@ public class FuncDecNode extends WACCTree {
 	private StatNode funcBody;
 	private boolean complete;
 
-	public FuncDecNode(WACCType returnType, String funcName, ParamListNode params, StatNode funcBody) {
+	public FuncDecNode(WACCType returnType, String funcName, ParamListNode params) {
 		this(returnType, funcName);
 		this.params = params;
-		this.funcBody = funcBody;
-		complete = true;
+		//TODO: think this should be true?
+		complete = false;
 	}
 
 	public FuncDecNode(WACCType returnType, String funcName) {
@@ -30,9 +30,7 @@ public class FuncDecNode extends WACCTree {
 
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
-		// TODO we expect the function to already be in the TOP SymbolTable
-		if (complete == false) return false;
-		return true;
+		return complete;
 	}
 
 	@Override
@@ -48,8 +46,7 @@ public class FuncDecNode extends WACCTree {
 		return params;
 	}
 
-	public void addParamsStat(ParamListNode params, StatNode funcBody) {
-		this.params = params;
+	public void addFuncBody(StatNode funcBody) {
 		this.funcBody = funcBody;
 		complete = true;
 	}

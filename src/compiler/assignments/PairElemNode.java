@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
-import tree.type.PairTypeNode;
+import tree.type.PairType;
 import tree.type.WACCType;
 
 public class PairElemNode extends Assignable implements AssignLhsNode {
@@ -22,7 +22,7 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
-		if (!(expr.getType() instanceof PairTypeNode)) {
+		if (!(expr.getType() instanceof PairType)) {
 			return false;
 		}
 		return true;

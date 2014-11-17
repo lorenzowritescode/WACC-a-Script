@@ -6,7 +6,7 @@ import assignments.AssignLhsNode;
 import assignments.Assignable;
 import symboltable.SymbolTable;
 import WACCExceptions.IncompatibleTypesException;
-import WACCExceptions.UndeclaredVariableException;
+import WACCExceptions.UndeclaredIdentifierException;
 
 public class AssignStatNode extends StatNode {
 	
@@ -23,7 +23,7 @@ public class AssignStatNode extends StatNode {
 		
 		//check lhs is already declared
 		if (!st.containsRecursive(lhs.getIdent())) {
-			new UndeclaredVariableException( "Variable " + lhs.getIdent() + " has not been declared", ctx);
+			new UndeclaredIdentifierException( "Variable " + lhs.getIdent() + " has not been declared", ctx);
 			return false;	
 		}
 		
@@ -31,12 +31,12 @@ public class AssignStatNode extends StatNode {
 		if (!lhs.getType().isCompatible(rhs.getType())) {
 			new IncompatibleTypesException(
 					"Cannot assign a " + rhs.getType().toString()
-					+ "to a " + lhs.getType().toString(), ctx);
+					+ " to a " + lhs.getType().toString(), ctx);
 			return false;
 		}
 		
 		//TODO: will this work with arrays? or will it assign the entire 
-		//array to equal the rhs node?
+		// array to equal the rhs node?
 		st.add(lhs.getIdent(), rhs);
 		return true;
 		

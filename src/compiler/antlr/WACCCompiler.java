@@ -93,6 +93,10 @@ public class WACCCompiler {
 			e.printStackTrace();
 			exitSyntaxError();
 		}
+		
+		if(parser.getNumberOfSyntaxErrors() > 0) {
+			exitSyntaxError();
+		}
 		return tree;
 	}
 

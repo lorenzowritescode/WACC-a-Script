@@ -43,3 +43,4 @@ src/antlr
 /rules
 #Ignore automatically generated JavaDoc documentation
 doc/
+/target/

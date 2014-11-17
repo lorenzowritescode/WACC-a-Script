@@ -5,8 +5,8 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.expr.IdentNode;
-import tree.type.ArrayTypeNode;
-import tree.type.PairTypeNode;
+import tree.type.ArrayType;
+import tree.type.PairType;
 import WACCExceptions.InvalidTypeException;
 
 public class FreeStat extends StatNode {
@@ -27,8 +27,8 @@ public class FreeStat extends StatNode {
 			IdentNode identN = (IdentNode) en;
 			String ident = identN.getIdent();
 			if (st.containsRecursive(ident)) {
-				if (!(st.get(ident).getType() instanceof ArrayTypeNode 
-					|| st.get(ident).getType() instanceof PairTypeNode)) {
+				if (!(st.get(ident).getType() instanceof ArrayType
+					|| st.get(ident).getType() instanceof PairType)) {
 					new InvalidTypeException("Can only free an Array or a Pair", ctx);
 					return false;
 				}

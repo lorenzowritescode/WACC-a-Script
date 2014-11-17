@@ -6,7 +6,7 @@ import symboltable.SymbolTable;
 import tree.func.FuncDecNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
-import WACCExceptions.UndeclaredVariableException;
+import WACCExceptions.UndeclaredIdentifierException;
 
 
 public class CallStatNode extends Assignable {
@@ -26,7 +26,7 @@ public class CallStatNode extends Assignable {
 	
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		if (!st.containsRecursive(ident)) {
-			new UndeclaredVariableException("Function " + ident + " has not been delcared", ctx);
+			new UndeclaredIdentifierException("Function " + ident + " has not been delcared", ctx);
 			return false;
 		}
 		

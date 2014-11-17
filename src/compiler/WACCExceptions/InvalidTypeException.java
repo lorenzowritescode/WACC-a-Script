@@ -8,4 +8,8 @@ public class InvalidTypeException extends WACCException {
 		super(exceptionMessage, ctx);
 	}
 
+	public InvalidTypeException(String message) {
+		super(message);
+	}
+
 }
