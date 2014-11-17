@@ -44,7 +44,6 @@ public class Expectation {
 			return false;
 		}
 		
-		// TODO: here we need a stricter type of equality
 		if (!hasBeenCalled) {
 			hasBeenCalled = true;
 			resolved = expectedType != null 

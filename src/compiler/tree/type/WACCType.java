@@ -41,18 +41,6 @@ public abstract class WACCType {
 			return "int";
 		}
 	};
-	public static final WACCType STRING = new WACCType() {
-		
-		@Override
-		public boolean isCompatible(WACCType other) {
-			return other == STRING;
-		}
-		
-		@Override
-		public String toString() {
-			return "string";
-		}
-	};
 	public static final WACCType CHAR = new WACCType() {
 		
 		@Override
@@ -65,11 +53,18 @@ public abstract class WACCType {
 			return "char";
 		}
 	};
-	
-	public static WACCType evalType(TypeContext ctx) {
-		return evalType(ctx.getText());
-	}	
-	
+	public static final WACCType STRING = new ArrayType(CHAR) {
+		
+		@Override
+		public boolean isCompatible(WACCType other) {
+			return other == STRING;
+		}
+		
+		@Override
+		public String toString() {
+			return "string";
+		}
+	};
 	public static final WACCType NULL = new WACCType() {
 		
 		@Override
@@ -82,6 +77,11 @@ public abstract class WACCType {
 			return true;
 		}
 	};
+	
+
+	public static WACCType evalType(TypeContext ctx) {
+		return evalType(ctx.getText());
+	}	
 	
 	public static final String pairRegexSplitter = " *[\\)\\(,] *";
 	public static final String arrayRegexSplitter = "[\\[\\]]";

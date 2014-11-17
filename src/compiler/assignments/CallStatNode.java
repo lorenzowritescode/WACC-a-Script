@@ -19,7 +19,6 @@ public class CallStatNode extends Assignable {
 	private FuncDecNode decNode;
 	
 	public CallStatNode(FuncDecNode func, ArgListNode args) {
-		//TODO: Sort this out maybe... passing FuncDecNode here seems a bit hackey. 
 		this.retType = func.returnType;
 		this.ident = func.getFuncName();
 		this.args = args;

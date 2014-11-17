@@ -14,6 +14,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+import WACCExceptions.IntOverflowException;
+
 public class WACCCompiler {
 
 	public static void main(String[] args) throws IOException {
@@ -72,7 +74,8 @@ public class WACCCompiler {
 		CommonTokenStream tokens = null;
 		try {
 			tokens = new CommonTokenStream(lexer);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 			exitSemanticFailure();
 		}
@@ -89,6 +92,9 @@ public class WACCCompiler {
 		SemanticChecker semantic = new SemanticChecker(tree);
 		try {
 			semantic.init();
+		} catch (IntOverflowException e) {
+			e.printStackTrace();
+			exitSyntaxError();
 		} catch (Exception e) {
 			e.printStackTrace();
 			exitSemanticFailure();
@@ -184,7 +190,7 @@ public class WACCCompiler {
 	}
 	
 	private void init() {
-		//TODO: implement init
+		//TODO: Milestone 2 - Code Generation
 		return;
 	}
 

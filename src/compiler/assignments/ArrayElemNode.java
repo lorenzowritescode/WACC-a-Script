@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
+import tree.type.ArrayType;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 import WACCExceptions.UndeclaredIdentifierException;
@@ -14,10 +15,9 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
 	String ident;
 	ArrayList<ExprNode> locations;
-	WACCType arrayType;
+	ArrayType arrayType;
 
-	public ArrayElemNode(String ident, ArrayList<ExprNode> locations, WACCType type) {
-		this.ident = ident;
+	public ArrayElemNode(ArrayList<ExprNode> locations, ArrayType type) {
 		this.locations = locations;
 		this.arrayType = type;
 	}
@@ -30,19 +30,13 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 				return false;
 			}
 		}
-		if (!st.containsRecursive(ident)) {
-			throw new UndeclaredIdentifierException(ident + " hasn't been defined", ctx);
-		}
+		
 		return true;
 	}
 
 	@Override
 	public WACCType getType() {
-		if (arrayType == WACCType.STRING) {
-			return WACCType.CHAR;
-		} else {
-			return arrayType;
-		}
+		return arrayType.getBaseType();
 	}
 	
 	
