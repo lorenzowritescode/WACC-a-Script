@@ -9,7 +9,6 @@ import tree.expr.ExprNode;
 import tree.type.ArrayType;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
-import WACCExceptions.UndeclaredIdentifierException;
 
 public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
