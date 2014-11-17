@@ -36,7 +36,9 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 		Iterator<ExprNode> argIter = iterator();
 		Iterator<ParamNode> paramIter = params.iterator();
 		while(argIter.hasNext()) {
-			if (argIter.next().getType() != paramIter.next().getType()) {
+			WACCType argType = argIter.next().getType();
+			WACCType paramType = paramIter.next().getType();
+			if (!argType.isCompatible(paramType)) {
 				return false;
 			}
 		}
