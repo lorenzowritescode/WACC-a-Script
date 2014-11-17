@@ -33,7 +33,7 @@ public class VarDecNode extends StatNode {
 		// We add the current var to the SymbolTable
 		st.add(ident, this);
 		
-		if ( varType != rhsTree.getType() ) {
+		if ( !varType.isCompatible(rhsTree.getType()) ) {
 			new IncompatibleTypesException("The types of the rhs and lhs of the variable declaration do not match." , ctx);
 			return false;
 		}
