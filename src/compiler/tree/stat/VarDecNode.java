@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import assignments.Assignable;
 import symboltable.SymbolTable;
+import tree.func.FuncDecNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
@@ -25,9 +26,11 @@ public class VarDecNode extends StatNode {
 		
 		// First we check the identifier is unique
 		if ( st.containsCurrent(ident) ) {
-			new NotUniqueIdentifierException(
+			if (!(st.get(ident) instanceof FuncDecNode)) {
+				new NotUniqueIdentifierException(
 						"A variable with identifier " + ident + " was already declared", ctx);
-			return false;
+				return false;
+			}
 		} 
 		
 		// We add the current var to the SymbolTable

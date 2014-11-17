@@ -14,6 +14,4 @@ public interface AssignLhsNode {
 	
 	public String getIdent();
 
-	boolean checkPreDef(SymbolTable st, String identName);
-
 }

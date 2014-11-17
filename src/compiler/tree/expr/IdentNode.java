@@ -2,6 +2,7 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import WACCExceptions.UndeclaredIdentifierException;
 import assignments.AssignLhsNode;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
@@ -18,13 +19,8 @@ public class IdentNode extends ExprNode implements AssignLhsNode {
 	
 	@Override
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
-		return true;
-	}
-	
-	@Override
-	public boolean checkPreDef( SymbolTable st, String identName) {
-		if (!st.containsRecursive(identName)) {
-			return false;
+		if (!st.containsRecursive(ident)) {
+			throw new UndeclaredIdentifierException(ident + " hasn't been defined", ctx);
 		}
 		return true;
 	}

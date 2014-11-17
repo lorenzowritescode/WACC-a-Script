@@ -9,6 +9,7 @@ import tree.WACCTree;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
+import WACCExceptions.UndeclaredIdentifierException;
 
 public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
@@ -30,23 +31,24 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 				return false;
 			}
 		}
+		if (!st.containsRecursive(ident)) {
+			throw new UndeclaredIdentifierException(ident + " hasn't been defined", ctx);
+		}
 		return true;
 	}
 
 	@Override
 	public WACCType getType() {
-		return arrayType;
+		if (arrayType == WACCType.STRING) {
+			return WACCType.CHAR;
+		} else {
+			return arrayType;
+		}
 	}
 	
 	
 	public String getIdent() {
 		return ident;
-	}
-	
-	@Override
-	public boolean checkPreDef(SymbolTable st, String identName) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
