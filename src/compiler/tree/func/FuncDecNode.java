@@ -18,6 +18,7 @@ public class FuncDecNode extends WACCTree {
 	public FuncDecNode(WACCType returnType, String funcName, ParamListNode params) {
 		this(returnType, funcName);
 		this.params = params;
+		//TODO: think this should be true?
 		complete = false;
 	}
 
