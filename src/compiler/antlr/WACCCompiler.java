@@ -74,9 +74,6 @@ public class WACCCompiler {
 		CommonTokenStream tokens = null;
 		try {
 			tokens = new CommonTokenStream(lexer);
-		} catch (IntOverflowException e) {
-			e.printStackTrace();
-			exitSyntaxError();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -95,6 +92,9 @@ public class WACCCompiler {
 		SemanticChecker semantic = new SemanticChecker(tree);
 		try {
 			semantic.init();
+		} catch (IntOverflowException e) {
+			e.printStackTrace();
+			exitSyntaxError();
 		} catch (Exception e) {
 			e.printStackTrace();
 			exitSemanticFailure();
