@@ -100,7 +100,8 @@ public abstract class WACCType {
 			//matches any array
 			Pattern arrayPattern = Pattern.compile("\\[\\]");
 			Matcher arrayMatcher = arrayPattern.matcher(typeString);
-			if (arrayMatcher.find()) {
+			if (typeString.endsWith("[]") 
+					&& arrayMatcher.find()) {
 				WACCType baseType = evalType(typeString.split(arrayRegexSplitter)[0]);
 				ArrayType array = new ArrayType(baseType);
 				while(arrayMatcher.find()) {
@@ -108,8 +109,9 @@ public abstract class WACCType {
 				}
 				return array;
 			}
+			
 			//matches any pair
-			if (typeString.contains("pair")) {
+			if (typeString.startsWith("pair")) {
 				// Extract inner types
 				String[] innerTypes = typeString.split(pairRegexSplitter);
 				String fstString = innerTypes[1];
@@ -123,7 +125,7 @@ public abstract class WACCType {
 				return new PairType(fstType, sndType); 
 			}
 			
-			throw new InvalidTypeException("The type provided was not recognised.");
+			throw new InvalidTypeException("The type provided was not recognised: " + typeString);
 		}
 	}
 	

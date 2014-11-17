@@ -36,7 +36,7 @@ public class ArrayType extends WACCType {
 	
 	@Override
 	public String toString() {
-		return "array";
+		return "array-" + baseType.toString();
 	}
 
 }
