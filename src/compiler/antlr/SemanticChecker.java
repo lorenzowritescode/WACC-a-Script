@@ -14,6 +14,7 @@ import tree.func.*;
 import tree.stat.*;
 import tree.type.*;
 import util.DebugHelper;
+import WACCExceptions.NotUniqueIdentifierException;
 import WACCExceptions.UndeclaredIdentifierException;
 import WACCExceptions.WACCException;
 import antlr.WACCParser.*;
@@ -220,6 +221,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		// This no longer uses function stubs, but instead adds full functions
 		// to symbol table
 		String funcName = fctx.ident().getText();
+		if (currentSymbolTable.containsRecursive(funcName)) {
+			throw new NotUniqueIdentifierException("Function has already been defined", fctx);
+		}
 		WACCType returnType = WACCType.evalType(fctx.type());
 		Param_listContext paramCtx = fctx.param_list();
 		ParamListNode params = null;
