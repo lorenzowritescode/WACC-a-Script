@@ -2,12 +2,12 @@ package WACCExceptions;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+@SuppressWarnings("serial")
 public class UndeclaredIdentifierException extends WACCException {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2038560013979288674L;
+/*
+ * Used when an identifier is used which is not defined in symbol table
+ */
 
 	public UndeclaredIdentifierException(String exceptionMessage, ParserRuleContext ctx) {
 		super(exceptionMessage, ctx);

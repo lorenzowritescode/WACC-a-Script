@@ -5,6 +5,18 @@ import org.antlr.v4.runtime.Token;
 
 import antlr.WACCParser.StatContext;
 
+/*
+ * Exceptions are used to flag and print semantic errors to the console.
+ * 
+ * If an exception is thrown, the compiling will stop, and the error and stack trace will
+ * be printed to the console.
+ * 
+ * However, if a new exception is made, but not thrown, the error is recorded in the error 
+ * Listener, and compilation will continue. This allows multiple errors to be printed 
+ * once the program has finished compiling.
+ * 
+ */
+
 @SuppressWarnings("serial")
 public class WACCException extends RuntimeException {
 	

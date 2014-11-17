@@ -2,6 +2,11 @@ package WACCExceptions;
 
 import java.util.ArrayList;
 
+/*
+ * The error listener is used to record semantic error during compilation,
+ * and then print them out to the console once compilation is finished.
+ */
+
 public class ErrorListener {
 	
 	ArrayList<WACCException> errorList;

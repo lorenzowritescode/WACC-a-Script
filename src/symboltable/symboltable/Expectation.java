@@ -5,7 +5,8 @@ import tree.type.WACCType;
 
 /*
  * Expectation represents a scope such as the program body of a function body.
- * It is used to determine wether the return type expected has been matched.
+ * It is used to determine whether the return type expected has been matched.
+ * 
  */
 public class Expectation {
 	private WACCType expectedType;
