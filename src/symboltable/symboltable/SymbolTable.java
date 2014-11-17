@@ -72,11 +72,11 @@ public class SymbolTable {
 	public void remove(String key) {
 		if (this.isTopSymbolTable) {
 			dictionary.remove(key);
-		}
-		if (!containsCurrent(key)) {
+		} else if (!containsCurrent(key)) {
 			parentTable.remove(key);
+		} else {
+			dictionary.remove(key);
 		}
-		dictionary.remove(key);
 	}
 	
 	/** This method is used by the ReturnStat to check that the expression it holds is the one expected by the current scope.
