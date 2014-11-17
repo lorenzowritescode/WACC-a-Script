@@ -3,16 +3,17 @@ package tree.stat;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import assignments.AssignLhsNode;
 
 public class ReadStatNode extends StatNode {
 
-	private AssignLhsNode lhs;
+	private WACCTree lhs;
 	
 	public ReadStatNode(AssignLhsNode lhs) {
-		this.lhs = lhs;
+		this.lhs = (WACCTree) lhs;
 	}
 	
 	@Override

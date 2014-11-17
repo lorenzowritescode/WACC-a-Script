@@ -294,25 +294,15 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	}
 
 	/*
-	 * Rule: (FST | SND) ident = expr Example Case: fst p = 5 (non-Javadoc)
-	 * 
-	 * @see
-	 * antlr.WACCParserBaseVisitor#visitPair_elem(antlr.WACCParser.Pair_elemContext
-	 * )
+	 * Rule: 
+	 * 		(FST | SND) ident 
 	 */
 	@Override
 	// TODO: revisit this
 	public WACCTree visitPair_elem(Pair_elemContext ctx) {
+		String fstOrSnd = ctx.getChild(0).getText();
 		ExprNode expr = (ExprNode) visit(ctx.expr());
-		PairType type = (PairType) expr.getType();
-		String ident = ((IdentNode) expr).getIdent();
-		WACCType innerType;
-		if (ctx.FST() != null) {
-			innerType = type.getFstType();
-		} else {
-			innerType = type.getSndType();
-		}
-		PairElemNode pairElem = new PairElemNode(expr, ident, innerType);
+		PairElemNode pairElem = new PairElemNode(fstOrSnd, expr);
 		pairElem.check(currentSymbolTable, ctx);
 		return pairElem;
 	}

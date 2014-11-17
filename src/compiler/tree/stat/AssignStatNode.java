@@ -6,32 +6,23 @@ import assignments.ArrayElemNode;
 import assignments.AssignLhsNode;
 import assignments.Assignable;
 import symboltable.SymbolTable;
+import tree.WACCTree;
 import tree.func.FuncDecNode;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
 
 public class AssignStatNode extends StatNode {
 	
-	private AssignLhsNode lhs;
-	private Assignable rhs;
+	private WACCTree lhs;
+	private WACCTree rhs;
 	
 	public AssignStatNode(AssignLhsNode lhs, Assignable rhs) {
-		this.lhs = lhs;
-		this.rhs = rhs;
+		this.lhs = (WACCTree) lhs;
+		this.rhs = (WACCTree) rhs;
 	}
 	
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
-		
-		//check lhs is already declared
-		if (!st.containsRecursive(lhs.getIdent())) {
-			new UndeclaredIdentifierException( "Variable " + lhs.getIdent() + " has not been declared", ctx);
-			return false;	
-		}
-		
-		if (st.get(lhs.getIdent()) instanceof FuncDecNode) {
-			new IncompatibleTypesException("Cannot assign to function!", ctx);
-		}
 		
 		//Check types are compatible
 		if (!lhs.getType().isCompatible(rhs.getType())) {
@@ -41,11 +32,6 @@ public class AssignStatNode extends StatNode {
 			return false;
 		}
 		
-		//TODO: will this work with arrays? or will it assign the entire 
-		// array to equal the rhs node?
-		if (!(lhs instanceof ArrayElemNode)) {
-			st.update(lhs.getIdent(), rhs);
-		}
 		return true;
 		
 	}
