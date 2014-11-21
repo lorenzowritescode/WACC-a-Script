@@ -25,10 +25,5 @@ public class InstrToken {
 		tokens.addAll(next.flatten());
 		return tokens;
 	}
-	
-	@Override
-	public String toString() {
-		// TODO: this should return the assembly instruction for this token.
-		return super.toString();
-	}
+
 }

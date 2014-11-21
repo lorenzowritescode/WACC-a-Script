@@ -4,7 +4,7 @@ import assembly.InstrToken;
 import assembly.Register;
 import tree.expr.IntLeaf;
 
-public class MovToken extends InstrToken{
+public class MovToken extends InstrToken {
 	private Register dest;
 	private Object source;
 	private String condition;
