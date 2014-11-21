@@ -1,4 +1,4 @@
-package assignments;
+package tree.assignments;
 
 
 public interface AssignLhsNode {

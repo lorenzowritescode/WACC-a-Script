@@ -1,4 +1,4 @@
-package assignments;
+package tree.assignments;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 

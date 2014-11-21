@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
+import tree.assignments.*;
 import tree.expr.*;
 import tree.func.*;
 import tree.stat.*;
@@ -15,7 +16,7 @@ import tree.type.*;
 import util.DebugHelper;
 import WACCExceptions.*;
 import antlr.WACCParser.*;
-import assignments.*;
+
 
 
 // library used for debugging

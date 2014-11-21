@@ -4,11 +4,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.WACCTree;
+import tree.assignments.AssignLhsNode;
+import tree.assignments.Assignable;
 import tree.expr.IdentNode;
 import tree.func.FuncDecNode;
 import WACCExceptions.IncompatibleTypesException;
-import assignments.AssignLhsNode;
-import assignments.Assignable;
 
 /**
  * Class to represent variable assignment statements

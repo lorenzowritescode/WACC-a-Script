@@ -3,9 +3,9 @@ package tree.expr;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
 import WACCExceptions.UndeclaredIdentifierException;
-import assignments.AssignLhsNode;
 
 /* Represents an Identifier and its declared type
  * Constructed with and type and string (e.g BOOL, "myBool")

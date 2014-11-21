@@ -2,8 +2,8 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assignments.Assignable;
 import symboltable.SymbolTable;
+import tree.assignments.Assignable;
 import tree.func.FuncDecNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;

@@ -1,6 +1,6 @@
 package tree.expr;
 
-import assignments.Assignable;
+import tree.assignments.Assignable;
 
 public abstract class ExprNode extends Assignable  {
 	/*

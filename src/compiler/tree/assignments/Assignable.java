@@ -1,4 +1,4 @@
-package assignments;
+package tree.assignments;
 
 import tree.WACCTree;
 

@@ -4,9 +4,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.WACCTree;
+import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
-import assignments.AssignLhsNode;
 
 /**
  * Class to represent read statements  
