@@ -83,7 +83,5 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 	public WACCType getType() {
 		throw new UnsupportedOperationException("ArgListNode has no type.");
 	}
-
-
 	
 }

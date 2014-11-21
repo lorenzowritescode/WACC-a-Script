@@ -4,7 +4,7 @@
 # but do *not* change its name.
 classPath = ["bin", "lib/antlr-4.4-complete.jar", "lib/xstream-1.4.7.jar", "lib/commons-cli-1.2.jar"].join(":")
 
-className = "antlr.WACCCompiler"
+className = "antlr.Main"
 # Checks that the first argument is a file, if so the java program is run in normal mode
 if(ARGV.length == 1 && FileTest.file?(ARGV[0]))
   system("java -cp #{classPath} #{className} -f #{ARGV[0]}")

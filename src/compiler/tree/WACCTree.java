@@ -6,6 +6,8 @@ import symboltable.SymbolTable;
 import tree.type.WACCType;
 import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
+import assembly.InstrToken;
+import assembly.Register;
 
 public abstract class WACCTree {
 	public static ErrorListener el = WACCException.ERROR_LISTENER;
@@ -32,4 +34,10 @@ public abstract class WACCTree {
 	public static boolean isCorrect() {
 		return el.errorCount() == 0;
 	}
+
+	public InstrToken toAssembly(Register register) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

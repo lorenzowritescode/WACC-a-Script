@@ -28,6 +28,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public static final DebugHelper dbh = new DebugHelper();
 	private ParseTree parseTree;
 	private SymbolTable currentSymbolTable;
+	private WACCTree progTree;
 
 	public SemanticChecker(ParseTree t) {
 		this.parseTree = t;
@@ -36,13 +37,17 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 	public void init() {
 		dbh.printV("Checking sematic integrity...");
-		WACCTree tree = parseTree.accept(this);
+		progTree = parseTree.accept(this);
 		
 		//Debugging: prints the WACC tree after semantic checking
 		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
 		xstream.setMode(XStream.ID_REFERENCES);
 		xstream.alias("WACCTree", WACCTree.class);
-		dbh.printD(xstream.toXML(tree));
+		dbh.printD(xstream.toXML(progTree));
+	}
+	
+	public WACCTree getProgTree() {
+		return progTree;
 	}
 
 	@Override
