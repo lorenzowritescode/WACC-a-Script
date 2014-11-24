@@ -2,5 +2,14 @@
 # Ruby front-end for your compiler.
 # You are free to change the language used for this script,
 # but do *not* change its name.
+classPath = ["bin", "lib/antlr-4.4-complete.jar", "lib/xstream-1.4.7.jar", "lib/commons-cli-1.2.jar"].join(":")
 
-puts "TODO: setup this script to call your WACC compiler"
+className = "antlr.WACCCompiler"
+# Checks that the first argument is a file, if so the java program is run in normal mode
+if(ARGV.length == 1 && FileTest.file?(ARGV[0]))
+  system("java -cp #{classPath} #{className} -f #{ARGV[0]}")
+else
+  # If flags are present, they are passed as they are to the java program
+  system("java -cp #{classPath} #{className} #{ARGV.join(" ")}")
+end
+exit($?.exitstatus)

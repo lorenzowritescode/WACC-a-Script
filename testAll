@@ -1,0 +1,58 @@
+#!/usr/bin/ruby
+def finish ()
+	`rm makeResult.txt`
+	exit!
+end
+
+def recursiveTest (directory)
+	allFiles = Dir.entries(directory)
+	allFiles.delete(".")
+	allFiles.delete("..")
+
+	allFiles.each do |waccFile|
+		waccFilePath = directory + waccFile
+		if(File.extname(waccFilePath) == ".wacc")
+			testFile(waccFilePath)
+		elsif (File.directory?(waccFilePath))
+			recursiveTest(waccFilePath + '/')
+		else
+			puts "[INFO] Ignoring file #{waccFilePath}"
+		end
+	end
+end
+
+def testFile (waccFilePath)
+	puts "[INFO] Running file #{waccFilePath}" 
+	`./grun antlr.WACC prog < #{waccFilePath} 2> testResult.txt`
+	resultLength = `wc -l testResult.txt`.scan(/[0-9]+/)[0].to_i
+	`rm testResult.txt`
+	if(resultLength > 0)
+		puts "[ERROR] FAILURE AT #{waccFilePath}, running on gui: "
+		`open #{waccFilePath}`
+		`./grun antlr.WACC prog -gui < #{waccFilePath}`
+		finish()
+	end
+end
+
+arg0 = ARGV[0]
+
+puts "[INFO] Running make so everything's up to date"
+`make > makeResult.txt`
+resultLength = `wc -l makeResult.txt`.scan(/[0-9]+/)[0].to_i
+if (resultLength > 7)
+	puts "[ERROR] Make failure"
+	puts `cat makeResult.txt`
+	finish()
+end
+
+if (arg0 == nil)
+	recursiveTest(".")
+elsif (File.directory?(arg0))
+	recursiveTest(arg0)
+elsif (File.extname(arg0) == ".wacc")
+	testFile(arg0)
+else
+	puts "testAll: Invalid arguments provided"
+end
+
+finish()
