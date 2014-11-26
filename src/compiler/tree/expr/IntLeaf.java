@@ -32,5 +32,10 @@ public class IntLeaf extends ExprNode {
 	public WACCType getType() {
 		return WACCType.INT;
 	}
+
+	@Override
+	public int weight() {
+		return 1;
+	}
 	
 }

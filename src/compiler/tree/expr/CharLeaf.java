@@ -28,4 +28,9 @@ public class CharLeaf extends ExprNode {
 		return WACCType.CHAR;
 	}
 
+	@Override
+	public int weight() {
+		return 1;
+	}
+
 }

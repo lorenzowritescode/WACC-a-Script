@@ -20,4 +20,10 @@ public class PairLiterNode extends ExprNode {
 		return WACCType.NULL;
 	}
 
+	@Override
+	public int weight() {
+		//TODO: we think this is correct but might not be
+		return 1;
+	}
+
 }

@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
-import tree.expr.IdentNode;
+import tree.expr.VarNode;
 import tree.type.ArrayType;
 import tree.type.PairType;
 import WACCExceptions.InvalidTypeException;
@@ -24,8 +24,8 @@ public class FreeStat extends StatNode {
 	}
 	
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
-		if (en instanceof IdentNode) {
-			IdentNode identN = (IdentNode) en;
+		if (en instanceof VarNode) {
+			VarNode identN = (VarNode) en;
 			String ident = identN.getIdent();
 			if (st.containsRecursive(ident)) {
 				if (!(st.get(ident).getType() instanceof ArrayType

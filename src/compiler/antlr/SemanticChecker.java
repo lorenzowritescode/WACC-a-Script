@@ -168,7 +168,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		if (currentSymbolTable.containsRecursive(ident)) {
 			WACCTree var = currentSymbolTable.get(ident);
 			WACCType varType = var.getType();
-			IdentNode idNode = new IdentNode(varType, ident);
+			VarNode idNode = new VarNode(varType, ident);
 			return idNode;
 		}
 		throw new UndeclaredIdentifierException("The variable " + ident
