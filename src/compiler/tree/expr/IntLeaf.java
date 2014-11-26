@@ -2,6 +2,8 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assembly.InstrToken;
+import assembly.RegisterAllocator;
 import WACCExceptions.IntOverflowException;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
@@ -29,8 +31,19 @@ public class IntLeaf extends ExprNode {
 	}
 
 	@Override
+	public String toString() {
+		return "=" + value;
+	}
+	
+	@Override
 	public WACCType getType() {
 		return WACCType.INT;
+	}
+
+	@Override
+	public InstrToken toAssembly(RegisterAllocator registers) {
+		// TODO This should never be called?
+		return null;
 	}
 	
 }
