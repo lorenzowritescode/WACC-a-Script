@@ -45,5 +45,10 @@ public class IntLeaf extends ExprNode {
 		// TODO This should never be called?
 		return null;
 	}
+
+	@Override
+	public int weight() {
+		return 1;
+	}
 	
 }

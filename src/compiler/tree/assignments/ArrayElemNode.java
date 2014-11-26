@@ -43,4 +43,10 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		return ident;
 	}
 
+	@Override
+	public int weight() {
+		//TODO: perhaps has to do with the exprs?
+		return 1;
+	}
+
 }

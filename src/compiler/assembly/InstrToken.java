@@ -3,12 +3,8 @@ package assembly;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InstrToken {
+public abstract class InstrToken {
 	private InstrToken next;
-	
-	public InstrToken() {
-		
-	}
 	
 	public void setNext(InstrToken t) {
 		if (next == null) {

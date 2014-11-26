@@ -39,4 +39,9 @@ public class BoolLeaf extends ExprNode {
 		return WACCType.BOOL;
 	}
 
+	@Override
+	public int weight() {
+		return 1;
+	}
+
 }

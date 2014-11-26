@@ -38,4 +38,9 @@ public class UnExprNode extends ExprNode{
 		return operator.getType();
 	}
 
+	@Override
+	public int weight() {
+		return this.expr.weight();
+	}
+
 }

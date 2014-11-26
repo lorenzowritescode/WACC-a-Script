@@ -17,6 +17,7 @@ public class PairLeaf extends ExprNode {
 	private WACCType sndType;
 	private String ident;
 	
+	// TODO: remove ident?
 	public PairLeaf(String ident, WACCType fstType, WACCType sndType) {
 		this.fstType = fstType;
 		this.sndType = sndType;
@@ -34,6 +35,12 @@ public class PairLeaf extends ExprNode {
 
 	public String getIdent() {
 		return ident;
+	}
+
+	@Override
+	public int weight() {
+		//TODO: come back to this;
+		return 1;
 	}
 	
 }

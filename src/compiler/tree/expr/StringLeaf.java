@@ -28,4 +28,9 @@ public class StringLeaf extends ExprNode {
 		return WACCType.STRING;
 	}
 
+	@Override
+	public int weight() {
+		return 1;
+	}
+
 }

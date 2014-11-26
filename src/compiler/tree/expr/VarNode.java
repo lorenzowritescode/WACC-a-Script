@@ -12,12 +12,12 @@ import WACCExceptions.UndeclaredIdentifierException;
  * Rule: (' '|'a'-'z'|'A'-'Z')(' '|'a'-'z'|'A'-'Z'|'0'-'9')*
  */
 
-public class IdentNode extends ExprNode implements AssignLhsNode {
+public class VarNode extends ExprNode implements AssignLhsNode {
 	
 	private String ident;
 	private WACCType type;
 	
-	public IdentNode(WACCType type, String ident) {
+	public VarNode(WACCType type, String ident) {
 		this.ident = ident;
 		this.type = type;
 	}
@@ -37,6 +37,11 @@ public class IdentNode extends ExprNode implements AssignLhsNode {
 	
 	public String getIdent() {
 		return ident;
+	}
+
+	@Override
+	public int weight() {
+		return 1;
 	}
 
 }

@@ -40,4 +40,13 @@ public class BinExprNode extends ExprNode {
 		return operator.getType();
 	}
 
+	@Override
+	public int weight() {
+		//TODO: ???
+		return Math.min(
+				Math.max(lhs.weight() + 1, rhs.weight()),
+				Math.max(lhs.weight(), rhs.weight() + 1)
+		);
+	}
+
 }
