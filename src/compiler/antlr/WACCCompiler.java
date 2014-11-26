@@ -5,6 +5,7 @@ import java.util.List;
 import tree.WACCTree;
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.TokenCollector;
 
 public class WACCCompiler {
 	
@@ -21,12 +22,15 @@ public class WACCCompiler {
 	
 	@Override
 	public String toString() {
-		String assemblyCode = "";
-		List<InstrToken> tokens = progInstruction.flatten();
-		for (InstrToken t:tokens) {
-			assemblyCode += t.toString() + "\n";
+		TokenCollector tc = new TokenCollector(progInstruction);
+		List<InstrToken> program = tc.collect();
+		String programString = "";
+		
+		for (InstrToken t:program) {
+			programString += t.toString() + "\n";
 		}
-		return assemblyCode;
+		
+		return programString;
 	}
 
 }
