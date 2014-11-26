@@ -2,10 +2,16 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
+import tree.expr.IntLeaf;
 import tree.type.WACCType;
+import WACCExceptions.InvalidTypeException;
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.RegisterAllocator;
+import assembly.tokens.BranchLinkToken;
+import assembly.tokens.MovToken;
 
 /**
  * Class to represent exit statements for exiting a program
@@ -28,6 +34,18 @@ public class ExitStat extends StatNode {
 		}
 		new InvalidTypeException("Exit statements must have an int as the argument", ctx);
 		return false;
+	}
+
+	@Override
+	public InstrToken toAssembly(RegisterAllocator registers) {
+		Register r4 = new Register();
+		Register r0 = new Register();
+		InstrToken mov = new MovToken(r4, (IntLeaf) exitVal);
+		InstrToken mov2 = new MovToken(r0, r4);
+		InstrToken branch = new BranchLinkToken("exit");
+		mov.setNext(mov2);
+		mov2.setNext(branch);
+		return mov;
 	}
 
 }
