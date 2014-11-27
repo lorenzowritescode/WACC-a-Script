@@ -50,4 +50,13 @@ public class TokenSequence implements Iterable<InstrToken> {
 	public Iterator<InstrToken> iterator() {
 		return tokens.iterator();
 	}
+	
+	@Override
+	public String toString() {
+		String result = "";
+		for (InstrToken t:tokens) {
+			result += t.toString() + "\n";
+		}
+		return result;
+	}
 }

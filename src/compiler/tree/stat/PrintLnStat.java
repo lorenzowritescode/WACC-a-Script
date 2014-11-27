@@ -2,6 +2,7 @@ package tree.stat;
 
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.TokenSequence;
 import tree.expr.ExprNode;
 
 /**
@@ -19,7 +20,7 @@ public class PrintLnStat extends StatNode {
 	}
 
 	@Override
-	public InstrToken toAssembly(Register register) {
+	public TokenSequence toAssembly(Register register) {
 		// TODO Auto-generated method stub
 		return super.toAssembly(register);
 	}

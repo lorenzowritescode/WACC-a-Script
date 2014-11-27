@@ -1,7 +1,5 @@
 package assembly;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class TokenCollector {
 	private TokenSequence top;
@@ -25,8 +23,42 @@ public class TokenCollector {
 			bottom.appendAll(t.toAppend());
 		}
 		
-		TokenSequence finalList = new TokenSequence(top, body, bottom);
+		wrapTopSequence(top);
+		wrapMainBody(body);
+		TokenSequence finalSequence = new TokenSequence(top, body, bottom);
 		
-		return finalList;
+		return finalSequence;
+	}
+	
+	private static void wrapTopSequence(TokenSequence top) {
+		top.prepend(new InstrToken() {
+			@Override
+			public String toString() {
+				return ".data\n";
+			}
+		});
+	}
+
+	private static void wrapMainBody(TokenSequence body) {
+		InstrToken mainHeader = new InstrToken() {
+			@Override
+			public String toString() {
+				return ".text\n\n"
+						+ ".global main\n"
+						+ "main:";
+			}
+		};
+		
+		InstrToken mainFooter = new InstrToken() {
+			@Override
+			public String toString() {
+				return "LDR r0, =0\n"
+						+ "POP {pc}\n"
+						+ ".ltorg";
+			}
+		};
+		
+		body.prepend(mainHeader);
+		body.append(mainFooter);
 	}
 }
