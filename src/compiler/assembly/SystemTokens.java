@@ -1,24 +1,20 @@
 package assembly;
 
-import java.util.Arrays;
-import java.util.List;
-
 
 public class SystemTokens {
 	public static InstrToken PRINT_STRING = new InstrToken() {
 		
-		public List<InstrToken> toPrepend() {
-			/*
-			 * Print string needs the string formatter to be inserted at the top of the assembly file;
-			 */
-			return makeList(new InstrToken() {
+		public TokenSequence toPrepend() {
+	
+			InstrToken stringFormatter = new InstrToken() {
 				@Override
 				public String toString() {
 					return "msg_1:"
 							+ "\n\t.word 5"
 							+ "\n\t.ascii	\"%.*s\\0\"";
 				}
-			});
+			};
+			return new TokenSequence(stringFormatter);
 		}
 		
 		@Override
@@ -38,11 +34,8 @@ public class SystemTokens {
 	
 	public static InstrToken PRINT_LN = new InstrToken() {
 		
-		public List<InstrToken> toPrepend() {
-			/*
-			 * Print string needs the string formatter to be inserted at the top of the assembly file;
-			 */
-			return makeList(new InstrToken() {
+		public TokenSequence toPrepend() {
+			return new TokenSequence(new InstrToken() {
 				@Override
 				public String toString() {
 					return "msg_2:"
@@ -65,35 +58,4 @@ public class SystemTokens {
 		}
 	};
 	
-	public class PrintStringToken extends InstrToken {
-		
-		private String s;
-		private Register r;
-
-		public PrintStringToken(String s, Register r) {
-			this.s = s;
-		}
-		
-		@Override
-		public List<InstrToken> toPrepend() {
-			return makeList(
-					PRINT_STRING.toPrepend(),
-					new InstrToken() {
-						@Override
-						public String toString() {
-							return 
-						}
-					});
-		}
-
-		@Override
-		public List<InstrToken> toAppend() {
-			return makeList(PRINT_STRING);
-		}
-		
-	}
-	
-	private static List<InstrToken> makeList(InstrToken... instrTokens ) {
-		return Arrays.asList(instrTokens);
-	}
 }
