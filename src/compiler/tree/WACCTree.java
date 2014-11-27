@@ -8,6 +8,7 @@ import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.TokenSequence;
 
 public abstract class WACCTree {
 	public static ErrorListener el = WACCException.ERROR_LISTENER;
@@ -35,7 +36,7 @@ public abstract class WACCTree {
 		return el.errorCount() == 0;
 	}
 
-	public InstrToken toAssembly(Register register) {
+	public TokenSequence toAssembly(Register register) {
 		// TODO Auto-generated method stub
 		return null;
 	}

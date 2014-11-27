@@ -9,6 +9,7 @@ import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.TokenSequence;
 import assembly.tokens.BranchLinkToken;
 import assembly.tokens.MovToken;
 
@@ -34,15 +35,14 @@ public class ExitStat extends StatNode {
 		new InvalidTypeException("Exit statements must have an int as the argument", ctx);
 		return false;
 	}
-
-	public InstrToken toAssembly() {
-		Register r4 = new Register();
-		Register r0 = new Register();
-		InstrToken mov = exitVal.toAssembly(r4);
-		InstrToken mov2 = new MovToken(r0, r4);
+	
+	@Override
+	public TokenSequence toAssembly(Register dest) {
+		TokenSequence mov = exitVal.toAssembly(dest);
+		InstrToken mov2 = new MovToken(Register.R0, dest);
 		InstrToken branch = new BranchLinkToken("exit");
-		mov.setNext(mov2);
-		mov2.setNext(branch);
+		
+		mov.appendAll(new TokenSequence(mov2, branch));
 		return mov;
 	}
 
