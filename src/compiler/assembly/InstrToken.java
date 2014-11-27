@@ -1,36 +1,41 @@
 package assembly;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public abstract class InstrToken {
-	private InstrToken next;
+	private List<Register> regs;
 	
-	public void setNext(InstrToken t) {
-		if (next == null) {
-			next = t;
-		} else {
-			throw new IllegalAccessError("You can't set the next token more than once.\n"
-					+ "Token given: " + t.toString());
-		}
-	}
-	
-	public List<InstrToken> flatten() {
-		List<InstrToken> tokens = new ArrayList<>();
-		tokens.add(this);
-		tokens.addAll(next.flatten());
-		return tokens;
+	public InstrToken() {
+		regs = new ArrayList<>();
 	}
 
-	public List<InstrToken> toPrepend() {
+	/**
+	 * @return the TokenSequence containing the data that this InstrToken needs
+	 */
+	public TokenSequence toPrepend() {
 		// normally, there's nothing to prepend
 		return null;
 	}
 
-	public List<InstrToken> toAppend() {
+	/** This is used to signal that this token has some kind of dependencies, such as system method calls.
+	 * @return the TokenSequence containing the InstrToken this method depends on.
+	 */
+	public TokenSequence toAppend() {
 		// normally, there's nothing to append
 		return null;
+	}
+	
+	/**
+	 * 	This method is used to concretise the abstract representation of Registers.
+	 * @param a
+	 * 	The RegisterAllocator that will provide the register number (int).
+	 * 	Currently this returns 4, 5, 6, etc.
+	 */
+	public void setRegisters(RegisterAllocator alloc) {
+		for (Register r:regs) {
+			alloc.allocate(r);
+		}
 	}
 
 }
