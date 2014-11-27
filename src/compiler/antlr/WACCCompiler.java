@@ -1,36 +1,28 @@
 package antlr;
 
-import java.util.List;
-
 import tree.WACCTree;
-import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenCollector;
+import assembly.TokenSequence;
 
 public class WACCCompiler {
 	
 	private WACCTree tree;
-	private InstrToken progInstruction;
+	private TokenSequence progSequence;
 	
 	public WACCCompiler(WACCTree t){
 		this.tree = t;
 	}
 	
 	public void init() {
-		this.progInstruction = tree.toAssembly(new Register());
+		TokenSequence bodySequence = tree.toAssembly(new Register());
+		TokenCollector tc = new TokenCollector(bodySequence);
+		progSequence = tc.collect();
 	}
 	
 	@Override
 	public String toString() {
-		TokenCollector tc = new TokenCollector(progInstruction);
-		List<InstrToken> program = tc.collect();
-		String programString = "";
-		
-		for (InstrToken t:program) {
-			programString += t.toString() + "\n";
-		}
-		
-		return programString;
+		return progSequence.toString();
 	}
 
 }
