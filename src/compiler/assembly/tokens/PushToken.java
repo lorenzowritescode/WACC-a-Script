@@ -1,19 +1,19 @@
 package assembly.tokens;
 
 import assembly.InstrToken;
-import assembly.RegList;
+import assembly.Register;
 
 public class PushToken extends InstrToken {
 	
-	private RegList regList;
+	private Register reg;
 	
-	public PushToken(RegList regList) {
-		this.regList = regList;
+	public PushToken(Register reg) {
+		this.reg = reg;
 	}
 	
 	@Override
 	public String toString() {
-		return "PUSH " + regList.toString();
+		return "PUSH " + reg.toString();
 	}
 
 }

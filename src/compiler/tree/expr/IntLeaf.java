@@ -2,11 +2,12 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.InstrToken;
-import assembly.RegisterAllocator;
-import WACCExceptions.IntOverflowException;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
+import WACCExceptions.IntOverflowException;
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.tokens.MovToken;
 
 /* Represents the value of an Integer
  * Constructed with a String (e.g "42") 
@@ -39,11 +40,10 @@ public class IntLeaf extends ExprNode {
 	public WACCType getType() {
 		return WACCType.INT;
 	}
-
+	
 	@Override
-	public InstrToken toAssembly(RegisterAllocator registers) {
-		// TODO This should never be called?
-		return null;
+	public InstrToken toAssembly(Register r) {
+		return new MovToken(r, this.toString());
 	}
 
 	@Override

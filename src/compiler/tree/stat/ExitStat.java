@@ -9,7 +9,6 @@ import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 import assembly.InstrToken;
 import assembly.Register;
-import assembly.RegisterAllocator;
 import assembly.tokens.BranchLinkToken;
 import assembly.tokens.MovToken;
 
@@ -36,11 +35,10 @@ public class ExitStat extends StatNode {
 		return false;
 	}
 
-	@Override
-	public InstrToken toAssembly(RegisterAllocator registers) {
+	public InstrToken toAssembly() {
 		Register r4 = new Register();
 		Register r0 = new Register();
-		InstrToken mov = new MovToken(r4, (IntLeaf) exitVal);
+		InstrToken mov = exitVal.toAssembly(r4);
 		InstrToken mov2 = new MovToken(r0, r4);
 		InstrToken branch = new BranchLinkToken("exit");
 		mov.setNext(mov2);

@@ -2,15 +2,28 @@ package assembly;
 
 public class Register {
 	
-	private String regName;
+	private String varName;
+	private Integer registerNumber;
 	
-	public Register(String regName) {
-		this.regName = regName;
+	public Register(String varName) {
+		this.varName = varName;
+	}
+	
+	public void setRegister(int reg) {
+		this.registerNumber = reg;
+	}
+	
+	public Register() {
+		varName = null;
 	}
 	
 	@Override
 	public String toString() {
-		return regName;
+		if (registerNumber == null) {
+			throw new IllegalStateException("The register for this object was not set.");
+		}
+		
+		return "r" + registerNumber;
 	}
 
 }

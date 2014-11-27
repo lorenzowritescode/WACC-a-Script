@@ -1,19 +1,19 @@
 package assembly.tokens;
 
 import assembly.InstrToken;
-import assembly.RegList;
+import assembly.Register;
 
 public class PopToken extends InstrToken {
 	
-    private RegList regList;
+    private Register reg;
 	
-	public PopToken(RegList regList) {
-		this.regList = regList;
+	public PopToken(Register reg) {
+		this.reg = reg;
 	}
 	
 	@Override
 	public String toString() {
-		return "POP " + regList.toString();
+		return "POP " + reg.toString();
 	}
 
 }

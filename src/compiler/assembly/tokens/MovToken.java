@@ -4,17 +4,28 @@ import assembly.InstrToken;
 import assembly.Register;
 import tree.expr.IntLeaf;
 
+
 public class MovToken extends InstrToken {
 	private Register dest;
 	private Object source;
 	private String condition;
 	
-	public MovToken(Register r, IntLeaf n) {
+	/**
+	 * General constructor for MOV tokens with immediate values
+	 * @param r The destination register
+	 * @param string The immediate source value (e.g. "=12")
+	 */
+	public MovToken(Register r, String string) {
 		this.dest = r;
-		this.source = n;
+		this.source = string;
 		this.condition = "";
 	}
 	
+	/**
+	 * Constructor for register to register copy.
+	 * @param rDest The destination register
+	 * @param rSrc  The source register
+	 */
 	public MovToken(Register rDest, Register rSrc){
 		this.dest = rDest;
 		this.source = rSrc;

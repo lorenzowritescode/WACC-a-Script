@@ -65,6 +65,34 @@ public class SystemTokens {
 		}
 	};
 	
+	public class PrintStringToken extends InstrToken {
+		
+		private String s;
+		private Register r;
+
+		public PrintStringToken(String s, Register r) {
+			this.s = s;
+		}
+		
+		@Override
+		public List<InstrToken> toPrepend() {
+			return makeList(
+					PRINT_STRING.toPrepend(),
+					new InstrToken() {
+						@Override
+						public String toString() {
+							return 
+						}
+					});
+		}
+
+		@Override
+		public List<InstrToken> toAppend() {
+			return makeList(PRINT_STRING);
+		}
+		
+	}
+	
 	private static List<InstrToken> makeList(InstrToken... instrTokens ) {
 		return Arrays.asList(instrTokens);
 	}

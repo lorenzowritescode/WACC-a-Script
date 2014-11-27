@@ -1,5 +1,7 @@
 package tree.stat;
 
+import assembly.InstrToken;
+import assembly.Register;
 import tree.expr.ExprNode;
 
 /**
@@ -14,5 +16,11 @@ public class PrintLnStat extends StatNode {
 	
 	public PrintLnStat(ExprNode expr) {
 		this.expr = expr;
+	}
+
+	@Override
+	public InstrToken toAssembly(Register register) {
+		// TODO Auto-generated method stub
+		return super.toAssembly(register);
 	}
 }

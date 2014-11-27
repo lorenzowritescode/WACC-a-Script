@@ -4,27 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TokenCollector {
-	private List<InstrToken> top;
-	private List<InstrToken> body;
-	private List<InstrToken> bottom;
-	private InstrToken progToken;
+	private TokenSequence top;
+	private TokenSequence body;
+	private TokenSequence bottom;
 	
-	public TokenCollector(InstrToken progToken) {
-		this.progToken = progToken;
+	private RegisterAllocator allocator;
+	
+	public TokenCollector(TokenSequence progToken) {
+		this.top = new TokenSequence();
+		this.body = progToken;
+		this.bottom = new TokenSequence();
+		this.allocator = new RegisterAllocator();
 	}
 	
-	public List<InstrToken> collect() {
-		body = progToken.flatten();
+	public TokenSequence collect() {
 		
 		for (InstrToken t:body) {
-			top.addAll(t.toPrepend());
-			bottom.addAll(t.toAppend());
+			t.setRegisters(allocator);
+			top.appendAll(t.toPrepend());
+			bottom.appendAll(t.toAppend());
 		}
 		
-		List<InstrToken> finalList = new ArrayList<>();
-		finalList.addAll(top);
-		finalList.addAll(body);
-		finalList.addAll(bottom);
+		TokenSequence finalList = new TokenSequence(top, body, bottom);
 		
 		return finalList;
 	}
