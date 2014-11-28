@@ -26,24 +26,28 @@ public class TokenSequence implements Iterable<InstrToken> {
 		}
 	}
 	
-	public void append(InstrToken t) {
+	public TokenSequence append(InstrToken t) {
 		tokens.addLast(t);
+		return this;
 	}
 	
-	public void prepend(InstrToken t) {
+	public TokenSequence prepend(InstrToken t) {
 		tokens.addFirst(t);
+		return this;
 	}
 	
-	public void appendAll(TokenSequence ts) {
+	public TokenSequence appendAll(TokenSequence ts) {
 		for (InstrToken t:ts) {
 			this.append(t);
 		}
+		return this;
 	}
 	
-	public void prependAll(TokenSequence ts) {
+	public TokenSequence prependAll(TokenSequence ts) {
 		for (InstrToken t:ts) {
 			this.prepend(t);
 		}
+		return this;
 	}
 
 	@Override
