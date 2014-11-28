@@ -3,7 +3,7 @@ package assembly;
 public class Register {
 	
 	private Integer registerNumber;
-	private Register next;
+	
 	
 	public void setRegister(int reg) {
 		this.registerNumber = reg;

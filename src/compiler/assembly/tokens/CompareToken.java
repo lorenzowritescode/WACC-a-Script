@@ -11,6 +11,7 @@ public class CompareToken extends InstrToken{
 	public CompareToken(Register op1, Register op2) {
 		this.op1 = op1;
 		this.op2 = op2;
+		this.addRegister(op1, op2);
 	}
 	
 	@Override

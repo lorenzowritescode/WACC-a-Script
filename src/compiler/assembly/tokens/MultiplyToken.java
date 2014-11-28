@@ -8,19 +8,17 @@ public class MultiplyToken extends InstrToken {
 	private Register dest;
 	private Register op1;
 	private Register op2;
-	private String condition;
+	private String condition = "";
 	
 	public MultiplyToken(Register dest,  Register op1, Register op2) {
 		this.dest = dest;
 		this.op1 = op1;
 		this.op2 = op2;
-		this.condition = "";
+		this.addRegister(dest, op1, op2);
 	}
 	
 	public MultiplyToken(String condition, Register dest,  Register op1, Register op2) {
-		this.dest = dest;
-		this.op1 = op1;
-		this.op2 = op2;
+		this(dest, op1, op2);
 		this.condition = condition;
 	}
 

@@ -8,6 +8,7 @@ import WACCExceptions.IntOverflowException;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
+import assembly.tokens.LoadToken;
 import assembly.tokens.MovToken;
 
 /* Represents the value of an Integer
@@ -34,7 +35,7 @@ public class IntLeaf extends ExprNode {
 
 	@Override
 	public String toString() {
-		return "=" + value;
+		return value;
 	}
 	
 	@Override
@@ -44,7 +45,7 @@ public class IntLeaf extends ExprNode {
 	
 	@Override
 	public TokenSequence toAssembly(Register r) {
-		return new TokenSequence( new MovToken(r, this.toString()) );
+		return new TokenSequence( new LoadToken(r, this.toString()) );
 	}
 
 	@Override

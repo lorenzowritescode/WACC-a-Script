@@ -1,6 +1,7 @@
 package assembly;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class InstrToken {
@@ -8,6 +9,10 @@ public abstract class InstrToken {
 	
 	public InstrToken() {
 		regs = new ArrayList<>();
+	}
+	
+	public void addRegister(Register... rs) {
+		regs.addAll(Arrays.asList(rs));
 	}
 
 	/**

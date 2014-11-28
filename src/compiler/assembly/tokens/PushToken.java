@@ -9,6 +9,7 @@ public class PushToken extends InstrToken {
 	
 	public PushToken(Register reg) {
 		this.reg = reg;
+		this.addRegister(reg);
 	}
 	
 	@Override

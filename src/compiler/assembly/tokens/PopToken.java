@@ -9,6 +9,7 @@ public class PopToken extends InstrToken {
 	
 	public PopToken(Register reg) {
 		this.reg = reg;
+		this.addRegister(reg);
 	}
 	
 	@Override

@@ -45,7 +45,8 @@ public class TokenCollector {
 			public String toString() {
 				return ".text\n\n"
 						+ ".global main\n"
-						+ "main:";
+						+ "main:\n"
+						+ "PUSH {lr}";
 			}
 		};
 		
