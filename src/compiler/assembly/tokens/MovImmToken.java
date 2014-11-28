@@ -5,9 +5,9 @@ import assembly.Register;
 
 public class MovImmToken extends MovToken {
 	
-	public MovImmToken(String condition, Register r, IntLeaf n) {
+	public MovImmToken(String condition, Register r, String s) {
 		this.dest = r;
-		this.immSource = "=" + n.toString();
+		this.immSource = "=" + s;
 		this.condition = condition;
 		this.addRegister(r);
 	}
@@ -17,9 +17,9 @@ public class MovImmToken extends MovToken {
 	 * @param r The destination register
 	 * @param string The immediate source value (e.g. "=12")
 	 */
-	public MovImmToken(Register r, IntLeaf n) {
+	public MovImmToken(Register r, String s) {
 		this.dest = r;
-		this.immSource = "=" + n.toString();
+		this.immSource = "=" + s;
 		this.addRegister(r);
 	}
 	
