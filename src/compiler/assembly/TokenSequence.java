@@ -35,8 +35,10 @@ public class TokenSequence implements Iterable<InstrToken> {
 	}
 	
 	public void appendAll(TokenSequence ts) {
-		for (InstrToken t:ts) {
-			this.append(t);
+		if (ts != null) {
+			for (InstrToken t:ts) {
+				this.append(t);
+			}
 		}
 	}
 	
