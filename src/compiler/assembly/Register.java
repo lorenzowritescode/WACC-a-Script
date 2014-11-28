@@ -5,18 +5,14 @@ public class Register {
 	private Integer registerNumber;
 	private Register next;
 	
-	public Register(String varName) {
-		this.next = new Register();
-	}
-	public Register() {
-		this.next = new Register();
-	}
-	
 	public void setRegister(int reg) {
 		this.registerNumber = reg;
 	}
 	
 	public Register getNext() {
+		if (this.next == null) {
+			next = new Register();
+		}
 		return next;
 	}
 	
