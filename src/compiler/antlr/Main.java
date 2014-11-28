@@ -46,8 +46,9 @@ public class Main {
 			exitSemanticFailure();
 		}
 		
-//		WACCCompiler compiler = new WACCCompiler(sc.getProgTree());
-//		compiler.init();
+		WACCCompiler compiler = new WACCCompiler(sc.getProgTree());
+		compiler.init();
+		System.out.println(compiler.toString());
 	}
 
 	/**
