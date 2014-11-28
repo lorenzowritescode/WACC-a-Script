@@ -14,6 +14,7 @@ public class SubToken extends InstrToken {
 		this.dest = dest;
 		this.op1 = op1;
 		this.op2 = i;
+		this.addRegister(dest, op1);
 	}
 	
 	public SubToken(Register dest, Register op1, Object o) {

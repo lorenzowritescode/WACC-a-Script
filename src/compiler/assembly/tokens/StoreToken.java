@@ -7,18 +7,32 @@ public class StoreToken extends InstrToken {
 	
 	private Register source;
 	private String dest;
-	private String condition;
+	private String condition = "";
+	
+	public StoreToken(Register source, Register destAddress) {
+		this.source = source;
+		this.dest = "[" + destAddress.toString() + "]";
+		this.addRegister(source, destAddress);
+	}
+	
+	public StoreToken(Register source, Register destAddress, int offset) {
+		this.source = source;
+		this.dest = "[" + destAddress.toString() + ", #" + offset + "]";
+		this.addRegister(source, destAddress);
+	}
 	
 	public StoreToken(String condition, Register source, Register destAddress) {
 		this.condition = condition;
 		this.source = source;
 		this.dest = "[" + destAddress.toString() + "]";
+		this.addRegister(source, destAddress);
 	}
 	
-	public StoreToken(Register source, Register destAddress) {
-		this.condition = "";
+	public StoreToken(String condition, Register source, Register destAddress, int offset) {
+		this.condition = condition;
 		this.source = source;
-		this.dest = "[" + destAddress.toString() + "]";
+		this.dest = "[" + destAddress.toString() + ", #" + offset + "]";
+		this.addRegister(source, destAddress);
 	}
 
 

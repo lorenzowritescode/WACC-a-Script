@@ -9,10 +9,18 @@ public class OrToken extends InstrToken {
 	private Register op1;
 	private Object op2;
 	
+	public OrToken(Register dest, Register op1, Register op2) {
+		this.dest = dest;
+		this.op1 = op1;
+		this.op2 = op2;
+		this.addRegister(dest, op1, op2);
+	}
+	
 	public OrToken(Register dest, Register op1, Object op2) {
 		this.dest = dest;
 		this.op1 = op1;
 		this.op2 = op2;
+		this.addRegister(dest, op1);
 	}
 	
 	@Override
