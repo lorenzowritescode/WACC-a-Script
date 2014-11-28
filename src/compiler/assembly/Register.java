@@ -3,13 +3,11 @@ package assembly;
 public class Register {
 	
 	private Integer registerNumber;
-	private Register next;
 	
 	public Register(String varName) {
-		this.next = new Register();
 	}
+	
 	public Register() {
-		this.next = new Register();
 	}
 	
 	public void setRegister(int reg) {
@@ -17,7 +15,7 @@ public class Register {
 	}
 	
 	public Register getNext() {
-		return next;
+		return new Register();
 	}
 	
 	@Override
