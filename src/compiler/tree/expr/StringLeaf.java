@@ -32,5 +32,10 @@ public class StringLeaf extends ExprNode {
 	public int weight() {
 		return 1;
 	}
+	
+	@Override
+	public String toString() {
+		return text;
+	}
 
 }
