@@ -10,7 +10,9 @@ public class Register {
 	}
 	
 	public Register getNext() {
-		return new Register();
+		if (next == null)
+			next = new Register();
+		return next;
 	}
 	
 	@Override
