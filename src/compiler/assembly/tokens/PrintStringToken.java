@@ -1,7 +1,6 @@
 package assembly.tokens;
 
 import assembly.InstrToken;
-import assembly.Register;
 import assembly.SystemTokens;
 import assembly.TokenSequence;
 
@@ -18,7 +17,9 @@ public class PrintStringToken extends InstrToken {
 	
 	@Override
 	public TokenSequence toPrepend() {
-		return new TokenSequence(new InstrToken() {
+		
+		TokenSequence msgString = SystemTokens.PRINT_STRING.toPrepend();
+		msgString.append(new InstrToken() {
 			@Override
 			public String toString() {
 				return label
@@ -26,6 +27,7 @@ public class PrintStringToken extends InstrToken {
 						+ "\n\t.ascii \""+ s + "\"";
 			}
 		});
+		return msgString;
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class PrintStringToken extends InstrToken {
 	@Override
 	public String toString() {
 		return "LDR r0, =" + label + "\n"
-				+ "BL p_print_string\n";
+				+ "BL p_print_string";
 	}
 	
 }

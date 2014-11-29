@@ -3,16 +3,15 @@ package assembly;
 public class Register {
 	
 	private Integer registerNumber;
-	
+	private Register next;
 	
 	public void setRegister(int reg) {
 		this.registerNumber = reg;
 	}
 	
 	public Register getNext() {
-		if (this.next == null) {
+		if (next == null)
 			next = new Register();
-		}
 		return next;
 	}
 	
