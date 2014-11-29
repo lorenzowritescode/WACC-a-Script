@@ -23,7 +23,7 @@ public class IntLeaf extends ExprNode {
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		long integer = Long.valueOf(value);
 		if (integer < - (Math.pow(2, 31)) || integer > (Math.pow(2, 31) + 1)) {
-			throw new IntOverflowException("The absolute value, " + value + " is too large");
+			throw new IntOverflowException("The absolute value, " + value + " is too large", ctx);
 		}
 		return true;
 	}

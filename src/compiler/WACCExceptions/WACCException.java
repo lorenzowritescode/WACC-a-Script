@@ -60,8 +60,16 @@ public class WACCException extends RuntimeException {
 		int pos  = epos.getCharPos();
 		errorString += "Error at " + line + ":" + pos + " : ";
 		//print source code
-		errorString += "Source Code: " + epos.getText() + "\n\n";
+		errorString += "Source Code: " + /*epos.getText()*/ printCode(ctx) + "\n\n";
 		return errorString;
+	}
+	
+	private String printCode(ParserRuleContext ctx) {
+		String s = "";
+		for(int i = 0; i < ctx.getChildCount() - 1; i++) {
+			s += ctx.getChild(i).getText() + " ";
+		}
+		return s;
 	}
 
 	private class ErrorPosition {

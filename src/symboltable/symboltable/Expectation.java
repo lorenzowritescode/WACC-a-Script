@@ -65,7 +65,7 @@ public class Expectation {
 	public boolean isResolved() {
 		// HACK: if a return statement was called but none was found, the UnresolvedExpectationException is thrown rather that only created.
 		if (!hasBeenCalled && !noReturnExpected)
-			throw new UnresolvedExpectationException("No return statement for the function was found");
+			throw new UnresolvedExpectationException("No return statement for the function was found", null);
 		// only one of hasBeenCalled and noReturnExpected should be true
 		return (hasBeenCalled != noReturnExpected) && resolved;
 	}
