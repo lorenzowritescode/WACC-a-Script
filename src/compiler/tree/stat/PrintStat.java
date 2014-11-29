@@ -1,9 +1,10 @@
 package tree.stat;
 
+import tree.expr.ExprNode;
+import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.PrintStringToken;
-import tree.expr.ExprNode;
 
 /**
  * Class to represent print statements
@@ -21,7 +22,8 @@ public class PrintStat extends StatNode {
 
 	@Override
 	public TokenSequence toAssembly(Register register) {
-		return expr.toAssembly(register.getNext())
-				.append(new PrintStringToken("hello"));
+		InstrToken print = new PrintStringToken(expr.toString());
+		TokenSequence seq = new TokenSequence(print);
+		return seq;
 	}
 }
