@@ -394,7 +394,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	@Override
 	public WACCTree visitIf_stat(If_statContext ctx) {
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
-		IfStatNode ifStat = new IfStatNode(ifCond);
+		StatNode thenStat = (StatNode) visit(ctx.stat(0));
+		StatNode elseStat = (StatNode) visit(ctx.stat(1));
+		IfStatNode ifStat = new IfStatNode(ifCond, thenStat, elseStat);
 		ifStat.check(currentSymbolTable, ctx);
 
 		return ifStat;

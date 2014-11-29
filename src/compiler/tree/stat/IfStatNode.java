@@ -2,10 +2,12 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
+import WACCExceptions.InvalidTypeException;
+import assembly.Register;
+import assembly.TokenSequence;
 
 /**
  * Class to represent if statements 
@@ -16,9 +18,13 @@ import tree.type.WACCType;
 public class IfStatNode extends StatNode {
 	
 	private ExprNode ifCond;
+	private StatNode thenStat;
+	private StatNode elseStat;
 	
-	public IfStatNode(ExprNode expr) {
+	public IfStatNode(ExprNode expr, StatNode thenStat, StatNode elseStat) {
 		this.ifCond = expr;
+		this.thenStat = thenStat;
+		this.elseStat = elseStat;
 	}
 	
 	@Override
@@ -31,5 +37,12 @@ public class IfStatNode extends StatNode {
 		}
 	}
 	
+	public TokenSequence toAssembly(Register register) {
+		TokenSequence cond = ifCond.toAssembly(register);
+		TokenSequence then = thenStat.toAssembly(register); /*register use?*/
+		TokenSequence els  = elseStat.toAssembly(register);
+		return null;
+		//TODO: for sam: finish this
+	}
 
 }
