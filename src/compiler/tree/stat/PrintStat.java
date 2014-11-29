@@ -19,7 +19,7 @@ public class PrintStat extends StatNode {
 	public PrintStat(ExprNode expr) {
 		this.expr = expr;
 	}
-	
+
 	@Override
 	public TokenSequence toAssembly(Register register) {
 		InstrToken print = new PrintStringToken(expr.toString());

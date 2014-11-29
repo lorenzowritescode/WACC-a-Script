@@ -38,7 +38,7 @@ public class PrintStringToken extends InstrToken {
 	@Override
 	public String toString() {
 		return "LDR r0, =" + label + "\n"
-				+ "BL p_print_string\n";
+				+ "BL p_print_string";
 	}
 	
 }

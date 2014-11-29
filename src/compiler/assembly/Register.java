@@ -4,11 +4,6 @@ public class Register {
 	
 	private Integer registerNumber;
 	
-	public Register(String varName) {
-	}
-	
-	public Register() {
-	}
 	
 	public void setRegister(int reg) {
 		this.registerNumber = reg;
