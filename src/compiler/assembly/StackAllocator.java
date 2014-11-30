@@ -73,7 +73,7 @@ public class StackAllocator {
 			return new TokenSequence().append(
 					position == 0?
 					new LoadToken(r, Register.sp)
-					:new LoadToken(r, Register.sp, position));
+					:new LoadToken(r, Register.sp, position*WORD_SIZE));
 					
 		}
 		
@@ -89,7 +89,7 @@ public class StackAllocator {
 			return new TokenSequence().append(
 					position == 0?
 							new StoreToken(r, Register.sp)
-							:new StoreToken(r, Register.sp, position));
+							:new StoreToken(r, Register.sp, position*WORD_SIZE));
 		}
 	}
 }
