@@ -8,11 +8,14 @@ import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.StackAllocator;
 import assembly.TokenSequence;
 
 public abstract class WACCTree {
 	public static ErrorListener el = WACCException.ERROR_LISTENER;
 	
+	//temporarily here, for testing and working out how it works -oli
+	public static StackAllocator stackAllocator = new StackAllocator();
 	
 	
 	/**
