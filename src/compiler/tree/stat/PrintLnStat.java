@@ -5,7 +5,6 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.PrintLnToken;
-import assembly.tokens.PrintStringToken;
 
 /**
  * Class to represent println statements
@@ -23,9 +22,11 @@ public class PrintLnStat extends StatNode {
 	
 	@Override
 	public TokenSequence toAssembly(Register register) {
-		InstrToken print = new PrintStringToken(expr.toString());
+		TokenSequence exprSeq = expr.toAssembly(register);
+		TokenSequence printSeq = expr.printAssembly(register);
 		InstrToken println = new PrintLnToken();
-		TokenSequence seq = new TokenSequence(print, println);
-		return seq;
+		exprSeq.appendAll(printSeq);
+		exprSeq.append(println);
+		return exprSeq;
 	}
 }
