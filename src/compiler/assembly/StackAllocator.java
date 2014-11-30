@@ -1,6 +1,8 @@
 package assembly;
 
 import assembly.tokens.EmptyToken;
+import assembly.tokens.LoadToken;
+import assembly.tokens.StoreToken;
 
 public class StackAllocator {
 	
@@ -60,7 +62,7 @@ public class StackAllocator {
 	}
 	
 	
-	private class StackPosition {
+	public class StackPosition {
 		private int position;
 		
 		public StackPosition(int i) {
@@ -68,14 +70,26 @@ public class StackAllocator {
 		}
 		
 		public TokenSequence toAssembly(final Register r) {
-			return new TokenSequence().append(new InstrToken() {
-				@Override
-				public String toString() {
-					return position == 0?
-							"LDR " + r.toString() + ", [sp]"
-							: "LDR " + r.toString() + ", [sp, #"+ position + "]";
-				}
-			});
+			return new TokenSequence().append(
+					position == 0?
+					new LoadToken(r, Register.sp)
+					:new LoadToken(r, Register.sp, position));
+					
+		}
+		
+		/**
+		 * This method is used when declaring variables, and initially storing 
+		 * them in the heap.
+		 * 
+		 * @param r the register in which the variable is being held
+		 * @return Returns the Assembly code used to store a given register 
+		 * at the appropriate address
+		 */
+		public TokenSequence toStoreAssembly(final Register r) {
+			return new TokenSequence().append(
+					position == 0?
+							new StoreToken(r, Register.sp)
+							:new StoreToken(r, Register.sp, position));
 		}
 	}
 }
