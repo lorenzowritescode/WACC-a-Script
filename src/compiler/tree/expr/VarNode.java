@@ -6,6 +6,11 @@ import symboltable.SymbolTable;
 import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
 import WACCExceptions.UndeclaredIdentifierException;
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.StackAllocator.StackPosition;
+import assembly.tokens.PrintIntToken;
+import assembly.TokenSequence;
 
 /* Represents an Identifier and its declared type
  * Constructed with and type and string (e.g BOOL, "myBool")
@@ -16,10 +21,13 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	
 	private String ident;
 	private WACCType type;
+	private StackPosition sp;
 	
 	public VarNode(WACCType type, String ident) {
 		this.ident = ident;
 		this.type = type;
+		//Here for testing only:
+		this.sp = stackAllocator.allocate();
 	}
 	
 	@Override
@@ -42,6 +50,22 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	@Override
 	public int weight() {
 		return 1;
+	}
+
+	@Override
+	public TokenSequence printAssembly(Register register) {
+		InstrToken print;
+		if(type == WACCType.INT) {
+			print = new PrintIntToken(register);
+		} else {
+			print = null;
+		}
+		return new TokenSequence(print);
+	}
+	
+	@Override 
+	public TokenSequence toAssembly(Register r) {
+		return sp.toAssembly(r);
 	}
 
 }
