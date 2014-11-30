@@ -4,6 +4,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.LoadToken;
+import assembly.tokens.PrintStringToken;
 
 /* Represents the value of a String
  * Constructed with a String (e.g "hello")
@@ -11,11 +16,14 @@ import tree.type.WACCType;
  */
 
 public class StringLeaf extends ExprNode {
+	private static int LABEL_COUNTER = 4;
 	
 	private String text;
+	private String label;
 	
 	public StringLeaf(String text) {
 		this.text = text;
+		label = "msg_" + LABEL_COUNTER++;
 	}
 
 	@Override
@@ -36,6 +44,16 @@ public class StringLeaf extends ExprNode {
 	@Override
 	public String toString() {
 		return text;
+	}
+	
+	public TokenSequence toAssembly(Register r) {
+		return new TokenSequence(new LoadToken(r, label));
+	}
+
+	@Override
+	public TokenSequence printAssembly(Register register) {
+		InstrToken print = new PrintStringToken(register, text);
+		return new TokenSequence(print);
 	}
 
 }
