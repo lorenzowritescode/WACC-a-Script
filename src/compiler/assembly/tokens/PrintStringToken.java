@@ -1,16 +1,19 @@
 package assembly.tokens;
 
 import assembly.InstrToken;
+import assembly.Register;
 import assembly.SystemTokens;
 import assembly.TokenSequence;
 
 public class PrintStringToken extends InstrToken {
-	private static int LABEL_COUNTER = 4;
+	private static int LABEL_COUNTER = 5;
 	
+	private Register r;
 	private String s;
 	private String label;
 
-	public PrintStringToken(String s) {
+	public PrintStringToken(Register r, String s) {
+		this.r = r;
 		this.s = s;
 		label = "msg_" + LABEL_COUNTER++;
 	}
@@ -37,7 +40,7 @@ public class PrintStringToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "LDR r0, =" + label + "\n"
+		return "MOV r0, " + r.toString() + "\n"
 				+ "BL p_print_string";
 	}
 	
