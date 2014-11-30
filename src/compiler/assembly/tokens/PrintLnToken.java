@@ -16,7 +16,7 @@ public class PrintLnToken extends InstrToken {
 	
 	@Override 
 	public TokenSequence toAppend() {
-		return new TokenSequence(SystemTokens.PRINT_STRING);
+		return new TokenSequence(SystemTokens.PRINT_LN);
 	}
 	
 	@Override
