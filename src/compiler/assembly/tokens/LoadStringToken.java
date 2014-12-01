@@ -6,7 +6,7 @@ import assembly.TokenSequence;
 
 public class LoadStringToken extends InstrToken {
 	
-	private static int LABEL_COUNTER = 6;
+	private static int LABEL_COUNTER = 7;
 	
 	private Register dest;
 	private String s;

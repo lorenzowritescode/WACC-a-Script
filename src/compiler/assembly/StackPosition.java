@@ -1,6 +1,6 @@
 package assembly;
 
-import assembly.tokens.LoadToken;
+import assembly.tokens.LoadAddressToken;
 import assembly.tokens.StoreToken;
 
 public class StackPosition {
@@ -13,7 +13,7 @@ public class StackPosition {
 	
 	public TokenSequence toAssembly(final Register r) {
 		return new TokenSequence().append(
-				new LoadToken(r, Register.sp, position*WORD_SIZE));
+				new LoadAddressToken(r, Register.sp, position*WORD_SIZE));
 	}
 	
 	/**

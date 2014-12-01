@@ -2,16 +2,14 @@ package tree.assignments;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.InstrToken;
-import assembly.Register;
-import assembly.TokenSequence;
-import assembly.tokens.BranchLinkToken;
-import assembly.tokens.MovRegToken;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
 import tree.type.WACCType;
-import assembly.tokens.*;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.MovRegToken;
+import assembly.tokens.StoreToken;
 
 public class NewPairNode extends Assignable {
 	
