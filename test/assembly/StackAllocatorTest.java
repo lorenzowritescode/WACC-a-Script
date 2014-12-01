@@ -18,28 +18,28 @@ public class StackAllocatorTest {
 	public void allocationsAreCounted() {
 		sa.allocate();
 		sa.allocate();
-		assertThat(sa.getDepth(), is(2));
-		assertThat(sa.getInitialisation().toString(), is("SUB sp, sp, #8"));
-		assertThat(sa.getTermination().toString(), is("ADD sp, sp, #8"));
+		assertThat(sa.getCounter(), is(2));
+		assertThat(sa.getInitialisation().toString().trim(), is("SUB sp, sp, #8"));
+		assertThat(sa.getTermination().toString().trim(), is("ADD sp, sp, #8"));
 	}
 	
 	@Test
 	public void newScopeResetsCounter() {
 		sa.allocate();
 		sa.allocate();
-		sa = sa.enterNewScope();
-		assertThat(sa.getDepth(), is(0));
+		sa.enterNewScope();
+		assertThat(sa.getCounter(), is(0));
 	}	
 	
 	@Test
 	public void exitScopeResumesCounter() {
 		sa.allocate();
 		sa.allocate();
-		assertThat(sa.getDepth(), is(2));
-		sa = sa.enterNewScope();
-		assertThat(sa.getDepth(), is(0));
-		sa = sa.exitScope();
-		assertThat(sa.getDepth(), is(2));
+		assertThat(sa.getCounter(), is(2));
+		sa.enterNewScope();
+		assertThat(sa.getCounter(), is(0));
+		sa.exitScope();
+		assertThat(sa.getCounter(), is(2));
 	}
 	
 }
