@@ -64,18 +64,14 @@ public class TokenCollector {
 			@Override
 			public String toString() {
 				return ".text\n\n"
-						+ ".global main\n"
-						+ "main:\n"
-						+ "PUSH {lr}";
+						+ ".global main\n";
 			}
 		};
 		
 		InstrToken mainFooter = new InstrToken() {
 			@Override
 			public String toString() {
-				return "LDR r0, =0\n"
-						+ "POP {pc}\n"
-						+ ".ltorg";
+				return "\t.ltorg";
 			}
 		};
 		
