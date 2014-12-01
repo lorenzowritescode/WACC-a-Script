@@ -11,6 +11,7 @@ public class PrintStringToken extends InstrToken {
 
 	public PrintStringToken(Register r) {
 		this.r = r;
+		this.addRegister(r);
 	}
 	
 	@Override
