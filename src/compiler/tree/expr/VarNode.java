@@ -10,7 +10,6 @@ import tree.type.WACCType;
 import WACCExceptions.UndeclaredIdentifierException;
 import assembly.InstrToken;
 import assembly.Register;
-import assembly.StackAllocator.StackPosition;
 import assembly.tokens.PrintIntToken;
 import assembly.tokens.PrintStringToken;
 import assembly.TokenSequence;
@@ -30,7 +29,7 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 		this.ident = ident;
 		this.type = type;
 		//Here for testing only:
-		this.sp = stackAllocator.allocate();
+		this.position = stackAllocator.allocate();
 	}
 	
 	@Override
@@ -74,7 +73,7 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	
 	@Override 
 	public TokenSequence toAssembly(Register r) {
-		return sp.toAssembly(r);
+		return position.toAssembly(r);
 	}
 
 }
