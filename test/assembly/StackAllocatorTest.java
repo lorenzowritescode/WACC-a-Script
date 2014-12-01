@@ -42,4 +42,14 @@ public class StackAllocatorTest {
 		assertThat(sa.getCounter(), is(2));
 	}
 	
+	@Test
+	public void stackPosIsMultipleOfFour() {
+		StackPosition p1 = sa.allocate();
+		assertThat(p1.getStackIndex(), is(0));
+		StackPosition p2 = sa.allocate();
+		assertThat(p2.getStackIndex(), is(4));
+		StackPosition p3 = sa.allocate();
+		assertThat(p3.getStackIndex(), is(8));
+	}
+	
 }
