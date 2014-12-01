@@ -9,6 +9,7 @@ public class PrintCharToken extends InstrToken {
 	
 	public PrintCharToken(Register r) {
 		this.r = r;
+		this.addRegister(r);
 	}
 	
 	public String toString() {

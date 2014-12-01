@@ -12,6 +12,7 @@ public class PrintBoolToken extends InstrToken {
 
 	public PrintBoolToken(Register r) {
 		this.r = r;
+		this.addRegister(r);
 	}
 	
 	@Override
