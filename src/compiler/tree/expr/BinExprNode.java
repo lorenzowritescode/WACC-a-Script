@@ -7,11 +7,10 @@ import tree.type.WACCArithBinOp;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
-import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
-import assembly.tokens.AddWithFlagToken;
-import assembly.tokens.OverflowToken;
+import assembly.tokens.PrintBoolToken;
+import assembly.tokens.PrintIntToken;
 
 /* Represents a Binary Operator expression
  * Holds the operator and the expressions
@@ -57,22 +56,20 @@ public class BinExprNode extends ExprNode {
 
 	@Override
 	public TokenSequence printAssembly(Register r) {
-		// TODO Auto-generated method stub
-		return null;
+		TokenSequence seq = new TokenSequence();
+		if (operator instanceof WACCArithBinOp) {
+			seq.append(new PrintIntToken(r));
+		} else {
+			seq.append(new PrintBoolToken(r));
+		}
+		return seq;
 	}
 	
 	@Override 
 	public TokenSequence toAssembly(Register r) {
 		TokenSequence exprs = lhs.toAssembly(r);
 		exprs.appendAll(rhs.toAssembly(r.getNext()));
-		if (operator instanceof WACCArithBinOp) {
-			//TODO: this is hard...
-		}
-		
-		InstrToken add = new AddWithFlagToken("s", r, r, r.getNext());
-		InstrToken overflow = new OverflowToken();
-		exprs.append(add);
-		exprs.append(overflow);
+		exprs.appendAll(operator.apply(r, r.getNext()));
 		return exprs;
 	}
 
