@@ -1,18 +1,17 @@
 package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.junit.internal.matchers.StacktracePrintingMatcher;
 
-import assembly.StackPosition;
 import symboltable.SymbolTable;
 import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
 import WACCExceptions.UndeclaredIdentifierException;
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.StackPosition;
+import assembly.TokenSequence;
 import assembly.tokens.PrintIntToken;
 import assembly.tokens.PrintStringToken;
-import assembly.TokenSequence;
 
 /* Represents an Identifier and its declared type
  * Constructed with and type and string (e.g BOOL, "myBool")
