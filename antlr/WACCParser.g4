@@ -69,15 +69,16 @@ base_type: INT
 ;
 
 // Expressions.
-expr : expr (MUL | DIV | MOD) expr
+// Unary expressions bind the tightest.
+expr : (NOT | MINUS | LEN | ORD | CHR) expr
+// binary expressions with order of precedence
+| expr (MUL | DIV | MOD) expr
 | expr (PLUS | MINUS) expr
 | expr (GREATER | GREATER_EQUAL | LESS | LESS_EQUAL) expr
 | expr (DOUBLE_EQUALS | NOT_EQUAL) expr
 // binary boolean expressions
 | expr AND expr
 | expr OR expr
-// unary expressions
-| (NOT | MINUS | LEN | ORD | CHR) expr
 // atomic expressions
 | OPEN_PARENTHESES expr CLOSE_PARENTHESES
 // expression literals
