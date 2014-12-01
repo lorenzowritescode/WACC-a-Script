@@ -25,8 +25,8 @@ public class TokenCollector {
 			top.appendAll(t.toPrepend());
 			bottom.appendAll(t.toAppend());
 		}
-		top = RemoveDuplicates(top);
-		bottom = RemoveDuplicates(bottom);
+		top = removeDuplicates(top);
+		bottom = removeDuplicates(bottom);
 		wrapTopSequence(top);
 		wrapMainBody(body);
 		TokenSequence finalSequence = new TokenSequence(top, body, bottom);
@@ -39,7 +39,7 @@ public class TokenCollector {
 	 * will be removed
 	 * @return Returns a token sequence with no duplicate elements
 	 */
-	private TokenSequence RemoveDuplicates(TokenSequence seq) {
+	private TokenSequence removeDuplicates(TokenSequence seq) {
 		HashSet<InstrToken> instrSet = new HashSet<InstrToken>(); 
 		for (InstrToken tok:seq) {
 			instrSet.add(tok);
