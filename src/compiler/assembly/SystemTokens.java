@@ -86,6 +86,32 @@ public class SystemTokens {
 		}
 	};
 	
+	public static InstrToken OVERFLOW_ERROR = new InstrToken() {
+		
+		public TokenSequence toPrepend() {
+			return new TokenSequence(OVERFLOW_MESSAGE, STRING_FORMATTER);
+		}
+		
+		@Override
+		public String toString() {
+			return "p_throw_overflow_error:"
+						+ "\n\tLDR r0, =msg_5"
+						+ "\n\tBL p_throw_runtime_error";
+		}
+	};
+	
+	public static InstrToken RUNTIME_ERROR = new InstrToken() {
+		
+		@Override
+		public String toString() {
+			return "p_throw_runtime_error:"
+						+ "\n\tBL p_print_string"
+						+ "\n\tMOV r0, #-1"
+						+ "\n\tBL exit";
+
+		}
+	};
+	
 	public static InstrToken STRING_FORMATTER = new InstrToken() {
 		@Override
 		public String toString() {
@@ -122,6 +148,16 @@ public class SystemTokens {
 			return "msg_4:"
 					+ "\n\t.word 3"
 					+ "\n\t.ascii	\"%d\\0\"";
+		}
+	};
+	
+	public static InstrToken OVERFLOW_MESSAGE = new InstrToken() {
+		@Override
+		public String toString() {
+			return "msg_5:"
+					+ "\n\t.word 82"
+					+ "\n\t.ascii	\"OverflowError: the result is too small/large "
+					+ "to store in a 4-byte signed-integer.\n\"";
 		}
 	};
 
