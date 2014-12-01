@@ -24,6 +24,6 @@ public class DivideToken extends InstrToken {
 
 	@Override
 	public String toString() {
-		return "SDIV" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
+		return "\tSDIV" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
 	}
 }

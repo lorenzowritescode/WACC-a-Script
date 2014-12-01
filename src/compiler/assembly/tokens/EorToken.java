@@ -25,7 +25,7 @@ public class EorToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "EOR " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
+		return "\tEOR " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
 	}
 	
 }

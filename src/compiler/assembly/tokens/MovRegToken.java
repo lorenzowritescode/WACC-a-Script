@@ -24,7 +24,7 @@ public class MovRegToken extends MovToken {
 	
 	@Override
 	public String toString() {
-		return "MOV" + condition + " " + dest.toString() + ", " + regSource.toString();
+		return "\tMOV" + condition + " " + dest.toString() + ", " + regSource.toString();
 	}
 	
 }

@@ -24,7 +24,7 @@ public class OverflowToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "BLVS p_throw_overflow_error";
+		return "\tBLVS p_throw_overflow_error";
 	}
 	
 }

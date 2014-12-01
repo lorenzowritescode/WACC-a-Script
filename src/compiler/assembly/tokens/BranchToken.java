@@ -19,6 +19,6 @@ public class BranchToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "B" + condition +  " " + label;
+		return "\tB" + condition +  " " + label;
 	}
 }

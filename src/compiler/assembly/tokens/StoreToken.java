@@ -44,7 +44,7 @@ public class StoreToken extends InstrToken {
 
 	@Override 
 	public String toString() {
-		return "STR" + condition + " " + dest.toString() + ", " + source.toString();
+		return "\tSTR" + condition + " " + dest.toString() + ", " + source.toString();
 	}
 	
 	

@@ -24,7 +24,7 @@ public class MultiplyToken extends InstrToken {
 
 	@Override
 	public String toString() {
-		return "MUL" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
+		return "\tMUL" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
 	}
 	
 }

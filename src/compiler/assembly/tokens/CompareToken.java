@@ -34,9 +34,9 @@ public class CompareToken extends InstrToken{
 	@Override
 	public String toString() {
 		if (op2 != null) {
-			return "CMP " + op1.toString() + ", " + op2.toString() + ", " + shift;
+			return "\tCMP " + op1.toString() + ", " + op2.toString() + ", " + shift;
 		} else {
-			return "CMP " + op1.toString() + ", " + i.toString();
+			return "\tCMP " + op1.toString() + ", " + i.toString();
 		}
 	}
 }

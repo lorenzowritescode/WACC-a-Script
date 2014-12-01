@@ -27,8 +27,8 @@ public class PrintIntToken extends InstrToken {
 	
 	
 	public String toString() {
-		return "MOV r0, " + r.toString() + "\n"
-				+"BL p_print_int";
+		return "\tMOV r0, " + r.toString() + "\n"
+				+"\tBL p_print_int";
 	}
 
 

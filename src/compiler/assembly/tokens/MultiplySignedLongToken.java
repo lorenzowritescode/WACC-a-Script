@@ -26,7 +26,7 @@ public class MultiplySignedLongToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "SMULL" + condition + " " + dest1.toString() + ", " + dest2.toString() 
+		return "\tSMULL" + condition + " " + dest1.toString() + ", " + dest2.toString() 
 						+ ", " + op1.toString() + ", " + op2.toString();
 	}
 	

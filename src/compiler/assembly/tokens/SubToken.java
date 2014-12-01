@@ -37,7 +37,7 @@ public class SubToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "SUB" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
+		return "\tSUB" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
 	}
 
 }
