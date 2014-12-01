@@ -10,6 +10,7 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackAllocator.StackPosition;
 import assembly.tokens.PrintIntToken;
+import assembly.tokens.PrintStringToken;
 import assembly.TokenSequence;
 
 /* Represents an Identifier and its declared type
@@ -53,10 +54,12 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	}
 
 	@Override
-	public TokenSequence printAssembly(Register register) {
+	public TokenSequence printAssembly(Register r) {
 		InstrToken print;
 		if(type == WACCType.INT) {
-			print = new PrintIntToken(register);
+			print = new PrintIntToken(r);
+		} else if(type == WACCType.STRING) {
+			print = new PrintStringToken(r);
 		} else {
 			print = null;
 		}
