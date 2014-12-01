@@ -1,13 +1,12 @@
 package assembly.tokens;
 
-import tree.expr.IntLeaf;
 import assembly.Register;
 
 public class MovImmToken extends MovToken {
 	
 	public MovImmToken(String condition, Register r, String s) {
 		this.dest = r;
-		this.immSource = "=" + s;
+		this.immSource = s;
 		this.condition = condition;
 		this.addRegister(r);
 	}
@@ -19,7 +18,7 @@ public class MovImmToken extends MovToken {
 	 */
 	public MovImmToken(Register r, String s) {
 		this.dest = r;
-		this.immSource = "=" + s;
+		this.immSource = s;
 		this.addRegister(r);
 	}
 	

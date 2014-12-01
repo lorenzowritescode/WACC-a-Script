@@ -3,6 +3,8 @@ package assembly;
 import java.util.Stack;
 
 import assembly.tokens.EmptyToken;
+import assembly.tokens.LoadToken;
+import assembly.tokens.StoreToken;
 
 public class StackAllocator {
 	

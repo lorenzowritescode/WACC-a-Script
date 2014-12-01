@@ -70,4 +70,16 @@ public class Register {
 			throw new UnsupportedOperationException("Can't request a register after R3");
 		}
 	};
+	
+	public static final Register sp = new Register() {
+		@Override
+		public String toString() {
+			return "sp";
+		}
+		
+		@Override
+		public Register getNext() {
+			throw new UnsupportedOperationException("Can't request a register after sp");
+		}
+	};
 }

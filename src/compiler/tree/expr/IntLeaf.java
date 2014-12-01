@@ -9,7 +9,7 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadToken;
-import assembly.tokens.MovToken;
+import assembly.tokens.PrintIntToken;
 
 /* Represents the value of an Integer
  * Constructed with a String (e.g "42") 
@@ -45,12 +45,19 @@ public class IntLeaf extends ExprNode {
 	
 	@Override
 	public TokenSequence toAssembly(Register r) {
-		return new TokenSequence( new LoadToken(r, this.toString()) );
+		return new TokenSequence( new LoadToken(r, value) );
 	}
 
 	@Override
 	public int weight() {
 		return 1;
 	}
+
+	@Override
+	public TokenSequence printAssembly(Register register) {
+		InstrToken intTok = new PrintIntToken(register);
+		return new TokenSequence(intTok);
+	}
+	
 	
 }
