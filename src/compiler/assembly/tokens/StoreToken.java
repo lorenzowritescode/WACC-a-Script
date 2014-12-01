@@ -2,6 +2,7 @@ package assembly.tokens;
 
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.StackPosition;
 
 public class StoreToken extends InstrToken {
 	
@@ -35,6 +36,11 @@ public class StoreToken extends InstrToken {
 		this.addRegister(source, destAddress);
 	}
 
+
+	public StoreToken(Register register, StackPosition pos) {
+		this.source = register;
+		this.dest = pos.toString();
+	}
 
 	@Override 
 	public String toString() {
