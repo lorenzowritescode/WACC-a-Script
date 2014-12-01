@@ -8,7 +8,6 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadStringToken;
-import assembly.tokens.LoadToken;
 import assembly.tokens.PrintStringToken;
 
 /* Represents the value of a String
@@ -17,14 +16,11 @@ import assembly.tokens.PrintStringToken;
  */
 
 public class StringLeaf extends ExprNode {
-	private static int LABEL_COUNTER = 5;
 	
 	private String text;
-	private String label;
 	
 	public StringLeaf(String text) {
 		this.text = text;
-		label = "msg_" + LABEL_COUNTER++;
 	}
 
 	@Override
