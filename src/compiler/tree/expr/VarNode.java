@@ -10,6 +10,8 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackPosition;
 import assembly.TokenSequence;
+import assembly.tokens.PrintBoolToken;
+import assembly.tokens.PrintCharToken;
 import assembly.tokens.PrintIntToken;
 import assembly.tokens.PrintStringToken;
 
@@ -64,8 +66,13 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 			print = new PrintIntToken(r);
 		} else if(type == WACCType.STRING) {
 			print = new PrintStringToken(r);
+		} else if(type == WACCType.BOOL) {
+			print = new PrintBoolToken(r);
+		} else if(type == WACCType.CHAR) {
+			print = new PrintCharToken(r);
 		} else {
-			print = null;
+			//TODO: needs finishing for pairs and arrays
+			return null;
 		}
 		return new TokenSequence(print);
 	}
