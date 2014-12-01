@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.*;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.ArrayType;
@@ -40,4 +43,36 @@ public class ArrayLiterNode extends Assignable {
 		return new ArrayType(baseType);
 	}
 
+	@Override
+	public TokenSequence toAssembly(Register dest) {
+		int arrayLength = elems.size();
+		
+		//allocate memory for the arraySize and it's elements(addresses)
+		TokenSequence allocateArray = mallocSequence(arrayLength + 1);
+		MovRegToken movReg1 = new MovRegToken(dest, Register.R0);
+		allocateArray.append(movReg1);
+		
+		//iterates through the list of array elems, and produces their assembly code
+		int count = 1;
+		for (ExprNode node : elems) {
+			TokenSequence exprSeq = node.toAssembly(dest.getNext());
+			StoreToken storeElem = new StoreToken(dest.getNext(), dest, (count*4));
+			allocateArray
+			.appendAll(exprSeq)
+			.append(storeElem);
+			
+			count++;
+		}
+		
+		//store the arraySize
+		LoadToken loadSize = new LoadToken(dest.getNext(), Integer.toString(arrayLength));
+		StoreToken storeSize = new StoreToken(dest.getNext(), dest);
+		
+		allocateArray
+		.append(loadSize)
+		.append(storeSize);
+		
+		return allocateArray;
+	}
+	
 }
