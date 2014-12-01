@@ -1,6 +1,5 @@
 package assembly.tokens;
 
-import tree.expr.BoolLeaf;
 import assembly.InstrToken;
 import assembly.Register;
 
