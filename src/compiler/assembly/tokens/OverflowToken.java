@@ -18,6 +18,7 @@ public class OverflowToken extends InstrToken {
 	public TokenSequence toAppend() {
 		TokenSequence errors = new TokenSequence(SystemTokens.OVERFLOW_ERROR);
 		errors.append(SystemTokens.RUNTIME_ERROR);
+		errors.append(SystemTokens.PRINT_STRING);
 		return errors;
 	}
 	
