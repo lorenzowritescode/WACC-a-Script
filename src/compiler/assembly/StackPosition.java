@@ -8,13 +8,22 @@ public class StackPosition {
 	}
 	
 	public TokenSequence toAssembly(final Register r) {
+		final String posString = this.toString();
 		return new TokenSequence().append(new InstrToken() {
 			@Override
 			public String toString() {
-				return position == 0?
-						"LDR " + r.toString() + ", [sp]"
-						: "LDR " + r.toString() + ", [sp, #"+ position + "]";
+				return "LDR " + r.toString() + ", " + posString;
 			}
 		});
+	}
+	
+	@Override
+	public String toString() {
+		return position == 0 ? "[sp]" 
+				: "[sp, #" + position + "]";
+	}
+	
+	public int getStackIndex() {
+		return position;
 	}
 }

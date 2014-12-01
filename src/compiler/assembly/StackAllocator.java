@@ -8,17 +8,15 @@ public class StackAllocator {
 	
 	private static final int WORD_SIZE = 4;
 	
-	private StackAllocator parent;
 	private Stack<Integer> scopeStack;
 	
 	public StackAllocator() {
 		scopeStack = new Stack<>();
 		scopeStack.push(0);
-		this.parent = null;
 	}
 	
 	public StackPosition allocate() {
-		StackPosition pos = new StackPosition(getCounter());
+		StackPosition pos = new StackPosition(getCounter() * WORD_SIZE);
 		incrementCounter();
 		return pos;
 	}
