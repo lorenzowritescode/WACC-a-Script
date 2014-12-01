@@ -21,7 +21,7 @@ public class RegisterAllocator {
 	}
 
 	public void allocate(Register r) {
-		if( !regMap.containsKey(r) ) {
+		if( !regMap.containsKey(r) && !(r.isPreAllocated())) {
 			int regIndex = getGeneralReg();
 			r.setRegister(regIndex);
 			regMap.put(r, regIndex);
