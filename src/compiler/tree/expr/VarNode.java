@@ -1,7 +1,9 @@
 package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.junit.internal.matchers.StacktracePrintingMatcher;
 
+import assembly.StackPosition;
 import symboltable.SymbolTable;
 import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
@@ -16,6 +18,7 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	
 	private String ident;
 	private WACCType type;
+	private StackPosition position;
 	
 	public VarNode(WACCType type, String ident) {
 		this.ident = ident;
@@ -42,6 +45,10 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	@Override
 	public int weight() {
 		return 1;
+	}
+
+	public void setPos(StackPosition pos) {
+		this.position = pos;
 	}
 
 }

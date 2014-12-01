@@ -240,7 +240,8 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		Assignable rhsTree = (Assignable) visit(ctx.assign_rhs());
 		WACCType varType = WACCType.evalType(ctx.type());
 		String ident = ctx.ident().getText();
-		VarDecNode vcd = new VarDecNode(varType, ident, rhsTree);
+		VarNode var = new VarNode(varType, ident);
+		VarDecNode vcd = new VarDecNode(var, rhsTree);
 		vcd.check(currentSymbolTable, ctx);
 
 		return vcd;
