@@ -7,6 +7,7 @@ import tree.type.WACCType;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
+import assembly.tokens.LoadStringToken;
 import assembly.tokens.LoadToken;
 import assembly.tokens.PrintStringToken;
 
@@ -16,7 +17,7 @@ import assembly.tokens.PrintStringToken;
  */
 
 public class StringLeaf extends ExprNode {
-	private static int LABEL_COUNTER = 4;
+	private static int LABEL_COUNTER = 5;
 	
 	private String text;
 	private String label;
@@ -47,12 +48,12 @@ public class StringLeaf extends ExprNode {
 	}
 	
 	public TokenSequence toAssembly(Register r) {
-		return new TokenSequence(new LoadToken(r, label));
+		return new TokenSequence(new LoadStringToken(r, text));
 	}
 
 	@Override
 	public TokenSequence printAssembly(Register register) {
-		InstrToken print = new PrintStringToken(register, text);
+		InstrToken print = new PrintStringToken(register);
 		return new TokenSequence(print);
 	}
 
