@@ -38,30 +38,6 @@ public class ProgNode extends WACCTree {
 	public WACCType getType() {
 		throw new UnsupportedOperationException("getType() is not supported in ProgNode");
 	}
-	
-	@Override
-	public TokenSequence toAssembly(Register r) {
-		TokenSequence seq = new TokenSequence();
-		
-		//Create main label and push lr
-		seq.append(new LabelToken("main"));
-		seq.append(new PushToken(Register.lr));
-		
-		//Get assembly of main function
-		seq.appendAll(progBody.toAssembly(r));
-		
-		//Get assembly of functions
-		for(FuncDecNode func : functions) {
-			seq.appendAll(func.toAssembly(r));
-		}
-		
-		//return 0 and Pop pc
-		seq.append(new MovImmToken(Register.R0, "#0"));
-		seq.append(new PopToken(Register.pc));
-		
-		
-		return seq;
-	}
 
 	@Override
 	public TokenSequence toAssembly(Register register) {
@@ -73,37 +49,32 @@ public class ProgNode extends WACCTree {
 		
 		TokenSequence progSeq = progBody.toAssembly(register);
 		
-		// after the progSeq has been visited, we retrieve the eventual Stack Allocations
-		progSeq.prepend(VarNode.stackAllocator.getInitialisation());
-		progSeq.append(VarNode.stackAllocator.getTermination());
+		//Create main label and push lr
+		progSeq.prependAll( 
+				new TokenSequence(
+						new InstrToken() {
+							@Override
+							public String toString() { return ".text\n\n.global main"; }
+						},
+						new LabelToken("main"),
+						new PushToken(Register.lr),
+						VarNode.stackAllocator.getInitialisation()
+				)
+			);
 		
-		// we wrap the main program body with the appropriate instructions
-		wrapMainBody(progSeq);
+		// after the progSeq has been visited, we retrieve the eventual Stack Allocations
+		progSeq.appendAll(
+				new TokenSequence(
+						VarNode.stackAllocator.getTermination(),
+						new MovImmToken(Register.R0, "#0"),
+						new PopToken(Register.pc),
+						new InstrToken() {
+							@Override
+							public String toString() { return ".ltorg"; }
+						}
+				)
+			);
 		
 		return functionDeclarations.appendAll(progSeq);
-	}
-	
-	private static void wrapMainBody(TokenSequence body) {
-		InstrToken mainHeader = new InstrToken() {
-			@Override
-			public String toString() {
-				return ".text\n\n"
-						+ ".global main\n"
-						+ "main:\n"
-						+ "PUSH {lr}";
-			}
-		};
-		
-		InstrToken mainFooter = new InstrToken() {
-			@Override
-			public String toString() {
-				return "LDR r0, =0\n"
-						+ "POP {pc}\n"
-						+ ".ltorg";
-			}
-		};
-		
-		body.prepend(mainHeader);
-		body.append(mainFooter);
 	}
 }
