@@ -2,16 +2,14 @@ package tree.assignments;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.InstrToken;
-import assembly.Register;
-import assembly.TokenSequence;
-import assembly.tokens.BranchLinkToken;
-import assembly.tokens.MovRegToken;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
 import tree.type.WACCType;
-import assembly.tokens.*;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.MovRegToken;
+import assembly.tokens.StoreToken;
 
 public class NewPairNode extends Assignable {
 	
@@ -36,17 +34,21 @@ public class NewPairNode extends Assignable {
 	@Override
 	public TokenSequence toAssembly(Register dest) {
 		
-		TokenSequence firstAlloc = mallocSequence(8);
+		//allocate memory on the heap for the pair elems (addresses)
+		TokenSequence firstAlloc = mallocSequence(2);
 		MovRegToken movReg1 = new MovRegToken(dest, Register.R0);
 		
+		//allocate memory on the heap for the actual first pair elem and store it's address
 		TokenSequence fstExp = fst.toAssembly(dest.getNext());
-		TokenSequence secondAlloc = mallocSequence(4);
+		TokenSequence secondAlloc = mallocSequence(1);
 		TokenSequence storeFst = storeValAndAdd(dest);
 		
+		//allocate memory on the heap for the second pair elem
 		TokenSequence sndExp = snd.toAssembly(dest.getNext());
-		TokenSequence thirdAlloc = mallocSequence(4);
+		TokenSequence thirdAlloc = mallocSequence(1);
 		TokenSequence storeSnd = storeValAndAdd(dest);
 		
+		//append all the TokenSequences
 		firstAlloc
 			.append(movReg1)
 			.appendAll(fstExp)
@@ -64,12 +66,5 @@ public class NewPairNode extends Assignable {
 		StoreToken storeFst = new StoreToken(dest.getNext(), Register.R0);
 		StoreToken storeAddFst = new StoreToken(Register.R0, dest);
 		return new TokenSequence(storeFst, storeAddFst);
-	}
-	
-	//forms allocation token sequence (refactors)
-	private TokenSequence mallocSequence(int size) {
-		LoadToken loadT = new LoadToken(Register.R0, Integer.toString(size));
-		BranchLinkToken bl = new BranchLinkToken("malloc");
-		return new TokenSequence(loadT, bl);
 	}
 }

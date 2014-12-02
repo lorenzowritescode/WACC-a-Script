@@ -100,6 +100,24 @@ public class SystemTokens {
 		}
 	};
 	
+public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
+		
+		public TokenSequence toPrepend() {
+			return new TokenSequence(DIVIDE_BY_ZERO_MESSAGE, STRING_FORMATTER);
+		}
+		
+		@Override
+		public String toString() {
+			return "p_check_divide_by_zero:"
+						+ "\n\tPUSH {lr}"
+						+ "\n\tCMP r1, #0"
+						+ "\n\tLDREQ r0, =msg_6"
+						+ "\n\tBLEQ p_throw_runtime_error"
+						+ "\n\tPOP {pc}";
+		}
+	};
+	
+	
 	public static InstrToken RUNTIME_ERROR = new InstrToken() {
 		
 		@Override
@@ -157,7 +175,16 @@ public class SystemTokens {
 			return "msg_5:"
 					+ "\n\t.word 82"
 					+ "\n\t.ascii	\"OverflowError: the result is too small/large "
-					+ "to store in a 4-byte signed-integer.\n\"";
+					+ "to store in a 4-byte signed-integer.\\n\"";
+		}
+	};
+	
+	public static InstrToken DIVIDE_BY_ZERO_MESSAGE = new InstrToken() {
+		@Override
+		public String toString() {
+			return "msg_6:"
+					+ "\n\t.word 45"
+					+ "\n\t.ascii	\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
 		}
 	};
 

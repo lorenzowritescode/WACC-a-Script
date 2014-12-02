@@ -6,7 +6,6 @@ import symboltable.SymbolTable;
 import tree.type.WACCType;
 import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
-import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackAllocator;
 import assembly.TokenSequence;

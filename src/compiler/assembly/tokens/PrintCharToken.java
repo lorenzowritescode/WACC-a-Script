@@ -9,11 +9,12 @@ public class PrintCharToken extends InstrToken {
 	
 	public PrintCharToken(Register r) {
 		this.r = r;
+		this.addRegister(r);
 	}
 	
 	public String toString() {
-		return "MOV r0, " + r.toString() + "\n"
-				+"BL putchar";
+		return "\tMOV r0, " + r.toString() + "\n"
+				+"\tBL putchar";
 	}
 
 }

@@ -2,7 +2,6 @@ package assembly.tokens;
 
 import assembly.InstrToken;
 import assembly.Register;
-import tree.expr.IntLeaf;
 
 
 public abstract class MovToken extends InstrToken {

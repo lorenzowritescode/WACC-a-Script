@@ -15,6 +15,14 @@ public class Register {
 		return next;
 	}
 	
+	/**
+	 * @return Returns true iff the register is a pre-allocated register i.e. sp, r0 etc.
+	 */
+	public boolean isPreAllocated() {
+		return false;
+	}
+
+	
 	@Override
 	public String toString() {
 		if (registerNumber == null) {
@@ -25,10 +33,17 @@ public class Register {
 	}
 	
 
+	//Below are the static registers needed in the code generation:
+	
 	public static final Register R0 = new Register() {
 		@Override
 		public String toString() {
 			return "r0";
+		}
+		
+		@Override
+		public boolean isPreAllocated() {
+			return true;
 		}
 		
 		@Override
@@ -43,6 +58,11 @@ public class Register {
 		}
 		
 		@Override
+		public boolean isPreAllocated() {
+			return true;
+		}
+		
+		@Override
 		public Register getNext() {
 			return R2;
 		}
@@ -51,6 +71,11 @@ public class Register {
 		@Override
 		public String toString() {
 			return "r2";
+		}
+		
+		@Override
+		public boolean isPreAllocated() {
+			return true;
 		}
 		
 		@Override
@@ -66,6 +91,11 @@ public class Register {
 		}
 		
 		@Override
+		public boolean isPreAllocated() {
+			return true;
+		}
+		
+		@Override
 		public Register getNext() {
 			throw new UnsupportedOperationException("Can't request a register after R3");
 		}
@@ -78,8 +108,48 @@ public class Register {
 		}
 		
 		@Override
+		public boolean isPreAllocated() {
+			return true;
+		}
+		
+		@Override
 		public Register getNext() {
 			throw new UnsupportedOperationException("Can't request a register after sp");
 		}
 	};
+	
+	public static final Register lr = new Register() {
+		@Override
+		public String toString() {
+			return "lr";
+		}
+		
+		@Override
+		public boolean isPreAllocated() {
+			return true;
+		}
+		
+		@Override
+		public Register getNext() {
+			throw new UnsupportedOperationException("Can't request a register after lr");
+		}
+	};
+	
+	public static final Register pc = new Register() {
+		@Override
+		public String toString() {
+			return "pc";
+		}
+		
+		@Override
+		public boolean isPreAllocated() {
+			return true;
+		}
+		
+		@Override
+		public Register getNext() {
+			throw new UnsupportedOperationException("Can't request a register after pc");
+		}
+	};
+
 }

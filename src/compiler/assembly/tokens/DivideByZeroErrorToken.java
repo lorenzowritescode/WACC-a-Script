@@ -4,19 +4,19 @@ import assembly.InstrToken;
 import assembly.SystemTokens;
 import assembly.TokenSequence;
 
-public class OverflowToken extends InstrToken {
+public class DivideByZeroErrorToken extends InstrToken {
 	
-	public OverflowToken() {
+	public DivideByZeroErrorToken() {
 	}
 	
 	@Override
 	public TokenSequence toPrepend() {
-		return SystemTokens.OVERFLOW_ERROR.toPrepend();
+		return SystemTokens.DIVIDE_BY_ZERO_ERROR.toPrepend();
 	}
 	
 	@Override
 	public TokenSequence toAppend() {
-		TokenSequence errors = new TokenSequence(SystemTokens.OVERFLOW_ERROR);
+		TokenSequence errors = new TokenSequence(SystemTokens.DIVIDE_BY_ZERO_ERROR);
 		errors.append(SystemTokens.RUNTIME_ERROR);
 		errors.append(SystemTokens.PRINT_STRING);
 		return errors;
@@ -24,7 +24,6 @@ public class OverflowToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "\tBLVS p_throw_overflow_error";
+		return "\tBL p_check_divide_by_zero";
 	}
-	
 }

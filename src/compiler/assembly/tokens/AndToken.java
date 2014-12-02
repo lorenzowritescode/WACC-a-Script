@@ -1,6 +1,5 @@
 package assembly.tokens;
 
-import tree.expr.BoolLeaf;
 import assembly.InstrToken;
 import assembly.Register;
 
@@ -28,7 +27,7 @@ public class AndToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "AND " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
+		return "\tAND " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
 	}
 
 }

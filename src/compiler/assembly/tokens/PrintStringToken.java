@@ -11,6 +11,7 @@ public class PrintStringToken extends InstrToken {
 
 	public PrintStringToken(Register r) {
 		this.r = r;
+		this.addRegister(r);
 	}
 	
 	@Override
@@ -25,8 +26,8 @@ public class PrintStringToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "MOV r0, " + r.toString() + "\n"
-				+ "BL p_print_string";
+		return "\tMOV r0, " + r.toString() + "\n"
+				+ "\tBL p_print_string";
 	}
 	
 }
