@@ -56,13 +56,7 @@ public class BinExprNode extends ExprNode {
 
 	@Override
 	public TokenSequence printAssembly(Register r) {
-		TokenSequence seq = new TokenSequence();
-		if (operator instanceof WACCArithBinOp) {
-			seq.append(new PrintIntToken(r));
-		} else {
-			seq.append(new PrintBoolToken(r));
-		}
-		return seq;
+		return operator.print(r);
 	}
 	
 	@Override 
