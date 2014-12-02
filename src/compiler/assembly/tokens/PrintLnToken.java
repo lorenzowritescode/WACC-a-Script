@@ -21,7 +21,7 @@ public class PrintLnToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "\tBL p_print_ln";
+		return "BL p_print_ln";
 	}
 	
 }

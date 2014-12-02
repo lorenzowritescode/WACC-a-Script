@@ -14,7 +14,7 @@ public class PushToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "\tPUSH " + "{" +reg.toString() + "}";
+		return "PUSH " + "{" +reg.toString() + "}";
 	}
 
 }
