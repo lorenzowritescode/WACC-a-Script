@@ -20,7 +20,7 @@ public abstract class InstrToken {
 	 */
 	public TokenSequence toPrepend() {
 		// normally, there's nothing to prepend
-		return null;
+		return TokenSequence.EMPTY_SEQUENCE;
 	}
 
 	/** This is used to signal that this token has some kind of dependencies, such as system method calls.
@@ -28,7 +28,7 @@ public abstract class InstrToken {
 	 */
 	public TokenSequence toAppend() {
 		// normally, there's nothing to append
-		return null;
+		return TokenSequence.EMPTY_SEQUENCE;
 	}
 	
 	/**
