@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
+import tree.assignments.*;
 import tree.expr.*;
 import tree.func.*;
 import tree.stat.*;
@@ -15,7 +16,7 @@ import tree.type.*;
 import util.DebugHelper;
 import WACCExceptions.*;
 import antlr.WACCParser.*;
-import assignments.*;
+
 
 
 // library used for debugging
@@ -27,6 +28,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public static final DebugHelper dbh = new DebugHelper();
 	private ParseTree parseTree;
 	private SymbolTable currentSymbolTable;
+	private WACCTree progTree;
 
 	public SemanticChecker(ParseTree t) {
 		this.parseTree = t;
@@ -35,13 +37,17 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 	public void init() {
 		dbh.printV("Checking sematic integrity...");
-		WACCTree tree = parseTree.accept(this);
+		progTree = parseTree.accept(this);
 		
 		//Debugging: prints the WACC tree after semantic checking
 		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
 		xstream.setMode(XStream.ID_REFERENCES);
 		xstream.alias("WACCTree", WACCTree.class);
-		dbh.printD(xstream.toXML(tree));
+		dbh.printD(xstream.toXML(progTree));
+	}
+	
+	public WACCTree getProgTree() {
+		return progTree;
 	}
 
 	@Override
@@ -162,7 +168,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		if (currentSymbolTable.containsRecursive(ident)) {
 			WACCTree var = currentSymbolTable.get(ident);
 			WACCType varType = var.getType();
-			IdentNode idNode = new IdentNode(varType, ident);
+			VarNode idNode = new VarNode(varType, ident);
 			return idNode;
 		}
 		throw new UndeclaredIdentifierException("The variable " + ident
@@ -234,7 +240,8 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		Assignable rhsTree = (Assignable) visit(ctx.assign_rhs());
 		WACCType varType = WACCType.evalType(ctx.type());
 		String ident = ctx.ident().getText();
-		VarDecNode vcd = new VarDecNode(varType, ident, rhsTree);
+		VarNode var = new VarNode(varType, ident);
+		VarDecNode vcd = new VarDecNode(var, rhsTree);
 		vcd.check(currentSymbolTable, ctx);
 
 		return vcd;
@@ -379,7 +386,8 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	@Override
 	public WACCTree visitWhile_stat(While_statContext ctx) {
 		ExprNode loopCond = (ExprNode) visit(ctx.expr());
-		WhileStatNode whileStat = new WhileStatNode(loopCond);
+		StatNode loopBody = (StatNode) visit(ctx.stat());
+		WhileStatNode whileStat = new WhileStatNode(loopCond, loopBody);
 		whileStat.check(currentSymbolTable, ctx);
 
 		return whileStat;
@@ -388,7 +396,9 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	@Override
 	public WACCTree visitIf_stat(If_statContext ctx) {
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
-		IfStatNode ifStat = new IfStatNode(ifCond);
+		StatNode thenStat = (StatNode) visit(ctx.stat(0));
+		StatNode elseStat = (StatNode) visit(ctx.stat(1));
+		IfStatNode ifStat = new IfStatNode(ifCond, thenStat, elseStat);
 		ifStat.check(currentSymbolTable, ctx);
 
 		return ifStat;

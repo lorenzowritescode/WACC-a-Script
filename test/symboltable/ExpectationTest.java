@@ -5,6 +5,7 @@ import static org.hamcrest.core.Is.is;
 
 import org.junit.Test;
 
+import WACCExceptions.UnresolvedExpectationException;
 import tree.type.WACCType;
 
 public class ExpectationTest {
@@ -33,7 +34,11 @@ public class ExpectationTest {
 	
 	@Test
 	public void intExpectationFailsWithNoReturn() {
-		assertThat(intExpectation.isResolved(), is(false));
+		try {
+			intExpectation.isResolved();
+		} catch ( UnresolvedExpectationException e) {
+			return;
+		}
 	}
 	
 	@Test

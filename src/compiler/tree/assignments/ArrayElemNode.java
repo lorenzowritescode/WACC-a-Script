@@ -1,4 +1,4 @@
-package assignments;
+package tree.assignments;
 
 import java.util.ArrayList;
 
@@ -41,6 +41,12 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
 	public String getIdent() {
 		return ident;
+	}
+
+	@Override
+	public int weight() {
+		//TODO: perhaps has to do with the exprs?
+		return 1;
 	}
 
 }

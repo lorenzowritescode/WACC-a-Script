@@ -6,10 +6,15 @@ import symboltable.SymbolTable;
 import tree.type.WACCType;
 import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
+import assembly.Register;
+import assembly.StackAllocator;
+import assembly.TokenSequence;
 
 public abstract class WACCTree {
 	public static ErrorListener el = WACCException.ERROR_LISTENER;
 	
+	//temporarily here, for testing and working out how it works -oli
+	public static StackAllocator stackAllocator = new StackAllocator();
 	
 	
 	/**
@@ -32,4 +37,10 @@ public abstract class WACCTree {
 	public static boolean isCorrect() {
 		return el.errorCount() == 0;
 	}
+
+	public TokenSequence toAssembly(Register register) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

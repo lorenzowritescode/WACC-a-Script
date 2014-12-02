@@ -3,9 +3,14 @@ package tree.expr;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.type.WACCArithBinOp;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.PrintBoolToken;
+import assembly.tokens.PrintIntToken;
 
 /* Represents a Binary Operator expression
  * Holds the operator and the expressions
@@ -38,6 +43,34 @@ public class BinExprNode extends ExprNode {
 	@Override
 	public WACCType getType() {
 		return operator.getType();
+	}
+
+	@Override
+	public int weight() {
+		//TODO: ???
+		return Math.min(
+				Math.max(lhs.weight() + 1, rhs.weight()),
+				Math.max(lhs.weight(), rhs.weight() + 1)
+		);
+	}
+
+	@Override
+	public TokenSequence printAssembly(Register r) {
+		TokenSequence seq = new TokenSequence();
+		if (operator instanceof WACCArithBinOp) {
+			seq.append(new PrintIntToken(r));
+		} else {
+			seq.append(new PrintBoolToken(r));
+		}
+		return seq;
+	}
+	
+	@Override 
+	public TokenSequence toAssembly(Register r) {
+		TokenSequence exprs = lhs.toAssembly(r);
+		exprs.appendAll(rhs.toAssembly(r.getNext()));
+		exprs.appendAll(operator.apply(r, r.getNext()));
+		return exprs;
 	}
 
 }
