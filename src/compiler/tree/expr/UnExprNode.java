@@ -2,6 +2,8 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assembly.Register;
+import assembly.TokenSequence;
 import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
@@ -41,6 +43,12 @@ public class UnExprNode extends ExprNode{
 	@Override
 	public int weight() {
 		return this.expr.weight();
+	}
+
+	@Override
+	public TokenSequence toAssembly(Register register) {
+		TokenSequence exprSeq = expr.toAssembly(register);
+		return exprSeq.appendAll(operator.apply(register));
 	}
 
 }
