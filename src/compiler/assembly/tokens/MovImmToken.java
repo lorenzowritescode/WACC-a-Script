@@ -24,7 +24,7 @@ public class MovImmToken extends MovToken {
 	
 	@Override
 	public String toString() {
-		return "\tMOV" + condition + " " + dest.toString() + ", " + immSource;
+		return "MOV" + condition + " " + dest.toString() + ", " + immSource;
 	}
 	
 }

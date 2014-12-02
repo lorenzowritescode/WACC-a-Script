@@ -21,6 +21,11 @@ public class SystemTokens {
 						+"\n\tBL fflush"
 						+"\n\tPOP {pc}";
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 	
 	public static InstrToken PRINT_LN = new InstrToken() {
@@ -39,6 +44,11 @@ public class SystemTokens {
 						+"\n\tMOV r0, #0"
 						+"\n\tBL fflush"
 						+"\n\tPOP {pc}";
+		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
 		}
 	};
 	
@@ -62,6 +72,11 @@ public class SystemTokens {
 						+"\n\tBL fflush"
 						+"\n\tPOP {pc}";
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 	
 
@@ -84,6 +99,11 @@ public class SystemTokens {
 						+ "\n\tBL fflush"
 						+ "\n\tPOP {pc}";
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 	
 	public static InstrToken OVERFLOW_ERROR = new InstrToken() {
@@ -97,6 +117,11 @@ public class SystemTokens {
 			return "p_throw_overflow_error:"
 						+ "\n\tLDR r0, =msg_5"
 						+ "\n\tBL p_throw_runtime_error";
+		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
 		}
 	};
 	
@@ -115,6 +140,11 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 						+ "\n\tBLEQ p_throw_runtime_error"
 						+ "\n\tPOP {pc}";
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 	
 	
@@ -128,6 +158,11 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 						+ "\n\tBL exit";
 
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 	
 	public static InstrToken STRING_FORMATTER = new InstrToken() {
@@ -137,6 +172,11 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 					+ "\n\t.word 5"
 					+ "\n\t.ascii	\"%.*s\\0\"";
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 	
 	public static InstrToken NEW_LINE_FORMATTER = new InstrToken() {
@@ -145,6 +185,11 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 			return "msg_1:"
 					+ "\n\t.word 1"
 					+ "\n\t.ascii	\"\\0\"";
+		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
 		}
 	};
 	
@@ -158,6 +203,11 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 					+"\n\t.word 6"
 					+"\n\t.ascii	\"false\\0\";";
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 	
 	public static InstrToken INT_FORMATTER = new InstrToken() {
@@ -166,6 +216,11 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 			return "msg_4:"
 					+ "\n\t.word 3"
 					+ "\n\t.ascii	\"%d\\0\"";
+		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
 		}
 	};
 	
@@ -177,6 +232,11 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 					+ "\n\t.ascii	\"OverflowError: the result is too small/large "
 					+ "to store in a 4-byte signed-integer.\\n\"";
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 	
 	public static InstrToken DIVIDE_BY_ZERO_MESSAGE = new InstrToken() {
@@ -185,6 +245,11 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 			return "msg_6:"
 					+ "\n\t.word 45"
 					+ "\n\t.ascii	\"DivideByZeroError: divide or modulo by zero\\n\\0\"";
+		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
 		}
 	};
 

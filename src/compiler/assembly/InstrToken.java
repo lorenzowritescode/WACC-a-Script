@@ -42,5 +42,9 @@ public abstract class InstrToken {
 			alloc.allocate(r);
 		}
 	}
+	
+	public boolean requiresTab() {
+		return true;
+	}
 
 }

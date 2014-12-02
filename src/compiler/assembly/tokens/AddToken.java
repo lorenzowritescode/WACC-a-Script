@@ -26,7 +26,7 @@ public class AddToken extends InstrToken{
 	
 	@Override
 	public String toString() {
-		return "\tADD" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
+		return "ADD" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
 	}
 	
 }

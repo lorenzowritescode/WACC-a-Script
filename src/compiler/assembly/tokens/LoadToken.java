@@ -24,7 +24,7 @@ public class LoadToken extends InstrToken {
 
 	@Override 
 	public String toString() {
-		return "\tLDR" + condition + " " + dest.toString() + ", " + source;
+		return "LDR" + condition + " " + dest.toString() + ", " + source;
 	}
 	
 }

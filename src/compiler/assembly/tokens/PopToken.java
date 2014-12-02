@@ -14,7 +14,7 @@ public class PopToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "\tPOP " + "{" + reg.toString() + "}";
+		return "POP " + "{" + reg.toString() + "}";
 	}
 
 }
