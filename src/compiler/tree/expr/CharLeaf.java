@@ -40,7 +40,7 @@ public class CharLeaf extends ExprNode {
 	
 	@Override
 	public TokenSequence toAssembly(Register register) {
-		InstrToken tok = new MovImmToken(register, "#'"+text+"'");
+		InstrToken tok = new MovImmToken(register, "#"+text);
 		return new TokenSequence(tok);
 	}
 
