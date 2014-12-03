@@ -6,6 +6,8 @@ import assembly.tokens.EmptyToken;
 
 public class StackAllocator {
 	
+	public static final StackAllocator stackAllocator = new StackAllocator();
+	
 	private static final int WORD_SIZE = 4;
 	
 	private Stack<Integer> scopeStack;
@@ -15,8 +17,8 @@ public class StackAllocator {
 		scopeStack.push(0);
 	}
 	
-	public StackPosition allocate() {
-		StackPosition pos = new StackPosition(getCounter() * WORD_SIZE);
+	public StackPosition allocateOnStack() {
+		StackPosition pos = new StackPosition(getCounter());
 		incrementCounter();
 		return pos;
 	}

@@ -11,11 +11,8 @@ import assembly.StackAllocator;
 import assembly.TokenSequence;
 
 public abstract class WACCTree {
-	public static ErrorListener el = WACCException.ERROR_LISTENER;
 	
-	//temporarily here, for testing and working out how it works -oli
-	public static StackAllocator stackAllocator = new StackAllocator();
-	
+	public static ErrorListener el = WACCException.ERROR_LISTENER;	
 	
 	/**
 	 * @param st The current symbol table at the time of the call.
