@@ -2,6 +2,7 @@ package assembly;
 
 
 public class SystemTokens {
+	
 	public static InstrToken PRINT_STRING = new InstrToken() {
 		
 		public TokenSequence toPrepend() {
@@ -52,7 +53,6 @@ public class SystemTokens {
 		}
 	};
 	
-	
 	public static InstrToken PRINT_BOOL = new InstrToken() {
 		
 		public TokenSequence toPrepend() {
@@ -79,8 +79,6 @@ public class SystemTokens {
 		}
 	};
 	
-
-
 	public static InstrToken PRINT_INT = new InstrToken() {
 		
 		public TokenSequence toPrepend() {
@@ -125,7 +123,7 @@ public class SystemTokens {
 		}
 	};
 	
-public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
+    public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 		
 		public TokenSequence toPrepend() {
 			return new TokenSequence(DIVIDE_BY_ZERO_MESSAGE, STRING_FORMATTER);
@@ -146,7 +144,6 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 			return false;
 		}
 	};
-	
 	
 	public static InstrToken RUNTIME_ERROR = new InstrToken() {
 		
@@ -199,9 +196,9 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 			return "msg_2:"
 						+"\n\t.word 5"
 						+"\n\t.ascii	\"true\\0\""
-					+"\n\nmsg_3:"
-					+"\n\t.word 6"
-					+"\n\t.ascii	\"false\\0\";";
+						+"\n\nmsg_3:"
+						+"\n\t.word 6"
+						+"\n\t.ascii	\"false\\0\";";
 		}
 		
 		@Override
@@ -221,6 +218,15 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 		@Override
 		public boolean requiresTab() {
 			return false;
+		}
+	};
+	
+	public static InstrToken CHAR_FORMATTER = new InstrToken() {
+		@Override
+		public String toString() {
+			return "msg_7:"
+					+ "\n\t.word 4"
+					+ "\n\t.ascii	\"%.c\\0\"";
 		}
 	};
 	
@@ -252,5 +258,100 @@ public static InstrToken DIVIDE_BY_ZERO_ERROR = new InstrToken() {
 			return false;
 		}
 	};
+	
+	public static InstrToken READ_INT = new InstrToken() {
+		
+		public TokenSequence toPrepend() {
+			return new TokenSequence(INT_FORMATTER);
+		}
+		
+		@Override
+		public String toString() {
+			return "p_read_int:"
+						+ "\n\tPUSH {lr}"
+						+ "\n\tMOV r1, r0"
+						+ "\n\tLDR r0, =msg_4"
+						+ "\n\tADD r0, r0, #4"
+						+ "\n\tBL scanf"
+						+ "\n\tPOP {pc}";
+		}
+	};
+	
+	public static InstrToken READ_CHAR = new InstrToken() {
+		
+		public TokenSequence toPrepend() {
+			return new TokenSequence(CHAR_FORMATTER);
+		}
+		
+	    @Override
+		public String toString() {
+			return "p_read_char:"
+						+ "\n\tPUSH {lr}"
+						+ "\n\tMOV r1, r0"
+						+ "\n\tLDR r0, =msg_7"
+						+ "\n\tADD r0, r0, #4"
+						+ "\n\tBL scanf"
+						+ "\n\tPOP {pc}";
+		}
+	};
 
+	public static InstrToken NULL_REFERENCE_MESSAGE = new InstrToken() {
+		@Override
+		public String toString() {
+			return "msg_8:"
+					+ "\n\t.word 50"
+					+ "\n\t.ascii \"NullReferenceError: "
+					+ "dereference a null reference\\n\\0\"";
+					//TODO: do we have the correct amount of \'s
+		}
+	};
+	
+	public static InstrToken FREE_PAIR = new InstrToken() {
+		public TokenSequence toPrepend() {
+			return new TokenSequence(NULL_REFERENCE_MESSAGE, STRING_FORMATTER);
+		}
+		
+		public TokenSequence toAppend() {
+			return new TokenSequence(RUNTIME_ERROR, PRINT_STRING);
+		}
+		
+		@Override
+		public String toString() {
+			return "p_free_pair:"
+					   + "\n\tPUSH {lr}"
+					   + "\n\tCMP r0, #0"
+					   + "\n\tLDREQ r0, =msg_8"
+					   + "\n\tBEQ p_throw_runtime_error"
+					   + "\n\tPUSH {r0}"
+					   + "\n\tLDR r0, [r0]"
+					   + "\n\tBL free"
+					   + "\n\tLDR r0, [sp]"
+					   + "\n\tLDR r0, [r0, #4]"
+					   + "\n\tBL free"
+					   + "\n\tPOP {r0}"
+					   + "\n\tBL free"
+					   + "\n\tPOP {pc}";
+		}
+	};
+	
+	public static InstrToken FREE_ARRAY = new InstrToken() {
+		public TokenSequence toPrepend() {
+			return new TokenSequence(NULL_REFERENCE_MESSAGE, STRING_FORMATTER);
+		}
+		
+		public TokenSequence toAppend() {
+			return new TokenSequence(RUNTIME_ERROR, PRINT_STRING);
+		}
+		
+		@Override
+		public String toString() {
+			return "p_free_array:"
+						+ "\n\tPUSH {lr}"
+						+ "\n\tCMP r0, #0"
+						+ "\n\tLDREQ r0, =msg_8"
+						+ "\n\tBEQ p_throw_runtime_error"
+						+ "\n\tBL free"
+						+ "\n\tPOP {pc}";
+		}
+	};
 }

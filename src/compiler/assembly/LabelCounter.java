@@ -12,5 +12,8 @@ public class LabelCounter {
 	
 	public static final LabelCounter counter = new LabelCounter() {
 	};
+	
+	public static final LabelCounter msgCounter = new LabelCounter() {
+	};
 
 }

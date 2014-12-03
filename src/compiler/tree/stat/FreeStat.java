@@ -8,6 +8,12 @@ import tree.expr.VarNode;
 import tree.type.ArrayType;
 import tree.type.PairType;
 import WACCExceptions.InvalidTypeException;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.FreeArrayToken;
+import assembly.tokens.FreePairToken;
+import assembly.tokens.LoadAddressToken;
+import assembly.tokens.MovRegToken;
 
 /**
  * Class to represent free statements used to free array or pair variables
@@ -38,6 +44,22 @@ public class FreeStat extends StatNode {
 		}
 		new InvalidTypeException("'Free' must be passed an identifier to a variable", ctx);
 		return false;
+	}
+	
+	public TokenSequence toAssembly(Register register) {
+		TokenSequence freeStat = new TokenSequence();
+		if (en.getType() instanceof ArrayType) {
+			freeStat.appendAll(new TokenSequence(
+				new LoadAddressToken(register, Register.sp),
+				new MovRegToken(Register.R0, register),
+				new FreeArrayToken()));
+		} else {
+			freeStat.appendAll(new TokenSequence(
+				new LoadAddressToken(register, Register.sp),
+				new MovRegToken(Register.R0, register),
+				new FreePairToken()));
+		}
+		return freeStat;
 	}
 
 }

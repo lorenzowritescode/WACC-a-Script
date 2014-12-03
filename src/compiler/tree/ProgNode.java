@@ -4,17 +4,16 @@ import java.util.List;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.InstrToken;
-import assembly.Register;
-import assembly.TokenSequence;
 import symboltable.SymbolTable;
 import tree.expr.VarNode;
 import tree.func.FuncDecNode;
 import tree.stat.StatNode;
 import tree.type.WACCType;
+import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LabelToken;
+import assembly.tokens.LoadToken;
 import assembly.tokens.MovImmToken;
 import assembly.tokens.PopToken;
 import assembly.tokens.PushToken;
@@ -66,7 +65,7 @@ public class ProgNode extends WACCTree {
 		progSeq.appendAll(
 				new TokenSequence(
 						VarNode.stackAllocator.getTermination(),
-						new MovImmToken(Register.R0, "#0"),
+						new LoadToken(Register.R0, "0"),
 						new PopToken(Register.pc),
 						new InstrToken() {
 							@Override
