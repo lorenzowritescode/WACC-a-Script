@@ -156,7 +156,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 	/*
 	 * This method will only be reached in the case of a variable assignment. If
-	 * the variable is undeclared we want to throw an exeption and stop checking
+	 * the variable is undeclared we want to throw an exception and stop checking
 	 * further. (non-Javadoc)
 	 * 
 	 * @see
