@@ -37,8 +37,8 @@ public class LoadAddressToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return offsetSet ?
-				"LDR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + " #" + offset + "]" :
+		return (offsetSet && offset != 0) ?
+				"LDR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + ", #" + offset + "]" :
 					"LDR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + "]";
 	}
 }
