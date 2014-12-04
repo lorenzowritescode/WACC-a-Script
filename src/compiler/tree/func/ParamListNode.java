@@ -78,6 +78,8 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	}
 
 	public void allocateParamsOnStack() {
+		// This call makes sure that the SP is one word below the first function parameter
+		StackAllocator.stackAllocator.allocateOnStack();
 		for (ParamNode p:params) {
 			p.setPosition(StackAllocator.stackAllocator.allocateOnStack());
 		}
