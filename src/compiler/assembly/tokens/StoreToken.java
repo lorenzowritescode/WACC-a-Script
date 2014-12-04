@@ -7,44 +7,40 @@ import assembly.StackPosition;
 public class StoreToken extends InstrToken {
 	
 	private Register source;
-	private String dest;
+	private Register dest;
+	private int offset;
 	private String condition = "";
+	private boolean offsetSet = false;
 	
 	public StoreToken(Register source, Register destAddress) {
 		this.source = source;
-		this.dest = "[" + destAddress.toString() + "]";
+		this.dest = destAddress;
 		this.addRegister(source, destAddress);
 	}
 	
 	public StoreToken(Register source, Register destAddress, int offset) {
-		this.source = source;
-		this.dest = "[" + destAddress.toString() + ", #" + offset + "]";
-		this.addRegister(source, destAddress);
+		this(source, destAddress);
+		this.offset = offset;
+		offsetSet = true;
 	}
 	
 	public StoreToken(String condition, Register source, Register destAddress) {
+		this(source, destAddress);
 		this.condition = condition;
-		this.source = source;
-		this.dest = "[" + destAddress.toString() + "]";
-		this.addRegister(source, destAddress);
 	}
 	
 	public StoreToken(String condition, Register source, Register destAddress, int offset) {
+		this(source, destAddress);
 		this.condition = condition;
-		this.source = source;
-		this.dest = "[" + destAddress.toString() + ", #" + offset + "]";
-		this.addRegister(source, destAddress);
-	}
-
-
-	public StoreToken(Register register, StackPosition pos) {
-		this.source = register;
-		this.dest = pos.toString();
+		this.offset = offset;
+		offsetSet = true;
 	}
 
 	@Override 
 	public String toString() {
-		return "STR" + condition + " " + dest.toString() + ", " + source.toString();
+		return (offsetSet && offset != 0) ?
+				"STR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + ", #" + offset + "]" :
+					"STR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + "]";
 	}
 	
 	
