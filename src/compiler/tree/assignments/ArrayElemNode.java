@@ -69,22 +69,17 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		out.append(addTok);
 		
 		for (ExprNode expr : locations) {
-			TokenSequence loadPos = expr.toAssembly(dest.getNext());
-			LoadAddressToken loadArrAdd = new LoadAddressToken(dest, dest);
-			MovRegToken movPosToR0 = new MovRegToken(Register.R0, dest.getNext());
-			MovRegToken movAddToR1 = new MovRegToken(Register.R1, dest);
-			BranchLinkToken branchToCheck = new BranchLinkToken("p_check_array_bounds");
-			AddImmToken skipLength = new AddImmToken(dest, dest, Integer.toString(4));
-			AddToken accessArrayElem = new AddToken(dest, dest, dest.getNext(), "LSL #2");
+			TokenSequence exprSeq = expr.toAssembly(dest.getNext());
 			
-			out
-			.appendAll(loadPos)
-			.append(loadArrAdd)
-			.append(movPosToR0)
-			.append(movAddToR1)
-			.append(branchToCheck)
-			.append(skipLength)
-			.append(accessArrayElem);
+			exprSeq.appendAll( new TokenSequence(
+					new LoadAddressToken(dest, dest),
+					new MovRegToken(Register.R0, dest.getNext()),
+					new MovRegToken(Register.R1, dest),
+					new BranchLinkToken("p_check_array_bounds"),
+					new AddImmToken(dest, dest, Integer.toString(4)),
+					new AddToken(dest, dest, dest.getNext(), "LSL #2")));
+			
+			out.appendAll(exprSeq);
 		}
 		
 		return out;
@@ -97,8 +92,14 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 
 	@Override
 	public int weight() {
-		//TODO: perhaps has to do with the exprs?
-		return 1;
+		int max = 0;
+		for (ExprNode e:locations) {
+			int exprWeight = e.weight();
+			max = exprWeight > max ? exprWeight : max; 
+		}
+		
+		return max;
 	}
+
 
 }
