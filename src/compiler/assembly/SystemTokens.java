@@ -302,7 +302,6 @@ public class SystemTokens {
 					+ "\n\t.word 50"
 					+ "\n\t.ascii \"NullReferenceError: "
 					+ "dereference a null reference\\n\\0\"";
-					//TODO: do we have the correct amount of \'s
 		}
 	};
 	
