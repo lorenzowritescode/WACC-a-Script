@@ -1,6 +1,8 @@
 package tree.assignments;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Iterator;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -18,20 +20,16 @@ import tree.type.WACCType;
  */
 
 public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
-	ArrayList<ExprNode> args;
+	Deque<ExprNode> args;
 	
 	public ArgListNode() {
-		this.args = new ArrayList<>();
+		this.args = new ArrayDeque<>();
 	}
 	
 	public void add(ExprNode expr) {
 		args.add(expr);
 	}
-	
-	public ExprNode get(int i) {
-		return args.get(i);
-	}
-	
+
 	public int size() {
 		return args.size();
 	}
@@ -53,25 +51,30 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 	@Override
 	public boolean equals(Object other) {
 		//Checks that types of arg lists are the same
-		if(!(other instanceof ArgListNode)) {
+		if(!(other instanceof ArgListNode))
 			return false;
-		}
-			ArgListNode aln = (ArgListNode) other;
-			if(aln.size() != args.size()) {
+		
+		ArgListNode aln = (ArgListNode) other;
+		if(aln.size() != args.size())
+			return false;
+		
+		Iterator<ExprNode> iter = aln.iterator();
+		for (ExprNode e1:this) {
+			ExprNode e2 = iter.next();
+			if (!e1.getType().isCompatible(e2.getType()))
 				return false;
-			}
-			for (int i = 0; i < this.size(); i++) {
-				WACCType otherType = aln.get(i).getType();
-				if ( !this.get(i).getType().isCompatible((otherType)) ) {
-					return false;
-				}
-			}
-			return true;
+		}
+		
+		return true;
 	}
 
 	@Override
 	public Iterator<ExprNode> iterator() {
 		return args.iterator();
+	}
+	
+	public Iterator<ExprNode> reverseIterator() {
+		return args.descendingIterator();
 	}
 
 	@Override
