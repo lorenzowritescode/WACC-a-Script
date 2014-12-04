@@ -2,6 +2,8 @@ package tree.assignments;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assembly.Register;
+import assembly.TokenSequence;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
@@ -60,6 +62,12 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 		} else {
 			return p.getSndType();
 		}
+	}
+
+	@Override
+	public TokenSequence toStoreAssembly(Register dest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -80,8 +80,14 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 		return position.toAssembly(r);
 	}
 	
-	public int getPosition() {
-		return position.getStackIndex();
+	public StackPosition getPosition() {
+		return position;
+	}
+
+	@Override
+	public TokenSequence toStoreAssembly(Register dest) {
+		TokenSequence storeInVariable = position.toStoreAssembly(dest);
+		return storeInVariable;
 	}
 
 }

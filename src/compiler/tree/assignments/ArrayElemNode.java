@@ -41,12 +41,31 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		return arrayType.getBaseType();
 	}
 	
-	public TokenSequence toLoadAssembly(Register dest) {
-		int posOnStack = var.getPosition();
+	@Override
+	public TokenSequence toStoreAssembly(Register dest) {
+		
+		return null;
+	}
+	
+	public TokenSequence toAssembly(Register dest) {
 		
 		TokenSequence out = new TokenSequence();
-		AddImmToken addTok = new AddImmToken(dest, Register.sp, Integer.toString(posOnStack));
+		TokenSequence arrayAccess = arrayElemCommonAssembly(dest);
+		LoadAddressToken loadResult = new LoadAddressToken(dest, dest);
 		
+		out
+		.appendAll(arrayAccess)
+		.append(loadResult);
+		
+		return out;
+	}
+
+	private TokenSequence arrayElemCommonAssembly(Register dest) {
+		int posOnStack = var.getPosition().getStackIndex();
+		
+		TokenSequence out = new TokenSequence();
+		
+		AddImmToken addTok = new AddImmToken(dest, Register.sp, Integer.toString(posOnStack));
 		out.append(addTok);
 		
 		for (ExprNode expr : locations) {
@@ -67,10 +86,6 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 			.append(skipLength)
 			.append(accessArrayElem);
 		}
-		
-		LoadAddressToken loadResult = new LoadAddressToken(dest, dest);
-		
-		out.append(loadResult);
 		
 		return out;
 	}

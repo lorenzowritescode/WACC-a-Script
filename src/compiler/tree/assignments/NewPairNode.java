@@ -41,12 +41,12 @@ public class NewPairNode extends Assignable {
 		//allocate memory on the heap for the actual first pair elem and store it's address
 		TokenSequence fstExp = fst.toAssembly(dest.getNext());
 		TokenSequence secondAlloc = mallocSequence(1);
-		TokenSequence storeFst = storeValAndAdd(dest);
+		TokenSequence storeFst = storeValAndAdd(dest, 0);
 		
 		//allocate memory on the heap for the second pair elem
 		TokenSequence sndExp = snd.toAssembly(dest.getNext());
 		TokenSequence thirdAlloc = mallocSequence(1);
-		TokenSequence storeSnd = storeValAndAdd(dest);
+		TokenSequence storeSnd = storeValAndAdd(dest, 4);
 		
 		//append all the TokenSequences
 		firstAlloc
@@ -62,9 +62,9 @@ public class NewPairNode extends Assignable {
 	}
 
 	//forms a TokenSequence for storing the values on the heap and storing address in pair
-	private TokenSequence storeValAndAdd(Register dest) {
-		StoreToken storeFst = new StoreToken(dest.getNext(), Register.R0);
-		StoreToken storeAddFst = new StoreToken(Register.R0, dest);
-		return new TokenSequence(storeFst, storeAddFst);
+	private TokenSequence storeValAndAdd(Register dest, int offset) {
+		StoreToken store = new StoreToken(dest.getNext(), Register.R0);
+		StoreToken storeAdd = new StoreToken(Register.R0, dest, offset);
+		return new TokenSequence(store, storeAdd);
 	}
 }

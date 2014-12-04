@@ -2,6 +2,8 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assembly.*;
+import assembly.tokens.*;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.assignments.AssignLhsNode;
@@ -17,8 +19,6 @@ import WACCExceptions.IncompatibleTypesException;
  */
 
 public class AssignStatNode extends StatNode {
-	
-	
 	
 	private WACCTree lhs;
 	private WACCTree rhs;
@@ -49,5 +49,10 @@ public class AssignStatNode extends StatNode {
 		return true;
 		
 	}
-
+	
+	@Override
+	public TokenSequence toAssembly(Register dest) {
+		return null;
+		
+	}
 }
