@@ -52,7 +52,6 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		TokenSequence out = new TokenSequence();
 		TokenSequence arrayAccess = arrayElemCommonAssembly(dest);
 		LoadAddressToken loadResult = new LoadAddressToken(dest, dest);
-		
 		out
 		.appendAll(arrayAccess)
 		.append(loadResult);
