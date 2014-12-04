@@ -117,8 +117,8 @@ public abstract class WACCUnOp {
 
 		@Override
 		public TokenSequence apply(Register register) {
-			// TODO TALK ABOUT THIS WITH A LAB HELPER
-			return TokenSequence.EMPTY_SEQUENCE;
+			return new TokenSequence(
+					new LoadAddressToken(register, register));
 		}
 	};
 	

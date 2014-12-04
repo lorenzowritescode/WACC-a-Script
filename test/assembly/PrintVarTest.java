@@ -8,22 +8,15 @@ import tree.type.WACCType;
 
 public class PrintVarTest {
 
-//	@Test
-//	public void assemblyOfPrintVarStatementIsCorrect() {
-//		VarNode var = new VarNode(WACCType.INT, "x");
-//		PrintLnStat prnt = new PrintLnStat(var);
-//		Register r = new Register();
-//		TokenSequence tokSeq = prnt.toAssembly(r);
-//		TokenCollector tc = new TokenCollector(tokSeq);
-//		TokenSequence fin = tc.collect();
-//		System.out.println(fin.toString());
-//	}
-//	
+	// TODO: implement the variables underneath as JMock objects
 	@Test
 	public void assemblyOfMultiplePrintVarStatementIsCorrect() {
 		VarNode varx = new VarNode(WACCType.INT, "x");
+		varx.setPos(new StackPosition(0));
 		VarNode vary = new VarNode(WACCType.INT, "y");
+		vary.setPos(new StackPosition(1));
 		VarNode varz = new VarNode(WACCType.INT, "z");
+		varz.setPos(new StackPosition(2));
 		PrintLnStat prnt = new PrintLnStat(vary);
 		PrintLnStat prnt2 = new PrintLnStat(varz);
 		Register r = new Register();
