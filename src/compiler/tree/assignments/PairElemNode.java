@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import assembly.Register;
 import assembly.TokenSequence;
+import assembly.tokens.LoadAddressToken;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
@@ -14,12 +15,20 @@ import WACCExceptions.InvalidTypeException;
  * 
  */
 public class PairElemNode extends Assignable implements AssignLhsNode {
+	
 	public enum ORDER {
-		FST("fst"), SND("snd");
+		FST("fst", 4), SND("snd", 8);
 		
 		private String s;
-		ORDER(String s) {
+		private int offset;
+		
+		ORDER(String s, int i) {
 			this.s = s;
+			this.offset = i;
+		}
+		
+		private int getOffset() {
+			return offset;
 		}
 		@Override
 		public String toString() {
@@ -68,6 +77,13 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	public TokenSequence toStoreAssembly(Register dest) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public TokenSequence toAssembly(Register register) {
+		return new TokenSequence(
+				new LoadAddressToken(register, register, order.getOffset()),
+				new LoadAddressToken(register, register)); 
 	}
 	
 }
