@@ -52,7 +52,8 @@ public class AssignStatNode extends StatNode {
 	
 	@Override
 	public TokenSequence toAssembly(Register dest) {
-		return null;
-		
+		return new TokenSequence()
+						.appendAll(rhs.toAssembly(dest))
+						.appendAll(((AssignLhsNode) lhs).toStoreAssembly(dest));
 	}
 }
