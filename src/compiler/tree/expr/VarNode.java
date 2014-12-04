@@ -81,5 +81,9 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	public TokenSequence toAssembly(Register r) {
 		return position.toAssembly(r);
 	}
+	
+	public int getPosition() {
+		return position.getStackIndex();
+	}
 
 }

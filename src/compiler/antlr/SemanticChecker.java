@@ -329,8 +329,8 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 			exprs.add((ExprNode) visit(ec));
 		}
 		
-		ArrayType t = (ArrayType) currentSymbolTable.get(ident).getType();
-		ArrayElemNode arrayElem = new ArrayElemNode(exprs, t);
+		VarNode var = (VarNode) currentSymbolTable.get(ident);
+		ArrayElemNode arrayElem = new ArrayElemNode(exprs, var);
 		return arrayElem;
 	}
 

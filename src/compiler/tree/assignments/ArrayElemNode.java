@@ -4,21 +4,24 @@ import java.util.ArrayList;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assembly.*;
+import assembly.tokens.*;
 import symboltable.SymbolTable;
-import tree.expr.ExprNode;
+import tree.expr.*;
 import tree.type.ArrayType;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 
 public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
-	String ident;
+	VarNode var;
 	ArrayList<ExprNode> locations;
 	ArrayType arrayType;
 
-	public ArrayElemNode(ArrayList<ExprNode> locations, ArrayType type) {
+	public ArrayElemNode(ArrayList<ExprNode> locations, VarNode var) {
 		this.locations = locations;
-		this.arrayType = type;
+		this.arrayType = (ArrayType) var.getType();
+		this.var = var;
 	}
 	
 	@Override
@@ -38,9 +41,43 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		return arrayType.getBaseType();
 	}
 	
+	public TokenSequence toLoadAssembly(Register dest) {
+		int posOnStack = var.getPosition();
+		
+		TokenSequence out = new TokenSequence();
+		AddImmToken addTok = new AddImmToken(dest, Register.sp, Integer.toString(posOnStack));
+		
+		out.append(addTok);
+		
+		for (ExprNode expr : locations) {
+			TokenSequence loadPos = expr.toAssembly(dest.getNext());
+			LoadAddressToken loadArrAdd = new LoadAddressToken(dest, dest);
+			MovRegToken movPosToR0 = new MovRegToken(Register.R0, dest.getNext());
+			MovRegToken movAddToR1 = new MovRegToken(Register.R1, dest);
+			BranchLinkToken branchToCheck = new BranchLinkToken("p_check_array_bounds");
+			AddImmToken skipLength = new AddImmToken(dest, dest, Integer.toString(4));
+			AddToken accessArrayElem = new AddToken(dest, dest, dest.getNext(), "LSL #2");
+			
+			out
+			.appendAll(loadPos)
+			.append(loadArrAdd)
+			.append(movPosToR0)
+			.append(movAddToR1)
+			.append(branchToCheck)
+			.append(skipLength)
+			.append(accessArrayElem);
+		}
+		
+		LoadAddressToken loadResult = new LoadAddressToken(dest, dest);
+		
+		out.append(loadResult);
+		
+		return out;
+	}
+	
 	
 	public String getIdent() {
-		return ident;
+		return var.getIdent();
 	}
 
 	@Override

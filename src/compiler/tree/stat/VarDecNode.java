@@ -43,7 +43,7 @@ public class VarDecNode extends StatNode {
 		} 
 		
 		// We add the current var to the SymbolTable
-		st.add(var.getIdent(), this);
+		st.add(var.getIdent(), var);
 		
 		if ( !var.getType().isCompatible(rhsTree.getType()) ) {
 			new IncompatibleTypesException(

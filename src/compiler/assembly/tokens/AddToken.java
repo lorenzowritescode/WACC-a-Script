@@ -9,6 +9,7 @@ public class AddToken extends InstrToken{
 	private Register op1;
 	private Register op2;
 	private String condition = "";
+	private String shift = "";
 	
 	
 	public AddToken(Register dest, Register op1, Register op2) {
@@ -23,10 +24,14 @@ public class AddToken extends InstrToken{
 		this.condition = condition;
 	}
 	
+	public AddToken(Register dest, Register op1, Register op2, String shift) {
+		this(dest, op1, op2);
+		shift = shift;
+	}
 	
 	@Override
 	public String toString() {
-		return "\tADD" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
+		return "\tADD" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2.toString() + ", " + shift;
 	}
 	
 }
