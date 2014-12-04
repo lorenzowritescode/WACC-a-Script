@@ -1,7 +1,6 @@
 package tree.assignments;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;
 
@@ -13,6 +12,8 @@ import tree.expr.ExprNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
 import tree.type.WACCType;
+import assembly.Register;
+import assembly.TokenSequence;
 
 /* Represents a list of arguments for the call to a function
  * Used to perform checks on provided arguments with the parameter list
@@ -85,6 +86,13 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 	@Override
 	public WACCType getType() {
 		throw new UnsupportedOperationException("ArgListNode has no type.");
+	}
+
+	@Override
+	public TokenSequence toAssembly(Register register) {
+		throw new UnsupportedOperationException(
+				"ArgListNode doesn't implement toAssembly directly."
+				+ "It is taken care of by CallStatNode through this class iterator.");
 	}
 	
 }
