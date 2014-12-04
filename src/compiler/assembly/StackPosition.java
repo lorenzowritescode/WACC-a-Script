@@ -32,6 +32,6 @@ public class StackPosition {
 	}
 	
 	public int getStackIndex() {
-		return position;
+		return position * WORD_SIZE;
 	}
 }

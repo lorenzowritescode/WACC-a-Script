@@ -6,11 +6,11 @@ import assembly.StackPosition;
 
 public class StoreToken extends InstrToken {
 	
-	private Register source;
-	private Register dest;
-	private int offset;
-	private String condition = "";
-	private boolean offsetSet = false;
+	protected Register source;
+	protected Register dest;
+	protected int offset;
+	protected String condition = "";
+	protected boolean offsetSet = false;
 	
 	public StoreToken(Register source, Register destAddress) {
 		this.source = source;
