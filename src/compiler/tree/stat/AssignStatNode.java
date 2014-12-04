@@ -4,11 +4,13 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.WACCTree;
-import tree.expr.IdentNode;
+import tree.assignments.AssignLhsNode;
+import tree.assignments.Assignable;
+import tree.expr.VarNode;
 import tree.func.FuncDecNode;
 import WACCExceptions.IncompatibleTypesException;
-import assignments.AssignLhsNode;
-import assignments.Assignable;
+import assembly.Register;
+import assembly.TokenSequence;
 
 /**
  * Class to represent variable assignment statements
@@ -17,8 +19,6 @@ import assignments.Assignable;
  */
 
 public class AssignStatNode extends StatNode {
-	
-	
 	
 	private WACCTree lhs;
 	private WACCTree rhs;
@@ -39,8 +39,8 @@ public class AssignStatNode extends StatNode {
 			return false;
 		}
 		
-		if (lhs instanceof IdentNode) {
-			String ident = ((IdentNode) lhs).getIdent();
+		if (lhs instanceof VarNode) {
+			String ident = ((VarNode) lhs).getIdent();
 			if (st.get(ident) instanceof FuncDecNode) {
 				new IncompatibleTypesException(
 						"Cannot assign to a function" , ctx);
@@ -49,5 +49,11 @@ public class AssignStatNode extends StatNode {
 		return true;
 		
 	}
-
+	
+	@Override
+	public TokenSequence toAssembly(Register dest) {
+		return new TokenSequence()
+						.appendAll(rhs.toAssembly(dest))
+						.appendAll(((AssignLhsNode) lhs).toStoreAssembly(dest));
+	}
 }

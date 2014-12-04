@@ -4,6 +4,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.MovImmToken;
+import assembly.tokens.PrintBoolToken;
 
 /* Represents the value of a Bool
  * Constructed with a String (e.g "true")
@@ -37,6 +42,32 @@ public class BoolLeaf extends ExprNode {
 	@Override
 	public WACCType getType() {
 		return WACCType.BOOL;
+	}
+
+	@Override
+	public int weight() {
+		return 1;
+	}
+	
+	public boolean getValue() {
+		return value;
+	}
+
+	@Override
+	public TokenSequence toAssembly(Register r) {
+		InstrToken tok;
+		if(value) {
+			tok = new MovImmToken(r, "#1");
+		} else {
+			tok = new MovImmToken(r, "#0");
+		}
+		return new TokenSequence(tok);
+	}
+	
+	@Override
+	public TokenSequence printAssembly(Register r) {
+		PrintBoolToken tok = new PrintBoolToken(r);
+		return new TokenSequence(tok);
 	}
 
 }

@@ -2,12 +2,17 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assignments.Assignable;
 import symboltable.SymbolTable;
+import tree.assignments.Assignable;
+import tree.expr.VarNode;
 import tree.func.FuncDecNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
+import assembly.Register;
+import assembly.StackAllocator;
+import assembly.StackPosition;
+import assembly.TokenSequence;
 
 /**
  * Class to represent variable declaration statements
@@ -17,12 +22,10 @@ import WACCExceptions.NotUniqueIdentifierException;
 public class VarDecNode extends StatNode {
 	
 	private Assignable rhsTree;
-	private WACCType varType;
-	private String ident;
+	private VarNode var;
 
-	public VarDecNode(WACCType varType, String ident, Assignable rhsTree) {
-		this.ident = ident;
-		this.varType = varType;
+	public VarDecNode(VarNode var, Assignable rhsTree) {
+		this.var = var;
 		this.rhsTree = rhsTree;
 	}
 
@@ -30,19 +33,19 @@ public class VarDecNode extends StatNode {
 	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
 		
 		// First we check the identifier is unique and it is not a function
-		if ( st.containsCurrent(ident) && !(st.get(ident) instanceof FuncDecNode) ) {
+		if ( st.containsCurrent(var.getIdent()) && !(st.get(var.getIdent()) instanceof FuncDecNode) ) {
 			new NotUniqueIdentifierException(
-					"A variable with identifier " + ident + " was already declared", ctx);
+					"A variable with identifier " + var.getIdent() + " was already declared", ctx);
 			return false;
 		} 
 		
 		// We add the current var to the SymbolTable
-		st.add(ident, this);
+		st.add(var.getIdent(), var);
 		
-		if ( !varType.isCompatible(rhsTree.getType()) ) {
+		if ( !var.getType().isCompatible(rhsTree.getType()) ) {
 			new IncompatibleTypesException(
 					"The types of the rhs and lhs of the variable declaration do not match.\n"
-							+ "LHS: " + varType.toString() + ",\n"
+							+ "LHS: " + var.getType().toString() + ",\n"
 							+ "RHS: " + rhsTree.getType().toString(), ctx);
 			return false;
 		}
@@ -51,7 +54,20 @@ public class VarDecNode extends StatNode {
 
 	@Override
 	public WACCType getType() {
-		return this.varType;
+		return this.var.getType();
 	}
 
+	@Override
+	public TokenSequence toAssembly(Register register) {
+		StackPosition pos = StackAllocator.stackAllocator.allocateOnStack();
+		var.setPos(pos);
+		
+		TokenSequence rhsSeq = rhsTree.toAssembly(register);
+//		InstrToken storeInVariable = new StoreToken(register, pos);
+		TokenSequence storeInVariable = pos.toStoreAssembly(register);
+		
+		return rhsSeq.appendAll(storeInVariable);
+	}
+	
+	
 }

@@ -6,6 +6,9 @@ import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.MovRegToken;
 
 /**
  * Class to represent return statements for functions
@@ -28,4 +31,12 @@ public class ReturnStatNode extends StatNode {
 		}
 		return true;
 	}
+	
+	@Override
+	public TokenSequence toAssembly(Register r) {
+		TokenSequence seq = new TokenSequence(expr.toAssembly(r));
+		seq.append(new MovRegToken(Register.R0, r));
+		return seq;
+	}
+	
 }

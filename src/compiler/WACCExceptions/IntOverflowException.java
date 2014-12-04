@@ -1,9 +1,11 @@
 package WACCExceptions;
 
+import org.antlr.v4.runtime.ParserRuleContext;
+
 public class IntOverflowException extends WACCException {
 
-	public IntOverflowException(String string) {
-		super(string);
+	public IntOverflowException(String string, ParserRuleContext ctx) {
+		super(string, ctx);
 	}
 
 	/**

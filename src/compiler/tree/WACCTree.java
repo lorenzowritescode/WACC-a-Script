@@ -6,11 +6,12 @@ import symboltable.SymbolTable;
 import tree.type.WACCType;
 import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
+import assembly.Register;
+import assembly.TokenSequence;
 
 public abstract class WACCTree {
-	public static ErrorListener el = WACCException.ERROR_LISTENER;
 	
-	
+	public static ErrorListener el = WACCException.ERROR_LISTENER;	
 	
 	/**
 	 * @param st The current symbol table at the time of the call.
@@ -32,4 +33,7 @@ public abstract class WACCTree {
 	public static boolean isCorrect() {
 		return el.errorCount() == 0;
 	}
+
+	public abstract TokenSequence toAssembly(Register register);
+	
 }

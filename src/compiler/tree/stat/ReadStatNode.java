@@ -4,9 +4,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.WACCTree;
+import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
-import assignments.AssignLhsNode;
+import assembly.Register;
+import assembly.TokenSequence;
 
 /**
  * Class to represent read statements  
@@ -28,5 +30,11 @@ public class ReadStatNode extends StatNode {
 			return true;
 		}
 		throw new IncompatibleTypesException("Variable cannot be read into.", ctx);
+	}
+	
+	public TokenSequence toAssembly(Register register) {
+		TokenSequence readStat = new TokenSequence();
+		//TODO: read statement toAssembly()
+		return readStat;
 	}
 }

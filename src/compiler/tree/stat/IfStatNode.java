@@ -2,10 +2,17 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
+import WACCExceptions.InvalidTypeException;
+import assembly.ImmValue;
+import assembly.LabelCounter;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.BranchToken;
+import assembly.tokens.CompareToken;
+import assembly.tokens.LabelToken;
 
 /**
  * Class to represent if statements 
@@ -16,9 +23,13 @@ import tree.type.WACCType;
 public class IfStatNode extends StatNode {
 	
 	private ExprNode ifCond;
+	private StatNode thenStat;
+	private StatNode elseStat;
 	
-	public IfStatNode(ExprNode expr) {
+	public IfStatNode(ExprNode expr, StatNode thenStat, StatNode elseStat) {
 		this.ifCond = expr;
+		this.thenStat = thenStat;
+		this.elseStat = elseStat;
 	}
 	
 	@Override
@@ -30,6 +41,21 @@ public class IfStatNode extends StatNode {
 		    return false;
 		}
 	}
-	
+	 
+	public TokenSequence toAssembly(Register register) {
+		TokenSequence ifStat = ifCond.toAssembly(register);
+		String l0 = "l" + LabelCounter.counter.getLabel();
+		String l1 = "l" + LabelCounter.counter.getLabel();		
+		ifStat.appendAll(new TokenSequence(
+				new CompareToken(register, ImmValue.zero),
+				new BranchToken("EQ", l0)));
+		ifStat.appendAll(thenStat.toAssembly(register));
+		ifStat.appendAll(new TokenSequence(
+				new BranchToken(l1),
+				new LabelToken(l0)));
+		ifStat.appendAll(elseStat.toAssembly(register));
+		ifStat.append(new LabelToken(l1));
+		return ifStat;
+	}
 
 }

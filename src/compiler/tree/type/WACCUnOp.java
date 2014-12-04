@@ -1,10 +1,20 @@
 package tree.type;
 
 import tree.expr.ExprNode;
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.BranchLinkToken;
+import assembly.tokens.EorToken;
+import assembly.tokens.LoadAddressToken;
+import assembly.tokens.MovRegToken;
+import assembly.tokens.OverflowToken;
 
 public abstract class WACCUnOp {
+	
 	public abstract boolean check(ExprNode e);
 	public abstract WACCType getType();
+	public abstract TokenSequence apply(Register register);
 	
 	/*
 	 * Utility method to parse a unary operator.
@@ -47,6 +57,13 @@ public abstract class WACCUnOp {
 		public String toString() {
 			return "NOT";
 		}
+
+		@Override
+		public TokenSequence apply(Register register) {
+			return new TokenSequence(
+				new EorToken(register, register, "#1")
+			);
+		}
 	};
 	
 	public static final WACCUnOp NEG = new WACCUnOp() {
@@ -64,6 +81,19 @@ public abstract class WACCUnOp {
 		@Override
 		public String toString() {
 			return "NEG";
+		}
+
+		@Override
+		public TokenSequence apply(final Register register) {
+			return new TokenSequence(
+					new InstrToken() {
+						@Override
+						public String toString() {
+							return "RSB " + register.toString() + ", " + register.toString() + ", #0";
+						}
+					},
+					new OverflowToken()
+			);
 		}
 	};
 	
@@ -83,6 +113,12 @@ public abstract class WACCUnOp {
 		public String toString() {
 			return "LEN";
 		}
+
+		@Override
+		public TokenSequence apply(Register register) {
+			return new TokenSequence(
+					new LoadAddressToken(register, register));
+		}
 	};
 	
 	public static final WACCUnOp ORD = new WACCUnOp() {
@@ -101,6 +137,13 @@ public abstract class WACCUnOp {
 		public String toString() {
 			return "ORD";
 		}
+
+		@Override
+		public TokenSequence apply(Register register) {
+			return new TokenSequence(
+				new LoadAddressToken("SB", register, register) //TODO: check this
+				);
+		}
 	};
 	
 	public static final WACCUnOp CHR = new WACCUnOp() {
@@ -118,6 +161,14 @@ public abstract class WACCUnOp {
 		@Override
 		public String toString() {
 			return "CHR";
+		}
+
+		@Override
+		public TokenSequence apply(Register register) {
+			return new TokenSequence(
+					new MovRegToken(Register.R0, register),
+					new BranchLinkToken("putchar")
+					);
 		}
 	};
 }

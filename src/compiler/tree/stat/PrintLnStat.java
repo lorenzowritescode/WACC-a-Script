@@ -1,6 +1,10 @@
 package tree.stat;
 
 import tree.expr.ExprNode;
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.PrintLnToken;
 
 /**
  * Class to represent println statements
@@ -14,5 +18,15 @@ public class PrintLnStat extends StatNode {
 	
 	public PrintLnStat(ExprNode expr) {
 		this.expr = expr;
+	}
+	
+	@Override
+	public TokenSequence toAssembly(Register register) {
+		TokenSequence exprSeq = expr.toAssembly(register);
+		TokenSequence printSeq = expr.printAssembly(register);
+		InstrToken println = new PrintLnToken();
+		exprSeq.appendAll(printSeq);
+		exprSeq.append(println);
+		return exprSeq;
 	}
 }

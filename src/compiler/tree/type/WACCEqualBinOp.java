@@ -8,7 +8,7 @@ import tree.expr.ExprNode;
  * Where binary-oper is '!=' | '=='
  */
 
-public class WACCEqualBinOp extends WACCBinOp {
+public abstract class WACCEqualBinOp extends WACCBinOp {
 	
 	@Override
 	public boolean check(ExprNode lhs, ExprNode rhs) {
