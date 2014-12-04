@@ -24,6 +24,6 @@ public class DivideByZeroErrorToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "\tBL p_check_divide_by_zero";
+		return "BL p_check_divide_by_zero";
 	}
 }

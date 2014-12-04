@@ -22,7 +22,6 @@ import WACCExceptions.NotUniqueIdentifierException;
  */
 
 public class VarDecNode extends StatNode {
-	private static StackAllocator sa = new StackAllocator();
 	
 	private Assignable rhsTree;
 	private VarNode var;
@@ -62,7 +61,7 @@ public class VarDecNode extends StatNode {
 
 	@Override
 	public TokenSequence toAssembly(Register register) {
-		StackPosition pos = sa.allocate();
+		StackPosition pos = StackAllocator.stackAllocator.allocateOnStack();
 		var.setPos(pos);
 		
 		TokenSequence rhsSeq = rhsTree.toAssembly(register);

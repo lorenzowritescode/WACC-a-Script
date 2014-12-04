@@ -25,7 +25,7 @@ public class OrToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "\tORR " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
+		return "ORR " + dest.toString() + ", " + op1.toString() + ", " + op2.toString();
 	}
 
 }

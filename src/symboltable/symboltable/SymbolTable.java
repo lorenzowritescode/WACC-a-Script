@@ -98,13 +98,13 @@ public class SymbolTable {
 	
 	public void finaliseScope(String funcName) {
 		if(!expectation.isResolved()) {
-			new UnresolvedExpectationException("The expectations of the function " + funcName + " were not met.");
+			new UnresolvedExpectationException("The expectations of the function " + funcName + " were not met.", null);
 		}
 	}
 	
 	public void finaliseScope() {
 		if(!expectation.isResolved()) {
-			new UnresolvedExpectationException("The expectations of this code block were not met.");
+			new UnresolvedExpectationException("The expectations of this code block were not met.", null);
 		}
 	}
 	

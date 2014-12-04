@@ -14,6 +14,8 @@ import assembly.tokens.MovRegToken;
 import assembly.tokens.MultiplySignedLongToken;
 import assembly.tokens.OrToken;
 import assembly.tokens.OverflowToken;
+import assembly.tokens.PrintBoolToken;
+import assembly.tokens.PrintIntToken;
 import assembly.tokens.SubToken;
 
 /*
@@ -30,6 +32,8 @@ public abstract class WACCBinOp {
 	public abstract WACCType getType();
 	
 	public abstract TokenSequence apply(Register lhs, Register rhs);
+	
+	public abstract TokenSequence print(Register r);
 
 	/*
 	 * There are only 4 types of logic to check that `rhs BinOp lhs` is correct:
@@ -49,6 +53,11 @@ public abstract class WACCBinOp {
 			InstrToken overflow = new OverflowToken();
 			return new TokenSequence(mul, cmp, overflow);
 		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintIntToken(r));
+		}
 	};
 	public static final WACCBinOp DIV = new WACCArithBinOp() {
 
@@ -61,6 +70,11 @@ public abstract class WACCBinOp {
 			InstrToken mov = new MovRegToken(lhs, Register.R0);
 			TokenSequence seq = new TokenSequence(op1, op2, divZeroError, div, mov);
 			return seq;
+		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintIntToken(r));
 		}
 		
 	};
@@ -75,6 +89,11 @@ public abstract class WACCBinOp {
 			InstrToken mov = new MovRegToken(lhs, Register.R1);
 			return new TokenSequence(op1, op2, divZeroError, div, mov);
 		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintIntToken(r));
+		}
 		
 	};
 	public static final WACCBinOp ADD = new WACCArithBinOp() {
@@ -85,6 +104,11 @@ public abstract class WACCBinOp {
 			InstrToken overflow = new OverflowToken();
 			return new TokenSequence(add, overflow);
 		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintIntToken(r));
+		}
 		
 	};
 	public static final WACCBinOp SUB = new WACCArithBinOp() {
@@ -94,6 +118,11 @@ public abstract class WACCBinOp {
 			InstrToken sub = new SubToken("S", lhs, lhs, rhs);
 			InstrToken overflow = new OverflowToken();
 			return new TokenSequence(sub, overflow);
+		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintIntToken(r));
 		}
 		
 	};
@@ -108,6 +137,11 @@ public abstract class WACCBinOp {
 			InstrToken leq = new MovImmToken("LE", lhs, "#0");
 			return new TokenSequence(cmp, gt, leq);
 		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintBoolToken(r));
+		}
 		
 	};
 	public static final WACCBinOp GRT_EQ = new WACCCompBinOp() {
@@ -118,6 +152,11 @@ public abstract class WACCBinOp {
 			InstrToken geq = new MovImmToken("GE", lhs, "#1");
 			InstrToken lt = new MovImmToken("LT", lhs, "#0");
 			return new TokenSequence(cmp, geq, lt);
+		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintBoolToken(r));
 		}
 		
 	};
@@ -130,6 +169,11 @@ public abstract class WACCBinOp {
 			InstrToken geq = new MovImmToken("GE", lhs, "#0");
 			return new TokenSequence(cmp, lt, geq);
 		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintBoolToken(r));
+		}
 		
 	};
 	public static final WACCBinOp LESS_EQ = new WACCCompBinOp() {
@@ -140,6 +184,11 @@ public abstract class WACCBinOp {
 			InstrToken leq = new MovImmToken("LE", lhs, "#1");
 			InstrToken gt = new MovImmToken("GT", lhs, "#0");
 			return new TokenSequence(cmp, leq, gt);
+		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintBoolToken(r));
 		}
 		
 	};
@@ -154,6 +203,11 @@ public abstract class WACCBinOp {
 			InstrToken neq = new MovImmToken("NE", lhs, "#0");
 			return new TokenSequence(cmp, eq, neq);
 		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintBoolToken(r));
+		}
 		
 	};
 	public static final WACCBinOp NOT_EQ = new WACCEqualBinOp() {
@@ -165,6 +219,11 @@ public abstract class WACCBinOp {
 			InstrToken eq = new MovImmToken("EQ", lhs, "=0");
 			return new TokenSequence(cmp, neq, eq);
 		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintBoolToken(r));
+		}
 		
 	};
 	
@@ -175,6 +234,11 @@ public abstract class WACCBinOp {
 		public TokenSequence apply(Register lhs, Register rhs) {
 			return new TokenSequence(new AndToken(lhs, lhs, rhs));
 		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintBoolToken(r));
+		}
 		
 	};
 	public static final WACCBinOp OR = new WACCBoolBinOp(){
@@ -182,6 +246,11 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence apply(Register lhs, Register rhs) {
 			return new TokenSequence(new OrToken(lhs, lhs, rhs));
+		}
+
+		@Override
+		public TokenSequence print(Register r) {
+			return new TokenSequence(new PrintBoolToken(r));
 		}
 		
 	};

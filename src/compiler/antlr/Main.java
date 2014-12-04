@@ -68,7 +68,7 @@ public class Main {
 		} catch (IOException e) {
 			throw e;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.toString());
 			exitSyntaxError();
 		}
 		return lexer;
@@ -80,7 +80,7 @@ public class Main {
 			tokens = new CommonTokenStream(lexer);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.toString());
 			exitSemanticFailure();
 		}
 		return tokens;
@@ -97,13 +97,13 @@ public class Main {
 		try {
 			semantic.init();
 		} catch (UnresolvedExpectationException e) {
-			e.printStackTrace();
+			System.err.println(e.toString());
 			exitSyntaxError();
 		} catch (IntOverflowException e) {
-			e.printStackTrace();
+			System.err.println(e.toString());
 			exitSyntaxError();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.toString());
 			exitSemanticFailure();
 		}
 		return semantic;
@@ -124,7 +124,7 @@ public class Main {
 			// Set tree to null for the moment
 			tree = parser.prog();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println(e.toString());
 			exitSyntaxError();
 		}
 		
@@ -173,7 +173,7 @@ public class Main {
 			 cmd = flagsParser.parse(options, args);
 		} catch (ParseException e) {
 			System.err.println("There were problems parsing the flags");
-			e.printStackTrace();
+			System.err.println(e.toString());
 		}
 		return cmd;
 	}

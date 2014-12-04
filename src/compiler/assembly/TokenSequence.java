@@ -46,7 +46,9 @@ public class TokenSequence implements Iterable<InstrToken> {
 	}
 	
 	public TokenSequence append(InstrToken t) {
-		if ( this.m == MODE.UNIQUE && tokens.contains(t))
+		if ( t == null || 
+				this.m == MODE.UNIQUE 
+				&& tokens.contains(t))
 			return this;
 		
 		tokens.addLast(t);
@@ -54,7 +56,9 @@ public class TokenSequence implements Iterable<InstrToken> {
 	}
 	
 	public TokenSequence prepend(InstrToken t) {
-		if ( this.m == MODE.UNIQUE && tokens.contains(t))
+		if ( t == null ||
+				this.m == MODE.UNIQUE 
+				&& tokens.contains(t))
 			return this;
 			
 		tokens.addFirst(t);
@@ -62,6 +66,8 @@ public class TokenSequence implements Iterable<InstrToken> {
 	}
 	
 	public TokenSequence appendAll(TokenSequence ts) {
+		if (ts == null)
+			return this;
 		for (InstrToken t:ts) {
 			this.append(t);
 		}
@@ -70,10 +76,18 @@ public class TokenSequence implements Iterable<InstrToken> {
 	}
 	
 	public TokenSequence prependAll(TokenSequence ts) {
-		for (InstrToken t:ts) {
-			this.prepend(t);
+		if (ts == null)
+			return this;
+		Iterator<InstrToken> iter = ts.reverseIterator();
+		while(iter.hasNext()) {
+			this.prepend(iter.next());
 		}
+		
 		return this;
+	}
+	
+	public Iterator<InstrToken> reverseIterator() {
+		return tokens.descendingIterator();
 	}
 
 	@Override
@@ -85,7 +99,7 @@ public class TokenSequence implements Iterable<InstrToken> {
 	public String toString() {
 		String result = "";
 		for (InstrToken t:tokens) {
-			result += t.toString() + "\n";
+			result += (t.requiresTab()? "\t" : "") + t.toString() + "\n";
 		}
 		return result;
 	}

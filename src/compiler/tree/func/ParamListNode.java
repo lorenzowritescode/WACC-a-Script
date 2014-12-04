@@ -5,10 +5,11 @@ import java.util.Iterator;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import WACCExceptions.NotUniqueIdentifierException;
+import assembly.StackAllocator;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
+import WACCExceptions.NotUniqueIdentifierException;
 
 /* Represents a list of parameter that can be compared to check equality
  * and checks for functionality 
@@ -35,19 +36,20 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	
 	@Override
 	public boolean equals(Object other) {
-		if(other instanceof ParamListNode) {
-			ParamListNode pln = (ParamListNode) other;
-			if(pln.size() != params.size()) {
+		if(!(other instanceof ParamListNode))
+			return false;
+		
+		ParamListNode pln = (ParamListNode) other;
+		
+		if(pln.size() != this.size()) 
+			return false;
+		
+		for (int i = 0; i < this.size(); i++) {
+			if ( !this.get(i).equals(pln.get(i)) ) {
 				return false;
 			}
-			for (int i = 0; i < this.size(); i++) {
-				if ( !this.get(i).equals(pln.get(i)) ) {
-					return false;
-				}
-			}
-			return true;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -58,6 +60,7 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	@Override
 	public boolean check(SymbolTable st, ParserRuleContext ctx) {
 		ArrayList<String> paramIdents = new ArrayList<String>();
+		
 		//Check whether there are duplicate arguments
 		for (ParamNode param : params) {
 			if (paramIdents.contains(param.getIdent())) {
@@ -72,6 +75,12 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	@Override
 	public WACCType getType() {
 		throw new UnsupportedOperationException("ParamListNode has no type.");
+	}
+
+	public void allocateParamsOnStack() {
+		for (ParamNode p:params) {
+			p.setPosition(StackAllocator.stackAllocator.allocateOnStack());
+		}
 	}
 
 }

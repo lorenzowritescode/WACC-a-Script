@@ -22,15 +22,13 @@ import assembly.tokens.PrintStringToken;
 
 public class VarNode extends ExprNode implements AssignLhsNode {
 	
-	private String ident;
-	private WACCType type;
-	private StackPosition position;
+	protected String ident;
+	protected WACCType type;
+	protected StackPosition position;
 	
 	public VarNode(WACCType type, String ident) {
 		this.ident = ident;
 		this.type = type;
-		//Here for testing only:
-		this.position = stackAllocator.allocate();
 	}
 	
 	@Override

@@ -4,7 +4,12 @@ import tree.expr.ExprNode;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
+import assembly.tokens.BranchLinkToken;
 import assembly.tokens.EorToken;
+import assembly.tokens.LoadAddressToken;
+import assembly.tokens.LoadToken;
+import assembly.tokens.MovRegToken;
+import assembly.tokens.OverflowToken;
 
 public abstract class WACCUnOp {
 	
@@ -87,8 +92,8 @@ public abstract class WACCUnOp {
 						public String toString() {
 							return "RSB " + register.toString() + ", " + register.toString() + ", #0";
 						}
-					}
-					// todo: this should also throw an integer overflow error
+					},
+					new OverflowToken()
 			);
 		}
 	};
@@ -112,8 +117,8 @@ public abstract class WACCUnOp {
 
 		@Override
 		public TokenSequence apply(Register register) {
-			// TODO Auto-generated method stub
-			return null;
+			// TODO TALK ABOUT THIS WITH A LAB HELPER
+			return TokenSequence.EMPTY_SEQUENCE;
 		}
 	};
 	
@@ -136,8 +141,9 @@ public abstract class WACCUnOp {
 
 		@Override
 		public TokenSequence apply(Register register) {
-			// TODO Auto-generated method stub
-			return null;
+			return new TokenSequence(
+				new LoadAddressToken("SB", register, register) //TODO: check this
+				);
 		}
 	};
 	
@@ -160,8 +166,10 @@ public abstract class WACCUnOp {
 
 		@Override
 		public TokenSequence apply(Register register) {
-			// TODO Auto-generated method stub
-			return null;
+			return new TokenSequence(
+					new MovRegToken(Register.R0, register),
+					new BranchLinkToken("putchar")
+					);
 		}
 	};
 }

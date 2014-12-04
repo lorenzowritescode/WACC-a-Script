@@ -14,5 +14,10 @@ public class LabelToken extends InstrToken {
 	public String toString() {
 		return label + ": ";
 	}
+	
+	@Override
+	public boolean requiresTab() {
+		return false;
+	}
 
 }
