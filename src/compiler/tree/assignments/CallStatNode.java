@@ -1,14 +1,22 @@
 package tree.assignments;
 
+import java.util.Iterator;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.expr.ExprNode;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.type.WACCType;
 import WACCExceptions.IllegalCallException;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.AddImmToken;
+import assembly.tokens.BranchLinkToken;
+import assembly.tokens.StorePreIndexToken;
 
 
 public class CallStatNode extends Assignable {
@@ -44,5 +52,18 @@ public class CallStatNode extends Assignable {
 	
 	public WACCType getType() {
 		return retType;
+	}
+	
+	@Override 
+	public TokenSequence toAssembly(Register r) {
+		TokenSequence seq = new TokenSequence();
+		Iterator<ExprNode> argExprs = args.reverseIterator();
+		while (argExprs.hasNext()) {
+			seq.appendAll(argExprs.next().toAssembly(r));
+			seq.append(new StorePreIndexToken(r, Register.sp, -4));
+		}
+		seq.append(new BranchLinkToken("f_" + ident));
+		seq.append(new AddImmToken(Register.sp, Register.sp, "4"));
+		return seq;
 	}
 }
