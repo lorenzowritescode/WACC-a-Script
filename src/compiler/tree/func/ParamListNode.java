@@ -5,11 +5,13 @@ import java.util.Iterator;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.StackAllocator;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
 import WACCExceptions.NotUniqueIdentifierException;
+import assembly.Register;
+import assembly.StackAllocator;
+import assembly.TokenSequence;
 
 /* Represents a list of parameter that can be compared to check equality
  * and checks for functionality 
@@ -83,6 +85,14 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 		for (ParamNode p:params) {
 			p.setPosition(StackAllocator.stackAllocator.allocateOnStack());
 		}
+	}
+
+	@Override
+	public TokenSequence toAssembly(Register register) {
+		throw new UnsupportedOperationException(
+				"ParamListNode does not implement toAssembly."
+				+ "It only gives parameters a stack position through "
+				+ "its allocatePatamsOnStack() method");
 	}
 
 }
