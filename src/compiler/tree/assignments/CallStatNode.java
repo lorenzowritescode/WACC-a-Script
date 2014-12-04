@@ -16,6 +16,7 @@ import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.AddImmToken;
 import assembly.tokens.BranchLinkToken;
+import assembly.tokens.MovRegToken;
 import assembly.tokens.StorePreIndexToken;
 
 
@@ -60,10 +61,11 @@ public class CallStatNode extends Assignable {
 		Iterator<ExprNode> argExprs = args.reverseIterator();
 		while (argExprs.hasNext()) {
 			seq.appendAll(argExprs.next().toAssembly(r));
-			seq.append(new StorePreIndexToken(r, Register.sp, -4));
+			seq.append(new StorePreIndexToken(Register.sp, r, -4));
 		}
 		seq.append(new BranchLinkToken("f_" + ident));
 		seq.append(new AddImmToken(Register.sp, Register.sp, "4"));
+		seq.append(new MovRegToken(r, Register.R0));
 		return seq;
 	}
 }
