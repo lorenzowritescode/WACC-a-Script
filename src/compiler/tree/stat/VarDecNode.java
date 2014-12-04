@@ -2,12 +2,6 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.InstrToken;
-import assembly.Register;
-import assembly.StackAllocator;
-import assembly.StackPosition;
-import assembly.TokenSequence;
-import assembly.tokens.StoreToken;
 import symboltable.SymbolTable;
 import tree.assignments.Assignable;
 import tree.expr.VarNode;
@@ -15,6 +9,10 @@ import tree.func.FuncDecNode;
 import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
+import assembly.Register;
+import assembly.StackAllocator;
+import assembly.StackPosition;
+import assembly.TokenSequence;
 
 /**
  * Class to represent variable declaration statements

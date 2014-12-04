@@ -2,8 +2,6 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.*;
-import assembly.tokens.*;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.assignments.AssignLhsNode;
@@ -11,6 +9,8 @@ import tree.assignments.Assignable;
 import tree.expr.VarNode;
 import tree.func.FuncDecNode;
 import WACCExceptions.IncompatibleTypesException;
+import assembly.Register;
+import assembly.TokenSequence;
 
 /**
  * Class to represent variable assignment statements

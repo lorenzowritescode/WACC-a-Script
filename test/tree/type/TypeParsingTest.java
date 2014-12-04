@@ -44,7 +44,6 @@ public class TypeParsingTest {
 	@Test
 	public void pairOfPairs() {
 		String typeString = "pair(pair, pair)";
-		List<String> res = Arrays.asList(typeString.split(WACCType.pairRegexSplitter));
 
 		WACCType pair = eval(typeString);
 		if(!(pair instanceof PairType))
@@ -103,7 +102,10 @@ public class TypeParsingTest {
 	@Test
 	public void parseArrayOfPairs() {
 		String arrayOfPairs = "pair(int,int)[]";
-		
+		WACCType arrayType = WACCType.evalType(arrayOfPairs);
+		assertTrue(arrayType instanceof ArrayType);
+		WACCType internalType = ((ArrayType) arrayType).getBaseType();
+		assertTrue(internalType instanceof PairType);
 	}
 	
 	private WACCType eval(String s) {

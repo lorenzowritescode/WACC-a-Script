@@ -7,7 +7,6 @@ import assembly.TokenSequence;
 import assembly.tokens.BranchLinkToken;
 import assembly.tokens.EorToken;
 import assembly.tokens.LoadAddressToken;
-import assembly.tokens.LoadToken;
 import assembly.tokens.MovRegToken;
 import assembly.tokens.OverflowToken;
 
