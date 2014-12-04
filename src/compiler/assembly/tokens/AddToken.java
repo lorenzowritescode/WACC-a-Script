@@ -26,7 +26,7 @@ public class AddToken extends InstrToken{
 	
 	public AddToken(Register dest, Register op1, Register op2, String shift) {
 		this(dest, op1, op2);
-		shift = shift;
+		this.shift = shift;
 	}
 	
 	@Override
