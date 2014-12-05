@@ -101,4 +101,10 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		return 1;
 	}
 
+	@Override
+	public TokenSequence printAssembly(Register register) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
