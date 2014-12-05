@@ -53,7 +53,12 @@ public class Main {
 		
 		WACCCompiler compiler = new WACCCompiler(sc.getProgTree());
 		compiler.init();
-		createAssemblyFile(compiler.toString(), waccFilePath);
+		String compilerOutput = compiler.toString();
+		if (cmd.hasOption("s")) {
+			System.out.println(compilerOutput);
+		} else {
+			createAssemblyFile(compiler.toString(), waccFilePath);
+		}
 	}
 
 	/** Utility method to extract the assembly filename and write to file
@@ -191,6 +196,7 @@ public class Main {
 		options.addOption("v", false, "verbose");
 		options.addOption("d", false, "debug mode");
 		options.addOption("f", true, "source file");
+		options.addOption("s", false, "force printing assembly to std-out");
 		
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;
