@@ -11,27 +11,27 @@ public class StoreToken extends InstrToken {
 	protected String condition = "";
 	protected boolean offsetSet = false;
 	
-	public StoreToken(Register source, Register destAddress) {
+	public StoreToken(Register destAddress, Register source) {
 		this.source = source;
 		this.dest = destAddress;
 		this.addRegister(source, destAddress);
 	}
 	
-	public StoreToken(Register source, Register destAddress, int offset) {
-		this(source, destAddress);
+	public StoreToken(Register destAddress, Register source, int offset) {
+		this(destAddress, source);
 		if (offset != 0) {
 			this.offset = offset;
 			offsetSet = true;
 		}
 	}
 	
-	public StoreToken(String condition, Register source, Register destAddress) {
-		this(source, destAddress);
+	public StoreToken(String condition, Register destAddress, Register source) {
+		this(destAddress, source);
 		this.condition = condition;
 	}
 	
-	public StoreToken(String condition, Register source, Register destAddress, int offset) {
-		this(source, destAddress);
+	public StoreToken(String condition, Register destAddress, Register source, int offset) {
+		this(destAddress, source);
 		this.condition = condition;
 		this.offset = offset;
 		offsetSet = true;
@@ -40,8 +40,8 @@ public class StoreToken extends InstrToken {
 	@Override 
 	public String toString() {
 		return (offsetSet && offset != 0) ?
-				"STR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + ", #" + offset + "]" :
-					"STR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + "]";
+				"STR" + condition +  " " + source.toString() + ", " + "[" + dest.toString() + ", #" + offset + "]" :
+					"STR" + condition +  " " + source.toString() + ", " + "[" + dest.toString() + "]";
 	}
 	
 	
