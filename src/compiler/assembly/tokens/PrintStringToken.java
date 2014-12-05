@@ -2,8 +2,8 @@ package assembly.tokens;
 
 import assembly.InstrToken;
 import assembly.Register;
-import assembly.SystemTokens;
 import assembly.TokenSequence;
+import assembly.system.SystemPrintTokens;
 
 public class PrintStringToken extends InstrToken {
 	
@@ -16,12 +16,12 @@ public class PrintStringToken extends InstrToken {
 	
 	@Override
 	public TokenSequence toPrepend() {
-		return SystemTokens.PRINT_STRING.toPrepend(); 
+		return SystemPrintTokens.PRINT_STRING.toPrepend(); 
 	}
 
 	@Override
 	public TokenSequence toAppend() {
-		return new TokenSequence(SystemTokens.PRINT_STRING);
+		return new TokenSequence(SystemPrintTokens.PRINT_STRING);
 	}
 	
 	@Override
