@@ -2,7 +2,7 @@ package assembly;
 
 
 public class SystemTokens {
-	
+
 	public static InstrToken PRINT_STRING = new InstrToken() {
 		
 		public TokenSequence toPrepend() {
@@ -351,6 +351,34 @@ public class SystemTokens {
 						+ "\n\tBEQ p_throw_runtime_error"
 						+ "\n\tBL free"
 						+ "\n\tPOP {pc}";
+		}
+	};
+	
+	public static final InstrToken PRINT_REF = new InstrToken() {
+		public TokenSequence toPrepend() {
+			return new TokenSequence(REFERENCE_FORMATTER);
+		}
+		
+		@Override
+		public String toString() {
+			return "p_print_reference:"
+						+ "\n\tPUSH {lr}"
+						+ "\n\tMOV r1, r0"
+						+ "\n\tLDR r0, =msg_9"
+						+ "\n\tADD r0, r0, #4"
+						+ "\n\tBL printf"
+						+ "\n\tMOV r0, #0"
+						+ "\n\tBL fflush"
+						+ "\n\tPOP {pc}";	
+		}
+	};
+	
+	protected static final InstrToken REFERENCE_FORMATTER = new InstrToken() {
+		@Override
+		public String toString() {
+			return "msg_9:"
+						+ "\n\t.word 3"
+						+ "\n\t.ascii	\"%p\\0\"";
 		}
 	};
 }
