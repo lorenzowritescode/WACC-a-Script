@@ -2,15 +2,11 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import symboltable.SymbolTable;
+import tree.type.WACCType;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadToken;
-import assembly.InstrToken;
-import assembly.Register;
-import assembly.TokenSequence;
-import assembly.tokens.StorePreIndexToken;
-import symboltable.SymbolTable;
-import tree.type.WACCType;
 
 /**
  *	Rule: WACCType.NULL
@@ -37,9 +33,13 @@ public class PairLiterNode extends ExprNode {
 	public TokenSequence toAssembly(Register register) {
 		return new TokenSequence(
 				new LoadToken(register, "0"));
+	}
+	
 	public TokenSequence printAssembly(Register register) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 
 }

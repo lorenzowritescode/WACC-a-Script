@@ -10,7 +10,6 @@ import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadToken;
 import assembly.tokens.PrintIntToken;
-import assembly.tokens.StorePreIndexToken;
 
 /* Represents the value of an Integer
  * Constructed with a String (e.g "42") 
@@ -19,7 +18,6 @@ import assembly.tokens.StorePreIndexToken;
 
 public class IntLeaf extends ExprNode {
 
-	private final int VAR_SIZE = 4;
 	private String value;
 	
 	public IntLeaf(String val) {
@@ -60,5 +58,7 @@ public class IntLeaf extends ExprNode {
 		InstrToken intTok = new PrintIntToken(register);
 		return new TokenSequence(intTok);
 	}
+	
+	
 
 }

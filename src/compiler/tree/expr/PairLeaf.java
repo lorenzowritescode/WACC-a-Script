@@ -53,5 +53,12 @@ public class PairLeaf extends ExprNode {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public TokenSequence toAssembly(Register register) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 }

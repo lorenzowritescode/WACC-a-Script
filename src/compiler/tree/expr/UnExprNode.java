@@ -2,12 +2,12 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.Register;
-import assembly.TokenSequence;
-import WACCExceptions.InvalidTypeException;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
+import WACCExceptions.InvalidTypeException;
+import assembly.Register;
+import assembly.TokenSequence;
 
 /* Represents a Unary Operator expression
  * Holds the operator and the expression
@@ -49,6 +49,12 @@ public class UnExprNode extends ExprNode{
 	public TokenSequence toAssembly(Register register) {
 		TokenSequence exprSeq = expr.toAssembly(register);
 		return exprSeq.appendAll(operator.apply(register));
+	}
+
+	@Override
+	public TokenSequence printAssembly(Register register) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

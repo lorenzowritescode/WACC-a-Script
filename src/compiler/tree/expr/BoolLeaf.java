@@ -9,7 +9,7 @@ import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.MovImmToken;
 import assembly.tokens.PrintBoolToken;
-import assembly.tokens.StorePreIndexToken;
+import assembly.tokens.StoreToken;
 
 /* Represents the value of a Bool
  * Constructed with a String (e.g "true")
@@ -18,7 +18,6 @@ import assembly.tokens.StorePreIndexToken;
 
 public class BoolLeaf extends ExprNode {
 	
-	private final int VAR_SIZE = 1;
 	private boolean value;
 	private String stringValue;
 	
@@ -71,5 +70,6 @@ public class BoolLeaf extends ExprNode {
 		PrintBoolToken tok = new PrintBoolToken(r);
 		return new TokenSequence(tok);
 	}
+
 
 }

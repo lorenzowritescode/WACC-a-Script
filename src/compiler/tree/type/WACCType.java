@@ -8,12 +8,21 @@ import antlr.WACCParser.TypeContext;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.tokens.StorePreIndexToken;
+import assembly.tokens.StoreToken;
 
 
 public abstract class WACCType {
 
 	public abstract boolean isCompatible(WACCType other);
 	public abstract String toString();
+	
+	
+	/**
+	 * @param dest The destination address of the store
+	 * @param source The source address of the store
+	 * @return Returns the assembly code to correctly store a given expression type
+	 */
+	public abstract StoreToken storeAssembly(Register dest, Register source);
 	
 
 	public abstract InstrToken passAsArg(Register r);
@@ -43,10 +52,15 @@ public abstract class WACCType {
 		public InstrToken passAsArg(Register r) {
 			return new StorePreIndexToken("B", Register.sp, r, -VAR_SIZE );
 		}
-
+		
 		@Override
 		public int getVarSize() {
 			return VAR_SIZE;
+		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			return new StoreToken("B", dest, source);
 		}
 	};
 	public static final WACCType INT = new WACCType() {
@@ -72,6 +86,11 @@ public abstract class WACCType {
 		public int getVarSize() {
 			return VAR_SIZE;
 		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			return new StoreToken(dest, source);
+		}
 	};
 	public static final WACCType CHAR = new WACCType() {
 		
@@ -96,6 +115,11 @@ public abstract class WACCType {
 		public int getVarSize() {
 			return VAR_SIZE;
 		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			return new StoreToken("B", dest, source);
+		}
 	};
 	public static final WACCType STRING = new ArrayType(CHAR) {
 		
@@ -112,6 +136,11 @@ public abstract class WACCType {
 		@Override
 		public int getVarSize() {
 			return VAR_SIZE;
+		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			return new StoreToken(dest, source);
 		}
 	};
 	public static final WACCType NULL = new WACCType() {
@@ -134,6 +163,11 @@ public abstract class WACCType {
 		@Override
 		public int getVarSize() {
 			return 0;
+		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			throw new UnsupportedOperationException("Cannot store a variable of type NULL");
 		}
 	};
 	
@@ -187,5 +221,6 @@ public abstract class WACCType {
 			throw new InvalidTypeException("The type provided was not recognised: " + typeString);
 		}
 	}
+	
 	
 }

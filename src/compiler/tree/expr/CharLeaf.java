@@ -9,7 +9,6 @@ import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.MovImmToken;
 import assembly.tokens.PrintCharToken;
-import assembly.tokens.StorePreIndexToken;
 
 /* Represents the value of a Character
  * Constructed with a String (e.g "A")
@@ -18,7 +17,6 @@ import assembly.tokens.StorePreIndexToken;
 
 public class CharLeaf extends ExprNode {
 	
-	private final int VAR_SIZE = 1;
 	private String text;
 
 	public CharLeaf(String text) {
@@ -51,5 +49,7 @@ public class CharLeaf extends ExprNode {
 		InstrToken charTok = new PrintCharToken(register);
 		return new TokenSequence(charTok);
 	}
+	
+	
 
 }

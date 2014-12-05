@@ -1,7 +1,6 @@
 package tree.expr;
 
 import tree.assignments.Assignable;
-import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 

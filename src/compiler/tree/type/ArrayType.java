@@ -3,6 +3,7 @@ package tree.type;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.tokens.StorePreIndexToken;
+import assembly.tokens.StoreToken;
 
 /* Class for the Array type
  * Contains the Array's Base Type
@@ -57,6 +58,11 @@ public class ArrayType extends WACCType {
 	@Override
 	public int getVarSize() {
 		return VAR_SIZE;
+	}
+	
+	@Override
+	public StoreToken storeAssembly(Register dest, Register source) {
+		return new StoreToken(dest, source);
 	}
 
 }

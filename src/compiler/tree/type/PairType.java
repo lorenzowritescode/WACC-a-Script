@@ -3,6 +3,7 @@ package tree.type;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.tokens.StorePreIndexToken;
+import assembly.tokens.StoreToken;
 import WACCExceptions.IncompatibleTypesException;
 
 /* Class for the Pair Type
@@ -70,6 +71,11 @@ public class PairType extends WACCType {
 	@Override
 	public int getVarSize() {
 		return VAR_SIZE;
+	}
+	
+	@Override
+	public StoreToken storeAssembly(Register dest, Register source) {
+		return new StoreToken(dest, source);
 	}
 
 }
