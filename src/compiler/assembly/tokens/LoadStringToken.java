@@ -32,7 +32,7 @@ public class LoadStringToken extends InstrToken {
 			public String toString() {
 				return label + ":"
 						+ "\n\t.word " + s.length()
-						+ "\n\t.ascii \""+ s + "\"";
+						+ "\n\t.ascii "+ s;
 			}
 		});
 		return msgString;

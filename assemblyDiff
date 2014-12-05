@@ -12,7 +12,7 @@ refCompilerOutput.lines.each do |line|
 	end
 end
 
-myCompilerOutput = `./compile #{fileName}`
+myCompilerOutput = `./compile -sf #{fileName}`
 
 puts("=" * 100)
 puts "[INFO] Source Code:"

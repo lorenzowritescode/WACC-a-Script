@@ -11,23 +11,31 @@ OptionParser.new do |opts|
 end.parse!
 
 fileName = ARGV[0]
-baseName = File.basename(fileName, ".wacc");
+if (!fileName)
+	abort("You must provide a file")
+end
+
+basename = File.basename(fileName, ".wacc");
+assemblyName = "#{basename}.s"
 
 puts "=" * 50
 puts "Compiling code"
-system("./compile #{fileName} > #{baseName}.s")
+system("./compile #{fileName}")
 if (options[:verbose])
-  system("cat #{baseName}.s")
+  system("cat #{assemblyName}")
 end
+
 puts "=" * 50
 puts "Assembling code"
-system("arm-linux-gnueabi-gcc -o #{baseName}  -mcpu=arm1176jzf-s -mtune=arm1176jzf-s #{baseName}.s")
+system("arm-linux-gnueabi-gcc -o #{basename}  -mcpu=arm1176jzf-s -mtune=arm1176jzf-s #{assemblyName}")
+
 puts "=" * 50
 puts "Executing code"
-system("qemu-arm -L /usr/arm-linux-gnueabi/ #{baseName}")
+system("qemu-arm -L /usr/arm-linux-gnueabi/ #{basename}")
+
 exitCode = $?.exitstatus
 puts "=" * 50
 puts "Exit code:"  
 puts exitCode
 
-`rm #{baseName}*`
+`rm #{basename} #{assemblyName}`
