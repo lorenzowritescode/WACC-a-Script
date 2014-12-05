@@ -2,6 +2,10 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.StorePreIndexToken;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 
@@ -24,6 +28,12 @@ public class PairLiterNode extends ExprNode {
 	public int weight() {
 		//TODO: we think this is correct but might not be
 		return 1;
+	}
+
+	@Override
+	public TokenSequence printAssembly(Register register) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
