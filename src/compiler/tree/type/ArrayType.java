@@ -1,5 +1,9 @@
 package tree.type;
 
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.tokens.StorePreIndexToken;
+
 /* Class for the Array type
  * Contains the Array's Base Type
  * Functionality to check if other types are compatible with the array
@@ -9,6 +13,7 @@ package tree.type;
 public class ArrayType extends WACCType {
 	
 	private WACCType baseType;
+	protected final int VAR_SIZE = 4;
 	
 	public ArrayType(WACCType baseType) {
 		this.baseType = baseType;
@@ -42,6 +47,16 @@ public class ArrayType extends WACCType {
 	@Override
 	public String toString() {
 		return "array-" + baseType.toString();
+	}
+
+	@Override
+	public InstrToken passAsArg(Register r) {
+		return new StorePreIndexToken(Register.sp, r, -VAR_SIZE  );
+	}
+	
+	@Override
+	public int getVarSize() {
+		return VAR_SIZE;
 	}
 
 }

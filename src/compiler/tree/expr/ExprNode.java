@@ -1,6 +1,7 @@
 package tree.expr;
 
 import tree.assignments.Assignable;
+import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 
@@ -18,7 +19,6 @@ public abstract class ExprNode extends Assignable  {
 	 * required to print the specific expression from which this method's
 	 * called.
 	 */
-	public TokenSequence printAssembly(Register register) {
-		return null;
-	}
+	public abstract TokenSequence printAssembly(Register register);
+
 }
