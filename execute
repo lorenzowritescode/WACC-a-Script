@@ -22,12 +22,12 @@ puts "=" * 50
 puts "Compiling code"
 system("./compile #{fileName}")
 if (options[:verbose])
-  system("cat assemblyName")
+  system("cat #{assemblyName}")
 end
 
 puts "=" * 50
 puts "Assembling code"
-system("arm-linux-gnueabi-gcc -o #{basename}  -mcpu=arm1176jzf-s -mtune=arm1176jzf-s assemblyName")
+system("arm-linux-gnueabi-gcc -o #{basename}  -mcpu=arm1176jzf-s -mtune=arm1176jzf-s #{assemblyName}")
 
 puts "=" * 50
 puts "Executing code"
