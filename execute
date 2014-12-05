@@ -1,0 +1,20 @@
+#!/usr/bin/ruby
+
+fileName = ARGV[0]
+baseName = File.basename(fileName, ".wacc");
+
+puts "=" * 50
+puts "Compiling code"
+system("./compile #{fileName} > #{baseName}.s && cat #{baseName}.s")
+puts "=" * 50
+puts "Assembling code"
+system("arm-linux-gnueabi-gcc -o #{baseName}  -mcpu=arm1176jzf-s -mtune=arm1176jzf-s #{baseName}.s")
+puts "=" * 50
+puts "Executing code"
+system("qemu-arm -L /usr/arm-linux-gnueabi/ #{baseName}")
+exitCode = $?.exitstatus
+puts "=" * 50
+puts "Exit code:"  
+puts exitCode
+
+`rm #{baseName}*`
