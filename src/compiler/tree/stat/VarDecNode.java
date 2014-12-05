@@ -65,7 +65,6 @@ public class VarDecNode extends StatNode {
 		var.setPos(pos);
 		
 		TokenSequence rhsSeq = rhsTree.toAssembly(register);
-//		InstrToken storeInVariable = new StoreToken(register, pos);
 		TokenSequence storeInVariable = pos.toStoreAssembly(register);
 		
 		return rhsSeq.appendAll(storeInVariable);
