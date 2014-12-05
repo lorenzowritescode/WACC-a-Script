@@ -1,9 +1,14 @@
 package antlr;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -48,7 +53,32 @@ public class Main {
 		
 		WACCCompiler compiler = new WACCCompiler(sc.getProgTree());
 		compiler.init();
-		System.out.println(compiler.toString());
+		String compilerOutput = compiler.toString();
+		if (cmd.hasOption("s")) {
+			System.out.println(compilerOutput);
+		} else {
+			createAssemblyFile(compiler.toString(), waccFilePath);
+		}
+	}
+
+	/** Utility method to extract the assembly filename and write to file
+	 * @param assemblyString A String containing the assembly output
+	 * @param waccFilePath The String containing the path of the source file. It works with just the filename.
+	 */
+	private static void createAssemblyFile(String assemblyString, String waccFilePath) {
+		// Extract the path from the waccFilePath string
+		Path p = Paths.get(waccFilePath);
+		// Get the filename and replace the extension
+		String assemblyFilename = p.getFileName().toString().replace(".wacc", ".s");
+		// Write to file
+		try {
+	          File file = new File(assemblyFilename);
+	          BufferedWriter output = new BufferedWriter(new FileWriter(file));
+	          output.write(assemblyString);
+	          output.close();
+	        } catch ( IOException e ) {
+	           e.printStackTrace();
+	        }
 	}
 
 	/**
@@ -166,6 +196,7 @@ public class Main {
 		options.addOption("v", false, "verbose");
 		options.addOption("d", false, "debug mode");
 		options.addOption("f", true, "source file");
+		options.addOption("s", false, "force printing assembly to std-out");
 		
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;

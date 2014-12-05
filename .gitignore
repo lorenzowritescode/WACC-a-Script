@@ -44,3 +44,6 @@ src/antlr
 #Ignore automatically generated JavaDoc documentation
 doc/
 /target/
+
+#Ignore assembly files
+*.s
