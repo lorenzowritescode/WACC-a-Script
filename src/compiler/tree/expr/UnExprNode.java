@@ -51,10 +51,4 @@ public class UnExprNode extends ExprNode{
 		return exprSeq.appendAll(operator.apply(register));
 	}
 
-	@Override
-	public TokenSequence printAssembly(Register register) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

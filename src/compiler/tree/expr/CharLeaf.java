@@ -44,12 +44,4 @@ public class CharLeaf extends ExprNode {
 		return new TokenSequence(tok);
 	}
 
-	@Override
-	public TokenSequence printAssembly(Register register) {
-		InstrToken charTok = new PrintCharToken(register);
-		return new TokenSequence(charTok);
-	}
-	
-	
-
 }

@@ -46,13 +46,6 @@ public class StringLeaf extends ExprNode {
 	public TokenSequence toAssembly(Register r) {
 		return new TokenSequence(new LoadStringToken(r, text));
 	}
-
-	@Override
-	public TokenSequence printAssembly(Register register) {
-		InstrToken print = new PrintStringToken(register);
-		return new TokenSequence(print);
-	}
-	
 	
 
 }

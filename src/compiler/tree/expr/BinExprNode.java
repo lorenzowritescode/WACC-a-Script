@@ -49,11 +49,6 @@ public class BinExprNode extends ExprNode {
 				Math.max(lhs.weight(), rhs.weight() + 1)
 		);
 	}
-
-	@Override
-	public TokenSequence printAssembly(Register r) {
-		return operator.print(r);
-	}
 	
 	@Override 
 	public TokenSequence toAssembly(Register r) {

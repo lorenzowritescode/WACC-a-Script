@@ -15,6 +15,8 @@ import assembly.tokens.PrintCharToken;
 import assembly.tokens.PrintIntToken;
 import assembly.tokens.PrintStringToken;
 
+import com.sun.org.apache.bcel.internal.generic.ArrayType;
+
 /* Represents an Identifier and its declared type
  * Constructed with and type and string (e.g BOOL, "myBool")
  * Rule: (' '|'a'-'z'|'A'-'Z')(' '|'a'-'z'|'A'-'Z'|'0'-'9')*
@@ -55,24 +57,6 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 
 	public void setPos(StackPosition pos) {
 		this.position = pos;
-	}
-	
-	@Override
-	public TokenSequence printAssembly(Register r) {
-		InstrToken print;
-		if(type == WACCType.INT) {
-			print = new PrintIntToken(r);
-		} else if(type == WACCType.STRING) {
-			print = new PrintStringToken(r);
-		} else if(type == WACCType.BOOL) {
-			print = new PrintBoolToken(r);
-		} else if(type == WACCType.CHAR) {
-			print = new PrintCharToken(r);
-		} else {
-			//TODO: needs finishing for pairs and arrays
-			return null;
-		}
-		return new TokenSequence(print);
 	}
 	
 	@Override 

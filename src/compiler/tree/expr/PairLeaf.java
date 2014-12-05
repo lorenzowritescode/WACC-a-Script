@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
+import assembly.tokens.PrintReferenceToken;
 import assembly.tokens.StorePreIndexToken;
 import symboltable.SymbolTable;
 import tree.type.PairType;
@@ -49,14 +50,7 @@ public class PairLeaf extends ExprNode {
 	}
 
 	@Override
-	public TokenSequence printAssembly(Register register) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public TokenSequence toAssembly(Register register) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

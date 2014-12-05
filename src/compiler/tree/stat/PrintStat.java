@@ -1,8 +1,10 @@
 package tree.stat;
 
+import tree.assignments.ArrayElemNode;
 import tree.expr.ExprNode;
 import assembly.Register;
 import assembly.TokenSequence;
+import assembly.tokens.PrintArrayElemToken;
 
 
 /**
@@ -22,7 +24,12 @@ public class PrintStat extends StatNode {
 	@Override
 	public TokenSequence toAssembly(Register register) {
 		TokenSequence exprSeq = expr.toAssembly(register);
-		TokenSequence printSeq = expr.printAssembly(register); 
+		TokenSequence printSeq;
+		if (expr instanceof ArrayElemNode) {
+			printSeq = new TokenSequence(new PrintArrayElemToken(register));
+		} else {
+			printSeq = expr.getType().printAssembly(register);
+		}
 		return exprSeq.appendAll(printSeq);
 	}
 }

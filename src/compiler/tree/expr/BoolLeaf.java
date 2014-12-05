@@ -65,11 +65,5 @@ public class BoolLeaf extends ExprNode {
 		return new TokenSequence(tok);
 	}
 	
-	@Override
-	public TokenSequence printAssembly(Register r) {
-		PrintBoolToken tok = new PrintBoolToken(r);
-		return new TokenSequence(tok);
-	}
-
 
 }

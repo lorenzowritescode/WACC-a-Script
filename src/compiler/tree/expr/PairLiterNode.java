@@ -7,6 +7,7 @@ import tree.type.WACCType;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadToken;
+import assembly.tokens.PrintReferenceToken;
 
 /**
  *	Rule: WACCType.NULL
@@ -34,12 +35,6 @@ public class PairLiterNode extends ExprNode {
 		return new TokenSequence(
 				new LoadToken(register, "0"));
 	}
-	
-	public TokenSequence printAssembly(Register register) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	
 
 }

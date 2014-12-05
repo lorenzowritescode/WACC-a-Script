@@ -52,13 +52,6 @@ public class IntLeaf extends ExprNode {
 	public int weight() {
 		return 1;
 	}
-
-	@Override
-	public TokenSequence printAssembly(Register register) {
-		InstrToken intTok = new PrintIntToken(register);
-		return new TokenSequence(intTok);
-	}
-	
 	
 
 }

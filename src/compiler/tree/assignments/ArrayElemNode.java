@@ -100,11 +100,4 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		return max;
 	}
 
-
-	@Override
-	public TokenSequence printAssembly(Register register) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

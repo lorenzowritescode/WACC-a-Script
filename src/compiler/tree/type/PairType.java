@@ -2,6 +2,8 @@ package tree.type;
 
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.PrintReferenceToken;
 import assembly.tokens.StorePreIndexToken;
 import assembly.tokens.StoreToken;
 import WACCExceptions.IncompatibleTypesException;
@@ -78,4 +80,9 @@ public class PairType extends WACCType {
 		return new StoreToken(dest, source);
 	}
 
+	@Override
+	public TokenSequence printAssembly(Register register) {
+		return new TokenSequence(new PrintReferenceToken(register));
+	}
+	
 }
