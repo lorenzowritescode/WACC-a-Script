@@ -59,12 +59,15 @@ public class CallStatNode extends Assignable {
 	public TokenSequence toAssembly(Register r) {
 		TokenSequence seq = new TokenSequence();
 		Iterator<ExprNode> argExprs = args.reverseIterator();
+		int stackOffset = 0;
 		while (argExprs.hasNext()) {
-			seq.appendAll(argExprs.next().toAssembly(r));
-			seq.append(new StorePreIndexToken(Register.sp, r, -4));
+			ExprNode expr = argExprs.next();
+			seq.appendAll(expr.toAssembly(r));
+			seq.append(expr.getType().passAsArg(r));
+			stackOffset += expr.getType().getVarSize();
 		}
 		seq.append(new BranchLinkToken("f_" + ident));
-		seq.append(new AddImmToken(Register.sp, Register.sp, "4"));
+		seq.append(new AddImmToken(Register.sp, Register.sp, Integer.toString(stackOffset)));
 		seq.append(new MovRegToken(r, Register.R0));
 		return seq;
 	}

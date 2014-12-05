@@ -1,5 +1,9 @@
 package tree.type;
 
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.tokens.StorePreIndexToken;
+import assembly.tokens.StoreToken;
 import WACCExceptions.IncompatibleTypesException;
 
 /* Class for the Pair Type
@@ -13,6 +17,7 @@ public class PairType extends WACCType {
 	private static PairType NULL_PAIR = new PairType(WACCType.NULL, WACCType.NULL);
 	private WACCType fst;
 	private WACCType snd;
+	private final int VAR_SIZE = 4;
 
 	public PairType(WACCType fst, WACCType snd) {
 		this.fst = (fst instanceof PairType) ? NULL_PAIR : fst;
@@ -56,6 +61,21 @@ public class PairType extends WACCType {
 	@Override
 	public String toString() {
 		return "pair("+fst.toString()+", "+snd.toString()+")";
+	}
+
+	@Override
+	public InstrToken passAsArg(Register r) {
+		return new StorePreIndexToken(Register.sp, r, -VAR_SIZE  );
+	}
+	
+	@Override
+	public int getVarSize() {
+		return VAR_SIZE;
+	}
+	
+	@Override
+	public StoreToken storeAssembly(Register dest, Register source) {
+		return new StoreToken(dest, source);
 	}
 
 }

@@ -18,7 +18,6 @@ public abstract class ExprNode extends Assignable  {
 	 * required to print the specific expression from which this method's
 	 * called.
 	 */
-	public TokenSequence printAssembly(Register register) {
-		return null;
-	}
+	public abstract TokenSequence printAssembly(Register register);
+
 }

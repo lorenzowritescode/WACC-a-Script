@@ -89,5 +89,7 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 		TokenSequence storeInVariable = position.toStoreAssembly(dest);
 		return storeInVariable;
 	}
+	
+	
 
 }

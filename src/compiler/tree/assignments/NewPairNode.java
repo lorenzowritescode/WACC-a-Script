@@ -15,6 +15,7 @@ public class NewPairNode extends Assignable {
 	
 	private ExprNode fst;
 	private ExprNode snd;
+	private final int PAIR_SIZE = 4;
 	
 	public NewPairNode(ExprNode fst, ExprNode snd) {
 		this.fst = fst;
@@ -35,18 +36,18 @@ public class NewPairNode extends Assignable {
 	public TokenSequence toAssembly(Register dest) {
 		
 		//allocate memory on the heap for the pair elems (addresses)
-		TokenSequence firstAlloc = mallocSequence(2);
+		TokenSequence firstAlloc = mallocSequence(2, PAIR_SIZE);
 		MovRegToken movReg1 = new MovRegToken(dest, Register.R0);
 		
 		//allocate memory on the heap for the actual first pair elem and store it's address
 		TokenSequence fstExp = fst.toAssembly(dest.getNext());
-		TokenSequence secondAlloc = mallocSequence(1);
-		TokenSequence storeFst = storeValAndAdd(dest, 0);
+		TokenSequence secondAlloc = mallocSequence(1, fst.getType().getVarSize());
+		TokenSequence storeFst = storeValAndAdd(fst, dest, 0);
 		
 		//allocate memory on the heap for the second pair elem
 		TokenSequence sndExp = snd.toAssembly(dest.getNext());
-		TokenSequence thirdAlloc = mallocSequence(1);
-		TokenSequence storeSnd = storeValAndAdd(dest, 4);
+		TokenSequence thirdAlloc = mallocSequence(1, snd.getType().getVarSize());
+		TokenSequence storeSnd = storeValAndAdd(snd, dest, 4);
 		
 		//append all the TokenSequences
 		firstAlloc
@@ -62,9 +63,10 @@ public class NewPairNode extends Assignable {
 	}
 
 	//forms a TokenSequence for storing the values on the heap and storing address in pair
-	private TokenSequence storeValAndAdd(Register dest, int offset) {
-		StoreToken store = new StoreToken(dest.getNext(), Register.R0);
-		StoreToken storeAdd = new StoreToken(Register.R0, dest, offset);
+	private TokenSequence storeValAndAdd(ExprNode expr, Register dest, int offset) {
+		StoreToken store = expr.getType().storeAssembly(Register.R0, dest.getNext());
+		//StoreToken store = new StoreToken(Register.R0, dest.getNext());
+		StoreToken storeAdd = new StoreToken(dest, Register.R0,  offset);
 		return new TokenSequence(store, storeAdd);
 	}
 }

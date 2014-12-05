@@ -4,19 +4,19 @@ import assembly.Register;
 
 public class StorePreIndexToken extends StoreToken {
 
-	public StorePreIndexToken(Register source, Register destAddress) {
-		super(source, destAddress);
+	public StorePreIndexToken(Register destAddress, Register source) {
+		super(destAddress, source);
 	}
-	public StorePreIndexToken(Register source, Register destAddress, int offset) {
-		super(source, destAddress, offset);
-	}
-	
-	public StorePreIndexToken(String condition, Register source, Register destAddress) {
-		super(condition, source, destAddress);
+	public StorePreIndexToken(Register destAddress, Register source, int offset) {
+		super(destAddress, source, offset);
 	}
 	
-	public StorePreIndexToken(String condition, Register source, Register destAddress, int offset) {
-		super(condition, source, destAddress, offset);
+	public StorePreIndexToken(String condition, Register destAddress, Register source) {
+		super(condition, destAddress, source);
+	}
+	
+	public StorePreIndexToken(String condition, Register destAddress, Register source, int offset) {
+		super(condition, destAddress, source, offset);
 	}
 	
 	@Override 

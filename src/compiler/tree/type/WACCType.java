@@ -5,12 +5,29 @@ import java.util.regex.Pattern;
 
 import WACCExceptions.InvalidTypeException;
 import antlr.WACCParser.TypeContext;
+import assembly.InstrToken;
+import assembly.Register;
+import assembly.tokens.StorePreIndexToken;
+import assembly.tokens.StoreToken;
 
 
 public abstract class WACCType {
 
 	public abstract boolean isCompatible(WACCType other);
 	public abstract String toString();
+	
+	
+	/**
+	 * @param dest The destination address of the store
+	 * @param source The source address of the store
+	 * @return Returns the assembly code to correctly store a given expression type
+	 */
+	public abstract StoreToken storeAssembly(Register dest, Register source);
+	
+
+	public abstract InstrToken passAsArg(Register r);
+	public abstract int getVarSize();
+	
 	
 	/*
 	 * The following are here as they are definite types,
@@ -19,6 +36,8 @@ public abstract class WACCType {
 	 */
 	public static final WACCType BOOL = new WACCType() {
 		
+		private final int VAR_SIZE = 1;
+
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return other == BOOL;
@@ -28,9 +47,26 @@ public abstract class WACCType {
 		public String toString() {
 			return "bool";
 		}
+
+		@Override
+		public InstrToken passAsArg(Register r) {
+			return new StorePreIndexToken("B", Register.sp, r, -VAR_SIZE );
+		}
+		
+		@Override
+		public int getVarSize() {
+			return VAR_SIZE;
+		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			return new StoreToken("B", dest, source);
+		}
 	};
 	public static final WACCType INT = new WACCType() {
 		
+		private final int VAR_SIZE = 4;
+
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return other == INT;
@@ -40,9 +76,26 @@ public abstract class WACCType {
 		public String toString() {
 			return "int";
 		}
+
+		@Override
+		public InstrToken passAsArg(Register r) {
+			return new StorePreIndexToken(Register.sp, r, -VAR_SIZE  );
+		}
+		
+		@Override
+		public int getVarSize() {
+			return VAR_SIZE;
+		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			return new StoreToken(dest, source);
+		}
 	};
 	public static final WACCType CHAR = new WACCType() {
 		
+		private final int VAR_SIZE = 1;
+
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return other == CHAR;
@@ -51,6 +104,21 @@ public abstract class WACCType {
 		@Override
 		public String toString() {
 			return "char";
+		}
+
+		@Override
+		public InstrToken passAsArg(Register r) {
+			return new StorePreIndexToken("B", Register.sp, r, -VAR_SIZE  );
+		}
+		
+		@Override
+		public int getVarSize() {
+			return VAR_SIZE;
+		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			return new StoreToken("B", dest, source);
 		}
 	};
 	public static final WACCType STRING = new ArrayType(CHAR) {
@@ -64,6 +132,16 @@ public abstract class WACCType {
 		public String toString() {
 			return "string";
 		}
+		
+		@Override
+		public int getVarSize() {
+			return VAR_SIZE;
+		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			return new StoreToken(dest, source);
+		}
 	};
 	public static final WACCType NULL = new WACCType() {
 		
@@ -75,6 +153,21 @@ public abstract class WACCType {
 		@Override
 		public boolean isCompatible(WACCType other) {
 			return true;
+		}
+
+		@Override
+		public InstrToken passAsArg(Register r) {
+			throw new UnsupportedOperationException("Cannot store a variable of type NULL");
+		}
+		
+		@Override
+		public int getVarSize() {
+			return 0;
+		}
+		
+		@Override
+		public StoreToken storeAssembly(Register dest, Register source) {
+			throw new UnsupportedOperationException("Cannot store a variable of type NULL");
 		}
 	};
 	
@@ -128,5 +221,6 @@ public abstract class WACCType {
 			throw new InvalidTypeException("The type provided was not recognised: " + typeString);
 		}
 	}
+	
 	
 }
