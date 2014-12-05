@@ -79,5 +79,9 @@ public class SystemFormatterTokens {
 						+ "\n\t.word 3"
 						+ "\n\t.ascii	\"%p\\0\"";
 		}
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 }

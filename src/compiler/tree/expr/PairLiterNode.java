@@ -35,11 +35,5 @@ public class PairLiterNode extends ExprNode {
 				new LoadToken(register, "0"));
 	}
 	
-	public TokenSequence printAssembly(Register register) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 
 }

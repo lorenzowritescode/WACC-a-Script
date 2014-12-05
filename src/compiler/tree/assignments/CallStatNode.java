@@ -17,7 +17,6 @@ import assembly.TokenSequence;
 import assembly.tokens.AddImmToken;
 import assembly.tokens.BranchLinkToken;
 import assembly.tokens.MovRegToken;
-import assembly.tokens.StorePreIndexToken;
 
 
 public class CallStatNode extends Assignable {

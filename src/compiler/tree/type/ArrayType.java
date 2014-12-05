@@ -2,6 +2,8 @@ package tree.type;
 
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.PrintReferenceToken;
 import assembly.tokens.StorePreIndexToken;
 import assembly.tokens.StoreToken;
 
@@ -63,6 +65,11 @@ public class ArrayType extends WACCType {
 	@Override
 	public StoreToken storeAssembly(Register dest, Register source) {
 		return new StoreToken(dest, source);
+	}
+	
+	@Override
+	public TokenSequence printAssembly(Register register) {
+		return new TokenSequence(new PrintReferenceToken(register));
 	}
 
 }

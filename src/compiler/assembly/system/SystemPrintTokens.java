@@ -122,5 +122,10 @@ public static InstrToken PRINT_STRING = new InstrToken() {
 						+ "\n\tBL fflush"
 						+ "\n\tPOP {pc}";	
 		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
 	};
 }

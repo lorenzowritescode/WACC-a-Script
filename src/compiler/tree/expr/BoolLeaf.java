@@ -8,8 +8,6 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.MovImmToken;
-import assembly.tokens.PrintBoolToken;
-import assembly.tokens.StoreToken;
 
 /* Represents the value of a Bool
  * Constructed with a String (e.g "true")
@@ -65,11 +63,5 @@ public class BoolLeaf extends ExprNode {
 		return new TokenSequence(tok);
 	}
 	
-	@Override
-	public TokenSequence printAssembly(Register r) {
-		PrintBoolToken tok = new PrintBoolToken(r);
-		return new TokenSequence(tok);
-	}
-
 
 }

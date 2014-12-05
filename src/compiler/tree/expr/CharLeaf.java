@@ -8,7 +8,6 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.MovImmToken;
-import assembly.tokens.PrintCharToken;
 
 /* Represents the value of a Character
  * Constructed with a String (e.g "A")
@@ -43,13 +42,5 @@ public class CharLeaf extends ExprNode {
 		InstrToken tok = new MovImmToken(register, "#"+text);
 		return new TokenSequence(tok);
 	}
-
-	@Override
-	public TokenSequence printAssembly(Register register) {
-		InstrToken charTok = new PrintCharToken(register);
-		return new TokenSequence(charTok);
-	}
-	
-	
 
 }

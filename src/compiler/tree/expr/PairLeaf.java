@@ -2,13 +2,11 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import assembly.InstrToken;
-import assembly.Register;
-import assembly.TokenSequence;
-import assembly.tokens.StorePreIndexToken;
 import symboltable.SymbolTable;
 import tree.type.PairType;
 import tree.type.WACCType;
+import assembly.Register;
+import assembly.TokenSequence;
 
 /** Represents a declared pair
  * Contains type information for 1st and 2nd elements of pair
@@ -49,14 +47,7 @@ public class PairLeaf extends ExprNode {
 	}
 
 	@Override
-	public TokenSequence printAssembly(Register register) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public TokenSequence toAssembly(Register register) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

@@ -7,6 +7,11 @@ import WACCExceptions.InvalidTypeException;
 import antlr.WACCParser.TypeContext;
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.PrintBoolToken;
+import assembly.tokens.PrintCharToken;
+import assembly.tokens.PrintIntToken;
+import assembly.tokens.PrintStringToken;
 import assembly.tokens.StorePreIndexToken;
 import assembly.tokens.StoreToken;
 
@@ -27,6 +32,7 @@ public abstract class WACCType {
 
 	public abstract InstrToken passAsArg(Register r);
 	public abstract int getVarSize();
+	public abstract TokenSequence printAssembly(Register r);
 	
 	
 	/*
@@ -62,6 +68,13 @@ public abstract class WACCType {
 		public StoreToken storeAssembly(Register dest, Register source) {
 			return new StoreToken("B", dest, source);
 		}
+		
+		@Override
+		public TokenSequence printAssembly(Register r) {
+			PrintBoolToken tok = new PrintBoolToken(r);
+			return new TokenSequence(tok);
+		}
+		
 	};
 	public static final WACCType INT = new WACCType() {
 		
@@ -90,6 +103,12 @@ public abstract class WACCType {
 		@Override
 		public StoreToken storeAssembly(Register dest, Register source) {
 			return new StoreToken(dest, source);
+		}
+		
+		@Override
+		public TokenSequence printAssembly(Register register) {
+			InstrToken intTok = new PrintIntToken(register);
+			return new TokenSequence(intTok);
 		}
 	};
 	public static final WACCType CHAR = new WACCType() {
@@ -120,6 +139,13 @@ public abstract class WACCType {
 		public StoreToken storeAssembly(Register dest, Register source) {
 			return new StoreToken("B", dest, source);
 		}
+		
+		@Override
+		public TokenSequence printAssembly(Register register) {
+			InstrToken charTok = new PrintCharToken(register);
+			return new TokenSequence(charTok);
+		}
+		
 	};
 	public static final WACCType STRING = new ArrayType(CHAR) {
 		
@@ -142,6 +168,13 @@ public abstract class WACCType {
 		public StoreToken storeAssembly(Register dest, Register source) {
 			return new StoreToken(dest, source);
 		}
+		
+		@Override
+		public TokenSequence printAssembly(Register register) {
+			InstrToken print = new PrintStringToken(register);
+			return new TokenSequence(print);
+		}
+		
 	};
 	public static final WACCType NULL = new WACCType() {
 		
@@ -168,6 +201,11 @@ public abstract class WACCType {
 		@Override
 		public StoreToken storeAssembly(Register dest, Register source) {
 			throw new UnsupportedOperationException("Cannot store a variable of type NULL");
+		}
+
+		@Override
+		public TokenSequence printAssembly(Register r) {
+			throw new UnsupportedOperationException("Cannot print a variable of type NULL");
 		}
 	};
 	
@@ -221,6 +259,7 @@ public abstract class WACCType {
 			throw new InvalidTypeException("The type provided was not recognised: " + typeString);
 		}
 	}
+	
 	
 	
 }

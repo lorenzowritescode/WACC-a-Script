@@ -23,7 +23,7 @@ public class PrintLnStat extends StatNode {
 	@Override
 	public TokenSequence toAssembly(Register register) {
 		TokenSequence exprSeq = expr.toAssembly(register);
-		TokenSequence printSeq = expr.printAssembly(register);
+		TokenSequence printSeq = expr.getType().printAssembly(register);
 		InstrToken println = new PrintLnToken();
 		exprSeq.appendAll(printSeq);
 		exprSeq.append(println);
