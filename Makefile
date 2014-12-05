@@ -31,5 +31,6 @@ rules:
 
 clean:
 	$(RM) rules $(OUTPUT_DIR)
+	$(RM) *.s
 
 
