@@ -1,0 +1,28 @@
+#!/usr/bin/ruby
+
+fileName = ARGV[0]
+
+refCompilerOutput = `../wacc_examples/refCompile -a #{fileName}`
+
+assembly = []
+refCompilerOutput.lines.each do |line|
+	if(line[0] <= '9' && line[0] >= '0')
+		line = line[2..-1]
+		assembly.push(line)
+	end
+end
+
+myCompilerOutput = `./compile #{fileName}`
+
+puts("=" * 100)
+puts "[INFO] Source Code:"
+system("cat #{fileName}")
+puts("=" * 100)
+puts ("LEFT: refCompile Output")
+puts ("RIGHT: Our Compiler Output\n")
+open("r1.txt", "w") { |io| io.puts assembly }
+open("r2.txt", "w") { |io| io.puts myCompilerOutput }
+system("diff -iEwy r1.txt r2.txt")
+puts("=" * 100)
+
+`rm r1.txt r2.txt`

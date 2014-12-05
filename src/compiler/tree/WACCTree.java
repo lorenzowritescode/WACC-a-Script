@@ -7,7 +7,6 @@ import tree.type.WACCType;
 import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
 import assembly.Register;
-import assembly.StackAllocator;
 import assembly.TokenSequence;
 
 public abstract class WACCTree {
@@ -35,9 +34,6 @@ public abstract class WACCTree {
 		return el.errorCount() == 0;
 	}
 
-	public TokenSequence toAssembly(Register register) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract TokenSequence toAssembly(Register register);
 	
 }

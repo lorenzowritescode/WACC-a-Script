@@ -2,7 +2,6 @@ package assembly.tokens;
 
 import assembly.InstrToken;
 import assembly.Register;
-import assembly.StackPosition;
 
 public class StoreToken extends InstrToken {
 	

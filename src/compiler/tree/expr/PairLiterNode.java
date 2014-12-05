@@ -2,6 +2,9 @@ package tree.expr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import assembly.Register;
+import assembly.TokenSequence;
+import assembly.tokens.LoadToken;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -31,6 +34,9 @@ public class PairLiterNode extends ExprNode {
 	}
 
 	@Override
+	public TokenSequence toAssembly(Register register) {
+		return new TokenSequence(
+				new LoadToken(register, "0"));
 	public TokenSequence printAssembly(Register register) {
 		// TODO Auto-generated method stub
 		return null;

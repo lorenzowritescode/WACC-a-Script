@@ -282,7 +282,7 @@ For example, in an \lit*{if} statement where we want to have an empty \lit*{else
 A variable declaration statement creates a new program variable in the current scope setting its static type and initial value.
 The statement must be given a valid WACC type \synt{type}, a variable name \synt{ident} and an initial assignment value \synt{assign-rhs}.
 
-Variable names must not clash with any language key words, function names in its scope, or variables in the current scope.
+Variable names must not clash with any language keywords, function names or variables in the current scope.
 
 They can consist of any number of letters, upper or lower-case, numbers, or underscores. However they cannot start with a number.
 
@@ -297,13 +297,9 @@ Additionally, every use of a variable must match the type assigned to that varia
 A variable can only be accessed within the scope of its declaration (or any child scope) and it is destroyed when exiting this scope.
 Variables must be unique within their scope, so a variable cannot be redefined within the same scope.
 Variables can, however, be redefined within a child scope.
-In this case, if the value is modified, it will retain its new value. If it is redefined, it will keep its new value for the child scope
-only.
+In this case, if the value is modified, it will retain its new value. If its type is redefined, it will keep its new value and type for the child scope only.
 
-Once the child scope is exited, the variable keeps the same type as it did before the child branch, and the value (if it was redefined), reverts
-to its original value. If it is just modified, its new value will be kept after the child scope is exited.
-
-\fillgap{Complete the above paragraph}{5 marks}
+If a variable is redeclared within a child scope, it is reverted to its original type once the child scope is exited, and the value of the variable will be reverted to the last value assigned before being redefined. If before being redeclared the variable was assigned a new value of the same type as in the parent scope, this value will be reassigned once the child scope terminates.
 
 \paragraph{Assignment Statements:}
 An assignment statement updates its target (the left-hand side of the \lit{=}) with a new value (the right-hand side of the \lit{=}).
@@ -359,7 +355,7 @@ Once the return statement is executed, the function is immediately exited.
 \paragraph{Exit Statements:}
 Exit statements are used to terminate the program instantly and return an exit code. The exit code given to it is an integer.
 A semantic error will occur if anything other than an integer is passed to the exit call. If an error code value of negative one is returned,
-the program has exited with an error. Any value \lit{n} passed to the exit call greater than 255 or less than 0 will be wrapped around to the value :
+the program has exited with an error. Any value \lit{n} passed to the exit call greater than 255 or less than 0 will be mapped to the absolute value of 
 \lit{n} \% 256.
 
 \paragraph{Print Statements:}
@@ -370,7 +366,6 @@ The \lit{println} command is similar, but additionally prints out a new line aft
 The output representation of each expression evaluation depends on the type of the expression.
 The behaviour of the print statements for each type of expression is shown in Table~\ref{tab:print}, along with some example cases.
 
-\fillgap{Fill in Table \ref{tab:print}}{3 marks}
 %
 \begin{table}
   \centering
@@ -406,9 +401,8 @@ Otherwise, the \lit{else} body statement is executed.
 Each of the program branches is executed in its own scope, which are denoted by the \lit{then} and \lit{else} tokens and the \lit{else} and \lit{fi} tokens, respectively.
 
 \paragraph{While Loop Statements:}
-A while loop statement will evaluate a given boolean expression, and if said exspression evaluates to be true, the body statement will be executed.
-Once this is done, the boolean expression will be re-evaluated, and the process is repeated. If the expressions evaluates to be false,
-after any number of iterations, the loop body will not be executed, and the program will continue to the next statement.
+A while loop statement \lit{while $(expr)$ do $(stat)$ done} will evaluate the given boolean expression $(expr)$, and if this evaluates to \lit{true}, the body statement $(stat)$ will be executed.
+Once $(stat)$ terminates, $(expr)$  will be re-evaluated, and the process is repeated. Whenever the expressions evaluates to \lit{false}, the loop body will not be executed, the $(done)$ state is reached, and the program will execute the next statement.
 
 \paragraph{Scoping Statements:}
 A scoping statement introduces a new program scope, which is denoted by the \lit{begin} and \lit{end} tokens.
@@ -443,7 +437,6 @@ A boolean literal \synt{bool-liter} is either \lit{true} or \lit{false}.
 A character literal \synt{char-liter} is a single ASCII character between two \lit{\char`'} symbols. 
 A \lit{\char`\\} can be used to escape the character that immediately follows the \lit{\char`\\}. 
 The meaning of each escaped character is shown in Table~\ref{tab:escapedcharacters}. 
-\fillgap{Fill in Table~\ref{tab:escapedcharacters}}{2 marks}
 %
 \begin{table}
   \centering
@@ -501,7 +494,6 @@ otherwise the expression will generate a runtime error.
 A unary operator \synt{unary-oper} has a single sub-expression.
 The unary operators available in the WACC language are shown in Table~\ref{tab:unary}.
 All unary operators have the same precedence, they are evaluated from right to left.
-\fillgap{Fill in Table~\ref{tab:unary}}{2 marks}
 %
 \begin{table}
   \centering
@@ -530,7 +522,7 @@ returning \lit{true} if the sub-expression evaluates to \lit{false} and vice-ver
 
 \item The \lit{ord} operator returns the ASCII value for the given character.
 
-\item The \lit{chr} operator returns the character whose ASCII values corresponds to that given number. 
+\item The \lit{chr} operator returns the ASCII character corresponding to the given integer. The integer given must be in the range [0, 256), since there are only 256 characters.
 
 \end{itemize}
 
@@ -539,7 +531,6 @@ A binary operator is used in in-fix style between two sub-expressions.
 The binary operators available in the WACC language are shown in Table~\ref{tab:binary}.
 The operators have different precedences, as illustrated in the table, 
 with 1 being the highest and 6 being the lowest.
-\fillgap{Fill in Table~\ref{tab:binary}}{2 marks}
 %
 \begin{table}
   \centering
@@ -602,9 +593,7 @@ Any other type of occurrence of whitespace is ignored by the compiler.
 Note, in particular, that the code indentation in the example programs has no meaning, it simply aids readability. 
 Also note that whitespace inside a string or character literal is preserved by the compiler. 
 
-Comments are defined by a hash symbol followed by any number of any characters except the End of Line Character,
-which marks the end of a comment. Comments are ignored by the program, and are used as guidence and explanations when reading
-the code.
+Comments are defined by a hash symbol followed by any number of characters except the End of Line Character which marks the end of a comment. Comments are ignored by the program, and are used as guidance when reading the code.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
