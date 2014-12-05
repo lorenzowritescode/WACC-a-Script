@@ -56,7 +56,7 @@ public class ArrayLiterNode extends Assignable {
 		int count = 1;
 		for (ExprNode node : elems) {
 			TokenSequence exprSeq = node.toAssembly(dest.getNext());
-			StoreToken storeElem = new StoreToken(dest.getNext(), dest, (count*4));
+			StoreToken storeElem = new StoreToken(dest, dest.getNext(), (count*this.getType().getVarSize()));
 			allocateArray
 			.appendAll(exprSeq)
 			.append(storeElem);
@@ -66,7 +66,7 @@ public class ArrayLiterNode extends Assignable {
 		
 		//store the arraySize
 		LoadToken loadSize = new LoadToken(dest.getNext(), Integer.toString(arrayLength));
-		StoreToken storeSize = new StoreToken(dest.getNext(), dest);
+		StoreToken storeSize = new StoreToken(dest, dest.getNext());
 		
 		allocateArray
 		.append(loadSize)

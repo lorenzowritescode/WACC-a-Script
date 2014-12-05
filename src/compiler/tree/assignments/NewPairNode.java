@@ -63,8 +63,8 @@ public class NewPairNode extends Assignable {
 
 	//forms a TokenSequence for storing the values on the heap and storing address in pair
 	private TokenSequence storeValAndAdd(Register dest, int offset) {
-		StoreToken store = new StoreToken(dest.getNext(), Register.R0);
-		StoreToken storeAdd = new StoreToken(Register.R0, dest, offset);
+		StoreToken store = new StoreToken(Register.R0, dest.getNext());
+		StoreToken storeAdd = new StoreToken(dest, Register.R0,  offset);
 		return new TokenSequence(store, storeAdd);
 	}
 }

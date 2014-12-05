@@ -41,8 +41,8 @@ public class StoreToken extends InstrToken {
 	@Override 
 	public String toString() {
 		return (offsetSet && offset != 0) ?
-				"STR" + condition +  " " + source.toString() + ", " + "[" + dest.toString() + ", #" + offset + "]" :
-					"STR" + condition +  " " + source.toString() + ", " + "[" + dest.toString() + "]";
+				"STR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + ", #" + offset + "]" :
+					"STR" + condition +  " " + dest.toString() + ", " + "[" + source.toString() + "]";
 	}
 	
 	

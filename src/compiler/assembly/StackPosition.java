@@ -22,7 +22,7 @@ public class StackPosition {
 	 */
 	public TokenSequence toStoreAssembly(final Register r) {
 		return new TokenSequence().append(
-				new StoreToken(r, Register.sp, position*WORD_SIZE));
+				new StoreToken(Register.sp, r, position*WORD_SIZE));
 	}
 	
 	@Override
