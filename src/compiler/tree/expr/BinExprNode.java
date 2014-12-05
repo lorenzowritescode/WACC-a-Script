@@ -58,6 +58,7 @@ public class BinExprNode extends ExprNode {
 	
 	@Override 
 	public TokenSequence toAssembly(Register r) {
+		//TODO: implement weight??
 		TokenSequence exprs = lhs.toAssembly(r);
 		exprs.appendAll(rhs.toAssembly(r.getNext()));
 		exprs.appendAll(operator.apply(r, r.getNext()));
