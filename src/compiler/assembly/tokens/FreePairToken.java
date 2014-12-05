@@ -1,8 +1,8 @@
 package assembly.tokens;
 
 import assembly.InstrToken;
-import assembly.SystemTokens;
 import assembly.TokenSequence;
+import assembly.system.SystemFreeTokens;
 
 public class FreePairToken extends InstrToken {
 	
@@ -12,7 +12,7 @@ public class FreePairToken extends InstrToken {
 	@Override
 	public TokenSequence toAppend() {
 		return new TokenSequence(
-				SystemTokens.FREE_PAIR);
+				SystemFreeTokens.FREE_PAIR);
 	}
 	
 	@Override

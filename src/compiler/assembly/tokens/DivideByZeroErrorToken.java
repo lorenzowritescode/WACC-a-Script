@@ -1,8 +1,11 @@
 package assembly.tokens;
 
 import assembly.InstrToken;
-import assembly.SystemTokens;
 import assembly.TokenSequence;
+import assembly.system.SystemErrorTokens;
+import assembly.system.SystemPrintTokens;
+
+
 
 public class DivideByZeroErrorToken extends InstrToken {
 	
@@ -11,14 +14,14 @@ public class DivideByZeroErrorToken extends InstrToken {
 	
 	@Override
 	public TokenSequence toPrepend() {
-		return SystemTokens.DIVIDE_BY_ZERO_ERROR.toPrepend();
+		return SystemErrorTokens.DIVIDE_BY_ZERO_ERROR.toPrepend();
 	}
 	
 	@Override
 	public TokenSequence toAppend() {
-		TokenSequence errors = new TokenSequence(SystemTokens.DIVIDE_BY_ZERO_ERROR);
-		errors.append(SystemTokens.RUNTIME_ERROR);
-		errors.append(SystemTokens.PRINT_STRING);
+		TokenSequence errors = new TokenSequence(SystemErrorTokens.DIVIDE_BY_ZERO_ERROR);
+		errors.append(SystemErrorTokens.RUNTIME_ERROR);
+		errors.append(SystemPrintTokens.PRINT_STRING);
 		return errors;
 	}
 	

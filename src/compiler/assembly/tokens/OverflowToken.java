@@ -1,8 +1,9 @@
 package assembly.tokens;
 
 import assembly.InstrToken;
-import assembly.SystemTokens;
 import assembly.TokenSequence;
+import assembly.system.SystemErrorTokens;
+import assembly.system.SystemPrintTokens;
 
 public class OverflowToken extends InstrToken {
 	
@@ -11,14 +12,14 @@ public class OverflowToken extends InstrToken {
 	
 	@Override
 	public TokenSequence toPrepend() {
-		return SystemTokens.OVERFLOW_ERROR.toPrepend();
+		return SystemErrorTokens.OVERFLOW_ERROR.toPrepend();
 	}
 	
 	@Override
 	public TokenSequence toAppend() {
-		TokenSequence errors = new TokenSequence(SystemTokens.OVERFLOW_ERROR);
-		errors.append(SystemTokens.RUNTIME_ERROR);
-		errors.append(SystemTokens.PRINT_STRING);
+		TokenSequence errors = new TokenSequence(SystemErrorTokens.OVERFLOW_ERROR);
+		errors.append(SystemErrorTokens.RUNTIME_ERROR);
+		errors.append(SystemPrintTokens.PRINT_STRING);
 		return errors;
 	}
 	
