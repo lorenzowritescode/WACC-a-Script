@@ -1,9 +1,14 @@
 package antlr;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -48,7 +53,21 @@ public class Main {
 		
 		WACCCompiler compiler = new WACCCompiler(sc.getProgTree());
 		compiler.init();
-		System.out.println(compiler.toString());
+		createAssemblyFile(compiler.toString(), waccFilePath);
+	}
+
+	private static void createAssemblyFile(String assemblyString, String waccFilePath) {
+		Path p = Paths.get(waccFilePath);
+		String assemblyFilename = p.getFileName().toString().replace(".wacc", ".s");
+        System.out.println(assemblyFilename);
+		try {
+	          File file = new File(assemblyFilename);
+	          BufferedWriter output = new BufferedWriter(new FileWriter(file));
+	          output.write(assemblyString);
+	          output.close();
+	        } catch ( IOException e ) {
+	           e.printStackTrace();
+	        }
 	}
 
 	/**
