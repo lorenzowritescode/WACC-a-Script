@@ -21,7 +21,15 @@ public class IntLeaf extends ExprNode {
 	private String value;
 	
 	public IntLeaf(String val) {
-		this.value = val;
+		this.value = trim(val);
+	}
+
+	public static String trim(String val) {
+		String res = 	val.charAt(0) == '0'?
+						val.replaceFirst("0*", "") 
+						: val;
+						
+		return (res.isEmpty()? "0" : res);
 	}
 
 	@Override
