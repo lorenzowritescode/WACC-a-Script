@@ -56,10 +56,16 @@ public class Main {
 		createAssemblyFile(compiler.toString(), waccFilePath);
 	}
 
+	/** Utility method to extract the assembly filename and write to file
+	 * @param assemblyString A String containing the assembly output
+	 * @param waccFilePath The String containing the path of the source file. It works with just the filename.
+	 */
 	private static void createAssemblyFile(String assemblyString, String waccFilePath) {
+		// Extract the path from the waccFilePath string
 		Path p = Paths.get(waccFilePath);
+		// Get the filename and replace the extension
 		String assemblyFilename = p.getFileName().toString().replace(".wacc", ".s");
-        System.out.println(assemblyFilename);
+		// Write to file
 		try {
 	          File file = new File(assemblyFilename);
 	          BufferedWriter output = new BufferedWriter(new FileWriter(file));
