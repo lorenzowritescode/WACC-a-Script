@@ -6,16 +6,9 @@ import symboltable.SymbolTable;
 import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
 import WACCExceptions.UndeclaredIdentifierException;
-import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackPosition;
 import assembly.TokenSequence;
-import assembly.tokens.PrintBoolToken;
-import assembly.tokens.PrintCharToken;
-import assembly.tokens.PrintIntToken;
-import assembly.tokens.PrintStringToken;
-
-import com.sun.org.apache.bcel.internal.generic.ArrayType;
 
 /* Represents an Identifier and its declared type
  * Constructed with and type and string (e.g BOOL, "myBool")

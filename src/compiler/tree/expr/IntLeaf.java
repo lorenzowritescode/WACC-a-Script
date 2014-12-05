@@ -5,11 +5,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 import WACCExceptions.IntOverflowException;
-import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadToken;
-import assembly.tokens.PrintIntToken;
 
 /* Represents the value of an Integer
  * Constructed with a String (e.g "42") 

@@ -1,8 +1,6 @@
 package tree.expr;
 
 import tree.assignments.Assignable;
-import assembly.Register;
-import assembly.TokenSequence;
 
 public abstract class ExprNode extends Assignable  {
 	

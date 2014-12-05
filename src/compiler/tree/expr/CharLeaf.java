@@ -8,7 +8,6 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.MovImmToken;
-import assembly.tokens.PrintCharToken;
 
 /* Represents the value of a Character
  * Constructed with a String (e.g "A")

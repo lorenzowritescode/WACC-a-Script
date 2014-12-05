@@ -7,7 +7,6 @@ import tree.type.WACCType;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadToken;
-import assembly.tokens.PrintReferenceToken;
 
 /**
  *	Rule: WACCType.NULL

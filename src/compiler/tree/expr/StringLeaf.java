@@ -4,11 +4,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
-import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadStringToken;
-import assembly.tokens.PrintStringToken;
 
 /* Represents the value of a String
  * Constructed with a String (e.g "hello")

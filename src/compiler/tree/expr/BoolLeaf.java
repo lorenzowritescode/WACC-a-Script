@@ -8,8 +8,6 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.MovImmToken;
-import assembly.tokens.PrintBoolToken;
-import assembly.tokens.StoreToken;
 
 /* Represents the value of a Bool
  * Constructed with a String (e.g "true")

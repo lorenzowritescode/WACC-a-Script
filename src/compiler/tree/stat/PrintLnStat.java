@@ -1,6 +1,5 @@
 package tree.stat;
 
-import tree.assignments.ArrayElemNode;
 import tree.expr.ExprNode;
 import assembly.InstrToken;
 import assembly.Register;
