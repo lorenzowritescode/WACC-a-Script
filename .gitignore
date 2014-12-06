@@ -47,3 +47,4 @@ doc/
 
 #Ignore assembly files
 *.s
+/readTest.wacc
