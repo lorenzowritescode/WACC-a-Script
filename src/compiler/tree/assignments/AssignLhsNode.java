@@ -6,4 +6,5 @@ import assembly.TokenSequence;
 
 public interface AssignLhsNode {
 	TokenSequence toStoreAssembly(Register dest);
+	TokenSequence loadAddress(Register dest);
 }

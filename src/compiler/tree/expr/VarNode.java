@@ -9,6 +9,7 @@ import WACCExceptions.UndeclaredIdentifierException;
 import assembly.Register;
 import assembly.StackPosition;
 import assembly.TokenSequence;
+import assembly.tokens.AddImmToken;
 
 /* Represents an Identifier and its declared type
  * Constructed with and type and string (e.g BOOL, "myBool")
@@ -65,6 +66,12 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	public TokenSequence toStoreAssembly(Register dest) {
 		TokenSequence storeInVariable = position.toStoreAssembly(dest);
 		return storeInVariable;
+	}
+
+	@Override
+	public TokenSequence loadAddress(Register dest) {
+		return new TokenSequence(
+				new AddImmToken(dest, Register.sp, position.getStackIndex()));
 	}
 	
 	
