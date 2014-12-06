@@ -133,8 +133,8 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence apply(Register lhs, Register rhs) {
 			InstrToken cmp = new CompareToken(lhs, rhs);
-			InstrToken gt = new MovImmToken("GT", lhs, "#1");
-			InstrToken leq = new MovImmToken("LE", lhs, "#0");
+			InstrToken gt = new MovImmToken("GT", lhs, "1");
+			InstrToken leq = new MovImmToken("LE", lhs, "0");
 			return new TokenSequence(cmp, gt, leq);
 		}
 
@@ -149,8 +149,8 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence apply(Register lhs, Register rhs) {
 			InstrToken cmp = new CompareToken(lhs, rhs);
-			InstrToken geq = new MovImmToken("GE", lhs, "#1");
-			InstrToken lt = new MovImmToken("LT", lhs, "#0");
+			InstrToken geq = new MovImmToken("GE", lhs, "1");
+			InstrToken lt = new MovImmToken("LT", lhs, "0");
 			return new TokenSequence(cmp, geq, lt);
 		}
 
@@ -165,8 +165,8 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence apply(Register lhs, Register rhs) {
 			InstrToken cmp = new CompareToken(lhs, rhs);
-			InstrToken lt = new MovImmToken("LT", lhs, "#1");
-			InstrToken geq = new MovImmToken("GE", lhs, "#0");
+			InstrToken lt = new MovImmToken("LT", lhs, "1");
+			InstrToken geq = new MovImmToken("GE", lhs, "0");
 			return new TokenSequence(cmp, lt, geq);
 		}
 
@@ -181,8 +181,8 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence apply(Register lhs, Register rhs) {
 			InstrToken cmp = new CompareToken(lhs, rhs);
-			InstrToken leq = new MovImmToken("LE", lhs, "#1");
-			InstrToken gt = new MovImmToken("GT", lhs, "#0");
+			InstrToken leq = new MovImmToken("LE", lhs, "1");
+			InstrToken gt = new MovImmToken("GT", lhs, "0");
 			return new TokenSequence(cmp, leq, gt);
 		}
 
@@ -199,8 +199,8 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence apply(Register lhs, Register rhs) {
 			InstrToken cmp = new CompareToken(lhs, rhs);
-			InstrToken eq = new MovImmToken("EQ", lhs, "#1");
-			InstrToken neq = new MovImmToken("NE", lhs, "#0");
+			InstrToken eq = new MovImmToken("EQ", lhs, "1");
+			InstrToken neq = new MovImmToken("NE", lhs, "0");
 			return new TokenSequence(cmp, eq, neq);
 		}
 
@@ -215,8 +215,8 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence apply(Register lhs, Register rhs) {
 			InstrToken cmp = new CompareToken(lhs, rhs);
-			InstrToken neq = new MovImmToken("NE", lhs, "=1");
-			InstrToken eq = new MovImmToken("EQ", lhs, "=0");
+			InstrToken neq = new MovImmToken("NE", lhs, "1");
+			InstrToken eq = new MovImmToken("EQ", lhs, "0");
 			return new TokenSequence(cmp, neq, eq);
 		}
 
