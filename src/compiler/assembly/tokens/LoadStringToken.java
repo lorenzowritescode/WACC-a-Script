@@ -31,7 +31,7 @@ public class LoadStringToken extends InstrToken {
 			@Override
 			public String toString() {
 				return label + ":"
-						+ "\n\t.word " + s.length()
+						+ "\n\t.word " + (s.length() - 2) //This -2 is to compensate the double quotation marks in the string
 						+ "\n\t.ascii "+ s;
 			}
 		});
