@@ -7,7 +7,9 @@ import WACCExceptions.InvalidTypeException;
 import antlr.WACCParser.TypeContext;
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.StackPosition;
 import assembly.TokenSequence;
+import assembly.tokens.LoadAddressToken;
 import assembly.tokens.PrintBoolToken;
 import assembly.tokens.PrintCharToken;
 import assembly.tokens.PrintIntToken;
@@ -29,10 +31,13 @@ public abstract class WACCType {
 	 */
 	public abstract StoreToken storeAssembly(Register dest, Register source);
 	
+	public abstract LoadAddressToken loadAssembly(Register dest, Register source);
+	
 
 	public abstract InstrToken passAsArg(Register r);
 	public abstract int getVarSize();
 	public abstract TokenSequence printAssembly(Register r);
+	public abstract TokenSequence storeAssembly(Register register, StackPosition pos);
 	
 	
 	/*
@@ -70,9 +75,21 @@ public abstract class WACCType {
 		}
 		
 		@Override
+		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new StoreToken("B", dest, Register.sp, index));
+		}
+		
+		@Override
 		public TokenSequence printAssembly(Register r) {
 			PrintBoolToken tok = new PrintBoolToken(r);
 			return new TokenSequence(tok);
+		}
+
+		@Override
+		public LoadAddressToken loadAssembly(Register dest, Register source) {
+			return new LoadAddressToken("SB", dest, source);
 		}
 		
 	};
@@ -106,9 +123,21 @@ public abstract class WACCType {
 		}
 		
 		@Override
+		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new StoreToken(dest, Register.sp, index));
+		}
+		
+		@Override
 		public TokenSequence printAssembly(Register register) {
 			InstrToken intTok = new PrintIntToken(register);
 			return new TokenSequence(intTok);
+		}
+		
+		@Override
+		public LoadAddressToken loadAssembly(Register dest, Register source) {
+			return new LoadAddressToken(dest, source);
 		}
 	};
 	public static final WACCType CHAR = new WACCType() {
@@ -141,6 +170,18 @@ public abstract class WACCType {
 		}
 		
 		@Override
+		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new StoreToken("B", dest, Register.sp, index));
+		}
+		
+		@Override
+		public LoadAddressToken loadAssembly(Register dest, Register source) {
+			return new LoadAddressToken("SB", dest, source);
+		}
+		
+		@Override
 		public TokenSequence printAssembly(Register register) {
 			InstrToken charTok = new PrintCharToken(register);
 			return new TokenSequence(charTok);
@@ -170,9 +211,21 @@ public abstract class WACCType {
 		}
 		
 		@Override
+		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new StoreToken(dest, Register.sp, index));
+		}
+		
+		@Override
 		public TokenSequence printAssembly(Register register) {
 			InstrToken print = new PrintStringToken(register);
 			return new TokenSequence(print);
+		}
+		
+		@Override
+		public LoadAddressToken loadAssembly(Register dest, Register source) {
+			return new LoadAddressToken(dest, source);
 		}
 		
 	};
@@ -202,11 +255,22 @@ public abstract class WACCType {
 		public StoreToken storeAssembly(Register dest, Register source) {
 			throw new UnsupportedOperationException("Cannot store a variable of type NULL");
 		}
+		
+		@Override
+		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+			throw new UnsupportedOperationException("Cannot store a variable of type NULL");
+		}
 
 		@Override
 		public TokenSequence printAssembly(Register r) {
 			throw new UnsupportedOperationException("Cannot print a variable of type NULL");
 		}
+		
+		@Override
+		public LoadAddressToken loadAssembly(Register dest, Register source) {
+			throw new UnsupportedOperationException("Cannot load a variable of type NULL");
+		}
+		
 	};
 	
 
@@ -259,7 +323,6 @@ public abstract class WACCType {
 			throw new InvalidTypeException("The type provided was not recognised: " + typeString);
 		}
 	}
-	
 	
 	
 }

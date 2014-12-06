@@ -2,7 +2,9 @@ package tree.type;
 
 import assembly.InstrToken;
 import assembly.Register;
+import assembly.StackPosition;
 import assembly.TokenSequence;
+import assembly.tokens.LoadAddressToken;
 import assembly.tokens.PrintReferenceToken;
 import assembly.tokens.StorePreIndexToken;
 import assembly.tokens.StoreToken;
@@ -71,5 +73,16 @@ public class ArrayType extends WACCType {
 	public TokenSequence printAssembly(Register register) {
 		return new TokenSequence(new PrintReferenceToken(register));
 	}
+	
+	@Override
+	public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+		int index = pos.getStackIndex();
+		return new TokenSequence(
+				new StoreToken(dest, Register.sp, index));
+	}
 
+	@Override
+	public LoadAddressToken loadAssembly(Register dest, Register source) {
+		return new LoadAddressToken(dest, source);
+	}
 }
