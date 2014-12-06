@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.Iterator;
 
+import assembly.tokens.LabelToken;
+import assembly.tokens.LoadToken;
+import assembly.tokens.PopToken;
+
 public class TokenSequence implements Iterable<InstrToken> {
 	public static enum MODE {
 		ALL, UNIQUE
@@ -75,6 +79,13 @@ public class TokenSequence implements Iterable<InstrToken> {
 		return this;
 	}
 	
+	public TokenSequence appendAll(InstrToken... ts) {
+		for (InstrToken t:ts) {
+			this.append(t);
+		}
+		return this;
+	}
+	
 	public TokenSequence prependAll(TokenSequence ts) {
 		if (ts == null)
 			return this;
@@ -84,6 +95,10 @@ public class TokenSequence implements Iterable<InstrToken> {
 		}
 		
 		return this;
+	}
+	
+	public TokenSequence prependAll(InstrToken... ts) {	
+		return prependAll(new TokenSequence(ts));
 	}
 	
 	public Iterator<InstrToken> reverseIterator() {

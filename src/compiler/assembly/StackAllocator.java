@@ -2,13 +2,17 @@ package assembly;
 
 import java.util.Stack;
 
+import assembly.tokens.AddImmToken;
+import assembly.tokens.AddToken;
 import assembly.tokens.EmptyToken;
+import assembly.tokens.SubToken;
 
 public class StackAllocator {
 	
 	public static final StackAllocator stackAllocator = new StackAllocator();
 	
 	private static final int WORD_SIZE = 4;
+	private static final int MAX_IMM_INT = 1024;
 	
 	private Stack<Integer> scopeStack;
 	
@@ -39,27 +43,32 @@ public class StackAllocator {
 		scopeStack.pop();
 	}
 	
-	public InstrToken getInitialisation() {
-		if (getCounter() == 0)
-			return new EmptyToken();
-		
-		return new InstrToken() {
-			@Override
-			public String toString() {
-				return "SUB sp, sp, #" + getCounter() * WORD_SIZE;
-			}
-		};
+	public TokenSequence getInitialisation() {	
+		return getSequence(new SubToken(null, null, 0));
 	}
 	
-	public InstrToken getTermination() {
-		if (getCounter() == 0)
-			return new EmptyToken();
+	public TokenSequence getTermination() {
+		return getSequence(new AddImmToken(null, null, null));
+	}
+
+
+	private TokenSequence getSequence(InstrToken sampleToken) {
+		TokenSequence seq = new TokenSequence();
+		int remaining = getCounter() * WORD_SIZE;
+		if (remaining == 0)
+			return seq;
 		
-		return new InstrToken() {
-			@Override
-			public String toString() {
-				return "ADD sp, sp, #" + getCounter() * WORD_SIZE;
-			}
-		};
+		do {
+			int current = Math.min(remaining, MAX_IMM_INT);
+			
+			if (sampleToken instanceof SubToken)
+				seq.append(new SubToken(Register.sp, Register.sp, current));
+			else if (sampleToken instanceof AddImmToken)
+				seq.append(new AddImmToken(Register.sp, Register.sp, current));
+			
+			remaining -= current;
+		} while (remaining > 0);
+		
+		return seq;
 	}
 }
