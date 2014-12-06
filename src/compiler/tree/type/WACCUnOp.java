@@ -116,8 +116,7 @@ public abstract class WACCUnOp {
 
 		@Override
 		public TokenSequence apply(Register register) {
-			return new TokenSequence(
-					new LoadAddressToken(register, register));
+			return new TokenSequence();
 		}
 	};
 	
@@ -140,9 +139,7 @@ public abstract class WACCUnOp {
 
 		@Override
 		public TokenSequence apply(Register register) {
-			return new TokenSequence(
-				new LoadAddressToken("SB", register, register) //TODO: check this
-				);
+			return new TokenSequence();
 		}
 	};
 	
@@ -165,10 +162,7 @@ public abstract class WACCUnOp {
 
 		@Override
 		public TokenSequence apply(Register register) {
-			return new TokenSequence(
-					new MovRegToken(Register.R0, register),
-					new BranchLinkToken("putchar")
-					);
+			return new TokenSequence();
 		}
 	};
 }
