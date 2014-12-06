@@ -12,6 +12,7 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackAllocator;
 import assembly.TokenSequence;
+import assembly.tokens.EasyToken;
 import assembly.tokens.LabelToken;
 import assembly.tokens.LoadToken;
 import assembly.tokens.PopToken;
@@ -67,7 +68,7 @@ public class ProgNode extends WACCTree {
 					.appendAll(
 						new LoadToken(Register.R0, "0"),
 						new PopToken(Register.pc),
-						new LabelToken(".ltorg")));
+						new EasyToken(".ltorg")));
 		
 		return functionDeclarations.appendAll(progSeq);
 	}

@@ -75,10 +75,10 @@ public abstract class WACCType {
 		}
 		
 		@Override
-		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+		public TokenSequence storeAssembly(Register source, StackPosition pos) {
 			int index = pos.getStackIndex();
 			return new TokenSequence(
-					new StoreToken("B", dest, Register.sp, index));
+					new StoreToken("B", Register.sp, source, index));
 		}
 		
 		@Override
@@ -123,10 +123,10 @@ public abstract class WACCType {
 		}
 		
 		@Override
-		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+		public TokenSequence storeAssembly(Register source, StackPosition pos) {
 			int index = pos.getStackIndex();
 			return new TokenSequence(
-					new StoreToken(dest, Register.sp, index));
+					new StoreToken(Register.sp, source, index));
 		}
 		
 		@Override
@@ -170,10 +170,10 @@ public abstract class WACCType {
 		}
 		
 		@Override
-		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+		public TokenSequence storeAssembly(Register source, StackPosition pos) {
 			int index = pos.getStackIndex();
 			return new TokenSequence(
-					new StoreToken("B", dest, Register.sp, index));
+					new StoreToken("B", Register.sp, source, index));
 		}
 		
 		@Override
@@ -211,10 +211,10 @@ public abstract class WACCType {
 		}
 		
 		@Override
-		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
+		public TokenSequence storeAssembly(Register source, StackPosition pos) {
 			int index = pos.getStackIndex();
 			return new TokenSequence(
-					new StoreToken(dest, Register.sp, index));
+					new StoreToken(Register.sp, source, index));
 		}
 		
 		@Override
