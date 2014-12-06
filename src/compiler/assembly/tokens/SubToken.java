@@ -11,10 +11,10 @@ public class SubToken extends InstrToken {
 	private Object op2;
 	private String condition = "";
 	
-	public SubToken(Register dest, Register op1, IntLeaf i) {
+	public SubToken(Register dest, Register op1, int i) {
 		this.dest = dest;
 		this.op1 = op1;
-		this.op2 = i;
+		this.op2 = "#" + i;
 		this.addRegister(dest, op1);
 	}
 	
@@ -25,7 +25,7 @@ public class SubToken extends InstrToken {
 		this.addRegister(dest, op1, op2);
 	}
 	
-	public SubToken(String condition, Register dest, Register op1, IntLeaf i) {
+	public SubToken(String condition, Register dest, Register op1, int i) {
 		this(dest, op1, i);
 		this.condition = condition;
 	}

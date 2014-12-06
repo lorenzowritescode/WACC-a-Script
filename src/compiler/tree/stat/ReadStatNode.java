@@ -33,8 +33,10 @@ public class ReadStatNode extends StatNode {
 	}
 	
 	public TokenSequence toAssembly(Register register) {
-		TokenSequence readStat = new TokenSequence();
-		//TODO: read statement toAssembly()
-		return readStat;
+		TokenSequence exprSeq = lhs.toAssembly(register);
+		exprSeq.appendAll( new TokenSequence(
+				// TODO: This depends upon the type apparently
+				));
+		return exprSeq;
 	}
 }

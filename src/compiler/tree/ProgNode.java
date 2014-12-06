@@ -54,27 +54,20 @@ public class ProgNode extends WACCTree {
 		
 		TokenSequence progSeq = progBody.toAssembly(register);
 		
-		//Create main label and push lr
+		//Create main label, push lr, and insert allocation sequence
 		progSeq.prependAll( 
 				new TokenSequence(
 						new LabelToken("main"),
-						new PushToken(Register.lr),
-						StackAllocator.stackAllocator.getInitialisation()
-				)
-			);
+						new PushToken(Register.lr))
+					.appendAll(StackAllocator.stackAllocator.getInitialisation()));
 		
 		// after the progSeq has been visited, we retrieve the eventual Stack Allocations
 		progSeq.appendAll(
-				new TokenSequence(
-						StackAllocator.stackAllocator.getTermination(),
+				StackAllocator.stackAllocator.getTermination()
+					.appendAll(
 						new LoadToken(Register.R0, "0"),
 						new PopToken(Register.pc),
-						new InstrToken() {
-							@Override
-							public String toString() { return ".ltorg"; }
-						}
-				)
-			);
+						new LabelToken(".ltorg")));
 		
 		return functionDeclarations.appendAll(progSeq);
 	}
