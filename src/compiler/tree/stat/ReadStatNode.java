@@ -9,6 +9,8 @@ import tree.type.WACCType;
 import WACCExceptions.IncompatibleTypesException;
 import assembly.Register;
 import assembly.TokenSequence;
+import assembly.tokens.MovRegToken;
+import assembly.tokens.ReadToken;
 
 /**
  * Class to represent read statements  
@@ -33,10 +35,9 @@ public class ReadStatNode extends StatNode {
 	}
 	
 	public TokenSequence toAssembly(Register register) {
-		TokenSequence exprSeq = lhs.toAssembly(register);
-		exprSeq.appendAll( new TokenSequence(
-				// TODO: This depends upon the type apparently
-				));
-		return exprSeq;
+		AssignLhsNode lhsNode = (AssignLhsNode) lhs;
+		return lhsNode.loadAddress(register)
+				.append(new MovRegToken(Register.R0, register))
+				.append(new ReadToken(lhs.getType()));
 	}
 }

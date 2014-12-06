@@ -55,7 +55,6 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
 	
 	public TokenSequence toAssembly(Register dest) {
-		
 		TokenSequence out = new TokenSequence();
 		TokenSequence arrayAccess = arrayElemCommonAssembly(dest);
 		LoadAddressToken loadResult = arrayType.getBaseType().loadAssembly(dest, dest);
@@ -109,6 +108,12 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		}
 		
 		return max;
+	}
+
+	@Override
+	public TokenSequence loadAddress(Register dest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
