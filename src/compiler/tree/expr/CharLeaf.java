@@ -41,7 +41,7 @@ public class CharLeaf extends ExprNode {
 	public TokenSequence toAssembly(Register register) {
 		//If the character is an escaped char, we remove the backslash to keep just the char
 		text = text.replace("\\", "");
-		InstrToken tok = new MovImmToken(register, "#"+text);
+		InstrToken tok = new MovImmToken(register, text);
 		return new TokenSequence(tok);
 	}
 

@@ -12,6 +12,7 @@ public class CompareToken extends InstrToken{
 	//the shift string is used to shift one of the registers
 	//Is required for some multiplication calculations
 	private String shift = "";
+	private boolean shiftSet = false;
 	
 	public CompareToken(Register op1, Register op2) {
 		this.op1 = op1;
@@ -23,6 +24,7 @@ public class CompareToken extends InstrToken{
 		this.op1 = op1;
 		this.op2 = op2;
 		this.shift = shift;
+		shiftSet = true;
 		this.addRegister(op1, op2);
 	}
 	
@@ -34,7 +36,8 @@ public class CompareToken extends InstrToken{
 	@Override
 	public String toString() {
 		if (op2 != null) {
-			return "CMP " + op1.toString() + ", " + op2.toString() + ", " + shift;
+			return shiftSet? "CMP " + op1.toString() + ", " + op2.toString() + ", " + shift:
+				"CMP " + op1.toString() + ", " + op2.toString();
 		} else {
 			return "CMP " + op1.toString() + ", " + i.toString();
 		}
