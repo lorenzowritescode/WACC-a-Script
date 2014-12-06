@@ -98,4 +98,11 @@ public class PairType extends WACCType {
 	public LoadAddressToken loadAssembly(Register dest, Register source) {
 		return new LoadAddressToken(dest, source);
 	}
+	
+	@Override
+	public TokenSequence loadAssembly(Register r, StackPosition pos) {
+		int index = pos.getStackIndex();
+		return new TokenSequence(
+				new LoadAddressToken(r, Register.sp, index));
+	}
 }
