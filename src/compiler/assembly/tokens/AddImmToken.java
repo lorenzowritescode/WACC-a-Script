@@ -22,6 +22,10 @@ public class AddImmToken extends InstrToken {
 		this.condition = condition;
 	}
 	
+	public AddImmToken(Register sp, Register sp2, int current) {
+		this(sp, sp2, String.valueOf(current));
+	}
+
 	@Override
 	public String toString() {
 		return "ADD" + condition + " " + dest.toString() + ", " + op1.toString() + ", " + op2;
