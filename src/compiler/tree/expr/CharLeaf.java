@@ -39,10 +39,55 @@ public class CharLeaf extends ExprNode {
 	
 	@Override
 	public TokenSequence toAssembly(Register register) {
-		//If the character is an escaped char, we remove the backslash to keep just the char
-		text = text.replace("\\", "");
-		InstrToken tok = new MovImmToken(register, text);
-		return new TokenSequence(tok);
+		try {
+			int value = EscapedChar.match(text);
+			return new TokenSequence(new MovImmToken(register, String.valueOf(value)));
+		} catch (Exception e) {
+			InstrToken tok = new MovImmToken(register, text);
+			return new TokenSequence(tok);
+		}
+	}
+	
+	
+	public enum EscapedChar {
+		END_OF_STRING("\\0", '\0'),
+		NEWLINE("\\n", '\n'),
+		TAB("\\t", '\t'),
+		CARRIAGE_RETURN("\\r", '\r'),
+		FORM_FEED("\\f", '\f'),
+		DOUBLE_QUOTES("\\\"", '"'),
+		BACKSLASH("\\", '\\'),
+		WHITESPACE(" ", ' '),
+		APOSTROPHE("'", '\'');
+		
+		private String s;
+		private char c;
+
+		private EscapedChar(String s, char c) {
+			this.s = s;
+			this.c = c;
+		}
+		
+		public int toInt() {
+			return (int) c;
+		}
+		
+		public static int match(String s) throws Exception {
+			String unwrapped = unwrap(s);
+			for (EscapedChar c:EscapedChar.values()) {
+				if (c.getStr().equals(unwrapped))
+					return c.toInt();
+			}
+			throw new Exception("The character was not found.");
+		}
+
+		private static String unwrap(String w) {
+			return w.substring(1, w.length() - 1);
+		}
+
+		private String getStr() {
+			return s;
+		}
 	}
 
 }
