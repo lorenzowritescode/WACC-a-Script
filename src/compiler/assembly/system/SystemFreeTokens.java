@@ -5,13 +5,6 @@ import assembly.TokenSequence;
 
 public class SystemFreeTokens {
 	public static InstrToken FREE_PAIR = new InstrToken() {
-		public TokenSequence toPrepend() {
-			return new TokenSequence(SystemErrorTokens.NULL_REFERENCE_MESSAGE, SystemFormatterTokens.STRING_FORMATTER);
-		}
-		
-		public TokenSequence toAppend() {
-			return new TokenSequence(SystemErrorTokens.RUNTIME_ERROR, SystemPrintTokens.PRINT_STRING);
-		}
 		
 		@Override
 		public String toString() {
@@ -33,13 +26,6 @@ public class SystemFreeTokens {
 	};
 	
 	public static InstrToken FREE_ARRAY = new InstrToken() {
-		public TokenSequence toPrepend() {
-			return new TokenSequence(SystemErrorTokens.NULL_REFERENCE_MESSAGE, SystemFormatterTokens.STRING_FORMATTER);
-		}
-		
-		public TokenSequence toAppend() {
-			return new TokenSequence(SystemErrorTokens.RUNTIME_ERROR, SystemPrintTokens.PRINT_STRING);
-		}
 		
 		@Override
 		public String toString() {

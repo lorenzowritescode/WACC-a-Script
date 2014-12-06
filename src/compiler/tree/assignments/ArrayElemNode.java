@@ -49,15 +49,15 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	
 	@Override
 	public TokenSequence toStoreAssembly(Register dest) {
-		
-		return null;
+		return arrayElemCommonAssembly(dest.getNext())
+				.append(arrayType.getBaseType().storeAssembly(dest.getNext(), dest));
 	}
 	
+	
 	public TokenSequence toAssembly(Register dest) {
-		
 		TokenSequence out = new TokenSequence();
 		TokenSequence arrayAccess = arrayElemCommonAssembly(dest);
-		LoadAddressToken loadResult = new LoadAddressToken(dest, dest);
+		LoadAddressToken loadResult = arrayType.getBaseType().loadAssembly(dest, dest);
 		out
 		.appendAll(arrayAccess)
 		.append(loadResult);
@@ -81,9 +81,13 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 					new MovRegToken(Register.R0, dest.getNext()),
 					new MovRegToken(Register.R1, dest),
 					new CheckArrayBoundsToken(),
-					new AddImmToken(dest, dest, Integer.toString(4)),
-					new AddToken(dest, dest, dest.getNext(), "LSL #2")));
+					new AddImmToken(dest, dest, Integer.toString(4))));
 			
+			if(arrayType.getBaseType().getVarSize() == WACCType.INT.getVarSize()) {
+				exprSeq.append(new AddToken(dest, dest, dest.getNext(), "LSL #2"));
+			} else {
+				exprSeq.append(new AddToken(dest, dest, dest.getNext()));
+			}
 			out.appendAll(exprSeq);
 		}
 		
@@ -104,6 +108,12 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		}
 		
 		return max;
+	}
+
+	@Override
+	public TokenSequence loadAddress(Register dest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

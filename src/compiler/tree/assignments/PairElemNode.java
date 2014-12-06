@@ -85,5 +85,11 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 				new LoadAddressToken(register, register, order.getOffset()),
 				new LoadAddressToken(register, register)); 
 	}
+
+	@Override
+	public TokenSequence loadAddress(Register dest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

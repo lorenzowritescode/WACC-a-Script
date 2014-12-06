@@ -56,9 +56,9 @@ public class BoolLeaf extends ExprNode {
 	public TokenSequence toAssembly(Register r) {
 		InstrToken tok;
 		if(value) {
-			tok = new MovImmToken(r, "#1");
+			tok = new MovImmToken(r, "1");
 		} else {
-			tok = new MovImmToken(r, "#0");
+			tok = new MovImmToken(r, "0");
 		}
 		return new TokenSequence(tok);
 	}
