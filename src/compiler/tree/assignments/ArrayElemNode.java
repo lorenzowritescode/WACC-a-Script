@@ -116,8 +116,13 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 
 	@Override
 	public TokenSequence loadAddress(Register dest) {
-		// TODO Auto-generated method stub
-		return null;
+		TokenSequence seq = var.toAssembly(dest);
+		TokenSequence arrayIndex = this.locations.get(0).toAssembly(dest.getNext());
+		seq.appendAll(arrayIndex);
+		seq.appendAll(
+				new LoadAddressToken(dest, dest),
+				new AddToken(dest, dest, dest.getNext()));
+		return seq;
 	}
 
 }
