@@ -95,6 +95,29 @@ public class SystemErrorTokens {
 		}
 	};
 	
+	public static final InstrToken NULL_POINTER_CHECK = new InstrToken() {
+		
+		public TokenSequence toPrepend() {
+			return new TokenSequence(
+					SystemErrorTokens.NULL_REFERENCE_MESSAGE);
+		}
+		
+		@Override
+		public String toString() {
+			return "p_check_null_pointer:"
+						+ "\n\t\tPUSH {lr}"
+						+ "\n\t\tCMP r0, #0"
+						+ "\n\t\tLDREQ r0, =msg_8"
+						+ "\n\t\tBLEQ p_throw_runtime_error"
+						+ "\n\t\tPOP {pc}";			
+		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
+		}
+	};
+	
 	public static InstrToken NULL_REFERENCE_MESSAGE = new InstrToken() {
 		@Override
 		public String toString() {

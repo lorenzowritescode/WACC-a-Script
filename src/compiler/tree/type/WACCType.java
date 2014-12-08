@@ -13,6 +13,7 @@ import assembly.tokens.LoadAddressToken;
 import assembly.tokens.PrintBoolToken;
 import assembly.tokens.PrintCharToken;
 import assembly.tokens.PrintIntToken;
+import assembly.tokens.PrintReferenceToken;
 import assembly.tokens.PrintStringToken;
 import assembly.tokens.StorePreIndexToken;
 import assembly.tokens.StoreToken;
@@ -283,27 +284,32 @@ public abstract class WACCType {
 		
 		@Override
 		public StoreToken storeAssembly(Register dest, Register source) {
-			throw new UnsupportedOperationException("Cannot store a variable of type NULL");
+			return new StoreToken(dest, source);
 		}
 		
 		@Override
-		public TokenSequence storeAssembly(Register dest, StackPosition pos) {
-			throw new UnsupportedOperationException("Cannot store a variable of type NULL");
+		public TokenSequence storeAssembly(Register source, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new StoreToken(Register.sp, source, index));
 		}
 
 		@Override
 		public TokenSequence printAssembly(Register r) {
-			throw new UnsupportedOperationException("Cannot print a variable of type NULL");
+			InstrToken print = new PrintReferenceToken(r);
+			return new TokenSequence(print);
 		}
 		
 		@Override
 		public LoadAddressToken loadAssembly(Register dest, Register source) {
-			throw new UnsupportedOperationException("Cannot load a variable of type NULL");
+			return new LoadAddressToken(dest, source);
 		}
 		
 		@Override
 		public TokenSequence loadAssembly(Register r, StackPosition pos) {
-			throw new UnsupportedOperationException("Cannot load a variable of type NULL");
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new LoadAddressToken(r, Register.sp, index));
 		}
 		
 	};
