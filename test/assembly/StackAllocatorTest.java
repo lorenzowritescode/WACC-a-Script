@@ -52,4 +52,35 @@ public class StackAllocatorTest {
 		assertThat(p3.getStackIndex(), is(8));
 	}
 	
+	@Test
+	public void nestedFunctions() {
+		StackPosition p1 = sa.allocateOnStack();
+		assertThat(p1.getStackIndex(), is(0));
+		assertThat(sa.getInitialisation().toString().trim(), is ("SUB sp, sp, #4"));
+		assertThat(sa.getTermination().toString().trim(), is ("ADD sp, sp, #4"));
+			sa.enterNewScope();
+			StackPosition p2 = sa.allocateOnStack();
+			assertThat(p2.getStackIndex(), is(0));
+			assertThat(sa.getInitialisation().toString().trim(), is ("SUB sp, sp, #4"));
+			assertThat(sa.getTermination().toString().trim(), is ("ADD sp, sp, #4"));
+				sa.enterNewScope();
+				StackPosition p3 = sa.allocateOnStack();
+				assertThat(p3.getStackIndex(), is(0));
+				assertThat(sa.getInitialisation().toString().trim(), is ("SUB sp, sp, #4"));
+				assertThat(sa.getTermination().toString().trim(), is ("ADD sp, sp, #4"));
+				StackPosition p4 = sa.allocateOnStack();
+				assertThat(p4.getStackIndex(), is(4));
+				assertThat(sa.getInitialisation().toString().trim(), is ("SUB sp, sp, #8"));
+				assertThat(sa.getTermination().toString().trim(), is ("ADD sp, sp, #8"));
+				sa.exitScope();
+			StackPosition p5 = sa.allocateOnStack();
+			assertThat(p5.getStackIndex(), is(4));
+			assertThat(sa.getInitialisation().toString().trim(), is ("SUB sp, sp, #8"));
+			assertThat(sa.getTermination().toString().trim(), is ("ADD sp, sp, #8"));
+			sa.exitScope();
+		StackPosition p6 = sa.allocateOnStack();
+		assertThat(p6.getStackIndex(), is(4));
+		assertThat(sa.getInitialisation().toString().trim(), is ("SUB sp, sp, #8"));
+		assertThat(sa.getTermination().toString().trim(), is ("ADD sp, sp, #8"));
+	}
 }
