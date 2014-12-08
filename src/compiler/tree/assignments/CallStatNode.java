@@ -17,6 +17,7 @@ import assembly.TokenSequence;
 import assembly.tokens.AddImmToken;
 import assembly.tokens.BranchLinkToken;
 import assembly.tokens.MovRegToken;
+import assembly.tokens.StorePreIndexToken;
 
 
 public class CallStatNode extends Assignable {
@@ -62,8 +63,8 @@ public class CallStatNode extends Assignable {
 		while (argExprs.hasNext()) {
 			ExprNode expr = argExprs.next();
 			seq.appendAll(expr.toAssembly(r));
-			seq.append(expr.getType().passAsArg(r));
-			stackOffset += expr.getType().getVarSize();
+			seq.append(new StorePreIndexToken(Register.sp, r));
+			stackOffset += 4;
 		}
 		seq.append(new BranchLinkToken("f_" + ident));
 		seq.append(new AddImmToken(Register.sp, Register.sp, Integer.toString(stackOffset)));
