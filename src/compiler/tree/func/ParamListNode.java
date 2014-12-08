@@ -11,6 +11,7 @@ import tree.type.WACCType;
 import WACCExceptions.NotUniqueIdentifierException;
 import assembly.Register;
 import assembly.StackAllocator;
+import assembly.StackPosition;
 import assembly.TokenSequence;
 
 /* Represents a list of parameter that can be compared to check equality
@@ -80,8 +81,9 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	}
 
 	public void allocateParamsOnStack() {
-		for (ParamNode p:params) {
-			p.setPosition(StackAllocator.stackAllocator.allocateOnStack());
+		int stackSize = StackAllocator.stackAllocator.getCounter();
+		for (int i = 0; i < this.size(); i++) {
+			this.get(i).setPos(new StackPosition(stackSize + i + 1));
 		}
 	}
 
