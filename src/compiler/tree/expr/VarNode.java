@@ -55,7 +55,7 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	
 	@Override 
 	public TokenSequence toAssembly(Register r) {
-		return position.toAssembly(r);
+		return type.loadAssembly(r, position);
 	}
 	
 	public StackPosition getPosition() {
@@ -64,8 +64,7 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 
 	@Override
 	public TokenSequence toStoreAssembly(Register dest) {
-		TokenSequence storeInVariable = position.toStoreAssembly(dest);
-		return storeInVariable;
+		return position.toStoreAssembly(dest);
 	}
 
 	@Override

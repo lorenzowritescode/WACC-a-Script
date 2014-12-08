@@ -38,6 +38,7 @@ public abstract class WACCType {
 	public abstract int getVarSize();
 	public abstract TokenSequence printAssembly(Register r);
 	public abstract TokenSequence storeAssembly(Register register, StackPosition pos);
+	public abstract TokenSequence loadAssembly(Register r, StackPosition position);
 	
 	
 	/*
@@ -91,6 +92,13 @@ public abstract class WACCType {
 		public LoadAddressToken loadAssembly(Register dest, Register source) {
 			return new LoadAddressToken("SB", dest, source);
 		}
+
+		@Override
+		public TokenSequence loadAssembly(Register r, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new LoadAddressToken("SB", r, Register.sp, index));
+		}
 		
 	};
 	public static final WACCType INT = new WACCType() {
@@ -139,6 +147,14 @@ public abstract class WACCType {
 		public LoadAddressToken loadAssembly(Register dest, Register source) {
 			return new LoadAddressToken(dest, source);
 		}
+		
+		@Override
+		public TokenSequence loadAssembly(Register r, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new LoadAddressToken(r, Register.sp, index));
+		}
+		
 	};
 	public static final WACCType CHAR = new WACCType() {
 		
@@ -179,6 +195,13 @@ public abstract class WACCType {
 		@Override
 		public LoadAddressToken loadAssembly(Register dest, Register source) {
 			return new LoadAddressToken("SB", dest, source);
+		}
+		
+		@Override
+		public TokenSequence loadAssembly(Register r, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new LoadAddressToken("SB", r, Register.sp, index));
 		}
 		
 		@Override
@@ -228,6 +251,13 @@ public abstract class WACCType {
 			return new LoadAddressToken(dest, source);
 		}
 		
+		@Override
+		public TokenSequence loadAssembly(Register r, StackPosition pos) {
+			int index = pos.getStackIndex();
+			return new TokenSequence(
+					new LoadAddressToken(r, Register.sp, index));
+		}
+		
 	};
 	public static final WACCType NULL = new WACCType() {
 		
@@ -268,6 +298,11 @@ public abstract class WACCType {
 		
 		@Override
 		public LoadAddressToken loadAssembly(Register dest, Register source) {
+			throw new UnsupportedOperationException("Cannot load a variable of type NULL");
+		}
+		
+		@Override
+		public TokenSequence loadAssembly(Register r, StackPosition pos) {
 			throw new UnsupportedOperationException("Cannot load a variable of type NULL");
 		}
 		
