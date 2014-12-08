@@ -5,7 +5,7 @@ import assembly.Register;
 public class StorePreIndexToken extends StoreToken {
 
 	public StorePreIndexToken(Register destAddress, Register source) {
-		super(destAddress, source);
+		super(destAddress, source, -4);
 	}
 	public StorePreIndexToken(Register destAddress, Register source, int offset) {
 		super(destAddress, source, offset);
