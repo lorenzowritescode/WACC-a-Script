@@ -49,7 +49,7 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence apply(Register lhs, Register rhs) {
 			InstrToken mul = new MultiplySignedLongToken(lhs, rhs, lhs, rhs);
-			InstrToken cmp = new CompareToken(lhs, rhs, "ASR #31");
+			InstrToken cmp = new CompareToken(rhs, lhs, "ASR #31");
 			InstrToken overflow = new OverflowToken("NE");
 			return new TokenSequence(mul, cmp, overflow);
 		}
