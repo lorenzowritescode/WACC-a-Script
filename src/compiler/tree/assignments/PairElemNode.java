@@ -4,7 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import assembly.Register;
 import assembly.TokenSequence;
-import assembly.tokens.LoadAddressToken;
+import assembly.tokens.*;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
@@ -17,7 +17,7 @@ import WACCExceptions.InvalidTypeException;
 public class PairElemNode extends Assignable implements AssignLhsNode {
 	
 	public enum ORDER {
-		FST("fst", 4), SND("snd", 8);
+		FST("fst", 0), SND("snd", 4);
 		
 		private String s;
 		private int offset;
@@ -38,7 +38,6 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	
 	private ExprNode expr;
 	private ORDER order;
-
 	
 	//Expr here should be of type 'pairType'
 	public PairElemNode(String fstOrSnd, ExprNode expr) {
@@ -75,13 +74,25 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 
 	@Override
 	public TokenSequence toStoreAssembly(Register dest) {
-		// TODO Auto-generated method stub
-		return null;
+		TokenSequence exprSeq = expr.toAssembly(dest.getNext())
+				.append(new MovRegToken(Register.R0, dest.getNext()))
+				.append(new BranchLinkToken("p_check_null_pointer"));
+		
+		return exprSeq.appendAll(
+				new LoadAddressToken(dest.getNext(), dest.getNext(), order.getOffset()),
+				new StoreToken(dest.getNext(), dest));
 	}
 	
 	@Override
 	public TokenSequence toAssembly(Register register) {
-		return new TokenSequence(
+		
+		TokenSequence exprSeq = 
+				expr.toAssembly(register)
+				.append(new MovRegToken(Register.R0, register))
+				.append(new BranchLinkToken("p_check_null_pointer"));
+		
+		
+		return exprSeq.appendAll(
 				new LoadAddressToken(register, register, order.getOffset()),
 				new LoadAddressToken(register, register)); 
 	}
