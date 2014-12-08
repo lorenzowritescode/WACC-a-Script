@@ -114,7 +114,7 @@ public class TokenSequence implements Iterable<InstrToken> {
 	public String toString() {
 		String result = "";
 		for (InstrToken t:tokens) {
-			result += (t.requiresTab()? "\t" : "") + t.toString() + "\n";
+			result += (t.requiresTab()? "\t" : "") + "\t" + t.toString() + "\n";
 		}
 		return result;
 	}

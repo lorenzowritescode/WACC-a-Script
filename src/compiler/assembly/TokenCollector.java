@@ -34,6 +34,11 @@ public class TokenCollector {
 			public String toString() {
 				return ".data\n";
 			}
+			
+			@Override
+			public boolean requiresTab() {
+				return false;
+			}
 		});
 	}
 }
