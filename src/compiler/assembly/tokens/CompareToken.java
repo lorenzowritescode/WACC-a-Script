@@ -10,7 +10,6 @@ public class CompareToken extends InstrToken{
 	private Register op2;
 	private ImmValue i;
 	//the shift string is used to shift one of the registers
-	//Is required for some multiplication calculations
 	private String shift = "";
 	private boolean shiftSet = false;
 	
