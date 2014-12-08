@@ -76,7 +76,7 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	public TokenSequence toStoreAssembly(Register dest) {
 		TokenSequence exprSeq = expr.toAssembly(dest.getNext())
 				.append(new MovRegToken(Register.R0, dest.getNext()))
-				.append(new BranchLinkToken("p_check_null_pointer"));
+				.append(new CheckNullPointerToken());
 		
 		return exprSeq.appendAll(
 				new LoadAddressToken(dest.getNext(), dest.getNext(), order.getOffset()),
@@ -89,7 +89,7 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 		TokenSequence exprSeq = 
 				expr.toAssembly(register)
 				.append(new MovRegToken(Register.R0, register))
-				.append(new BranchLinkToken("p_check_null_pointer"));
+				.append(new CheckNullPointerToken());
 		
 		
 		return exprSeq.appendAll(
