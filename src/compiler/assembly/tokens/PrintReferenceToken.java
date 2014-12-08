@@ -26,6 +26,6 @@ public class PrintReferenceToken extends InstrToken {
 	@Override
 	public String toString() {
 		return "MOV r0, " + reg.toString() + "\n"
-				+"\tBL p_print_reference";
+				+"\t\tBL p_print_reference";
 	}
 }

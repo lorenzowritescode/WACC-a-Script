@@ -66,25 +66,30 @@ public class FuncDecNode extends WACCTree {
 	public TokenSequence toAssembly(Register r) {
 		InstrToken label = new LabelToken("f_" + funcName);
 		InstrToken push = new PushToken(Register.lr);
+		TokenSequence startSequence = new TokenSequence(label, push);
 		
+		
+//		TokenSequence paramToks = params.toAssembly(r);
 		StackAllocator.stackAllocator.enterNewScope();
 		params.allocateParamsOnStack();
 		
+		TokenSequence stackAllocSequence = StackAllocator.stackAllocator.getInitialisation();
 		TokenSequence body = funcBody.toAssembly(r);
-		InstrToken pop = new PopToken(Register.pc);
-		InstrToken pop2 = new PopToken(Register.pc);
-		TokenSequence seq = new TokenSequence(label, push);
+		TokenSequence stackTerminationSequence = StackAllocator.stackAllocator.getTermination();
+		TokenSequence middleSequence = 
+				new TokenSequence(
+						stackAllocSequence, 
+						body, 
+						stackTerminationSequence);
+		
 		StackAllocator.stackAllocator.exitScope();
-
-		seq.appendAll(body);
-		seq.append(pop);
-		seq.append(pop2);
-		seq.append(new InstrToken() {
-			@Override
-			public String toString() { return ".ltorg"; }
-		}
-		);
-		return seq;
+		InstrToken pop = new PopToken(Register.pc);
+		InstrToken ltorg = new EasyToken(".ltorg");
+		TokenSequence finalSequence = new TokenSequence(pop, ltorg);
+		
+		return startSequence
+				.appendAll(middleSequence)
+				.appendAll(finalSequence);
 	}
 
 }
