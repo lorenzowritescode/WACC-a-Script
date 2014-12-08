@@ -31,13 +31,18 @@ public class LoadStringToken extends InstrToken {
 			@Override
 			public String toString() {
 				return label + ":"
-						+ "\n\t.word " + (s.length() - 2) //This -2 is to compensate the double quotation marks in the string
+						+ "\n\t.word " + countActualLength(s)
 						+ "\n\t.ascii "+ s;
 			}
 		});
 		return msgString;
 	}
 	
+	private static int countActualLength(String s) {
+		String s2 = s.replaceAll("\\\\", "").replaceAll("\"", "");
+		return s2.length();
+	}
+
 	@Override
 	public String toString() {
 		return "LDR" + condition + " " + dest.toString() + ", =" + label;
