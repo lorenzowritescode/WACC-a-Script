@@ -31,15 +31,21 @@ public class LoadStringToken extends InstrToken {
 			@Override
 			public String toString() {
 				return label + ":"
-						+ "\n\t.word " + countActualLength(s)
-						+ "\n\t.ascii "+ s;
+						+ "\n\t\t.word " + countActualLength(s)
+						+ "\n\t\t.ascii "+ s;	
+			}
+			
+			@Override
+			public boolean requiresTab() {
+				return false;
 			}
 		});
 		return msgString;
 	}
 	
 	private static int countActualLength(String s) {
-		String s2 = s.replaceAll("\\\\", "").replaceAll("\"", "");
+		String s2 = s.replaceAll("\\\\", "");
+		s2 = s2.substring(1, s2.length() - 1);
 		return s2.length();
 	}
 
