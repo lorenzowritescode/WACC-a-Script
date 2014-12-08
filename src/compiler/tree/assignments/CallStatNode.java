@@ -17,6 +17,8 @@ import assembly.TokenSequence;
 import assembly.tokens.AddImmToken;
 import assembly.tokens.BranchLinkToken;
 import assembly.tokens.MovRegToken;
+import assembly.tokens.PopToken;
+import assembly.tokens.PushToken;
 import assembly.tokens.StorePreIndexToken;
 
 
@@ -66,7 +68,9 @@ public class CallStatNode extends Assignable {
 			seq.append(new StorePreIndexToken(Register.sp, r));
 			stackOffset += 4;
 		}
+		seq.append(new PushToken(Register.R3));
 		seq.append(new BranchLinkToken("f_" + ident));
+		seq.append(new PopToken(Register.R3));
 		seq.append(new AddImmToken(Register.sp, Register.sp, Integer.toString(stackOffset)));
 		seq.append(new MovRegToken(r, Register.R0));
 		return seq;
