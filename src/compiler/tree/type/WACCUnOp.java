@@ -116,7 +116,7 @@ public abstract class WACCUnOp {
 
 		@Override
 		public TokenSequence apply(Register register) {
-			return new TokenSequence();
+			return new TokenSequence(new LoadAddressToken(register, register));
 		}
 	};
 	
