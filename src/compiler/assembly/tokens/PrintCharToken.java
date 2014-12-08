@@ -14,7 +14,7 @@ public class PrintCharToken extends InstrToken {
 	
 	public String toString() {
 		return "MOV r0, " + r.toString() + "\n"
-				+"\tBL putchar";
+				+"\t\tBL putchar";
 	}
 
 }

@@ -168,7 +168,7 @@ public class SystemErrorTokens {
 			return "msg_10:"
 					+ "\n\t\t.word 44"
 					+ "\n\t\t.ascii	\"ArrayIndexOutOfBoundsError: negative index\\n\\0\""
-					+"\nmsg_11:"
+					+"\n\tmsg_11:"
 					+ "\n\t\t.word 45"
 					+ "\n\t\t.ascii	\"ArrayIndexOutOfBoundsError: index too large\\n\\0\"";
 		}

@@ -38,7 +38,7 @@ public class SystemFormatterTokens {
 			return "msg_2:"
 					+"\n\t\t.word 5"
 					+"\n\t\t.ascii	\"true\\0\""
-					+"\n\nmsg_3:"
+					+"\n\n\tmsg_3:"
 					+"\n\t\t.word 6"
 					+"\n\t\t.ascii	\"false\\0\";";
 		}

@@ -28,7 +28,7 @@ public class PrintBoolToken extends InstrToken {
 	@Override
 	public String toString() {
 		return "MOV r0, " + r.toString() + "\n"
-				+ "\tBL p_print_bool";
+				+ "\t\tBL p_print_bool";
 	}
 	
 }
