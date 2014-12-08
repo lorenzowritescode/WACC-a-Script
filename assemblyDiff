@@ -7,7 +7,7 @@ refCompilerOutput = `../wacc_examples/refCompile -a #{fileName}`
 assembly = []
 refCompilerOutput.lines.each do |line|
 	if(line[0] <= '9' && line[0] >= '0')
-		line = line[2..-1]
+		line = line.sub(%r{[0-9]*}, "")
 		assembly.push(line)
 	end
 end
