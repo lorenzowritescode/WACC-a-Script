@@ -10,10 +10,10 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackAllocator;
 import assembly.TokenSequence;
-import assembly.tokens.EasyToken;
 import assembly.tokens.LabelToken;
 import assembly.tokens.PopToken;
 import assembly.tokens.PushToken;
+import assembly.tokens.EasyToken;
 
 /* Represents a Function declaration
  * Contains information of the function name, return type, function parameters, 
@@ -69,11 +69,13 @@ public class FuncDecNode extends WACCTree {
 		InstrToken push = new PushToken(Register.lr);
 		TokenSequence startSequence = new TokenSequence(label, push);
 		
+		
+//		TokenSequence paramToks = params.toAssembly(r);
 		StackAllocator.stackAllocator.enterNewScope();
 		params.allocateParamsOnStack();
-		
-		TokenSequence stackAllocSequence = StackAllocator.stackAllocator.getInitialisation();
+
 		TokenSequence body = funcBody.toAssembly(r);
+		TokenSequence stackAllocSequence = StackAllocator.stackAllocator.getInitialisation();
 		TokenSequence middleSequence = 
 				new TokenSequence(
 						stackAllocSequence, 
