@@ -91,8 +91,7 @@ public abstract class WACCUnOp {
 						public String toString() {
 							return "RSB " + register.toString() + ", " + register.toString() + ", #0";
 						}
-					},
-					new OverflowToken()
+					}
 			);
 		}
 	};

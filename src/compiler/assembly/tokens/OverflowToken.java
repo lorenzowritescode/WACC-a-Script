@@ -7,7 +7,10 @@ import assembly.system.SystemPrintTokens;
 
 public class OverflowToken extends InstrToken {
 	
-	public OverflowToken() {
+	private String condition = "";
+	
+	public OverflowToken(String cond) {
+		this.condition = cond;
 	}
 	
 	@Override
@@ -25,7 +28,7 @@ public class OverflowToken extends InstrToken {
 	
 	@Override
 	public String toString() {
-		return "BLVS p_throw_overflow_error";
+		return "BL" + condition + " p_throw_overflow_error";
 	}
 	
 }
