@@ -13,12 +13,17 @@ public class SystemReadTokens {
 		@Override
 		public String toString() {
 			return "p_read_int:"
-					+ "\n\tPUSH {lr}"
-					+ "\n\tMOV r1, r0"
-					+ "\n\tLDR r0, =msg_4"
-					+ "\n\tADD r0, r0, #4"
-					+ "\n\tBL scanf"
-					+ "\n\tPOP {pc}";
+					+ "\n\t\tPUSH {lr}"
+					+ "\n\t\tMOV r1, r0"
+					+ "\n\t\tLDR r0, =msg_4"
+					+ "\n\t\tADD r0, r0, #4"
+					+ "\n\t\tBL scanf"
+					+ "\n\t\tPOP {pc}";
+		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
 		}
 	};
 
@@ -31,12 +36,17 @@ public class SystemReadTokens {
 		@Override
 		public String toString() {
 			return "p_read_char:"
-					+ "\n\tPUSH {lr}"
-					+ "\n\tMOV r1, r0"
-					+ "\n\tLDR r0, =msg_7"
-					+ "\n\tADD r0, r0, #4"
-					+ "\n\tBL scanf"
-					+ "\n\tPOP {pc}";
+					+ "\n\t\tPUSH {lr}"
+					+ "\n\t\tMOV r1, r0"
+					+ "\n\t\tLDR r0, =msg_7"
+					+ "\n\t\tADD r0, r0, #4"
+					+ "\n\t\tBL scanf"
+					+ "\n\t\tPOP {pc}";
+		}
+		
+		@Override
+		public boolean requiresTab() {
+			return false;
 		}
 	};
 }
