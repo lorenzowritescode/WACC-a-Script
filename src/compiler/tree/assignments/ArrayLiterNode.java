@@ -48,7 +48,7 @@ public class ArrayLiterNode extends Assignable {
 		int arrayLength = elems.size();
 		
 		//allocate memory for the arraySize and its elements(addresses)
-		TokenSequence allocateArray = mallocSequence(arrayLength, baseType.getVarSize());
+		TokenSequence allocateArray = mallocSequence(arrayLength + 1, baseType.getVarSize());
 		MovRegToken movReg1 = new MovRegToken(dest, Register.R0);
 		allocateArray.append(movReg1);
 		

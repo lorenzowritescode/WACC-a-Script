@@ -10,7 +10,7 @@ public abstract class Assignable extends WACCTree {
 	
 	//forms allocation token sequence (refactors)
 	TokenSequence mallocSequence(int size, int varSize) {
-		LoadToken loadT = new LoadToken(Register.R0, Integer.toString(4*(size+1)));
+		LoadToken loadT = new LoadToken(Register.R0, Integer.toString(size*varSize));
 		BranchLinkToken bl = new BranchLinkToken("malloc");
 		return new TokenSequence(loadT, bl);
 	}
