@@ -75,17 +75,14 @@ public class FuncDecNode extends WACCTree {
 		
 		TokenSequence stackAllocSequence = StackAllocator.stackAllocator.getInitialisation();
 		TokenSequence body = funcBody.toAssembly(r);
-		TokenSequence stackTerminationSequence = StackAllocator.stackAllocator.getTermination();
 		TokenSequence middleSequence = 
 				new TokenSequence(
 						stackAllocSequence, 
-						body, 
-						stackTerminationSequence);
+						body);
 		
 		StackAllocator.stackAllocator.exitScope();
-		InstrToken pop = new PopToken(Register.pc);
 		InstrToken ltorg = new EasyToken(".ltorg");
-		TokenSequence finalSequence = new TokenSequence(pop, ltorg);
+		TokenSequence finalSequence = new TokenSequence(ltorg);
 		
 		return startSequence
 				.appendAll(middleSequence)
