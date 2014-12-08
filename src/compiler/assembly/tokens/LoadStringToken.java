@@ -44,7 +44,8 @@ public class LoadStringToken extends InstrToken {
 	}
 	
 	private static int countActualLength(String s) {
-		String s2 = s.replaceAll("\\\\", "").replaceAll("\"", "");
+		String s2 = s.replaceAll("\\\\", "");
+		s2 = s2.substring(1, s2.length() - 1);
 		return s2.length();
 	}
 
