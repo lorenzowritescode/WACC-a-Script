@@ -68,7 +68,7 @@ public class SystemFormatterTokens {
 		public String toString() {
 			return "msg_7:"
 					+ "\n\t.word 4"
-					+ "\n\t.ascii	\"%.c\\0\"";
+					+ "\n\t.ascii	\" %.c\\0\"";
 		}
 	};
 	
