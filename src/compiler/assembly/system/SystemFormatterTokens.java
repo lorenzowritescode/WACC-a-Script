@@ -40,7 +40,7 @@ public class SystemFormatterTokens {
 					+"\n\t\t.ascii	\"true\\0\""
 					+"\n\n\tmsg_3:"
 					+"\n\t\t.word 6"
-					+"\n\t\t.ascii	\"false\\0\";";
+					+"\n\t\t.ascii	\"false\\0\"";
 		}
 
 		@Override
