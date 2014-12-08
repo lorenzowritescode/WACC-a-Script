@@ -11,6 +11,7 @@ import assembly.Register;
 import assembly.StackAllocator;
 import assembly.TokenSequence;
 import assembly.tokens.LabelToken;
+import assembly.tokens.MovRegToken;
 import assembly.tokens.PopToken;
 import assembly.tokens.PushToken;
 import assembly.tokens.EasyToken;
@@ -68,9 +69,11 @@ public class FuncDecNode extends WACCTree {
 		InstrToken label = new LabelToken("f_" + funcName);
 		InstrToken push = new PushToken(Register.lr);
 		TokenSequence startSequence = new TokenSequence(label, push);
-		StackAllocator.stackAllocator.enterNewScope();
+		startSequence.append(new MovRegToken(Register.R3, Register.sp));
 		
 		params.allocateParamsOnStack();
+		
+		StackAllocator.stackAllocator.enterNewScope();
 
 		TokenSequence body = funcBody.toAssembly(r);
 		TokenSequence stackAllocSequence = StackAllocator.stackAllocator.getInitialisation();
