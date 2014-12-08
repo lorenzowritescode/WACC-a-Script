@@ -39,8 +39,8 @@ public class LoadStringToken extends InstrToken {
 	}
 	
 	private static int countActualLength(String s) {
-		String s2 = s.replaceAll("\\\\", "");
-		s2 = s2.substring(1, s2.length() - 1);
+		String s2 = s.replaceAll("\\\\", ""); // Escaped chars must be counted as one
+		s2 = s2.substring(1, s2.length() - 1); // We remove the double quotes from the count
 		return s2.length();
 	}
 

@@ -67,16 +67,15 @@ public class FuncDecNode extends WACCTree {
 		InstrToken label = new LabelToken("f_" + funcName);
 		InstrToken push = new PushToken(Register.lr);
 		
-		
-//		TokenSequence paramToks = params.toAssembly(r);
 		StackAllocator.stackAllocator.enterNewScope();
 		params.allocateParamsOnStack();
+		
 		TokenSequence body = funcBody.toAssembly(r);
 		InstrToken pop = new PopToken(Register.pc);
 		InstrToken pop2 = new PopToken(Register.pc);
 		TokenSequence seq = new TokenSequence(label, push);
 		StackAllocator.stackAllocator.exitScope();
-//		seq.appendAll(paramToks);
+
 		seq.appendAll(body);
 		seq.append(pop);
 		seq.append(pop2);
