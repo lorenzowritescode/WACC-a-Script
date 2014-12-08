@@ -24,6 +24,8 @@ import assembly.tokens.StorePreIndexToken;
 
 public class CallStatNode extends Assignable {
 	
+	private static final int WORD_SIZE = 4;
+	
 	private String ident;
 	private ArgListNode args;
 	private WACCType retType;
@@ -60,19 +62,23 @@ public class CallStatNode extends Assignable {
 	@Override 
 	public TokenSequence toAssembly(Register r) {
 		TokenSequence seq = new TokenSequence();
+		
+		// we push all the call arguments on the stack
 		Iterator<ExprNode> argExprs = args.reverseIterator();
 		int stackOffset = 0;
 		while (argExprs.hasNext()) {
 			ExprNode expr = argExprs.next();
 			seq.appendAll(expr.toAssembly(r));
 			seq.append(new StorePreIndexToken(Register.sp, r));
-			stackOffset += 4;
+			stackOffset += WORD_SIZE;
 		}
-		seq.append(new PushToken(Register.R3));
-		seq.append(new BranchLinkToken("f_" + ident));
-		seq.append(new PopToken(Register.R3));
-		seq.append(new AddImmToken(Register.sp, Register.sp, Integer.toString(stackOffset)));
-		seq.append(new MovRegToken(r, Register.R0));
-		return seq;
+		
+		
+		return seq.appendAll(
+			new PushToken(Register.R3),			// Save R3 which contains the parameter base reg
+			new BranchLinkToken("f_" + ident),
+			new PopToken(Register.R3),			// Restore R3
+			new AddImmToken(Register.sp, Register.sp, Integer.toString(stackOffset)),
+			new MovRegToken(r, Register.R0));
 	}
 }
