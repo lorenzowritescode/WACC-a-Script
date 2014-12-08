@@ -46,7 +46,12 @@ public class ProgNode extends WACCTree {
 				new InstrToken() {
 							@Override
 							public String toString() { return ".text\n\n\t.global main"; }
-						}
+				
+							@Override
+							public boolean requiresTab() {
+								return false;
+							}
+				}
 				);
 		
 		for (FuncDecNode f:functions) {
