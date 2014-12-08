@@ -10,6 +10,7 @@ import assembly.Register;
 import assembly.StackPosition;
 import assembly.TokenSequence;
 import assembly.tokens.AddImmToken;
+import assembly.tokens.LoadAddressToken;
 
 /* Represents an Identifier and its declared type
  * Constructed with and type and string (e.g BOOL, "myBool")
@@ -55,7 +56,8 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	
 	@Override 
 	public TokenSequence toAssembly(Register r) {
-		return type.loadAssembly(r, position);
+		return new TokenSequence(
+				new LoadAddressToken(r, position.getBaseReg(), position.getStackIndex()));
 	}
 	
 	public StackPosition getPosition() {
@@ -70,7 +72,7 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	@Override
 	public TokenSequence loadAddress(Register dest) {
 		return new TokenSequence(
-				new AddImmToken(dest, Register.sp, position.getStackIndex()));
+				new AddImmToken(dest, position.getBaseReg(), position.getStackIndex()));
 	}
 	
 	

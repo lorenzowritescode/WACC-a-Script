@@ -81,9 +81,8 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	}
 
 	public void allocateParamsOnStack() {
-		int stackSize = StackAllocator.stackAllocator.getCounter();
 		for (int i = 0; i < this.size(); i++) {
-			this.get(i).setPos(new StackPosition(stackSize + i + 1));
+			this.get(i).setPos(new StackPosition(i + 1, Register.R3));
 		}
 	}
 
