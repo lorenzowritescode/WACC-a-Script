@@ -1,7 +1,6 @@
 package assembly.system;
 
 import assembly.InstrToken;
-import assembly.TokenSequence;
 
 public class SystemFreeTokens {
 	public static InstrToken FREE_PAIR = new InstrToken() {
