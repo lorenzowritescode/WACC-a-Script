@@ -8,7 +8,6 @@ import tree.type.WACCType;
 
 public class PrintVarTest {
 
-	// TODO: implement the variables underneath as JMock objects
 	@Test
 	public void assemblyOfMultiplePrintVarStatementIsCorrect() {
 		VarNode varx = new VarNode(WACCType.INT, "x");

@@ -52,7 +52,6 @@ public class BinExprNode extends ExprNode {
 	
 	@Override 
 	public TokenSequence toAssembly(Register r) {
-		//TODO: implement weight??
 		if (operator == WACCBinOp.ADD || operator == WACCBinOp.MUL) {
 			if (lhs.weight() > rhs.weight()) {
 				TokenSequence exprs = lhs.toAssembly(r);

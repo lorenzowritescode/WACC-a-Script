@@ -10,11 +10,10 @@ import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackAllocator;
 import assembly.TokenSequence;
+import assembly.tokens.EasyToken;
 import assembly.tokens.LabelToken;
 import assembly.tokens.MovRegToken;
-import assembly.tokens.PopToken;
 import assembly.tokens.PushToken;
-import assembly.tokens.EasyToken;
 
 /* Represents a Function declaration
  * Contains information of the function name, return type, function parameters, 

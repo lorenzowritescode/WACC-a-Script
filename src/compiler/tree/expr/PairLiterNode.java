@@ -25,7 +25,6 @@ public class PairLiterNode extends ExprNode {
 
 	@Override
 	public int weight() {
-		//TODO: we think this is correct but might not be
 		return 1;
 	}
 

@@ -10,7 +10,6 @@ public class SkipStatNode extends StatNode {
 	}
 	
 	public TokenSequence toAssembly(Register register) {
-		//TODO: skip: make sure this doesnt break anything
 		return new TokenSequence();
 	}
 
