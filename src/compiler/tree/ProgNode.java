@@ -45,7 +45,7 @@ public class ProgNode extends WACCTree {
 		functionDeclarations.append(
 				new InstrToken() {
 							@Override
-							public String toString() { return ".text\n\n.global main"; }
+							public String toString() { return ".text\n\n\t.global main"; }
 						}
 				);
 		

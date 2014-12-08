@@ -13,15 +13,15 @@ public static InstrToken PRINT_STRING = new InstrToken() {
 		@Override
 		public String toString() {
 			return	"p_print_string:"
-						+"\n\tPUSH {lr}"
-						+"\n\tLDR r1, [r0]"
-						+"\n\tADD r2, r0, #4"
-						+"\n\tLDR r0, =msg_0"
-						+"\n\tADD r0, r0, #4"
-						+"\n\tBL printf"
-						+"\n\tMOV r0, #0"
-						+"\n\tBL fflush"
-						+"\n\tPOP {pc}";
+						+"\n\t\tPUSH {lr}"
+						+"\n\t\tLDR r1, [r0]"
+						+"\n\t\tADD r2, r0, #4"
+						+"\n\t\tLDR r0, =msg_0"
+						+"\n\t\tADD r0, r0, #4"
+						+"\n\t\tBL printf"
+						+"\n\t\tMOV r0, #0"
+						+"\n\t\tBL fflush"
+						+"\n\t\tPOP {pc}";
 		}
 		
 		@Override
@@ -39,13 +39,13 @@ public static InstrToken PRINT_STRING = new InstrToken() {
 		@Override
 		public String toString() {
 			return	"p_print_ln:"
-						+"\n\tPUSH {lr}"
-						+"\n\tLDR r0, =msg_1"
-						+"\n\tADD r0, r0, #4"
-						+"\n\tBL puts"
-						+"\n\tMOV r0, #0"
-						+"\n\tBL fflush"
-						+"\n\tPOP {pc}";
+						+"\n\t\tPUSH {lr}"
+						+"\n\t\tLDR r0, =msg_1"
+						+"\n\t\tADD r0, r0, #4"
+						+"\n\t\tBL puts"
+						+"\n\t\tMOV r0, #0"
+						+"\n\t\tBL fflush"
+						+"\n\t\tPOP {pc}";
 		}
 		
 		@Override
@@ -63,15 +63,15 @@ public static InstrToken PRINT_STRING = new InstrToken() {
 		@Override
 		public String toString() {
 			return	"p_print_bool:"
-						+"\n\tPUSH {lr}"
-						+"\n\tCMP r0, #0"
-						+"\n\tLDRNE r0, =msg_2"
-						+"\n\tLDREQ r0, =msg_3"
-						+"\n\tADD r0, r0, #4"
-						+"\n\tBL printf"
-						+"\n\tMOV r0, #0"
-						+"\n\tBL fflush"
-						+"\n\tPOP {pc}";
+						+"\n\t\tPUSH {lr}"
+						+"\n\t\tCMP r0, #0"
+						+"\n\t\tLDRNE r0, =msg_2"
+						+"\n\t\tLDREQ r0, =msg_3"
+						+"\n\t\tADD r0, r0, #4"
+						+"\n\t\tBL printf"
+						+"\n\t\tMOV r0, #0"
+						+"\n\t\tBL fflush"
+						+"\n\t\tPOP {pc}";
 		}
 		
 		@Override
@@ -89,14 +89,14 @@ public static InstrToken PRINT_STRING = new InstrToken() {
 		@Override
 		public String toString() {
 			return	"p_print_int:"
-						+ "\n\tPUSH {lr}"
-						+ "\n\tMOV r1, r0"
-						+ "\n\tLDR r0, =msg_4"
-						+ "\n\tADD r0, r0, #4"
-						+ "\n\tBL printf"
-						+ "\n\tMOV r0, #0"
-						+ "\n\tBL fflush"
-						+ "\n\tPOP {pc}";
+						+ "\n\t\tPUSH {lr}"
+						+ "\n\t\tMOV r1, r0"
+						+ "\n\t\tLDR r0, =msg_4"
+						+ "\n\t\tADD r0, r0, #4"
+						+ "\n\t\tBL printf"
+						+ "\n\t\tMOV r0, #0"
+						+ "\n\t\tBL fflush"
+						+ "\n\t\tPOP {pc}";
 		}
 		
 		@Override
@@ -113,14 +113,14 @@ public static InstrToken PRINT_STRING = new InstrToken() {
 		@Override
 		public String toString() {
 			return "p_print_reference:"
-						+ "\n\tPUSH {lr}"
-						+ "\n\tMOV r1, r0"
-						+ "\n\tLDR r0, =msg_9"
-						+ "\n\tADD r0, r0, #4"
-						+ "\n\tBL printf"
-						+ "\n\tMOV r0, #0"
-						+ "\n\tBL fflush"
-						+ "\n\tPOP {pc}";	
+						+ "\n\t\tPUSH {lr}"
+						+ "\n\t\tMOV r1, r0"
+						+ "\n\t\tLDR r0, =msg_9"
+						+ "\n\t\tADD r0, r0, #4"
+						+ "\n\t\tBL printf"
+						+ "\n\t\tMOV r0, #0"
+						+ "\n\t\tBL fflush"
+						+ "\n\t\tPOP {pc}";	
 		}
 		
 		@Override
