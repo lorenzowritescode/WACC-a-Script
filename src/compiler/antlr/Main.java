@@ -51,9 +51,29 @@ public class Main {
 			exitSemanticFailure();
 		}
 		
+		if(cmd.hasOption('j'))
+			compileToJavaScript(cmd, waccFilePath, sc);
+		else
+			compileToArmAssembly(cmd, waccFilePath, sc);
+	}
+
+	private static void compileToJavaScript(CommandLine cmd,
+			String waccFilePath, SemanticChecker sc) {
+		// TODO: Implement WACC-a-SCRIPT
+	}
+
+	/**
+	 * @param cmd
+	 * @param waccFilePath
+	 * @param sc
+	 */
+	private static void compileToArmAssembly(CommandLine cmd,
+			String waccFilePath, SemanticChecker sc) {
 		WACCCompiler compiler = new WACCCompiler(sc.getProgTree());
 		compiler.init();
 		String compilerOutput = compiler.toString();
+		
+		// If the s flag is on we want to print to stdout;
 		if (cmd.hasOption("s")) {
 			System.out.println(compilerOutput);
 		} else {
@@ -197,6 +217,7 @@ public class Main {
 		options.addOption("d", false, "debug mode");
 		options.addOption("f", true, "source file");
 		options.addOption("s", false, "force printing assembly to std-out");
+		options.addOption("j", false, "Compile into Javascript");
 		
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;
