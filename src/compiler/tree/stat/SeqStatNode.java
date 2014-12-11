@@ -1,5 +1,6 @@
 package tree.stat;
 
+import tree.WACCTree;
 import visitor.WACCTreeVisitor;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -26,5 +27,13 @@ public class SeqStatNode extends StatNode {
 	@Override
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitSeqStatNode(this);
+	}
+
+	public WACCTree getLhs() {
+		return lhs;
+	}
+	
+	public StatNode getRhs() {
+		return rhs;
 	}
 }
