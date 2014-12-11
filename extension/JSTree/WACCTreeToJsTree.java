@@ -7,6 +7,7 @@ import tree.expr.*;
 import tree.func.*;
 import tree.stat.*;
 import visitor.WACCTreeVisitor;
+import JSTree.*;
 
 public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
@@ -22,9 +23,14 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 			return "";
 		}
 	};
+	
+	public String init() {
+		JSTree finalTree = progTree.accept(this);
+		return finalTree.toCode();
+	}
 
 	@Override
-	public JSTree visitAssignStatNode(AssignStatNode node) {
+	public JSAssignStat visitAssignStatNode(AssignStatNode node) {
 		JSTree lhs = visit(node.getLhs());
 		JSTree rhs = visit(node.getRhs());
 		return new JSAssignStat(lhs, rhs);
@@ -37,7 +43,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	}
 
 	@Override
-	public JSTree visitExitStat(ExitStat node) {
+	public JSExitStat visitExitStat(ExitStat node) {
 		JSTree exitVal = visit(node.getExpr());
 		return new JSExitStat(exitVal);
 	}
@@ -48,37 +54,31 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	}
 
 	@Override
-	public JSTree visitIfStatNode(IfStatNode node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public JSTree visitPrintLnStat(PrintLnStat node) {
+	public JSPrintLn visitPrintLnStat(PrintLnStat node) {
 		JSTree expr = visit(node.getExpr());
 		return new JSPrintLn(expr);
 	}
 
 	@Override
-	public JSTree visitPrintStat(PrintStat node) {
+	public JSPrint visitPrintStat(PrintStat node) {
 		JSTree expr = visit(node.getExpr());
 		return new JSPrint(expr);
 	}
 
 	@Override
-	public JSTree visitReadStatNode(ReadStatNode node) {
+	public JSReadStat visitReadStatNode(ReadStatNode node) {
 		JSTree lhs = visit(node.getLhs());
 		return new JSReadStat(lhs);
 	}
 
 	@Override
-	public JSTree visitReturnStatNode(ReturnStatNode node) {
+	public JSReturnStat visitReturnStatNode(ReturnStatNode node) {
 		JSTree expr = visit(node.getExpr());
 		return new JSReturnStat(expr);
 	}
 
 	@Override
-	public JSTree visitSeqStatNode(SeqStatNode node) {
+	public JSSeqStat visitSeqStatNode(SeqStatNode node) {
 		JSTree lhs = visit(node.getLhs());
 		JSTree rhs = visit(node.getRhs());
 		return new JSSeqStat(lhs, rhs);
@@ -90,16 +90,27 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	}
 
 	@Override
-	public JSTree visitVarDecNode(VarDecNode node) {
+	public JSVarDec visitVarDecNode(VarDecNode node) {
 		JSTree var = visit(node.getVar());
 		JSTree rhs = visit(node.getRhsTree());
 		return new JSVarDec(var, rhs);
 	}
 
 	@Override
-	public JSTree visitWhileStatNode(WhileStatNode node) {
-		// TODO Auto-generated method stub
-		return null;
+	public JSIfStat visitIfStatNode(IfStatNode node) {
+		JSExpr condition = (JSExpr) visit(node.getIfCond());
+		JSStat thenStat = (JSStat) visit(node.getThenStat());
+		JSStat elseStat = (JSStat) visit(node.getElseStat());
+		return new JSIfStat(condition, thenStat, elseStat);
 	}
+
+	@Override
+	public JSWhileStat visitWhileStatNode(WhileStatNode node) {
+		JSExpr condition = (JSExpr) visit(node.getLoopCond());
+		JSStat loopBody = (JSStat) visit(node.getLoopBody());
+		return new JSWhileStat(condition, loopBody);
+	}
+	
+
 	
 }
