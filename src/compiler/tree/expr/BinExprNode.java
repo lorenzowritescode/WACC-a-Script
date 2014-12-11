@@ -78,4 +78,15 @@ public class BinExprNode extends ExprNode {
 		return visitor.visitBinExprNode(this);
 	}
 
+	public ExprNode getLhs() {
+		return lhs;
+	}
+	
+	public WACCBinOp getOperator() {
+		return operator;
+	}
+	
+	public ExprNode getRhs() {
+		return rhs;
+	}
 }
