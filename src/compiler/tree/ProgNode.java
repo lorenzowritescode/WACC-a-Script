@@ -83,4 +83,12 @@ public class ProgNode extends WACCTree {
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitProgNode(this);
 	}
+
+	public List<FuncDecNode> getFunctions() {
+		return functions;
+	}
+
+	public StatNode getProgBody() {
+		return progBody;
+	}
 }
