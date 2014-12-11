@@ -96,5 +96,9 @@ public class CharLeaf extends ExprNode {
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitCharLeaf(this);
 	}
+	
+	public String getText() {
+		return text;
+	}
 
 }

@@ -3,11 +3,11 @@ package tree.stat;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
 import visitor.WACCTreeVisitor;
 import WACCExceptions.IncompatibleTypesException;
-import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackAllocator;
 import assembly.TokenSequence;
@@ -50,6 +50,10 @@ public class ReturnStatNode extends StatNode {
 	@Override
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitReturnStatNode(this);
+	}
+
+	public WACCTree getExpr() {
+		return expr;
 	}
 	
 }
