@@ -2,6 +2,7 @@ package visitor;
 
 import tree.expr.*;
 import tree.func.FuncDecNode;
+import tree.stat.*;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
 
@@ -21,4 +22,19 @@ public abstract class WACCTreeVisitor<T> {
 	public abstract T visitFuncDecNode(FuncDecNode node);
 	public abstract T visitParamListNode(ParamListNode node);
 	public abstract T visitParamNode(ParamNode node);
+	
+	//Statement Visits
+	public abstract T visitAssignStatNode(AssignStatNode node);
+	public abstract T visitBlockStatNode(BlockStatNode node);
+	public abstract T visitExitStat(ExitStat node);
+	public abstract T visitFreeStat(FreeStat node);
+	public abstract T visitIfStatNode(IfStatNode node);
+	public abstract T visitPrintLnStat(PrintLnStat node);
+	public abstract T visitPrintStat(PrintStat node);
+	public abstract T visitReadStatNode(ReadStatNode node);
+	public abstract T visitReturnStatNode(ReturnStatNode node);
+	public abstract T visitSeqStatNode(SeqStatNode node);
+	public abstract T visitSkipStatNode(SkipStatNode node);
+	public abstract T visitVarDecNode(VarDecNode node);
+	public abstract T visitWhileStatNode(WhileStatNode node);
 }
