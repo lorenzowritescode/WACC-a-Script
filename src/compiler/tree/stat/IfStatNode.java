@@ -64,4 +64,16 @@ public class IfStatNode extends StatNode {
 		return visitor.visitIfStatNode(this);
 	}
 
+	public ExprNode getIfCond() {
+		return ifCond;
+	}
+
+	public StatNode getThenStat() {
+		return thenStat;
+	}
+
+	public StatNode getElseStat() {
+		return elseStat;
+	}
+
 }

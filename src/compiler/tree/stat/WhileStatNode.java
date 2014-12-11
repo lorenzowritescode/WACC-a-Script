@@ -62,4 +62,12 @@ public class WhileStatNode extends StatNode {
 		return visitor.visitWhileStatNode(this);
 	}
 
+	public ExprNode getLoopCond() {
+		return loopCond;
+	}
+
+	public StatNode getLoopBody() {
+		return loopBody;
+	}
+
 }
