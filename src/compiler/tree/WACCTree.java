@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.ErrorListener;
 import WACCExceptions.WACCException;
 import assembly.Register;
@@ -35,5 +36,7 @@ public abstract class WACCTree {
 	}
 
 	public abstract TokenSequence toAssembly(Register register);
-	
+
+
+	public abstract <T> T accept(WACCTreeVisitor<T> visitor);
 }

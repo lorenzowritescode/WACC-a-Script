@@ -1,13 +1,14 @@
 package visitor;
 
+import tree.*;
 import tree.expr.*;
-import tree.func.FuncDecNode;
-import tree.stat.*;
-import tree.func.ParamListNode;
-import tree.func.ParamNode;
+import tree.func.*;
 import tree.assignments.*;
+import tree.stat.*;
 
 public abstract class WACCTreeVisitor<T> {
+	public abstract T visitProgNoe(ProgNode node);
+	
 	// Expr
 	public abstract T visitBinExprNode(BinExprNode node);
 	public abstract T visitCharLeaf(CharLeaf node);
@@ -32,7 +33,7 @@ public abstract class WACCTreeVisitor<T> {
 	public abstract T visitNewPairNode(NewPairNode node);
 	public abstract T visitPairElemNode(PairElemNode node);
 	
-	//Statement Visits
+	// Stat
 	public abstract T visitAssignStatNode(AssignStatNode node);
 	public abstract T visitBlockStatNode(BlockStatNode node);
 	public abstract T visitExitStat(ExitStat node);
