@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.ImmValue;
 import assembly.LabelCounter;
@@ -54,6 +55,11 @@ public class WhileStatNode extends StatNode {
 				new CompareToken(register, ImmValue.one),
 				new BranchToken("EQ", l1)));		
 		return whileStat;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitWhileStatNode(this);
 	}
 
 }

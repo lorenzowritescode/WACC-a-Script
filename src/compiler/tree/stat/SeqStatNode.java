@@ -1,5 +1,6 @@
 package tree.stat;
 
+import visitor.WACCTreeVisitor;
 import assembly.Register;
 import assembly.TokenSequence;
 
@@ -20,5 +21,10 @@ public class SeqStatNode extends StatNode {
 	
 	public TokenSequence toAssembly(Register register) {
 		return lhs.toAssembly(register).appendAll(rhs.toAssembly(register));
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitSeqStatNode(this);
 	}
 }

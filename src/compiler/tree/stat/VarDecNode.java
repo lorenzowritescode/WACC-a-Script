@@ -7,6 +7,7 @@ import tree.assignments.Assignable;
 import tree.expr.VarNode;
 import tree.func.FuncDecNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.NotUniqueIdentifierException;
 import assembly.Register;
@@ -66,6 +67,11 @@ public class VarDecNode extends StatNode {
 		TokenSequence storeInVariable = var.getType().storeAssembly(register, pos);
 		
 		return rhsSeq.appendAll(storeInVariable);
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitVarDecNode(this);
 	}
 	
 	

@@ -6,6 +6,7 @@ import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.IncompatibleTypesException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -39,5 +40,10 @@ public class ReadStatNode extends StatNode {
 		return lhsNode.loadAddress(register)
 				.append(new MovRegToken(Register.R0, register))
 				.append(new ReadToken(lhs.getType()));
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitReadStatNode(this);
 	}
 }

@@ -7,6 +7,7 @@ import tree.expr.ExprNode;
 import tree.expr.VarNode;
 import tree.type.ArrayType;
 import tree.type.PairType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -60,6 +61,11 @@ public class FreeStat extends StatNode {
 				new FreePairToken()));
 		}
 		return freeStat;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitFreeStat(this);
 	}
 
 }

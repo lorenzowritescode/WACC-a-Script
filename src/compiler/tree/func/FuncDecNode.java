@@ -6,6 +6,7 @@ import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.stat.StatNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackAllocator;
@@ -90,6 +91,11 @@ public class FuncDecNode extends WACCTree {
 		return startSequence
 				.appendAll(middleSequence)
 				.appendAll(finalSequence);
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitFuncDecNode(this);
 	}
 
 }
