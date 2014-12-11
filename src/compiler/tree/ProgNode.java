@@ -8,6 +8,7 @@ import symboltable.SymbolTable;
 import tree.func.FuncDecNode;
 import tree.stat.StatNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.StackAllocator;
@@ -76,5 +77,18 @@ public class ProgNode extends WACCTree {
 						new EasyToken(".ltorg")));
 		
 		return functionDeclarations.appendAll(progSeq);
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitProgNode(this);
+	}
+
+	public List<FuncDecNode> getFunctions() {
+		return functions;
+	}
+
+	public StatNode getProgBody() {
+		return progBody;
 	}
 }
