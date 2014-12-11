@@ -1,7 +1,9 @@
 package JSTree;
 
 import java.util.ArrayList;
+
 import tree.ProgNode;
+
 import java.util.List;
 
 import tree.ProgNode;
@@ -47,7 +49,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSTree visitBlockStatNode(BlockStatNode node) {
-		// TODO Auto-generated method stub
+		// TODO Implement Block Stat Node
 		return null;
 	}
 
@@ -134,10 +136,58 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		
 		return new JSProg(functions, body);
 	}
+	
+	
+	
 
 	@Override
 	public JSFunc visitFuncDecNode(FuncDecNode node) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public JSBinExpr visitBinExprNode(BinExprNode node) {
+		JSExpr lhs = (JSExpr) visit(node.getLhs());
+		String op = node.getOperator().toString();
+		JSExpr rhs = (JSExpr) visit(node.getRhs());
+		return new JSBinExpr(lhs, op, rhs);
+				
+	}
+
+	@Override
+	public JSChar visitCharLeaf(CharLeaf node) {
+		String c = node.getText();
+		return new JSChar(c);
+	}
+
+	@Override
+	public JSBool visitBoolLeaf(BoolLeaf node) {
+		boolean b = node.getValue();
+		return new JSBool(b);
+	}
+
+	@Override
+	public JSInt visitIntLeaf(IntLeaf node) {
+		int i = Integer.parseInt(node.getValue());
+		return new JSInt(i);
+	}
+
+	@Override
+	public JSString visitStringLeaf(StringLeaf node) {
+		String s = node.toString();
+		return new JSString(s);
+	}
+
+	@Override
+	public JSTree visitUnExprNode(UnExprNode node) {
+		// TODO Implement visitUnExpr
+		return null;
+	}
+
+	@Override
+	public JSVar visitVarNode(VarNode node) {
+		String ident = node.getIdent();
+		return new JSVar(ident);
 	}
 }
