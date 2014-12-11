@@ -8,6 +8,7 @@ import tree.assignments.AssignLhsNode;
 import tree.assignments.Assignable;
 import tree.expr.VarNode;
 import tree.func.FuncDecNode;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.IncompatibleTypesException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -55,5 +56,10 @@ public class AssignStatNode extends StatNode {
 		return new TokenSequence()
 						.appendAll(rhs.toAssembly(dest))
 						.appendAll(((AssignLhsNode) lhs).toStoreAssembly(dest));
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitAssignStatNode(this);
 	}
 }

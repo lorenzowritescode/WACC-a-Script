@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.IncompatibleTypesException;
 import assembly.InstrToken;
 import assembly.Register;
@@ -44,6 +45,11 @@ public class ReturnStatNode extends StatNode {
 		stackTerminationSeq.append(new PopToken(Register.pc));
 		
 		return seq.appendAll(stackTerminationSeq);
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitReturnStatNode(this);
 	}
 	
 }
