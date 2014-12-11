@@ -4,6 +4,10 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
+import JSTree.JSBool;
+import JSTree.JSTree;
+import JSTree.WACCTreeToJsTree;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -61,6 +65,11 @@ public class BoolLeaf extends ExprNode {
 			tok = new MovImmToken(r, "0");
 		}
 		return new TokenSequence(tok);
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitBoolLeaf(this);
 	}
 	
 

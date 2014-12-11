@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.assignments.AssignLhsNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.UndeclaredIdentifierException;
 import assembly.Register;
 import assembly.StackPosition;
@@ -73,6 +74,11 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	public TokenSequence loadAddress(Register dest) {
 		return new TokenSequence(
 				new AddImmToken(dest, position.getBaseReg(), position.getStackIndex()));
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitVarNode(this);
 	}
 	
 	

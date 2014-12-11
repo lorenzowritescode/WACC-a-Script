@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.IntOverflowException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -57,6 +58,11 @@ public class IntLeaf extends ExprNode {
 	@Override
 	public int weight() {
 		return 1;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitIntLeaf(this);
 	}
 	
 

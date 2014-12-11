@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -52,7 +53,6 @@ public class BinExprNode extends ExprNode {
 	
 	@Override 
 	public TokenSequence toAssembly(Register r) {
-		//TODO: implement weight??
 		if (operator == WACCBinOp.ADD || operator == WACCBinOp.MUL) {
 			if (lhs.weight() > rhs.weight()) {
 				TokenSequence exprs = lhs.toAssembly(r);
@@ -71,6 +71,11 @@ public class BinExprNode extends ExprNode {
 			exprs.appendAll(operator.apply(r, r.getNext()));
 			return exprs;
 		}
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitBinExprNode(this);
 	}
 
 }

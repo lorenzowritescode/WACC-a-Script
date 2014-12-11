@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -50,6 +51,11 @@ public class UnExprNode extends ExprNode{
 	public TokenSequence toAssembly(Register register) {
 		TokenSequence exprSeq = expr.toAssembly(register);
 		return exprSeq.appendAll(operator.apply(register));
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitUnExprNode(this);
 	}
 
 }

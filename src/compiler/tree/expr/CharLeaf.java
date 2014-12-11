@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -88,6 +89,12 @@ public class CharLeaf extends ExprNode {
 		private String getStr() {
 			return s;
 		}
+	}
+
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitCharLeaf(this);
 	}
 
 }

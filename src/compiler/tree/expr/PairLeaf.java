@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.PairType;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import assembly.Register;
 import assembly.TokenSequence;
 
@@ -49,6 +50,11 @@ public class PairLeaf extends ExprNode {
 	@Override
 	public TokenSequence toAssembly(Register register) {
 		return null;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitPairLeaf(this);
 	}
 	
 	
