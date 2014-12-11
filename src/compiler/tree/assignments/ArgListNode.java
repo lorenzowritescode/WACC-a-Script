@@ -12,6 +12,7 @@ import tree.expr.ExprNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import assembly.Register;
 import assembly.TokenSequence;
 
@@ -93,6 +94,11 @@ public class ArgListNode extends WACCTree implements Iterable<ExprNode>{
 		throw new UnsupportedOperationException(
 				"ArgListNode doesn't implement toAssembly directly."
 				+ "It is taken care of by CallStatNode through this class iterator.");
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitArgListNode(this);
 	}
 	
 }
