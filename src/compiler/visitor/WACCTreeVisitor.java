@@ -1,5 +1,6 @@
 package visitor;
 
+import JSTree.JSTree;
 import tree.*;
 import tree.expr.*;
 import tree.func.*;
@@ -7,7 +8,11 @@ import tree.assignments.*;
 import tree.stat.*;
 
 public abstract class WACCTreeVisitor<T> {
-	public abstract T visitProgNoe(ProgNode node);
+	// Generic visit method
+	public abstract T visit(WACCTree node);
+	
+	// Prog
+	public abstract T visitProgNode(ProgNode node);
 	
 	// Expr
 	public abstract T visitBinExprNode(BinExprNode node);
