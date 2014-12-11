@@ -53,7 +53,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSExitStat visitExitStat(ExitStat node) {
-		JSTree exitVal = visit(node.getExpr());
+		JSExpr exitVal = (JSExpr) visit(node.getExpr());
 		return new JSExitStat(exitVal);
 	}
 
@@ -63,14 +63,14 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	}
 
 	@Override
-	public JSPrintLn visitPrintLnStat(PrintLnStat node) {
-		JSTree expr = visit(node.getExpr());
-		return new JSPrintLn(expr);
+	public JSPrint visitPrintLnStat(PrintLnStat node) {
+		JSExpr expr = (JSExpr) visit(node.getExpr());
+		return new JSPrint(expr);
 	}
 
 	@Override
 	public JSPrint visitPrintStat(PrintStat node) {
-		JSTree expr = visit(node.getExpr());
+		JSExpr expr = (JSExpr) visit(node.getExpr());
 		return new JSPrint(expr);
 	}
 
@@ -100,7 +100,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSVarDec visitVarDecNode(VarDecNode node) {
-		JSTree var = visit(node.getVar());
+		JSExpr var = (JSExpr) visit(node.getVar());
 		JSTree rhs = visit(node.getRhsTree());
 		return new JSVarDec(var, rhs);
 	}
