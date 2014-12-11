@@ -98,4 +98,8 @@ public class FuncDecNode extends WACCTree {
 		return visitor.visitFuncDecNode(this);
 	}
 
+	public StatNode getFuncBody() {
+		return funcBody;
+	}
+
 }
