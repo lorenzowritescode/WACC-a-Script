@@ -9,6 +9,7 @@ import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 
 /*
@@ -101,6 +102,11 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	public TokenSequence loadAddress(Register dest) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitPairElemNode(this);
 	}
 	
 }

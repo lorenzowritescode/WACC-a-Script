@@ -9,6 +9,7 @@ import tree.expr.ExprNode;
 import tree.expr.VarNode;
 import tree.type.ArrayType;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -123,6 +124,11 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 				new LoadAddressToken(dest, dest),
 				new AddToken(dest, dest, dest.getNext()));
 		return seq;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitArrayElemNode(this);
 	}
 
 }
