@@ -16,11 +16,10 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	public JSTree visit(WACCTree node) {
 		return node.accept(this);
 	}
-	
-	@Override
-	public JSTree visitCharLeaf(CharLeaf node) {
-		// TODO Auto-generated method stub
-		return null;
+
+	public String init() {
+		JSTree finalTree = progTree.accept(this);
+		return finalTree.getCode();
 	}
 	
 }
