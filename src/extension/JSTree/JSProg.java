@@ -24,7 +24,7 @@ public class JSProg implements JSTree {
 			functionDecs += "\n" + f.toCode();
 		}
 		
-		return "(function() {\n " + bodyString + functionDecs + "})();";
+		return "(function() {\n " + bodyString + functionDecs + "})();\n";
 	}
 
 }
