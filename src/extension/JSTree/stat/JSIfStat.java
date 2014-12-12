@@ -1,5 +1,6 @@
 package JSTree.stat;
 
+import JSTree.WACCTreeToJsTree;
 import JSTree.expr.JSExpr;
 
 public class JSIfStat implements JSStat {
@@ -19,9 +20,12 @@ public class JSIfStat implements JSStat {
 		String output = "if (";
 		output += cond.toCode() + ") {\n";
 		output += thenStat.toCode();
-		output += "\n } else {\n";
-		output += elseStat.toCode();
-		output += "\n}\n";
+		output += "\n } ";
+		if (elseStat != WACCTreeToJsTree.EMPTY_NODE) {
+			output += "else {\n";
+			output += elseStat.toCode();
+			output += "\n}\n";
+		}
 		return output;
 	}
 

@@ -16,7 +16,6 @@ import assembly.TokenSequence;
 
 public class PairLeaf extends ExprNode {
 	
-	private final int VAR_SIZE = 4;
 	private WACCType fstType;
 	private WACCType sndType;
 	private String ident;

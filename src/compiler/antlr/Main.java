@@ -20,7 +20,6 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
 import tree.WACCTree;
-import JSTree.JSTree;
 import JSTree.WACCTreeToJsTree;
 import WACCExceptions.IntOverflowException;
 import WACCExceptions.UnresolvedExpectationException;

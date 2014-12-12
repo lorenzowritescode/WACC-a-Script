@@ -9,7 +9,6 @@ import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.Register;
 import assembly.TokenSequence;
-import assembly.tokens.CommentToken;
 
 /* Represents a Unary Operator expression
  * Holds the operator and the expression
