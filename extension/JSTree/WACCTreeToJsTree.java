@@ -3,6 +3,7 @@ package JSTree;
 import java.util.ArrayList;
 import java.util.List;
 
+import JSTree.assignable.JSArrayLiter;
 import tree.ProgNode;
 import tree.WACCTree;
 import tree.assignments.ArgListNode;
@@ -217,7 +218,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		String ident = node.getIdent();
 		return new JSVar(ident);
 	}
-
+	
 	@Override
 	public JSArgList visitArgListNode(ArgListNode node) {
 		List<JSExpr> args = new ArrayList<>();
@@ -256,4 +257,16 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		ORDER order = node.getOrder();
 		return new JSPairElem(expr, order);
 	}
+	
+	@Override
+	public JSTree visitArrayLiterNode(ArrayLiterNode node) {
+		ArrayList<JSExpr> elems = new ArrayList<JSExpr>();
+		ArrayList<ExprNode> elemNodes = node.getElems();
+		for (ExprNode expr : elemNodes) {
+			elems.add((JSExpr) visit(expr));
+		}
+		return new JSArrayLiter(elems);
+	}
+
+
 }
