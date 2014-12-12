@@ -2,7 +2,7 @@ package JSTree.stat;
 
 import JSTree.JSTree;
 
-public class JSSeqStat implements JSTree {
+public class JSSeqStat implements JSStat {
 	
 	private JSTree lhs;
 	private JSTree rhs;

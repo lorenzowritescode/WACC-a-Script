@@ -1,8 +1,7 @@
 package JSTree.expr;
 
-import JSTree.JSTree;
 
-public class JSVar implements JSTree {
+public class JSVar implements JSExpr {
 	
 	private String ident;
 

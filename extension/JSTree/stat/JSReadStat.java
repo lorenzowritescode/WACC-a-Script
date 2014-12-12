@@ -2,7 +2,7 @@ package JSTree.stat;
 
 import JSTree.JSTree;
 
-public class JSReadStat implements JSTree {
+public class JSReadStat implements JSStat {
 
 	private JSTree lhs;
 	

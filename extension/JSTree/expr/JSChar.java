@@ -1,8 +1,7 @@
 package JSTree.expr;
 
-import JSTree.JSTree;
 
-public class JSChar implements JSTree {
+public class JSChar implements JSExpr {
 	
 	private String text;
 	

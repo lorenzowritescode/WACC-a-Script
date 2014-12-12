@@ -1,8 +1,7 @@
 package JSTree.expr;
 
-import JSTree.JSTree;
 
-public class JSBool implements JSTree {
+public class JSBool implements JSExpr {
 
 	private boolean value;
 
