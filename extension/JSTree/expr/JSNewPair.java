@@ -2,12 +2,12 @@ package JSTree.expr;
 
 import JSTree.JSTree;
 
-public class JSPair implements JSTree {
+public class JSNewPair implements JSTree {
 
 	private JSTree fst;
 	private JSTree snd;
 	
-	public JSPair(JSTree fst, JSTree snd) {
+	public JSNewPair(JSTree fst, JSTree snd) {
 		this.fst = fst;
 		this.snd = snd;
 	}
