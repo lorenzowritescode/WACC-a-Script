@@ -83,6 +83,14 @@ public class CallStatNode extends Assignable {
 			new MovRegToken(r, Register.R0));
 	}
 
+	public String getIdent() {
+		return ident;
+	}
+
+	public ArgListNode getArgs() {
+		return args;
+	}
+
 	@Override
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitCallStatNode(this);
