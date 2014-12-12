@@ -15,6 +15,7 @@ import JSTree.expr.JSString;
 import JSTree.expr.JSVar;
 import JSTree.func.JSArgList;
 import JSTree.func.JSFunc;
+import JSTree.func.JSFuncCall;
 import JSTree.func.JSParam;
 import JSTree.func.JSParamList;
 import JSTree.stat.JSAssignStat;
@@ -184,6 +185,14 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	public JSParam visitParamNode(ParamNode node) {
 		String ident = node.getIdent();
 		return new JSParam(ident);
+	}
+
+	@Override
+	public JSTree visitCallStatNode(CallStatNode node) {
+		JSArgList args = visitArgListNode(node.getArgs());
+		String functionName = node.getIdent();
+		
+		return new JSFuncCall(functionName, args);
 	}
 
 	@Override
