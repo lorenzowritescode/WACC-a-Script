@@ -1,11 +1,33 @@
 package JSTree;
 
 import java.util.ArrayList;
-
-import tree.ProgNode;
-
 import java.util.List;
 
+import tree.ProgNode;
+import tree.WACCTree;
+import tree.expr.BinExprNode;
+import tree.expr.BoolLeaf;
+import tree.expr.CharLeaf;
+import tree.expr.IntLeaf;
+import tree.expr.StringLeaf;
+import tree.expr.UnExprNode;
+import tree.expr.VarNode;
+import tree.func.FuncDecNode;
+import tree.stat.AssignStatNode;
+import tree.stat.BlockStatNode;
+import tree.stat.ExitStat;
+import tree.stat.FreeStat;
+import tree.stat.IfStatNode;
+import tree.stat.PrintLnStat;
+import tree.stat.PrintStat;
+import tree.stat.ReadStatNode;
+import tree.stat.ReturnStatNode;
+import tree.stat.SeqStatNode;
+import tree.stat.SkipStatNode;
+import tree.stat.VarDecNode;
+import tree.stat.WhileStatNode;
+import tree.type.WACCUnOp;
+import visitor.WACCTreeVisitor;
 import JSTree.expr.JSBinExpr;
 import JSTree.expr.JSBool;
 import JSTree.expr.JSChar;
@@ -24,13 +46,6 @@ import JSTree.stat.JSSeqStat;
 import JSTree.stat.JSStat;
 import JSTree.stat.JSVarDec;
 import JSTree.stat.JSWhileStat;
-import tree.ProgNode;
-import tree.WACCTree;
-import tree.assignments.*;
-import tree.expr.*;
-import tree.func.*;
-import tree.stat.*;
-import visitor.WACCTreeVisitor;
 
 public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
@@ -198,8 +213,9 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSTree visitUnExprNode(UnExprNode node) {
-		// TODO Implement visitUnExpr
-		return null;
+		JSExpr expr = (JSExpr) visit(node.getExpr());
+		WACCUnOp op = node.getOperator();
+		return op.applyJS(expr);
 	}
 
 	@Override
