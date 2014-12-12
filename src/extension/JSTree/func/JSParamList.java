@@ -14,12 +14,7 @@ public class JSParamList implements JSTree {
 	
 	@Override
 	public String toCode() {
-		String result = "(";
-		for (JSParam p:params) {
-			result += p.toCode() + ", ";
-		}
-		
-		return result.substring(0, result.length() -2) + ")";
+		return JSFunc.encodeArgs(params);
 	}
 
 }

@@ -1,6 +1,10 @@
 package JSTree.func;
 
+import java.util.Iterator;
+import java.util.List;
+
 import JSTree.JSTree;
+import JSTree.expr.JSExpr;
 import JSTree.stat.JSStat;
 
 public class JSFunc implements JSTree {
@@ -20,6 +24,18 @@ public class JSFunc implements JSTree {
 		return "function " + functionName + "(" + params.toCode() + ") {"
 				+ functionBody.toCode()
 				+ "}";
+	}
+	
+	public static String encodeArgs(List<? extends JSTree> args) {
+		String argString ="(";
+		Iterator<? extends JSTree> iter = args.iterator();
+		while(iter.hasNext()) {
+			argString += iter.next().toCode();
+			if(iter.hasNext())
+				argString += ", ";
+		}
+		
+		return argString + ")";
 	}
 
 }

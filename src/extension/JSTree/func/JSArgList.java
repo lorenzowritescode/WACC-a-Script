@@ -1,5 +1,6 @@
 package JSTree.func;
 
+import java.util.Iterator;
 import java.util.List;
 
 import JSTree.JSTree;
@@ -15,12 +16,7 @@ public class JSArgList implements JSTree {
 
 	@Override
 	public String toCode() {
-		String argString ="(";
-		for (JSExpr e:args) {
-			argString += e.toCode() + ", ";
-		}
-		
-		return argString.substring(0, argString.length() - 2) + ")";
+		return JSFunc.encodeArgs(args);
 	}
 
 }
