@@ -21,7 +21,6 @@ public class PairLeaf extends ExprNode {
 	private WACCType sndType;
 	private String ident;
 	
-	// TODO: remove ident?
 	public PairLeaf(String ident, WACCType fstType, WACCType sndType) {
 		this.fstType = fstType;
 		this.sndType = sndType;

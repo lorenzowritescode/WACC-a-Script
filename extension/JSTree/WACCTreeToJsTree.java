@@ -1,40 +1,27 @@
 package JSTree;
 
 import java.util.ArrayList;
-
-import tree.ProgNode;
-
 import java.util.List;
 
-import JSTree.expr.JSBinExpr;
-import JSTree.expr.JSBool;
-import JSTree.expr.JSChar;
-import JSTree.expr.JSExpr;
-import JSTree.expr.JSInt;
-import JSTree.expr.JSString;
-import JSTree.expr.JSVar;
-import JSTree.func.JSArgList;
-import JSTree.func.JSFunc;
+import JSTree.assignable.JSArrayLiter;
 import JSTree.func.JSFuncCall;
-import JSTree.func.JSParam;
-import JSTree.func.JSParamList;
-import JSTree.stat.JSAssignStat;
-import JSTree.stat.JSExitStat;
-import JSTree.stat.JSIfStat;
-import JSTree.stat.JSPrint;
-import JSTree.stat.JSReadStat;
-import JSTree.stat.JSReturnStat;
-import JSTree.stat.JSSeqStat;
-import JSTree.stat.JSStat;
-import JSTree.stat.JSVarDec;
-import JSTree.stat.JSWhileStat;
 import tree.ProgNode;
 import tree.WACCTree;
-import tree.assignments.*;
+import tree.assignments.ArgListNode;
+import tree.assignments.ArrayElemNode;
+import tree.assignments.ArrayLiterNode;
+import tree.assignments.CallStatNode;
+import tree.assignments.NewPairNode;
+import tree.assignments.PairElemNode;
+import tree.assignments.PairElemNode.ORDER;
 import tree.expr.*;
 import tree.func.*;
 import tree.stat.*;
+import tree.type.WACCUnOp;
 import visitor.WACCTreeVisitor;
+import JSTree.expr.*;
+import JSTree.func.*;
+import JSTree.stat.*;
 
 public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
@@ -230,8 +217,9 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSTree visitUnExprNode(UnExprNode node) {
-		// TODO Implement visitUnExpr
-		return null;
+		JSExpr expr = (JSExpr) visit(node.getExpr());
+		WACCUnOp op = node.getOperator();
+		return op.applyJS(expr);
 	}
 
 	@Override
@@ -239,7 +227,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		String ident = node.getIdent();
 		return new JSVar(ident);
 	}
-
+	
 	@Override
 	public JSArgList visitArgListNode(ArgListNode node) {
 		List<JSExpr> args = new ArrayList<>();
@@ -251,4 +239,54 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		
 		return new JSArgList(args);
 	}
+
+	@Override
+	public JSTree visitPairLeaf(PairLeaf node) {
+		String ident = node.getIdent();
+		return new JSPair(ident);
+	}
+
+	@Override
+	public JSNull visitPairLiterNode(PairLiterNode node) {
+		// PairLiter nodes are always null
+		return new JSNull();
+	}
+
+
+	@Override
+	public JSNewPair visitNewPairNode(NewPairNode node) {
+		JSExpr fst = (JSExpr) visit(node.getFst());
+		JSExpr snd = (JSExpr) visit(node.getSnd());
+		return new JSNewPair(fst, snd);
+	}
+
+	@Override
+	public JSPairElem visitPairElemNode(PairElemNode node) {
+		JSExpr expr = (JSExpr) visit(node.getExpr());
+		ORDER order = node.getOrder();
+		return new JSPairElem(expr, order);
+	}
+
+	@Override
+	public JSTree visitArrayElemNode(ArrayElemNode node) {
+		JSVar var = (JSVar) visit(node.getVar());
+		ArrayList<ExprNode> locations = node.getLocations();
+		ArrayList<JSExpr> jsLocations = new ArrayList<JSExpr>();
+		for(ExprNode en : locations) {
+			jsLocations.add((JSExpr) visit(en));
+		}
+		JSArrayElem arrayElem = new JSArrayElem(jsLocations, var);
+		return arrayElem;
+	}
+	
+	@Override
+	public JSTree visitArrayLiterNode(ArrayLiterNode node) {
+		ArrayList<JSExpr> elems = new ArrayList<JSExpr>();
+		ArrayList<ExprNode> elemNodes = node.getElems();
+		for (ExprNode expr : elemNodes) {
+			elems.add((JSExpr) visit(expr));
+		}
+		return new JSArrayLiter(elems);
+	}
+	
 }

@@ -131,4 +131,11 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		return visitor.visitArrayElemNode(this);
 	}
 
+	public VarNode getVar() {
+		return var;
+	}
+
+	public ArrayList<ExprNode> getLocations() {
+		return locations;
+	}
 }

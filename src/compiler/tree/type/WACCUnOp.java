@@ -1,6 +1,9 @@
 package tree.type;
 
 import tree.expr.ExprNode;
+import JSTree.JSTree;
+import JSTree.expr.JSExpr;
+import JSTree.expr.JSUnOpExpr;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -15,6 +18,13 @@ public abstract class WACCUnOp {
 	public abstract boolean check(ExprNode e);
 	public abstract WACCType getType();
 	public abstract TokenSequence apply(Register register);
+	
+	
+	/**
+	 * @param expr a JSExpr
+	 * @return a JSExpr corresponding to the java script equivalent to the given unary operator
+	 */
+	public abstract JSExpr applyJS(JSExpr expr);
 	
 	/*
 	 * Utility method to parse a unary operator.
@@ -64,6 +74,16 @@ public abstract class WACCUnOp {
 				new EorToken(register, register, "#1")
 			);
 		}
+
+		@Override
+		public JSUnOpExpr applyJS(final JSExpr expr) {
+			return new JSUnOpExpr(expr) {
+				@Override
+				public String toCode() {
+					return "!" + expr.toCode();
+				}
+			};
+		}
 	};
 	
 	public static final WACCUnOp NEG = new WACCUnOp() {
@@ -95,6 +115,16 @@ public abstract class WACCUnOp {
 					new OverflowToken("VS")
 			);
 		}
+		
+		@Override
+		public JSUnOpExpr applyJS(final JSExpr expr) {
+			return new JSUnOpExpr(expr) {
+				@Override
+				public String toCode() {
+					return "-" + expr.toCode();
+				}
+			};
+		}
 	};
 	
 	public static final WACCUnOp LEN = new WACCUnOp() {
@@ -117,6 +147,16 @@ public abstract class WACCUnOp {
 		@Override
 		public TokenSequence apply(Register register) {
 			return new TokenSequence(new LoadAddressToken(register, register));
+		}
+		
+		@Override
+		public JSUnOpExpr applyJS(final JSExpr expr) {
+			return new JSUnOpExpr(expr) {
+				@Override
+				public String toCode() {
+					return expr.toCode() + ".length";
+				}
+			};
 		}
 	};
 	
@@ -141,6 +181,16 @@ public abstract class WACCUnOp {
 		public TokenSequence apply(Register register) {
 			return new TokenSequence();
 		}
+		
+		@Override
+		public JSUnOpExpr applyJS(final JSExpr expr) {
+			return new JSUnOpExpr(expr) {
+				@Override
+				public String toCode() {
+					return "ord(" + expr.toCode() + ")";
+				}
+			};
+		}
 	};
 	
 	public static final WACCUnOp CHR = new WACCUnOp() {
@@ -164,5 +214,16 @@ public abstract class WACCUnOp {
 		public TokenSequence apply(Register register) {
 			return new TokenSequence();
 		}
+		
+		@Override
+		public JSUnOpExpr applyJS(final JSExpr expr) {
+			return new JSUnOpExpr(expr) {
+				@Override
+				public String toCode() {
+					return "ord(" + expr.toCode() + ")";
+				}
+			};
+		}
 	};
+
 }

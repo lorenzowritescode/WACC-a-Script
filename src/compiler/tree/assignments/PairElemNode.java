@@ -109,4 +109,12 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 		return visitor.visitPairElemNode(this);
 	}
 	
+	public ExprNode getExpr() {
+		return expr;
+	}
+	
+	public ORDER getOrder() {
+		return order;
+	}
+	
 }
