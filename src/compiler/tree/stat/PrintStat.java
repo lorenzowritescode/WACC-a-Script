@@ -1,5 +1,6 @@
 package tree.stat;
 
+import tree.WACCTree;
 import tree.expr.ExprNode;
 import visitor.WACCTreeVisitor;
 import assembly.Register;
@@ -30,5 +31,9 @@ public class PrintStat extends StatNode {
 	@Override
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitPrintStat(this);
+	}
+
+	public WACCTree getExpr() {
+		return expr;
 	}
 }

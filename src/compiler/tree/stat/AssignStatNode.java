@@ -62,4 +62,12 @@ public class AssignStatNode extends StatNode {
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitAssignStatNode(this);
 	}
+
+	public WACCTree getLhs() {
+		return lhs;
+	}
+	
+	public WACCTree getRhs() {
+		return rhs;
+	}
 }

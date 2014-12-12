@@ -65,5 +65,8 @@ public class IntLeaf extends ExprNode {
 		return visitor.visitIntLeaf(this);
 	}
 	
+	public String getValue() {
+		return value;
+	}
 
 }

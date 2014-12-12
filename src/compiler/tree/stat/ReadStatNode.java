@@ -46,4 +46,8 @@ public class ReadStatNode extends StatNode {
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitReadStatNode(this);
 	}
+
+	public WACCTree getLhs() {
+		return lhs;
+	}
 }

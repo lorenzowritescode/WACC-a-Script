@@ -3,6 +3,7 @@ package tree.stat;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
 import tree.assignments.Assignable;
 import tree.expr.VarNode;
 import tree.func.FuncDecNode;
@@ -72,6 +73,14 @@ public class VarDecNode extends StatNode {
 	@Override
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitVarDecNode(this);
+	}
+
+	public WACCTree getVar() {
+		return var;
+	}
+	
+	public Assignable getRhsTree() {
+		return rhsTree;
 	}
 	
 	
