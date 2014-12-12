@@ -1,0 +1,42 @@
+<head>
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+</head>
+<style type="text/css">
+.center {
+	margin-left: 40%;
+}
+.offset {
+	margin-top: 50px;
+}
+</style>
+<body>
+	<div class="center">
+		<h2>Enter stdin here.</h2>
+		<div class="input-group col-md-4">
+			<input type="text" class="form-control" id="stdin">
+			<a class="input-group-addon" id="submit">Send</a>
+		</div>
+		<br>
+		<h2>Stdout: </h2>
+		<div class="alert alert-info col-md-4" id="stdout"></div>
+	</div>
+	<script type="text/javascript" src="js/bower_components/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript">
+		var $stdin = $('#stdin'),
+			$stdout = $('#stdout');
+
+		$('#submit').on('click', function() {
+			var s = read();
+			print(s);
+		})
+
+		function read() {
+			return $stdin.val();
+		}
+
+		function print(s) {
+			$stdout.text(s);
+		}
+
+	</script>
+</body>
