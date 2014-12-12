@@ -31,7 +31,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		this.progTree = progTree;
 	}
 	
-	public static final JSTree EMPTY_NODE = new JSTree() {
+	public static final JSTree EMPTY_NODE = new JSStat() {
 		@Override
 		public String toCode() {
 			return "";
