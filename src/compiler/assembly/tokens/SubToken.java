@@ -1,6 +1,5 @@
 package assembly.tokens;
 
-import tree.expr.IntLeaf;
 import assembly.InstrToken;
 import assembly.Register;
 

@@ -46,7 +46,7 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	@Override
 	public WACCType getType() {
 		WACCType type = arrayType;
-		for (ExprNode location: locations) {
+		for (int i = 0; i < locations.size(); i++) {
 			type = ((ArrayType) type).getBaseType();
 		}
 		return type;

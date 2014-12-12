@@ -1,16 +1,13 @@
 package tree.type;
 
 import tree.expr.ExprNode;
-import JSTree.JSTree;
 import JSTree.expr.JSExpr;
 import JSTree.expr.JSUnOpExpr;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
-import assembly.tokens.BranchLinkToken;
 import assembly.tokens.EorToken;
 import assembly.tokens.LoadAddressToken;
-import assembly.tokens.MovRegToken;
 import assembly.tokens.OverflowToken;
 
 public abstract class WACCUnOp {

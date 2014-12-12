@@ -63,8 +63,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSExitStat visitExitStat(ExitStat node) {
-		JSExpr exitVal = (JSExpr) visit(node.getExpr());
-		return new JSExitStat(exitVal);
+		return new JSExitStat();
 	}
 
 	@Override

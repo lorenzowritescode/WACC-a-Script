@@ -1,6 +1,5 @@
 package visitor;
 
-import JSTree.JSTree;
 import tree.*;
 import tree.expr.*;
 import tree.func.*;

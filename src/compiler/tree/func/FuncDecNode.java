@@ -13,7 +13,6 @@ import assembly.StackAllocator;
 import assembly.TokenSequence;
 import assembly.tokens.LabelToken;
 import assembly.tokens.MovRegToken;
-import assembly.tokens.PopToken;
 import assembly.tokens.PushToken;
 import assembly.tokens.EasyToken;
 
