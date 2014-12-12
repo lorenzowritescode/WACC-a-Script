@@ -57,5 +57,12 @@ public class UnExprNode extends ExprNode{
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitUnExprNode(this);
 	}
+	
+	public ExprNode getExpr() {
+		return expr;
+	}
 
+	public WACCUnOp getOperator() {
+		return operator;
+	}
 }
