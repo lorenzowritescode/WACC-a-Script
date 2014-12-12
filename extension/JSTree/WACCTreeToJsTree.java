@@ -5,7 +5,6 @@ import tree.expr.CharLeaf;
 import tree.stat.IfStatNode;
 import tree.stat.WhileStatNode;
 import visitor.WACCTreeVisitor;
-import JSTree.*;
 
 public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
@@ -22,7 +21,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	public String init() {
 		JSTree finalTree = progTree.accept(this);
-		return finalTree.getCode();
+		return finalTree.toCode();
 	}
 
 	@Override
