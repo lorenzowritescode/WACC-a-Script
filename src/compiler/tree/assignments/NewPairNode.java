@@ -75,4 +75,12 @@ public class NewPairNode extends Assignable {
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitNewPairNode(this);
 	}
+	
+	public ExprNode getSnd() {
+		return snd;
+	}
+	
+	public ExprNode getFst() {
+		return fst;
+	}
 }
