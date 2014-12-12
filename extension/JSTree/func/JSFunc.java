@@ -17,7 +17,7 @@ public class JSFunc implements JSTree {
 
 	@Override
 	public String toCode() {
-		return "function " + functionName + "(" + params.toCode() + ") {"
+		return "function " + functionName + params.toCode() + " {"
 				+ functionBody.toCode()
 				+ "}";
 	}
