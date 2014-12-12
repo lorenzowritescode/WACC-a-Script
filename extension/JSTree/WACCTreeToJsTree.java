@@ -207,4 +207,22 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		String ident = node.getIdent();
 		return new JSVar(ident);
 	}
+
+	@Override
+	public JSTree visitArrayElemNode(ArrayElemNode node) {
+		JSVar var = (JSVar) visit(node.getVar());
+		ArrayList<ExprNode> locations = node.getLocations();
+		ArrayList<JSExpr> jsLocations = new ArrayList<JSExpr>();
+		for(ExprNode en : locations) {
+			jsLocations.add((JSExpr) visit(en));
+		}
+		JSArrayElem arrayElem = new JSArrayElem(jsLocations, var);
+		return arrayElem;
+	}
+
+	@Override
+	public JSTree visitArrayLiterNode(ArrayLiterNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

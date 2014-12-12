@@ -80,5 +80,4 @@ public class ArrayLiterNode extends Assignable {
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitArrayLiterNode(this);
 	}
-	
 }
