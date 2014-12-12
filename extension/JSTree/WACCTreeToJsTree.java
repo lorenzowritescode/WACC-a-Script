@@ -5,50 +5,21 @@ import java.util.List;
 
 import tree.ProgNode;
 import tree.WACCTree;
-import tree.expr.BinExprNode;
-import tree.expr.BoolLeaf;
-import tree.expr.CharLeaf;
-import tree.expr.IntLeaf;
-import tree.expr.StringLeaf;
-import tree.expr.UnExprNode;
-import tree.expr.VarNode;
-import tree.func.FuncDecNode;
-import tree.stat.AssignStatNode;
-import tree.stat.BlockStatNode;
-import tree.stat.ExitStat;
-import tree.stat.FreeStat;
-import tree.stat.IfStatNode;
-import tree.stat.PrintLnStat;
-import tree.stat.PrintStat;
-import tree.stat.ReadStatNode;
-import tree.stat.ReturnStatNode;
-import tree.stat.SeqStatNode;
-import tree.stat.SkipStatNode;
-import tree.stat.VarDecNode;
-import tree.stat.WhileStatNode;
+import tree.assignments.ArgListNode;
+import tree.assignments.ArrayElemNode;
+import tree.assignments.ArrayLiterNode;
+import tree.assignments.CallStatNode;
+import tree.assignments.NewPairNode;
+import tree.assignments.PairElemNode;
+import tree.assignments.PairElemNode.ORDER;
+import tree.expr.*;
+import tree.func.*;
+import tree.stat.*;
 import tree.type.WACCUnOp;
 import visitor.WACCTreeVisitor;
-import JSTree.expr.JSBinExpr;
-import JSTree.expr.JSBool;
-import JSTree.expr.JSChar;
-import JSTree.expr.JSExpr;
-import JSTree.expr.JSInt;
-import JSTree.expr.JSString;
-import JSTree.expr.JSVar;
-import JSTree.func.JSArgList;
-import JSTree.func.JSFunc;
-import JSTree.func.JSParam;
-import JSTree.func.JSParamList;
-import JSTree.stat.JSAssignStat;
-import JSTree.stat.JSExitStat;
-import JSTree.stat.JSIfStat;
-import JSTree.stat.JSPrint;
-import JSTree.stat.JSReadStat;
-import JSTree.stat.JSReturnStat;
-import JSTree.stat.JSSeqStat;
-import JSTree.stat.JSStat;
-import JSTree.stat.JSVarDec;
-import JSTree.stat.JSWhileStat;
+import JSTree.expr.*;
+import JSTree.func.*;
+import JSTree.stat.*;
 
 public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
@@ -257,5 +228,32 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		}
 		
 		return new JSArgList(args);
+	}
+
+	@Override
+	public JSTree visitPairLeaf(PairLeaf node) {
+		String ident = node.getIdent();
+		return new JSPair(ident);
+	}
+
+	@Override
+	public JSNull visitPairLiterNode(PairLiterNode node) {
+		// PairLiter nodes are always null
+		return new JSNull();
+	}
+
+
+	@Override
+	public JSNewPair visitNewPairNode(NewPairNode node) {
+		JSExpr fst = (JSExpr) visit(node.getFst());
+		JSExpr snd = (JSExpr) visit(node.getSnd());
+		return new JSNewPair(fst, snd);
+	}
+
+	@Override
+	public JSPairElem visitPairElemNode(PairElemNode node) {
+		JSExpr expr = (JSExpr) visit(node.getExpr());
+		ORDER order = node.getOrder();
+		return new JSPairElem(expr, order);
 	}
 }
