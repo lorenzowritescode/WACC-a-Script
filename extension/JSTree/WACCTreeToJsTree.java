@@ -13,7 +13,10 @@ import JSTree.expr.JSExpr;
 import JSTree.expr.JSInt;
 import JSTree.expr.JSString;
 import JSTree.expr.JSVar;
+import JSTree.func.JSArgList;
 import JSTree.func.JSFunc;
+import JSTree.func.JSParam;
+import JSTree.func.JSParamList;
 import JSTree.stat.JSAssignStat;
 import JSTree.stat.JSExitStat;
 import JSTree.stat.JSIfStat;
@@ -159,8 +162,28 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSFunc visitFuncDecNode(FuncDecNode node) {
-		// TODO Auto-generated method stub
-		return null;
+		JSParamList params = visitParamListNode(node.getParams());
+		String funcName = node.getFuncName();
+		JSStat body = (JSStat) visit(node.getFuncBody());
+		
+		return new JSFunc(funcName, params, body);
+	}
+
+	@Override
+	public JSParamList visitParamListNode(ParamListNode node) {
+		List<JSParam> params = new ArrayList<>();
+		for (ParamNode n:node) {
+			JSParam p = visitParamNode(n);
+			params.add(p);
+		}
+		
+		return new JSParamList(params);
+	}
+
+	@Override
+	public JSParam visitParamNode(ParamNode node) {
+		String ident = node.getIdent();
+		return new JSParam(ident);
 	}
 
 	@Override
@@ -206,6 +229,18 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	public JSVar visitVarNode(VarNode node) {
 		String ident = node.getIdent();
 		return new JSVar(ident);
+	}
+
+	@Override
+	public JSArgList visitArgListNode(ArgListNode node) {
+		List<JSExpr> args = new ArrayList<>();
+		
+		for (ExprNode n:node) {
+			JSExpr e = (JSExpr) visit(n);
+			args.add(e);
+		}
+		
+		return new JSArgList(args);
 	}
 
 	@Override

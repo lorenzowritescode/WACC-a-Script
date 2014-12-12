@@ -9,8 +9,9 @@ public class JSFunc implements JSTree {
 	private JSStat functionBody;
 	private JSParamList params;
 	
-	public JSFunc(String ident, JSStat body) {
+	public JSFunc(String ident, JSParamList params, JSStat body) {
 		this.functionBody = body;
+		this.params = params;
 		this.functionName = ident;
 	}
 
