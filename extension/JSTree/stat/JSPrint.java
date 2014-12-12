@@ -1,9 +1,8 @@
 package JSTree.stat;
 
-import JSTree.JSTree;
 import JSTree.expr.JSExpr;
 
-public class JSPrint implements JSTree {
+public class JSPrint implements JSStat {
 
 	private JSExpr expr;
 	

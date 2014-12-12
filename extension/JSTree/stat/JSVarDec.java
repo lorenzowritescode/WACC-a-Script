@@ -3,7 +3,7 @@ package JSTree.stat;
 import JSTree.JSTree;
 import JSTree.expr.JSExpr;
 
-public class JSVarDec implements JSTree {
+public class JSVarDec implements JSStat {
 	
 	private JSExpr var;
 	private JSTree rhs;

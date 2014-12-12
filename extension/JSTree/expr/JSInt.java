@@ -1,8 +1,7 @@
 package JSTree.expr;
 
-import JSTree.JSTree;
 
-public class JSInt implements JSTree {
+public class JSInt implements JSExpr {
 	
 	private int val;
 	

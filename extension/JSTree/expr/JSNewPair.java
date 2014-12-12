@@ -2,7 +2,7 @@ package JSTree.expr;
 
 import JSTree.JSTree;
 
-public class JSNewPair implements JSTree {
+public class JSNewPair implements JSExpr {
 
 	private JSTree fst;
 	private JSTree snd;
