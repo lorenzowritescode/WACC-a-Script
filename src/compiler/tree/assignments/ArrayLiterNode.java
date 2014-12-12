@@ -81,4 +81,8 @@ public class ArrayLiterNode extends Assignable {
 		return visitor.visitArrayLiterNode(this);
 	}
 	
+	public ArrayList<ExprNode> getElems() {
+		return this.elems;
+	}
+	
 }

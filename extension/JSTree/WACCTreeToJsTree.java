@@ -6,6 +6,7 @@ import tree.ProgNode;
 
 import java.util.List;
 
+import JSTree.assignable.JSArrayLiter;
 import JSTree.expr.JSBinExpr;
 import JSTree.expr.JSBool;
 import JSTree.expr.JSChar;
@@ -206,5 +207,15 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	public JSVar visitVarNode(VarNode node) {
 		String ident = node.getIdent();
 		return new JSVar(ident);
+	}
+	
+	@Override
+	public JSTree visitArrayLiterNode(ArrayLiterNode node) {
+		ArrayList<JSExpr> elems = new ArrayList<JSExpr>();
+		ArrayList<ExprNode> elemNodes = node.getElems();
+		for (ExprNode expr : elemNodes) {
+			elems.add((JSExpr) visit(expr));
+		}
+		return new JSArrayLiter(elems);
 	}
 }
