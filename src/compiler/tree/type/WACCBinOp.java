@@ -58,6 +58,11 @@ public abstract class WACCBinOp {
 		public TokenSequence print(Register r) {
 			return new TokenSequence(new PrintIntToken(r));
 		}
+		
+		@Override
+		public String toString() {
+			return "*";
+		}
 	};
 	public static final WACCBinOp DIV = new WACCArithBinOp() {
 
@@ -75,6 +80,11 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence print(Register r) {
 			return new TokenSequence(new PrintIntToken(r));
+		}
+		
+		@Override
+		public String toString() {
+			return "/";
 		}
 		
 	};
@@ -95,6 +105,11 @@ public abstract class WACCBinOp {
 			return new TokenSequence(new PrintIntToken(r));
 		}
 		
+		@Override
+		public String toString() {
+			return "%";
+		}
+		
 	};
 	public static final WACCBinOp ADD = new WACCArithBinOp() {
 
@@ -110,6 +125,11 @@ public abstract class WACCBinOp {
 			return new TokenSequence(new PrintIntToken(r));
 		}
 		
+		@Override
+		public String toString() {
+			return "+";
+		}
+		
 	};
 	public static final WACCBinOp SUB = new WACCArithBinOp() {
 
@@ -123,6 +143,11 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence print(Register r) {
 			return new TokenSequence(new PrintIntToken(r));
+		}
+		
+		@Override
+		public String toString() {
+			return "-";
 		}
 		
 	};
@@ -143,6 +168,11 @@ public abstract class WACCBinOp {
 			return new TokenSequence(new PrintBoolToken(r));
 		}
 		
+		@Override
+		public String toString() {
+			return ">";
+		}
+		
 	};
 	public static final WACCBinOp GRT_EQ = new WACCCompBinOp() {
 
@@ -157,6 +187,11 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence print(Register r) {
 			return new TokenSequence(new PrintBoolToken(r));
+		}
+		
+		@Override
+		public String toString() {
+			return ">=";
 		}
 		
 	};
@@ -175,6 +210,11 @@ public abstract class WACCBinOp {
 			return new TokenSequence(new PrintBoolToken(r));
 		}
 		
+		@Override
+		public String toString() {
+			return "<";
+		}
+		
 	};
 	public static final WACCBinOp LESS_EQ = new WACCCompBinOp() {
 
@@ -189,6 +229,11 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence print(Register r) {
 			return new TokenSequence(new PrintBoolToken(r));
+		}
+		
+		@Override
+		public String toString() {
+			return "<=";
 		}
 		
 	};
@@ -209,6 +254,11 @@ public abstract class WACCBinOp {
 			return new TokenSequence(new PrintBoolToken(r));
 		}
 		
+		@Override
+		public String toString() {
+			return "==";
+		}
+		
 	};
 	public static final WACCBinOp NOT_EQ = new WACCEqualBinOp() {
 
@@ -223,6 +273,11 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence print(Register r) {
 			return new TokenSequence(new PrintBoolToken(r));
+		}
+		
+		@Override
+		public String toString() {
+			return "!=";
 		}
 		
 	};
@@ -240,6 +295,11 @@ public abstract class WACCBinOp {
 			return new TokenSequence(new PrintBoolToken(r));
 		}
 		
+		@Override
+		public String toString() {
+			return "&&";
+		}
+		
 	};
 	public static final WACCBinOp OR = new WACCBoolBinOp(){
 
@@ -251,6 +311,11 @@ public abstract class WACCBinOp {
 		@Override
 		public TokenSequence print(Register r) {
 			return new TokenSequence(new PrintBoolToken(r));
+		}
+		
+		@Override
+		public String toString() {
+			return "||";
 		}
 		
 	};
