@@ -6,6 +6,24 @@ import tree.ProgNode;
 
 import java.util.List;
 
+import JSTree.expr.JSBinExpr;
+import JSTree.expr.JSBool;
+import JSTree.expr.JSChar;
+import JSTree.expr.JSExpr;
+import JSTree.expr.JSInt;
+import JSTree.expr.JSString;
+import JSTree.expr.JSVar;
+import JSTree.func.JSFunc;
+import JSTree.stat.JSAssignStat;
+import JSTree.stat.JSExitStat;
+import JSTree.stat.JSIfStat;
+import JSTree.stat.JSPrint;
+import JSTree.stat.JSReadStat;
+import JSTree.stat.JSReturnStat;
+import JSTree.stat.JSSeqStat;
+import JSTree.stat.JSStat;
+import JSTree.stat.JSVarDec;
+import JSTree.stat.JSWhileStat;
 import tree.ProgNode;
 import tree.WACCTree;
 import tree.assignments.*;

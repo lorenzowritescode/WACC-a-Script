@@ -1,7 +1,9 @@
-package JSTree;
+package JSTree.func;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import JSTree.JSTree;
 
 public class JSParamList implements JSTree {
 	

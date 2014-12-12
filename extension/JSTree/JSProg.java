@@ -2,6 +2,9 @@ package JSTree;
 
 import java.util.List;
 
+import JSTree.func.JSFunc;
+import JSTree.stat.JSStat;
+
 public class JSProg implements JSTree {
 
 	private List<JSFunc> functions;

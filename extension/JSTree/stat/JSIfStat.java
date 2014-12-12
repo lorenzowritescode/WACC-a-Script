@@ -1,4 +1,6 @@
-package JSTree;
+package JSTree.stat;
+
+import JSTree.expr.JSExpr;
 
 public class JSIfStat implements JSStat {
 	

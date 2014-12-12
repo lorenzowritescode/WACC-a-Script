@@ -1,4 +1,6 @@
-package JSTree;
+package JSTree.func;
+
+import JSTree.expr.JSExpr;
 
 public class JSParam implements JSExpr {
 	

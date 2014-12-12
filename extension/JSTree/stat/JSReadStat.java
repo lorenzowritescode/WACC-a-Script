@@ -1,4 +1,6 @@
-package JSTree;
+package JSTree.stat;
+
+import JSTree.JSTree;
 
 public class JSReadStat implements JSTree {
 

@@ -1,4 +1,7 @@
-package JSTree;
+package JSTree.func;
+
+import JSTree.JSTree;
+import JSTree.stat.JSStat;
 
 public class JSFunc implements JSTree {
 	

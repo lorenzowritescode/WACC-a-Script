@@ -1,4 +1,7 @@
-package JSTree;
+package JSTree.stat;
+
+import JSTree.JSTree;
+import JSTree.expr.JSExpr;
 
 public class JSVarDec implements JSTree {
 	

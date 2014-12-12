@@ -1,4 +1,6 @@
-package JSTree;
+package JSTree.expr;
+
+import JSTree.JSTree;
 
 public class JSChar implements JSTree {
 	
