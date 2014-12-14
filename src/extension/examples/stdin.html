@@ -20,23 +20,6 @@
 		<h2>Stdout: </h2>
 		<div class="alert alert-info col-md-4" id="stdout"></div>
 	</div>
-	<script type="text/javascript" src="js/bower_components/jquery/dist/jquery.min.js"></script>
-	<script type="text/javascript">
-		var $stdin = $('#stdin'),
-			$stdout = $('#stdout');
-
-		$('#submit').on('click', function() {
-			var s = read();
-			print(s);
-		})
-
-		function read() {
-			return $stdin.val();
-		}
-
-		function print(s) {
-			$stdout.text(s);
-		}
-
-	</script>
+	<script src="js/config.js"></script>
+	<script data-main="js/stdin" src="js/require.js"></script>
 </body>
