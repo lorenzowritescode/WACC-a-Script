@@ -1,0 +1,6 @@
+#Ignore files compiled by antlr
+*.java
+*.tokens
+
+#Ignore compiled java
+jsparser
