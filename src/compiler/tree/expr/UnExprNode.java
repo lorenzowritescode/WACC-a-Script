@@ -5,10 +5,10 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCType;
 import tree.type.WACCUnOp;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.Register;
 import assembly.TokenSequence;
-import assembly.tokens.CommentToken;
 
 /* Represents a Unary Operator expression
  * Holds the operator and the expression
@@ -52,4 +52,16 @@ public class UnExprNode extends ExprNode{
 		return exprSeq.appendAll(operator.apply(register));
 	}
 
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitUnExprNode(this);
+	}
+	
+	public ExprNode getExpr() {
+		return expr;
+	}
+
+	public WACCUnOp getOperator() {
+		return operator;
+	}
 }

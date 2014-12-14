@@ -10,11 +10,4 @@ public abstract class ExprNode extends Assignable  {
 	 */
 	public abstract int weight();
 
-	/**
-	 * @param register the next free register
-	 * @return Returns a token sequence corresponding to the instructions
-	 * required to print the specific expression from which this method's
-	 * called.
-	 */
-
 }

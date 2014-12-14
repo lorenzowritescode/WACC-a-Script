@@ -4,11 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.Iterator;
-
-import assembly.tokens.LabelToken;
-import assembly.tokens.LoadToken;
-import assembly.tokens.PopToken;
-
 public class TokenSequence implements Iterable<InstrToken> {
 	public static enum MODE {
 		ALL, UNIQUE

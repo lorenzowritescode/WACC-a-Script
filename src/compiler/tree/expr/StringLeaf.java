@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.LoadStringToken;
@@ -44,6 +45,10 @@ public class StringLeaf extends ExprNode {
 	public TokenSequence toAssembly(Register r) {
 		return new TokenSequence(new LoadStringToken(r, text));
 	}
-	
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitStringLeaf(this);
+	}
 
 }

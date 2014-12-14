@@ -11,6 +11,7 @@ import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.ArrayType;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 
 public class ArrayLiterNode extends Assignable {
 
@@ -73,6 +74,14 @@ public class ArrayLiterNode extends Assignable {
 		.append(storeSize);
 		
 		return allocateArray;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitArrayLiterNode(this);
+	}
+	public ArrayList<ExprNode> getElems() {
+		return this.elems;
 	}
 	
 }

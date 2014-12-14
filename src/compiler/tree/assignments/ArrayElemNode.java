@@ -9,6 +9,7 @@ import tree.expr.ExprNode;
 import tree.expr.VarNode;
 import tree.type.ArrayType;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -45,7 +46,7 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	@Override
 	public WACCType getType() {
 		WACCType type = arrayType;
-		for (ExprNode location: locations) {
+		for (int i = 0; i < locations.size(); i++) {
 			type = ((ArrayType) type).getBaseType();
 		}
 		return type;
@@ -125,4 +126,16 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 		return seq;
 	}
 
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitArrayElemNode(this);
+	}
+
+	public VarNode getVar() {
+		return var;
+	}
+
+	public ArrayList<ExprNode> getLocations() {
+		return locations;
+	}
 }

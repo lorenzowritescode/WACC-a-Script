@@ -3,8 +3,10 @@ package tree.stat;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import symboltable.SymbolTable;
+import tree.WACCTree;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.InstrToken;
 import assembly.Register;
@@ -43,6 +45,15 @@ public class ExitStat extends StatNode {
 		
 		ldr.appendAll(new TokenSequence(mov2, branch));
 		return ldr;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitExitStat(this);
+	}
+
+	public WACCTree getExpr() {
+		return exitVal;
 	}
 
 }

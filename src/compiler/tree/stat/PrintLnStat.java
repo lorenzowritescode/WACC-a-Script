@@ -1,6 +1,8 @@
 package tree.stat;
 
+import tree.WACCTree;
 import tree.expr.ExprNode;
+import visitor.WACCTreeVisitor;
 import assembly.InstrToken;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -28,5 +30,14 @@ public class PrintLnStat extends StatNode {
 		exprSeq.appendAll(printSeq);
 		exprSeq.append(println);
 		return exprSeq;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitPrintLnStat(this);
+	}
+
+	public WACCTree getExpr() {
+		return expr;
 	}
 }

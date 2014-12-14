@@ -8,9 +8,9 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.NotUniqueIdentifierException;
 import assembly.Register;
-import assembly.StackAllocator;
 import assembly.StackPosition;
 import assembly.TokenSequence;
 
@@ -92,6 +92,11 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 				"ParamListNode does not implement toAssembly."
 				+ "It only gives parameters a stack position through "
 				+ "its allocatePatamsOnStack() method");
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitParamListNode(this);
 	}
 
 }

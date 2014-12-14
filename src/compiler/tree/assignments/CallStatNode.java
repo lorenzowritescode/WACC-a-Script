@@ -9,6 +9,7 @@ import tree.expr.ExprNode;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.IllegalCallException;
 import WACCExceptions.IncompatibleTypesException;
 import WACCExceptions.UndeclaredIdentifierException;
@@ -80,5 +81,18 @@ public class CallStatNode extends Assignable {
 			new PopToken(Register.R3),			// Restore R3
 			new AddImmToken(Register.sp, Register.sp, Integer.toString(stackOffset)),
 			new MovRegToken(r, Register.R0));
+	}
+
+	public String getIdent() {
+		return ident;
+	}
+
+	public ArgListNode getArgs() {
+		return args;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitCallStatNode(this);
 	}
 }

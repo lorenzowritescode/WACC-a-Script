@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.ImmValue;
 import assembly.LabelCounter;
@@ -56,6 +57,23 @@ public class IfStatNode extends StatNode {
 		ifStat.appendAll(elseStat.toAssembly(register));
 		ifStat.append(new LabelToken(l1));
 		return ifStat;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitIfStatNode(this);
+	}
+
+	public ExprNode getIfCond() {
+		return ifCond;
+	}
+
+	public StatNode getThenStat() {
+		return thenStat;
+	}
+
+	public StatNode getElseStat() {
+		return elseStat;
 	}
 
 }

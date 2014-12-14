@@ -9,6 +9,7 @@ import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 
 /*
@@ -102,6 +103,19 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 		TokenSequence seq = expr.toAssembly(dest);
 		seq.append(new LoadAddressToken(dest, dest, order.offset));
 		return seq;
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitPairElemNode(this);
+	}
+	
+	public ExprNode getExpr() {
+		return expr;
+	}
+	
+	public ORDER getOrder() {
+		return order;
 	}
 	
 }

@@ -6,6 +6,7 @@ import symboltable.SymbolTable;
 import tree.expr.ExprNode;
 import tree.type.PairType;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import assembly.Register;
 import assembly.TokenSequence;
 import assembly.tokens.MovRegToken;
@@ -68,5 +69,18 @@ public class NewPairNode extends Assignable {
 		//StoreToken store = new StoreToken(Register.R0, dest.getNext());
 		StoreToken storeAdd = new StoreToken(dest, Register.R0,  offset);
 		return new TokenSequence(store, storeAdd);
+	}
+
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitNewPairNode(this);
+	}
+	
+	public ExprNode getSnd() {
+		return snd;
+	}
+	
+	public ExprNode getFst() {
+		return fst;
 	}
 }

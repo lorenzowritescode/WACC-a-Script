@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symboltable.SymbolTable;
 import tree.type.WACCBinOp;
 import tree.type.WACCType;
+import visitor.WACCTreeVisitor;
 import WACCExceptions.InvalidTypeException;
 import assembly.Register;
 import assembly.TokenSequence;
@@ -72,4 +73,20 @@ public class BinExprNode extends ExprNode {
 		}
 	}
 
+	@Override
+	public <T> T accept(WACCTreeVisitor<T> visitor) {
+		return visitor.visitBinExprNode(this);
+	}
+
+	public ExprNode getLhs() {
+		return lhs;
+	}
+	
+	public WACCBinOp getOperator() {
+		return operator;
+	}
+	
+	public ExprNode getRhs() {
+		return rhs;
+	}
 }

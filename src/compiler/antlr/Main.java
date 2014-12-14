@@ -19,6 +19,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+import tree.WACCTree;
+import JSTree.WACCTreeToJsTree;
 import WACCExceptions.IntOverflowException;
 import WACCExceptions.UnresolvedExpectationException;
 
@@ -51,34 +53,62 @@ public class Main {
 			exitSemanticFailure();
 		}
 		
-		WACCCompiler compiler = new WACCCompiler(sc.getProgTree());
-		compiler.init();
-		String compilerOutput = compiler.toString();
-		if (cmd.hasOption("s")) {
-			System.out.println(compilerOutput);
+		// Extract the path from the waccFilePath string
+		Path p = Paths.get(waccFilePath);
+
+		// String that will contain the final program
+		String outputString = "";
+		// String that contains the extension for the output file
+		String extension = "";
+		// WACCTree that contains the program
+		WACCTree wt = sc.getProgTree();
+		
+		// Get the filename and replace the extension
+		if(cmd.hasOption('j')) {
+			outputString = compileToJavaScript(wt);
+			extension = ".js";
 		} else {
-			createAssemblyFile(compiler.toString(), waccFilePath);
+			outputString = compileToArmAssembly(wt);
+			extension = ".s";
+		}
+		
+		String outputFileName = p.getFileName().toString().replace(".wacc", extension);
+		
+		// If the s flag is on we want to print to stdout;
+		if (cmd.hasOption("s")) {
+			System.out.println(outputString);
+		} else {
+			writeToFile(outputString, outputFileName);
 		}
 	}
 
+	private static String compileToJavaScript(WACCTree wt) {
+		WACCTreeToJsTree converter = new WACCTreeToJsTree(wt);
+		return converter.init();	
+	}
+
+	private static String compileToArmAssembly(WACCTree wt) {
+		WACCCompiler compiler = new WACCCompiler(wt);
+		compiler.init();
+		String compilerOutput = compiler.toString();
+		
+		return compilerOutput;
+	}
+
 	/** Utility method to extract the assembly filename and write to file
-	 * @param assemblyString A String containing the assembly output
-	 * @param waccFilePath The String containing the path of the source file. It works with just the filename.
+	 * @param resultString A String containing the assembly output
+	 * @param fileName The String containing the path of the source file. It works with just the filename.
 	 */
-	private static void createAssemblyFile(String assemblyString, String waccFilePath) {
-		// Extract the path from the waccFilePath string
-		Path p = Paths.get(waccFilePath);
-		// Get the filename and replace the extension
-		String assemblyFilename = p.getFileName().toString().replace(".wacc", ".s");
+	private static void writeToFile(String resultString, String fileName) {
 		// Write to file
 		try {
-	          File file = new File(assemblyFilename);
-	          BufferedWriter output = new BufferedWriter(new FileWriter(file));
-	          output.write(assemblyString);
-	          output.close();
-	        } catch ( IOException e ) {
-	           e.printStackTrace();
-	        }
+			File file = new File(fileName);
+			BufferedWriter output = new BufferedWriter(new FileWriter(file));
+			output.write(resultString);
+			output.close();
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -197,6 +227,7 @@ public class Main {
 		options.addOption("d", false, "debug mode");
 		options.addOption("f", true, "source file");
 		options.addOption("s", false, "force printing assembly to std-out");
+		options.addOption("j", false, "Compile into Javascript");
 		
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;
