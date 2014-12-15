@@ -11,6 +11,7 @@ import tree.type.WACCType;
 import visitor.WACCTreeVisitor;
 import WACCExceptions.NotUniqueIdentifierException;
 import assembly.Register;
+import assembly.StackAllocator;
 import assembly.StackPosition;
 import assembly.TokenSequence;
 
@@ -80,9 +81,9 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 		throw new UnsupportedOperationException("ParamListNode has no type.");
 	}
 
-	public void allocateParamsOnStack() {
+	public void allocateParamsOnStack(int varCount) {
 		for (int i = 0; i < this.size(); i++) {
-			this.get(i).setPos(new StackPosition(i + 1, Register.sp));
+			this.get(i).setPos(new StackPosition(i + 1 + varCount, Register.sp));
 		}
 	}
 

@@ -70,4 +70,8 @@ public class WhileStatNode extends StatNode {
 		return loopBody;
 	}
 
+	@Override
+	public int getVarCounter() {
+		return loopBody.getVarCounter();
+	}
 }
