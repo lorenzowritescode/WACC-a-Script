@@ -41,6 +41,17 @@ public class JSFlowTypeVisitor extends JSTypeParserBaseVisitor<Object> {
 	public Object visitTypeDef(TypeDefContext ctx) {
 		return LibType.parse(ctx.type().getText());
 	}
+	
+	@Override
+	public Object visitArglist(ArglistContext ctx) {
+		List<ArgumentContext> args = ctx.argument();
+		LibArgList argList = new LibArgList();
+		for(ArgumentContext ac:args) {
+			argList.add((LibArg)visit(ac));
+		}
+		return argList;
+	}
+
 
 	@Override
 	public Object visitArglist(ArglistContext ctx) {
