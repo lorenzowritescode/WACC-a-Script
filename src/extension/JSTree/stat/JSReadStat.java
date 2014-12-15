@@ -1,6 +1,7 @@
 package JSTree.stat;
 
 import JSTree.JSTree;
+import JSTree.func.JSReadWrapper;
 
 public class JSReadStat implements JSStat {
 
@@ -12,7 +13,8 @@ public class JSReadStat implements JSStat {
 	
 	@Override
 	public String toCode() {
-		return lhs.toCode() + " = read()";
+		JSReadWrapper callback = new JSReadWrapper(lhs);
+		return "core.read(" + callback.toCode();
 	}
 
 }

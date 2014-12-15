@@ -75,5 +75,10 @@ public class IfStatNode extends StatNode {
 	public StatNode getElseStat() {
 		return elseStat;
 	}
+	
+	@Override
+	public int getVarCounter() {
+		return thenStat.getVarCounter() + elseStat.getVarCounter();
+	}
 
 }

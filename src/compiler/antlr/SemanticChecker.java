@@ -36,7 +36,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	}
 
 	public void init() {
-		dbh.printV("Checking sematic integrity...");
+ 		dbh.printV("Checking sematic integrity...");
 		progTree = parseTree.accept(this);
 		
 		//Debugging: prints the WACC tree after semantic checking
@@ -95,7 +95,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public WACCTree visitSequential_stat(Sequential_statContext ctx) {
 		StatNode lhs = (StatNode) visit(ctx.stat(0));
 		StatNode rhs = (StatNode) visit(ctx.stat(1));
-		;
+		
 		SeqStatNode seqStat = new SeqStatNode(lhs, rhs);
 		seqStat.check(currentSymbolTable, ctx);
 
@@ -391,12 +391,15 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 	@Override
 	public WACCTree visitIf_stat(If_statContext ctx) {
+		
+		currentSymbolTable = new SymbolTable(currentSymbolTable);
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
 		StatNode thenStat = (StatNode) visit(ctx.stat(0));
 		StatNode elseStat = (StatNode) visit(ctx.stat(1));
 		IfStatNode ifStat = new IfStatNode(ifCond, thenStat, elseStat);
 		ifStat.check(currentSymbolTable, ctx);
-
+		currentSymbolTable = currentSymbolTable.getParent();
+		
 		return ifStat;
 	}
 
