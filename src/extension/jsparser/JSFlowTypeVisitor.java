@@ -52,11 +52,4 @@ public class JSFlowTypeVisitor extends JSTypeParserBaseVisitor<Object> {
 		return argList;
 	}
 
-
-	@Override
-	public Object visitArglist(ArglistContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitArglist(ctx);
-	}
-
 }
