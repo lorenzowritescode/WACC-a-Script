@@ -15,4 +15,9 @@ public class LibArgList implements Iterable<LibArg>{
 	public Iterator<LibArg> iterator() {
 		return args.iterator();
 	}
+
+	public void add(LibArg a) {
+		args.add(a);
+		
+	}
 }
