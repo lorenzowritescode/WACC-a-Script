@@ -1,4 +1,4 @@
-package JSTree;
+package JSTree.assignable;
 
 import java.util.ArrayList;
 
