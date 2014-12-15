@@ -1,5 +1,8 @@
 package jsparser;
 
+
+import java.util.List;
+
 import jsparser.build.JSTypeParser.ArglistContext;
 import jsparser.build.JSTypeParser.ArgumentContext;
 import jsparser.build.JSTypeParser.FunctionContext;
@@ -28,14 +31,12 @@ public class JSFlowTypeVisitor extends JSTypeParserBaseVisitor<Object> {
 
 	@Override
 	public Object visitArglist(ArglistContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitArglist(ctx);
-	}
-
-	@Override
-	public Object visitType(TypeContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitType(ctx);
+		List<ArgumentContext> args = ctx.argument();
+		LibArgList argList = new LibArgList();
+		for(ArgumentContext ac:args) {
+			argList.add((LibArg)visit(ac));
+		}
+		return argList;
 	}
 
 }
