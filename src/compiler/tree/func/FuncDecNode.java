@@ -69,7 +69,7 @@ public class FuncDecNode extends WACCTree {
 		InstrToken label = new LabelToken("f_" + funcName);
 		InstrToken push = new PushToken(Register.lr);
 		TokenSequence startSequence = new TokenSequence(label, push);
-		startSequence.append(new MovRegToken(Register.R3, Register.sp));
+//		startSequence.append(new MovRegToken(Register.R3, Register.sp));
 		
 		params.allocateParamsOnStack();
 		
