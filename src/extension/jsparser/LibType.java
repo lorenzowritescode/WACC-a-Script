@@ -14,6 +14,10 @@ public enum LibType {
 			if (t.s.equals(text))
 				return t;
 		}
-		throw new JSParserException("The provided type was not reckognized.");
+		throw new JSParserException("The provided type was not recognized.");
+	}
+	
+	public String getTypeString() {
+		return s;
 	}
 }
