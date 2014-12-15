@@ -1,27 +1,35 @@
-/* @flow */
+// core.js
 function Pair(x :any, y :any) :Object{
 	return {fst: x, snd: y};
 }
 
+var readline = require('readline'),
+    rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+rl.on('line', function() {
+    rl.close();
+})
+
+function read(callback) {
+    rl.question("Please enter input> ", function(answer) {
+        callback(answer, rl);
+    });
+}
+
 function print(s :string) :void {
-	console.log(s);
+	rl.write(s + '\n');
 }
 
-function read() {
-	var readline = require('readline'),
-	rl = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout
-	});
-
-	var res;
-	rl.question("", callback);
-
-	var uvrun = require("uvrun");
-	while (!res)
-	uvrun.runOnce();
-	return res;
+function terminate() :void {
+	rl.close();
 }
 
-x = read();
-console.log(x);
+module.exports = {
+	print: print, 
+	read: read,
+	terminate: terminate,
+	iostream : rl
+}
