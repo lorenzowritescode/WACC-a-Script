@@ -7,7 +7,6 @@ import jsparser.build.JSTypeParser.ArglistContext;
 import jsparser.build.JSTypeParser.ArgumentContext;
 import jsparser.build.JSTypeParser.FunctionContext;
 import jsparser.build.JSTypeParser.LibraryContext;
-import jsparser.build.JSTypeParser.TypeContext;
 import jsparser.build.JSTypeParser.TypeDefContext;
 import jsparser.build.JSTypeParserBaseVisitor;
 
