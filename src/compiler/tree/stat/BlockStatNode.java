@@ -28,6 +28,9 @@ public class BlockStatNode extends StatNode {
 		return visitor.visitBlockStatNode(this);
 	}
 	
+	public StatNode getStat() {
+		return statNode;
+	}
 	@Override
 	public int getVarCounter() {
 		return statNode.getVarCounter();

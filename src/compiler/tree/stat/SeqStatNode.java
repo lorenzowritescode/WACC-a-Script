@@ -29,7 +29,7 @@ public class SeqStatNode extends StatNode {
 		return visitor.visitSeqStatNode(this);
 	}
 
-	public WACCTree getLhs() {
+	public StatNode getLhs() {
 		return lhs;
 	}
 	
