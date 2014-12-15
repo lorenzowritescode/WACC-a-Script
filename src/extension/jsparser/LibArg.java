@@ -6,4 +6,8 @@ public class LibArg {
 	public LibArg(LibType t) {
 		this.type = t;
 	}
+	
+	public LibType getType() {
+		return type;
+	}
 }
