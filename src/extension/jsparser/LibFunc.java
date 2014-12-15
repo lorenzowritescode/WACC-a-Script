@@ -12,5 +12,16 @@ public class LibFunc {
 		this.argList = argList;
 	}
 	
+	public LibArgList getArgList() {
+		return argList;
+	}
+	
+	public LibType getReturnType() {
+		return returnType;
+	}
+	
+	public String getFunctionName() {
+		return functionName;
+	}
 
 }
