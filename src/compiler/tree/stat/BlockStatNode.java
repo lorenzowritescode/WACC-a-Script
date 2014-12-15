@@ -27,4 +27,12 @@ public class BlockStatNode extends StatNode {
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitBlockStatNode(this);
 	}
+	
+	public StatNode getStat() {
+		return statNode;
+	}
+	@Override
+	public int getVarCounter() {
+		return statNode.getVarCounter();
+	}
 }

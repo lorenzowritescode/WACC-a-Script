@@ -29,11 +29,16 @@ public class SeqStatNode extends StatNode {
 		return visitor.visitSeqStatNode(this);
 	}
 
-	public WACCTree getLhs() {
+	public StatNode getLhs() {
 		return lhs;
 	}
 	
 	public StatNode getRhs() {
 		return rhs;
+	}
+	
+	@Override
+	public int getVarCounter() {
+		return lhs.getVarCounter() + rhs.getVarCounter();
 	}
 }

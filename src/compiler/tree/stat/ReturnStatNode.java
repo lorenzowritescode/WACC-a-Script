@@ -2,6 +2,7 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import symboltable.Expectation;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.expr.ExprNode;
@@ -31,6 +32,16 @@ public class ReturnStatNode extends StatNode {
 		WACCType returnType = expr.getType();
 		if( !st.checkType(returnType) ) {
 			new IncompatibleTypesException("A return of type " + returnType.toString() + " was not expected.", ctx);
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean checkExpectation(Expectation ec) {
+		WACCType returnType = expr.getType();
+		if( !ec.checkType(returnType) ) {
+			new IncompatibleTypesException("A return of type " + returnType.toString() + " was not expected.");
 			return false;
 		}
 		return true;

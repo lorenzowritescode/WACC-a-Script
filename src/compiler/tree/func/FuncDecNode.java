@@ -68,14 +68,17 @@ public class FuncDecNode extends WACCTree {
 	public TokenSequence toAssembly(Register r) {
 		InstrToken label = new LabelToken("f_" + funcName);
 		InstrToken push = new PushToken(Register.lr);
-		TokenSequence startSequence = new TokenSequence(label, push);
-		startSequence.append(new MovRegToken(Register.R3, Register.sp));
+		TokenSequence startSequence = new TokenSequence(label, push);	
+//		startSequence.append(new MovRegToken(Register.R3, Register.sp));
 		
-		params.allocateParamsOnStack();
+		int varCount = funcBody.getVarCounter();
+		params.allocateParamsOnStack(varCount);
 		
 		StackAllocator.stackAllocator.enterNewScope();
 
 		TokenSequence body = funcBody.toAssembly(r);
+		System.out.println("COCK: " + StackAllocator.stackAllocator.getCounter());
+		
 		TokenSequence stackAllocSequence = StackAllocator.stackAllocator.getInitialisation();
 		TokenSequence middleSequence = 
 				new TokenSequence(

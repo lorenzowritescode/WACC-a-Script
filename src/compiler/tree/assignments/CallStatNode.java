@@ -76,9 +76,9 @@ public class CallStatNode extends Assignable {
 		
 		
 		return seq.appendAll(
-			new PushToken(Register.R3),			// Save R3 which contains the parameter base reg
+//			new PushToken(Register.R3),			// Save R3 which contains the parameter base reg
 			new BranchLinkToken("f_" + ident),
-			new PopToken(Register.R3),			// Restore R3
+//			new PopToken(Register.R3),			// Restore R3
 			new AddImmToken(Register.sp, Register.sp, Integer.toString(stackOffset)),
 			new MovRegToken(r, Register.R0));
 	}
