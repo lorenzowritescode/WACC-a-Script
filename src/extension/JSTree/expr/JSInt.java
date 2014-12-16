@@ -14,4 +14,8 @@ public class JSInt implements JSExpr {
 		return String.valueOf(val);
 	}
 
+	public int getVal() {
+		return val;
+	}
+
 }

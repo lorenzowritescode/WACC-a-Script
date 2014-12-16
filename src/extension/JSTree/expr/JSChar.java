@@ -14,4 +14,8 @@ public class JSChar implements JSExpr {
 		return text;
 	}
 
+	public String getText() {
+		return text;
+	}
+
 }

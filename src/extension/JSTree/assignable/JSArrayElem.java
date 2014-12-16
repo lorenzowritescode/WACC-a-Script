@@ -9,10 +9,12 @@ public class JSArrayElem implements JSExpr /* TODO implements assignable?*/{
 	
 	private ArrayList<JSExpr> locations;
 	private JSVar var;
+	private String typeString;
 
-	public JSArrayElem(ArrayList<JSExpr> locations, JSVar var) {
+	public JSArrayElem(ArrayList<JSExpr> locations, JSVar var, String typeString) {
 		this.locations = locations;
 		this.var = var;
+		this.typeString = typeString;
 	}
 
 	@Override
@@ -23,6 +25,14 @@ public class JSArrayElem implements JSExpr /* TODO implements assignable?*/{
 			output += "[" + locations.get(1).toCode() + "]";
 		}
 		return output;
+	}
+
+	public ArrayList<JSExpr> getLocations() {
+		return locations;
+	}
+
+	public String getType() {
+		return typeString;
 	}
 
 }
