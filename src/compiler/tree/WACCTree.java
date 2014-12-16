@@ -22,7 +22,7 @@ public abstract class WACCTree {
 	 * are detected in the WACCTree node on which this function is called.
 	 * Returns true otherwise.
 	 */
-	public abstract boolean check( SymbolTable st, ParserRuleContext ctx );
+	public abstract boolean check( SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx );
 	
 	
 	/**

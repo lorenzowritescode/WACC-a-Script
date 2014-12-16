@@ -1,9 +1,22 @@
 package symboltable;
 
 import java.util.HashMap;
+import java.util.List;
 
+import jsparser.LibArg;
+import jsparser.LibFunc;
+import jsparser.types.LibArray;
+import jsparser.types.LibBaseType;
+import jsparser.types.LibPair;
+import jsparser.types.LibType;
 import tree.WACCTree;
+import tree.func.FuncDecNode;
+import tree.func.ParamListNode;
+import tree.func.ParamNode;
+import tree.type.ArrayType;
+import tree.type.PairType;
 import tree.type.WACCType;
+import WACCExceptions.InvalidTypeException;
 import WACCExceptions.UnresolvedExpectationException;
 
 public class SymbolTable {
@@ -96,14 +109,14 @@ public class SymbolTable {
 		return expectation.checkType(returnType);
 	}
 	
-	public void finaliseScope(String funcName) {
-		if(!expectation.isResolved()) {
+	public void finaliseScope(boolean complete, String funcName) {
+		if(!expectation.isResolved(complete, funcName)) {
 			new UnresolvedExpectationException("The expectations of the function " + funcName + " were not met.", null);
 		}
 	}
 	
 	public void finaliseScope() {
-		if(!expectation.isResolved()) {
+		if(!expectation.isResolved(true, "")) {
 			new UnresolvedExpectationException("The expectations of this code block were not met.", null);
 		}
 	}

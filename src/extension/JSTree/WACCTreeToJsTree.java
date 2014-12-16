@@ -1,6 +1,8 @@
 package JSTree;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import JSTree.assignable.JSArrayElem;
@@ -28,11 +30,17 @@ import JSTree.stat.*;
 public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	private WACCTree progTree;
-
+	private HashMap<String, String> funcDeps;
+	
 	public WACCTreeToJsTree(WACCTree progTree) {
 		this.progTree = progTree;
 	}
 	
+	public WACCTreeToJsTree(WACCTree progTree, HashMap<String, String> funcDeps) {
+		this.progTree = progTree;
+		this.funcDeps = funcDeps;
+	}
+
 	public static final JSTree EMPTY_NODE = new JSStat() {
 		@Override
 		public String toCode() {
@@ -67,7 +75,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	@Override
 	public JSTree visitBlockStatNode(BlockStatNode node) {
 		// TODO Implement Block Stat Node
-		return null;
+		return visit(node.getStat());
 	}
 
 	@Override
@@ -150,7 +158,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		
 		JSStat body = (JSStat) visit(node.getProgBody());
 		
-		return new JSProg(functions, body);
+		return new JSProg(functions, body, funcDeps);
 	}
 	
 	
@@ -186,7 +194,12 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	public JSTree visitCallStatNode(CallStatNode node) {
 		JSArgList args = visitArgListNode(node.getArgs());
 		String functionName = node.getIdent();
-		
+		if (funcDeps.containsKey(functionName)) {
+			String filePath = funcDeps.get(functionName);
+			String dep = new File(filePath).getName();
+			dep = dep.substring(0, dep.lastIndexOf('.'));
+			return new JSFuncCall(dep, functionName, args);
+		}
 		return new JSFuncCall(functionName, args);
 	}
 

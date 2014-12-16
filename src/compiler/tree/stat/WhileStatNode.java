@@ -32,7 +32,7 @@ public class WhileStatNode extends StatNode {
 	}
 	
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		if (loopCond.getType() == WACCType.BOOL) {
 			return true;
 		} else {
@@ -68,6 +68,11 @@ public class WhileStatNode extends StatNode {
 
 	public StatNode getLoopBody() {
 		return loopBody;
+	}
+	
+	@Override
+	public boolean checkExpectation() {
+		return loopBody.checkExpectation();
 	}
 
 	@Override

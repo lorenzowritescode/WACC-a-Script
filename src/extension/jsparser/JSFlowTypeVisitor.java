@@ -10,11 +10,18 @@ import jsparser.build.JSTypeParser.Base_typeContext;
 import jsparser.build.JSTypeParser.FunctionContext;
 import jsparser.build.JSTypeParser.LibraryContext;
 import jsparser.build.JSTypeParser.PairContext;
-import jsparser.build.JSTypeParser.TypeContext;
 import jsparser.build.JSTypeParser.TypeDefContext;
 import jsparser.build.JSTypeParserBaseVisitor;
+import jsparser.types.LibArray;
+import jsparser.types.LibBaseType;
+import jsparser.types.LibPair;
+import jsparser.types.LibType;
 
 public class JSFlowTypeVisitor extends JSTypeParserBaseVisitor<Object> {
+	
+	
+	public JSFlowTypeVisitor() {
+	}
 
 	@Override
 	public Object visitArgument(ArgumentContext ctx) {

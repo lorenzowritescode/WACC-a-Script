@@ -28,6 +28,14 @@ function terminate() :void {
 	rl.close();
 }
 
+function ord(c :char) :number {
+	return c.charCodeAt(0);
+}
+
+function chr(o :number) :char {
+	return String.fromCharCode(o);
+}
+
 function replaceString(target :string, index :number, c: string) :string {
 	return target.substr(0, index) 
 	       + c 

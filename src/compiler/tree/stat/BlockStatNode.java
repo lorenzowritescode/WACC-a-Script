@@ -31,6 +31,12 @@ public class BlockStatNode extends StatNode {
 	public StatNode getStat() {
 		return statNode;
 	}
+	
+	@Override
+	public boolean checkExpectation() {
+		return statNode.checkExpectation();
+	}
+	
 	@Override
 	public int getVarCounter() {
 		return statNode.getVarCounter();

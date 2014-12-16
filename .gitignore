@@ -49,5 +49,7 @@ doc/
 *.s
 #Ignore WACC source
 *.wacc
+#but not in wacc_src
+!wacc_src/*
 #Ignore compiled javaScript
 *.js

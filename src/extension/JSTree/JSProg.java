@@ -1,6 +1,11 @@
 package JSTree;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import JSTree.func.JSFunc;
 import JSTree.stat.JSStat;
@@ -10,15 +15,28 @@ public class JSProg implements JSTree {
 
 	private List<JSFunc> functions;
 	private JSStat body;
-
-	public JSProg(List<JSFunc> functions, JSStat body) {
+	private HashMap<String, String> funcDeps;
+	
+	public JSProg(List<JSFunc> functions, JSStat body, HashMap<String, String> funcDeps) {
 		this.functions = functions;
 		this.body = body;
+		this.funcDeps = funcDeps;
 	}
 
 	@Override
 	public String toCode() {
 		String requireCore = "var core = require('./src/extension/raw-js-lib/core.js');\n";
+		
+		Set<String> set = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        set.addAll(funcDeps.values());
+        ArrayList<String> deps = new ArrayList<>(set);
+		
+		for(String filePath : deps) {
+			String fileName = new File(filePath).getName();
+			fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+			requireCore = requireCore + "var " + fileName + " = require('./" + filePath + "');\n";
+		}
+		
 		String bodyString = body.toCode();
 		
 		String functionDecs = "";

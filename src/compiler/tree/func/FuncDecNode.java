@@ -42,7 +42,7 @@ public class FuncDecNode extends WACCTree {
 	}
 
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		return complete;
 	}
 
@@ -69,7 +69,6 @@ public class FuncDecNode extends WACCTree {
 		InstrToken label = new LabelToken("f_" + funcName);
 		InstrToken push = new PushToken(Register.lr);
 		TokenSequence startSequence = new TokenSequence(label, push);	
-//		startSequence.append(new MovRegToken(Register.R3, Register.sp));
 		
 		int varCount = funcBody.getVarCounter();
 		params.allocateParamsOnStack(varCount);
@@ -77,7 +76,6 @@ public class FuncDecNode extends WACCTree {
 		StackAllocator.stackAllocator.enterNewScope();
 
 		TokenSequence body = funcBody.toAssembly(r);
-		System.out.println("COCK: " + StackAllocator.stackAllocator.getCounter());
 		
 		TokenSequence stackAllocSequence = StackAllocator.stackAllocator.getInitialisation();
 		TokenSequence middleSequence = 

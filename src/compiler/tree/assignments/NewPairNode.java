@@ -24,7 +24,7 @@ public class NewPairNode extends Assignable {
 	}
 
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		return true;
 	}
 

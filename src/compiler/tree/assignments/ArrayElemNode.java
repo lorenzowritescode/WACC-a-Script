@@ -32,7 +32,7 @@ public class ArrayElemNode extends ExprNode implements AssignLhsNode {
 	}
 	
 	@Override
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		for(ExprNode pos : locations) {
 			if(!(pos.getType() == WACCType.INT)) {
 				el.record(new InvalidTypeException("Array position can only be found using an Int", ctx));

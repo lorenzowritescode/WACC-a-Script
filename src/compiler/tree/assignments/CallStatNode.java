@@ -39,7 +39,7 @@ public class CallStatNode extends Assignable {
 		this.decNode = func; /* Not sure if needed */
 	}
 	
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		if (!st.containsRecursive(ident)) {
 			new UndeclaredIdentifierException("Function " + ident + " has not been delcared", ctx);
 			return false;

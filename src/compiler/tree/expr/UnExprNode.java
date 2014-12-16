@@ -28,7 +28,7 @@ public class UnExprNode extends ExprNode{
 	}
 
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		if (!operator.check(expr)) {
 			new InvalidTypeException("The type in the Unary operator expression is not valid", ctx);
 			return false;

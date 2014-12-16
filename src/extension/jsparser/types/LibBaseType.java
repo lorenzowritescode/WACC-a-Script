@@ -1,4 +1,6 @@
-package jsparser;
+package jsparser.types;
+
+import jsparser.JSParserException;
 
 public enum LibBaseType implements LibType {
 	NUMBER("number"), CHAR("char"), STRING("string"), BOOL("boolean");

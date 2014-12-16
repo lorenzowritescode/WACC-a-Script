@@ -1,5 +1,7 @@
 package jsparser;
 
+import jsparser.types.LibType;
+
 public class LibArg {
 	private LibType type;
 	
@@ -10,5 +12,9 @@ public class LibArg {
 	 @Override
 	public String toString() {
 		 return type.toString();
+	}
+	
+	public LibType getType() {
+		return type;
 	}
 }

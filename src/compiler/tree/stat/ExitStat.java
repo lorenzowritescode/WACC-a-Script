@@ -29,12 +29,17 @@ public class ExitStat extends StatNode {
 	}
 	
 	@Override
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		if (exitVal.getType() == WACCType.INT) {
 			return true;
 		}
 		new InvalidTypeException("Exit statements must have an int as the argument", ctx);
 		return false;
+	}
+	
+	@Override
+	public boolean checkExpectation() {
+		return true;
 	}
 	
 	@Override

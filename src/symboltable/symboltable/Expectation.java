@@ -62,10 +62,10 @@ public class Expectation {
 	 * @return
 	 * 		true iff all the expectations were met.
 	 */
-	public boolean isResolved() {
+	public boolean isResolved(boolean complete, String funcName) {
 		// HACK: if a return statement was called but none was found, the UnresolvedExpectationException is thrown rather that only created.
-		if (!hasBeenCalled && !noReturnExpected)
-			throw new UnresolvedExpectationException("No return statement for the function was found", null);
+		if (!complete && !noReturnExpected)
+			throw new UnresolvedExpectationException("No return statement for the function "+ funcName + " was found", null);
 		// only one of hasBeenCalled and noReturnExpected should be true
 		return (hasBeenCalled != noReturnExpected) && resolved;
 	}
