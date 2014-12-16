@@ -62,7 +62,7 @@ public class ParamListNode extends WACCTree implements Iterable<ParamNode>{
 	}
 
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		ArrayList<String> paramIdents = new ArrayList<String>();
 		
 		//Check whether there are duplicate arguments

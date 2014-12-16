@@ -30,7 +30,7 @@ public class AssignStatNode extends StatNode {
 	}
 	
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		
 		//Check types are compatible
 		if (!lhs.getType().isCompatible(rhs.getType())) {

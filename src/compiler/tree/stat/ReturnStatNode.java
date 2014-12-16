@@ -26,24 +26,20 @@ public class ReturnStatNode extends StatNode {
 	public ReturnStatNode(ExprNode expr) {
 		this.expr = expr;
 	}
-
+	
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		WACCType returnType = expr.getType();
-		if( !st.checkType(returnType) ) {
-			new IncompatibleTypesException("A return of type " + returnType.toString() + " was not expected.", ctx);
+		st.checkType(returnType);
+		if( !funcSt.checkType(returnType) ) {
+			new IncompatibleTypesException("A return of type " + returnType.toString() + " was not expected.");
 			return false;
 		}
 		return true;
 	}
 	
 	@Override
-	public boolean checkExpectation(Expectation ec) {
-		WACCType returnType = expr.getType();
-		if( !ec.checkType(returnType) ) {
-			new IncompatibleTypesException("A return of type " + returnType.toString() + " was not expected.");
-			return false;
-		}
+	public boolean checkExpectation() {
 		return true;
 	}
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import symboltable.ExpectationChecker;
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
@@ -17,8 +18,6 @@ import util.DebugHelper;
 import WACCExceptions.*;
 import antlr.WACCParser.*;
 
-
-
 // library used for debugging
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
@@ -28,11 +27,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public static final DebugHelper dbh = new DebugHelper();
 	private ParseTree parseTree;
 	private SymbolTable currentSymbolTable;
+	private SymbolTable functionSymbolTable;
 	private WACCTree progTree;
 
 	public SemanticChecker(ParseTree t) {
 		this.parseTree = t;
 		this.currentSymbolTable = new SymbolTable();
+		this.functionSymbolTable = new SymbolTable();
 	}
 	
 	public SemanticChecker(ParseTree t, SymbolTable st) {
@@ -63,6 +64,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 		// Create an inner scope Symbol Table for the function body.
 		currentSymbolTable = new SymbolTable(currentSymbolTable, func.getType());
+		functionSymbolTable = currentSymbolTable;
 
 		// Add params to current SymbolTable
 		ParamListNode paramList = func.getParams();
@@ -70,14 +72,17 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 		// Create the functionBody node
 		StatNode funcBody = (StatNode) visit(ctx.stat());
+		ExpectationChecker isReturn = new ExpectationChecker();
+		boolean complete = isReturn.visit(funcBody);
 
 		// finalise the current symbolTable and restore the parent scope
-		currentSymbolTable.finaliseScope(funcName);
+		currentSymbolTable.finaliseScope(complete, funcName);
 		currentSymbolTable = currentSymbolTable.getParent();
+		functionSymbolTable = currentSymbolTable;
 
 		// Add function body statement to the function node
 		func.addFuncBody(funcBody);
-		func.check(currentSymbolTable, ctx);
+		func.check(functionSymbolTable, currentSymbolTable, ctx);
 		return func;
 	}
 
@@ -91,7 +96,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public WACCTree visitReturn_stat(Return_statContext ctx) {
 		ExprNode exprType = (ExprNode) visit(ctx.expr());
 		ReturnStatNode rst = new ReturnStatNode(exprType);
-		rst.check(currentSymbolTable, ctx);
+		rst.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return rst;
 	}
@@ -102,7 +107,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		StatNode rhs = (StatNode) visit(ctx.stat(1));
 		
 		SeqStatNode seqStat = new SeqStatNode(lhs, rhs);
-		seqStat.check(currentSymbolTable, ctx);
+		seqStat.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return seqStat;
 	}
@@ -111,7 +116,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public WACCTree visitPrint_stat(Print_statContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		PrintStat ps = new PrintStat(expr);
-		ps.check(currentSymbolTable, ctx);
+		ps.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return ps;
 	}
@@ -120,7 +125,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public WACCTree visitPrintln_expr(Println_exprContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		PrintLnStat ps = new PrintLnStat(expr);
-		ps.check(currentSymbolTable, ctx);
+		ps.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return ps;
 	}
@@ -129,7 +134,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public WACCTree visitRead_stat(Read_statContext ctx) {
 		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.assign_lhs());
 		ReadStatNode rsn = new ReadStatNode(lhs);
-		rsn.check(currentSymbolTable, ctx);
+		rsn.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return rsn;
 	}
@@ -138,7 +143,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public WACCTree visitFree_stat(Free_statContext ctx) {
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		FreeStat stat = new FreeStat(expr);
-		stat.check(currentSymbolTable, ctx);
+		stat.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return stat;
 	}
@@ -147,7 +152,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public WACCTree visitExit_stat(Exit_statContext ctx) {
 		ExprNode exitVal = (ExprNode) visit(ctx.expr());
 		ExitStat stat = new ExitStat(exitVal);
-		stat.check(currentSymbolTable, ctx);
+		stat.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return stat;
 	}
@@ -190,7 +195,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		// We visit all the functions and create full nodes
 		for (FuncContext fctx : ctx.func()) {
 			FuncDecNode fdec = (FuncDecNode) visit(fctx);
-			fdec.check(currentSymbolTable, ctx);
+			fdec.check(functionSymbolTable, currentSymbolTable, ctx);
 			functions.add(fdec);
 		}
 
@@ -206,7 +211,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		AssignLhsNode lhs = (AssignLhsNode) visit(ctx.assign_lhs());
 		Assignable rhs = (Assignable) visit(ctx.assign_rhs());
 		AssignStatNode assignment = new AssignStatNode(lhs, rhs);
-		assignment.check(currentSymbolTable, ctx);
+		assignment.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return assignment;
 	}
@@ -243,7 +248,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		String ident = ctx.ident().getText();
 		VarNode var = new VarNode(varType, ident);
 		VarDecNode vdn = new VarDecNode(var, rhsTree);
-		vdn.check(currentSymbolTable, ctx);
+		vdn.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return vdn;
 	}
@@ -262,7 +267,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		ExprNode fst = (ExprNode) visit(ctx.expr(0));
 		ExprNode snd = (ExprNode) visit(ctx.expr(1));
 		NewPairNode pair = new NewPairNode(fst, snd);
-		pair.check(currentSymbolTable, ctx);
+		pair.check(functionSymbolTable, currentSymbolTable, ctx);
 		return pair;
 	}
 
@@ -280,7 +285,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 			args = (ArgListNode) visit(ctx.arg_list());
 		}
 		CallStatNode callStat = new CallStatNode(funcDef, args);
-		callStat.check(currentSymbolTable, ctx);
+		callStat.check(functionSymbolTable, currentSymbolTable, ctx);
 		return callStat;
 	}
 
@@ -291,7 +296,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		for (int i = 0; i < argListLength; i++) {
 			args.add((ExprNode) visit(ctx.expr(i)));
 		}
-		args.check(currentSymbolTable, ctx);
+		args.check(functionSymbolTable, currentSymbolTable, ctx);
 		return args;
 	}
 
@@ -304,7 +309,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		String fstOrSnd = ctx.getChild(0).getText();
 		ExprNode expr = (ExprNode) visit(ctx.expr());
 		PairElemNode pairElem = new PairElemNode(fstOrSnd, expr);
-		pairElem.check(currentSymbolTable, ctx);
+		pairElem.check(functionSymbolTable, currentSymbolTable, ctx);
 		return pairElem;
 	}
 
@@ -317,7 +322,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		}
 
 		ArrayLiterNode arrayLiter = new ArrayLiterNode(elems);
-		arrayLiter.check(currentSymbolTable, ctx);
+		arrayLiter.check(functionSymbolTable, currentSymbolTable, ctx);
 		return arrayLiter;
 	}
 
@@ -338,7 +343,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	@Override
 	public WACCTree visitChar_liter(Char_literContext ctx) {
 		CharLeaf charleaf = new CharLeaf(ctx.getText());
-		charleaf.check(currentSymbolTable, ctx);
+		charleaf.check(functionSymbolTable, currentSymbolTable, ctx);
 		return charleaf;
 	}
 
@@ -346,21 +351,21 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 	public WACCTree visitInt_liter(Int_literContext ctx) {
 		String intValue = ctx.getText();
 		IntLeaf intLeaf = new IntLeaf(intValue);
-		intLeaf.check(currentSymbolTable, ctx);
+		intLeaf.check(functionSymbolTable, currentSymbolTable, ctx);
 		return intLeaf;
 	}
 
 	@Override
 	public WACCTree visitBool_liter(Bool_literContext ctx) {
 		BoolLeaf boolLeaf = new BoolLeaf(ctx.getText());
-		boolLeaf.check(currentSymbolTable, ctx);
+		boolLeaf.check(functionSymbolTable, currentSymbolTable, ctx);
 		return boolLeaf;
 	}
 
 	@Override
 	public WACCTree visitStr_liter(Str_literContext ctx) {
 		StringLeaf strLeaf = new StringLeaf(ctx.getText());
-		strLeaf.check(currentSymbolTable, ctx);
+		strLeaf.check(functionSymbolTable, currentSymbolTable, ctx);
 		return strLeaf;
 	}
 
@@ -369,7 +374,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		WACCType paramType = WACCType.evalType(ctx.type());
 		String ident = ctx.ident().getText();
 		ParamNode paramNode = new ParamNode(paramType, ident);
-		paramNode.check(currentSymbolTable, ctx);
+		paramNode.check(functionSymbolTable, currentSymbolTable, ctx);
 		return paramNode;
 	}
 
@@ -380,16 +385,21 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 			ParamNode pn = (ParamNode) visit(p);
 			params.add(pn);
 		}
-		params.check(currentSymbolTable, ctx);
+		params.check(functionSymbolTable, currentSymbolTable, ctx);
 		return params;
 	}
 
 	@Override
 	public WACCTree visitWhile_stat(While_statContext ctx) {
+		currentSymbolTable = new SymbolTable(currentSymbolTable);
 		ExprNode loopCond = (ExprNode) visit(ctx.expr());
 		StatNode loopBody = (StatNode) visit(ctx.stat());
+		
+		currentSymbolTable.finaliseScope();
+		currentSymbolTable = currentSymbolTable.getParent();
+		
 		WhileStatNode whileStat = new WhileStatNode(loopCond, loopBody);
-		whileStat.check(currentSymbolTable, ctx);
+		whileStat.check(functionSymbolTable, currentSymbolTable, ctx);
 
 		return whileStat;
 	}
@@ -401,9 +411,12 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
 		StatNode thenStat = (StatNode) visit(ctx.stat(0));
 		StatNode elseStat = (StatNode) visit(ctx.stat(1));
-		IfStatNode ifStat = new IfStatNode(ifCond, thenStat, elseStat);
-		ifStat.check(currentSymbolTable, ctx);
+		
+		currentSymbolTable.finaliseScope();
 		currentSymbolTable = currentSymbolTable.getParent();
+		
+		IfStatNode ifStat = new IfStatNode(ifCond, thenStat, elseStat);
+		ifStat.check(functionSymbolTable, currentSymbolTable, ctx);
 		
 		return ifStat;
 	}
@@ -423,7 +436,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 			ExprNode rhs = (ExprNode) visit(ctx.expr(1));
 			WACCBinOp binaryOp = WACCBinOp.evalBinOp(ctx.getChild(1).getText());
 			BinExprNode binExpr = new BinExprNode(lhs, binaryOp, rhs);
-			binExpr.check(currentSymbolTable, ctx);
+			binExpr.check(functionSymbolTable, currentSymbolTable, ctx);
 
 			return binExpr;
 
@@ -431,7 +444,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 			ExprNode expr = (ExprNode) visit(ctx.expr(0));
 			WACCUnOp unaryOp = WACCUnOp.evalUnOp(ctx.getChild(0).getText());
 			UnExprNode unaryExpr = new UnExprNode(unaryOp, expr);
-			unaryExpr.check(currentSymbolTable, ctx);
+			unaryExpr.check(functionSymbolTable, currentSymbolTable, ctx);
 
 			return unaryExpr;
 

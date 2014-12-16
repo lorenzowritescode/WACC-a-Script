@@ -30,7 +30,7 @@ public class BinExprNode extends ExprNode {
 	}
 
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		if (!operator.check(lhs, rhs)) {
 			new InvalidTypeException("The types in the Binary expression are not compatible.", ctx);
 			return false;

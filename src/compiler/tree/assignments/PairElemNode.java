@@ -54,7 +54,7 @@ public class PairElemNode extends Assignable implements AssignLhsNode {
 	}
 	
 	@Override
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		if (!(expr.getType() instanceof PairType)) {
 			new InvalidTypeException("The `fst` and `snd` operators must take an expr of type PairType.\n"
 					+ "Given: " + expr.getType().toString());

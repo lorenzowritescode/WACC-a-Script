@@ -15,27 +15,27 @@ public class ExpectationTest {
 	
 	@Test
 	public void emptyExpectationIsResolved() throws Exception {
-		assertThat(emptyExpectation.isResolved(), is(true));
+		assertThat(emptyExpectation.isResolved(false), is(true));
 	}
 	
 	@Test
 	public void emptyExpectationFailsUponReturnStat() {
 		emptyExpectation.checkType(WACCType.CHAR);
-		assertThat(emptyExpectation.isResolved(), is(false));
+		assertThat(emptyExpectation.isResolved(false), is(false));
 	}
 	
 	@Test
 	public void multipleReturnsOnEmptyNodeShouldStillFail() {
 		emptyExpectation.checkType(WACCType.CHAR);
-		assertThat(emptyExpectation.isResolved(), is(false));
+		assertThat(emptyExpectation.isResolved(false), is(false));
 		emptyExpectation.checkType(WACCType.INT);
-		assertThat(emptyExpectation.isResolved(), is(false));
+		assertThat(emptyExpectation.isResolved(false), is(false));
 	}
 	
 	@Test
 	public void intExpectationFailsWithNoReturn() {
 		try {
-			intExpectation.isResolved();
+			intExpectation.isResolved(false);
 		} catch ( UnresolvedExpectationException e) {
 			return;
 		}
@@ -44,40 +44,40 @@ public class ExpectationTest {
 	@Test
 	public void intExpectationSuccedesWithIntReturn() {
 		intExpectation.checkType(WACCType.INT);
-		assertThat(intExpectation.isResolved(), is(true));
+		assertThat(intExpectation.isResolved(false), is(true));
 	}
 	
 	@Test
 	public void multipleIntReturnsAreOK() {
 		intExpectation.checkType(WACCType.INT);
-		assertThat(intExpectation.isResolved(), is(true));
+		assertThat(intExpectation.isResolved(false), is(true));
 		intExpectation.checkType(WACCType.INT);
 		intExpectation.checkType(WACCType.INT);
-		assertThat(intExpectation.isResolved(), is(true));
+		assertThat(intExpectation.isResolved(false), is(true));
 	}
 	
 	@Test
 	public void wrongReturnFails() {
 		intExpectation.checkType(WACCType.BOOL);
-		assertThat(intExpectation.isResolved(), is(false));
+		assertThat(intExpectation.isResolved(false), is(false));
 	}
 	
 	@Test
 	public void multipleWrongReturnsFail() {
 		intExpectation.checkType(WACCType.BOOL);
-		assertThat(intExpectation.isResolved(), is(false));
+		assertThat(intExpectation.isResolved(false), is(false));
 		intExpectation.checkType(WACCType.BOOL);
-		assertThat(intExpectation.isResolved(), is(false));
+		assertThat(intExpectation.isResolved(false), is(false));
 	}
 	
 	@Test
 	public void multipleWrongReturnsAndOneRightFail() {
 		intExpectation.checkType(WACCType.BOOL);
-		assertThat(intExpectation.isResolved(), is(false));
+		assertThat(intExpectation.isResolved(false), is(false));
 		intExpectation.checkType(WACCType.INT);
-		assertThat(intExpectation.isResolved(), is(false));
+		assertThat(intExpectation.isResolved(false), is(false));
 		intExpectation.checkType(WACCType.BOOL);
-		assertThat(intExpectation.isResolved(), is(false));
+		assertThat(intExpectation.isResolved(false), is(false));
 	}
 
 }
