@@ -66,8 +66,8 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSTree visitBlockStatNode(BlockStatNode node) {
-		// TODO Implement Block Stat Node
-		return visit(node.getStat());
+		JSStat stat = (JSStat) visit(node.getStat());
+		return new JSBlockStat(stat);
 	}
 
 	@Override
