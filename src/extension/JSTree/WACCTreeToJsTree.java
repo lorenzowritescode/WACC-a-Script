@@ -18,6 +18,7 @@ import tree.assignments.PairElemNode.ORDER;
 import tree.expr.*;
 import tree.func.*;
 import tree.stat.*;
+import tree.type.WACCType;
 import tree.type.WACCUnOp;
 import visitor.WACCTreeVisitor;
 import JSTree.expr.*;
@@ -50,9 +51,16 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	}
 
 	@Override
-	public JSAssignStat visitAssignStatNode(AssignStatNode node) {
+	public JSTree visitAssignStatNode(AssignStatNode node) {
 		JSTree lhs = visit(node.getLhs());
 		JSTree rhs = visit(node.getRhs());
+		if( lhs instanceof JSArrayElem 
+			&& ((JSArrayElem) lhs).getType().equals("char") ) {
+			String var = ((ArrayElemNode) node.getLhs()).getVar().getIdent();
+			int index = ((JSInt) ((JSArrayElem) lhs).getLocations().get(0)).getVal();
+			String c = ((JSChar) rhs).getText();
+			return new JSChangeString(var, index, c);
+		}
 		return new JSAssignStat(lhs, rhs);
 	}
 
@@ -275,7 +283,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		for(ExprNode en : locations) {
 			jsLocations.add((JSExpr) visit(en));
 		}
-		JSArrayElem arrayElem = new JSArrayElem(jsLocations, var);
+		JSArrayElem arrayElem = new JSArrayElem(jsLocations, var, node.getType().toString());
 		return arrayElem;
 	}
 	

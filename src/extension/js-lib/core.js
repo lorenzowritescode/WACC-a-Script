@@ -28,9 +28,16 @@ function terminate() :void {
 	rl.close();
 }
 
+function replaceString(target :string, index :number, c: string) :string {
+	return target.substr(0, index) 
+	       + c 
+	       + target.substr(index+c.length);
+}
+
 module.exports = {
 	print: print, 
 	read: read,
 	terminate: terminate,
-	iostream : rl
+	iostream : rl,
+	replaceString: replaceString
 }
