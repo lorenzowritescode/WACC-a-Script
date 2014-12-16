@@ -9,6 +9,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+
+import jsparser.JSLibParser;
+import jsparser.LibFunc;
+import jsparser.LibraryLoader;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -19,6 +25,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+import symboltable.SymbolTable;
 import tree.WACCTree;
 import JSTree.WACCTreeToJsTree;
 import WACCExceptions.IntOverflowException;
@@ -45,8 +52,30 @@ public class Main {
 		// Build the tokens AST
 		ParseTree tree = getParseTree(tokens);
 		
+		
+		
+		// Get external JS source file
+		SymbolTable libTable = new SymbolTable();
+		LibraryLoader ll = new LibraryLoader(libTable);
+		
+		// funcDependancies stores the function name, and the required file name for that function
+		// (e.g. <Function Name, Required Package name>)
+		HashMap<String, String> funcDependancies = new HashMap<>();
+		
+		if(cmd.hasOption("j") && cmd.hasOption("l")) {
+			String[] libs = cmd.getOptionValue("l").split(":");
+			for (String lib : libs) {
+				JSLibParser libParser = new JSLibParser(lib);
+				List<LibFunc> funcs = libParser.getLibFuncs();
+				ll.loadIntoSymbolTable(funcs);
+				funcDependancies.putAll(ll.findDependancies(lib, funcs));
+			}
+			
+
+		}
+		
 		// Check for semantic errors
-		SemanticChecker sc = checkSemanticIntegrity(tree);
+		SemanticChecker sc = checkSemanticIntegrity(tree, libTable);
 		
 		// Check that the Error Listener has not recorded any exceptions
 		if ( !sc.terminate() ) {
@@ -54,7 +83,12 @@ public class Main {
 		}
 		
 		// Extract the path from the waccFilePath string
+		if (waccFilePath == null) {
+			waccFilePath = "temp.wacc";
+		}
+			
 		Path p = Paths.get(waccFilePath);
+		 
 
 		// String that will contain the final program
 		String outputString = "";
@@ -65,7 +99,7 @@ public class Main {
 		
 		// Get the filename and replace the extension
 		if(cmd.hasOption('j')) {
-			outputString = compileToJavaScript(wt);
+			outputString = compileToJavaScript(wt, funcDependancies);
 			extension = ".js";
 		} else {
 			outputString = compileToArmAssembly(wt);
@@ -82,8 +116,10 @@ public class Main {
 		}
 	}
 
-	private static String compileToJavaScript(WACCTree wt) {
-		WACCTreeToJsTree converter = new WACCTreeToJsTree(wt);
+
+
+	private static String compileToJavaScript(WACCTree wt, HashMap<String, String> funcDeps) {
+		WACCTreeToJsTree converter = new WACCTreeToJsTree(wt, funcDeps);
 		return converter.init();	
 	}
 
@@ -152,8 +188,8 @@ public class Main {
 	 * @return
 	 * 		The Semantic Checker object
 	 */
-	private static SemanticChecker checkSemanticIntegrity(ParseTree tree) {
-		SemanticChecker semantic = new SemanticChecker(tree);
+	private static SemanticChecker checkSemanticIntegrity(ParseTree tree, SymbolTable libTable) {
+		SemanticChecker semantic = new SemanticChecker(tree, libTable);
 		try {
 			semantic.init();
 		} catch (UnresolvedExpectationException e) {
@@ -222,12 +258,14 @@ public class Main {
 	private static CommandLine parseFlags(String[] args) {
 		// create Options object
 		Options options = new Options();
-		// add v option
+		// The first argument is the flag character, the second argument 
+		// is true if the flag requires and argument. The third flag describes the behavior of the flag
 		options.addOption("v", false, "verbose");
 		options.addOption("d", false, "debug mode");
 		options.addOption("f", true, "source file");
 		options.addOption("s", false, "force printing assembly to std-out");
 		options.addOption("j", false, "Compile into Javascript");
+		options.addOption("l", true, "Include external javaScript libraries (e.g. \"core.js:math.js\"");
 		
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;
