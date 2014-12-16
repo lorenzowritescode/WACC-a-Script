@@ -38,6 +38,11 @@ public class SeqStatNode extends StatNode {
 	}
 	
 	@Override
+	public boolean checkExpectation() {
+		return lhs.checkExpectation() || rhs.checkExpectation();
+	}
+	
+	@Override
 	public int getVarCounter() {
 		return lhs.getVarCounter() + rhs.getVarCounter();
 	}

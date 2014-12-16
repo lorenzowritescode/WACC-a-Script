@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
-import symboltable.ExpectationChecker;
 import symboltable.SymbolTable;
 import tree.ProgNode;
 import tree.WACCTree;
@@ -67,8 +66,7 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 		// Create the functionBody node
 		StatNode funcBody = (StatNode) visit(ctx.stat());
-		ExpectationChecker isReturn = new ExpectationChecker();
-		boolean complete = isReturn.visit(funcBody);
+		boolean complete = funcBody.checkExpectation();
 
 		// finalise the current symbolTable and restore the parent scope
 		currentSymbolTable.finaliseScope(complete, funcName);
