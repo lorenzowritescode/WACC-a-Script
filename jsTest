@@ -18,50 +18,95 @@ def recursiveTest (directory)
 end
 
 def testFile (waccFilePath)
-	jsOutput = `./compile -js -f #{waccFilePath} > tmp.js`
+	`./compile -js -f #{waccFilePath} > tmp.js`
 	expectedOutput = getOutput(waccFilePath)
-	outOutput = `node tmp.js`
-	if (ourOutput != expectedOutput)
-		incorrectOutputError(waccFilePath)
+	jsOutput = `node tmp.js`
+	toCompare = jsOutput.lines
+	puts "Our Output: "
+	puts toCompare
+	if (expectedOutput[0].start_with?('#empty#'))
+		if (toCompare.length != 0)
+			incorrectOutputError(waccFilePath, expectedOutput, toCompare)
+		else
+			correctOutput(waccFilePath)
+		end
+	elsif (toCompare != expectedOutput)
+		incorrectOutputError(waccFilePath, expectedOutput, toCompare)
 	elsif (jsOutput.start_with?('line'))
 		syntaxError(waccFilePath)
-	else(jsOutput.start_with?('WACCExceptions'))
+	elsif (jsOutput.start_with?('WACCExceptions'))
 		semanticError(waccFilePath)
+	else
+		correctOutput(waccFilePath)
 	end
+
 end
 
 def getOutput (waccFilePath)
 	f = File.open(waccFilePath, "r")
-	lines = f.each_line
-	lines.splice(0, lines.index("# Output: ")+1)
-	lines.splice(lines.index("# Program: ")-1, lines.length - lines.index("# Program: "))
+	lines = f.each_line.to_a
+	startIndex = indexOfOutputData(lines)
+	endIndex = indexOfProgramData(lines)
+	lines = lines[startIndex+1..endIndex-1]
 	lines.each do |line|
 		line.slice!(0, 2)
 	end
 	return lines
 end
 
-def incorrectOutputError(waccFilePath)
-	puts "Output does not match expected for #{waccFilePath}"
+def indexOfOutputData (lines)
+	x = 0
+	lines.each do |line|
+		if line.start_with?('# Output:')
+			return x
+		end
+		x += 1
+	end
+end
+
+def indexOfProgramData (lines)
+	x = 0
+	lines.each do |line|
+		if line.start_with?('# Program:')
+			return x
+		end
+		x += 1
+	end
+end
+
+def incorrectOutputError(waccFilePath, expectedOutput, toTest)
+	puts "Failed :Output does not match expected for #{waccFilePath}"
+	puts "expected: "
+	puts expectedOutput
+	puts "actual: "
+	puts toTest
 end
 
 def syntaxError (waccFilePath)
-	puts "Syntax Error Found within #{waccFilePath}"
+	puts "Failed: Syntax Error Found within #{waccFilePath}"
 end
 
 def semanticError (waccFilePath)
-	puts "Semantic Error Found within #{waccFilePath}"
+	puts "Failed: Semantic Error Found within #{waccFilePath}"
 end
 
+def correctOutput(waccFilePath)
+	puts "Passed : #{waccFilePath}"
+end
 
 arg0 = ARGV[0]
 
 if (arg0 == nil)
+	puts "No arguments provided, searching..."
 	recursiveTest(".")
 elsif (File.directory?(arg0))
+	puts "Directors found, testing all..."
 	recursiveTest(arg0)
 elsif (File.extname(arg0) == ".wacc")
+	puts "File found, testing file..."
 	testFile(arg0)
 else
 	puts "jsTest: Invalid arguments provided"
 end
+
+#`rm tmp.js`
