@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import JSTree.expr.JSExpr;
 import JSTree.expr.JSVar;
 
-public class JSArrayElem implements JSExpr /* TODO implements assignable?*/{
+public class JSArrayElem implements JSExpr {
 	
 	private ArrayList<JSExpr> locations;
 	private JSVar var;
