@@ -24,6 +24,7 @@ function print(s :string) :void {
 }
 
 function terminate() :void {
+	rl.pause();
 	rl.close();
 }
 
