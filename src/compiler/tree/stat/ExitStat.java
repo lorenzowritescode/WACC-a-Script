@@ -38,6 +38,11 @@ public class ExitStat extends StatNode {
 	}
 	
 	@Override
+	public boolean checkExpectation() {
+		return true;
+	}
+	
+	@Override
 	public TokenSequence toAssembly(Register dest) {
 		TokenSequence ldr = exitVal.toAssembly(dest);
 		InstrToken mov2 = new MovRegToken(Register.R0, dest);
