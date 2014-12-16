@@ -1,5 +1,7 @@
 package jsparser;
 
+import jsparser.types.LibBaseType;
+
 public class LibFunc {
 	
 	private String functionName;
@@ -33,18 +35,6 @@ public class LibFunc {
 		res += returnType.toString();
 		
 		return res;		
-	}
-	
-	public LibArgList getArgList() {
-		return argList;
-	}
-	
-	public LibType getReturnType() {
-		return returnType;
-	}
-	
-	public String getFunctionName() {
-		return functionName;
 	}
 
 }
