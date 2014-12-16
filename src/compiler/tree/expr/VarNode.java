@@ -30,7 +30,7 @@ public class VarNode extends ExprNode implements AssignLhsNode {
 	}
 	
 	@Override
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		if (!st.containsRecursive(ident)) {
 			throw new UndeclaredIdentifierException(ident + " hasn't been defined", ctx);
 		}

@@ -16,7 +16,7 @@ import tree.type.WACCType;
 public abstract class StatNode extends WACCTree {
 
 	@Override
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		return true;
 	}
 
@@ -26,7 +26,7 @@ public abstract class StatNode extends WACCTree {
 		throw new UnsupportedOperationException("It's not possible to call getType() on a StatNode.");
 	}
 	
-	public boolean checkExpectation(Expectation ec) {
+	public boolean checkExpectation() {
 		return false;
 	}
 

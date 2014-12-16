@@ -25,7 +25,7 @@ public class BoolLeaf extends ExprNode {
 	}
 
 	@Override
-	public boolean check(SymbolTable st, ParserRuleContext ctx) {		
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {		
 		switch (this.stringValue) {
 			case "true":
 				this.value = true;

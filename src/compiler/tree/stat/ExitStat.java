@@ -29,7 +29,7 @@ public class ExitStat extends StatNode {
 	}
 	
 	@Override
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		if (exitVal.getType() == WACCType.INT) {
 			return true;
 		}

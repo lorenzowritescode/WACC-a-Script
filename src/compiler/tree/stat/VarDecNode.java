@@ -32,7 +32,7 @@ public class VarDecNode extends StatNode {
 	}
 
 	@Override
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		
 		// First we check the identifier is unique and it is not a function
 		if ( st.containsCurrent(var.getIdent()) && !(st.get(var.getIdent()) instanceof FuncDecNode) ) {
