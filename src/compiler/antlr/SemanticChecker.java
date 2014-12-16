@@ -34,6 +34,11 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		this.parseTree = t;
 		this.currentSymbolTable = new SymbolTable();
 	}
+	
+	public SemanticChecker(ParseTree t, SymbolTable st) {
+		this.parseTree = t;
+		this.currentSymbolTable = st;
+	}
 
 	public void init() {
  		dbh.printV("Checking sematic integrity...");
