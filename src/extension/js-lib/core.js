@@ -28,6 +28,14 @@ function terminate() :void {
 	rl.close();
 }
 
+function ord(c :char) :number {
+	return c.charCodeAt(0);
+}
+
+function chr(o :number) :char {
+	return String.fromCharCode(o);
+}
+
 module.exports = {
 	print: print, 
 	read: read,
