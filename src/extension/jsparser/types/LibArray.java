@@ -1,4 +1,4 @@
-package jsparser;
+package jsparser.types;
 
 public class LibArray implements LibType {
 	
@@ -16,6 +16,10 @@ public class LibArray implements LibType {
 	@Override
 	public String getTypeString() {
 		return "array<"+inner.getTypeString()+">";
+	}
+	
+	public LibType getInner() {
+		return inner;
 	}
 
 }

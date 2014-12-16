@@ -1,4 +1,4 @@
-package jsparser;
+package jsparser.types;
 
 public class LibPair implements LibType {
 
@@ -18,6 +18,14 @@ public class LibPair implements LibType {
 	@Override
 	public String toString() {
 		return getTypeString();
+	}
+	
+	public LibType getFst() {
+		return fst;
+	}
+	
+	public LibType getSnd() {
+		return snd;
 	}
 
 }
