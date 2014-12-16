@@ -1,5 +1,7 @@
 package jsparser;
 
+import jsparser.types.LibType;
+
 public class LibArg {
 	private LibType type;
 	
