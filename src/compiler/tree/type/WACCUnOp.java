@@ -184,7 +184,7 @@ public abstract class WACCUnOp {
 			return new JSUnOpExpr(expr) {
 				@Override
 				public String toCode() {
-					return "ord(" + expr.toCode() + ")";
+					return "core.ord(" + expr.toCode() + ")";
 				}
 			};
 		}
@@ -217,7 +217,7 @@ public abstract class WACCUnOp {
 			return new JSUnOpExpr(expr) {
 				@Override
 				public String toCode() {
-					return "ord(" + expr.toCode() + ")";
+					return "core.chr(" + expr.toCode() + ")";
 				}
 			};
 		}
