@@ -5,11 +5,16 @@ import java.util.List;
 
 import jsparser.LibArg;
 import jsparser.LibFunc;
-import jsparser.LibType;
+import jsparser.types.LibArray;
+import jsparser.types.LibBaseType;
+import jsparser.types.LibPair;
+import jsparser.types.LibType;
 import tree.WACCTree;
 import tree.func.FuncDecNode;
 import tree.func.ParamListNode;
 import tree.func.ParamNode;
+import tree.type.ArrayType;
+import tree.type.PairType;
 import tree.type.WACCType;
 import WACCExceptions.InvalidTypeException;
 import WACCExceptions.UnresolvedExpectationException;
@@ -53,49 +58,6 @@ public class SymbolTable {
 		this.isTopSymbolTable = false;
 		this.expectation = new Expectation();
 		this.parentTable = currentSymbolTable;
-	}
-	
-	//Creates a symbol table already containing the Library functions passed to it
-	public SymbolTable(List<LibFunc> library) {
-		this.dictionary = new HashMap<>();
-		this.isTopSymbolTable = true;
-		this.expectation = new Expectation();
-		for(LibFunc f : library) {
-
-			//Create the WACC Param list node to pass to the FuncDecNode
-			ParamListNode params = new ParamListNode();
-			for (LibArg arg : f.getArgList()) {
-				LibType argType = arg.getType();
-				WACCType argWACCType = JStoWACCTypeEval(argType);
-				
-				//The ident of the parameter is irrelevant, so a null is passed to ParamNode constructor
-				ParamNode param = new ParamNode(argWACCType, null);
-				params.add(param);
-			}
-			
-			
-			//FuncDecNode is created and added to the symbol Table
-			LibType libType = f.getReturnType();
-			WACCType type = JStoWACCTypeEval(libType);
-			FuncDecNode func = new FuncDecNode(type, f.getFunctionName(), params);
-			dictionary.put(f.getFunctionName(), func);
-			
-		}
-	}
-
-	private WACCType JStoWACCTypeEval(LibType type) {
-		switch (type) {
-		case NUMBER:
-			return WACCType.INT;
-		case BOOL:
-			return WACCType.BOOL;
-		case CHAR:
-			return WACCType.CHAR;
-		case STRING:
-			return WACCType.STRING;
-		default:
-			throw new InvalidTypeException("The type provided was not recognised: " + type.getTypeString());
-		}
 	}
 
 	public boolean containsRecursive(String identifier) {
