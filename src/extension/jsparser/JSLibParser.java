@@ -14,15 +14,20 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 public class JSLibParser {
-	public static void main(String[] args) {
-		// Get WACC source File
-		String libFilePath = args[0];
-		
+
+	private String fp;
+	
+	public JSLibParser(String libFilePath) {
+		this.fp = libFilePath;
+	}
+	
+	public List<LibFunc> getLibFuncs() {
+
 		InputStream iostream = null;
 		try {
-			iostream = new FileInputStream(libFilePath);
+			iostream = new FileInputStream(fp);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Could not open file");
 			e.printStackTrace();
 		}
 		
@@ -30,7 +35,7 @@ public class JSLibParser {
 		try {
 			antrlInput = new ANTLRInputStream(iostream);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.err.println("Error converting to AntlrInputStream");
 			e.printStackTrace();
 		}
 		
@@ -46,8 +51,6 @@ public class JSLibParser {
 		JSFlowTypeVisitor visitor = new JSFlowTypeVisitor();
 		List<LibFunc> fs = visitor.visitLibrary(libraryFunctions);
 		
-		for(LibFunc f:fs) {
-			System.out.println(f.toString());
-		}
+		return fs;
 	}
 }
