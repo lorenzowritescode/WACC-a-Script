@@ -30,7 +30,8 @@ public class FreeStat extends StatNode {
 		this.en = en;
 	}
 	
-	public boolean check( SymbolTable st, ParserRuleContext ctx ) {
+	@Override
+	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx ) {
 		if (en instanceof VarNode) {
 			VarNode identN = (VarNode) en;
 			String ident = identN.getIdent();
