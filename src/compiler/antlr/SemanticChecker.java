@@ -386,8 +386,13 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 
 	@Override
 	public WACCTree visitWhile_stat(While_statContext ctx) {
+		currentSymbolTable = new SymbolTable(currentSymbolTable);
 		ExprNode loopCond = (ExprNode) visit(ctx.expr());
 		StatNode loopBody = (StatNode) visit(ctx.stat());
+		
+		currentSymbolTable.finaliseScope();
+		currentSymbolTable = currentSymbolTable.getParent();
+		
 		WhileStatNode whileStat = new WhileStatNode(loopCond, loopBody);
 		whileStat.check(functionSymbolTable, currentSymbolTable, ctx);
 
@@ -401,9 +406,12 @@ public class SemanticChecker extends WACCParserBaseVisitor<WACCTree> {
 		ExprNode ifCond = (ExprNode) visit(ctx.expr());
 		StatNode thenStat = (StatNode) visit(ctx.stat(0));
 		StatNode elseStat = (StatNode) visit(ctx.stat(1));
+		
+		currentSymbolTable.finaliseScope();
+		currentSymbolTable = currentSymbolTable.getParent();
+		
 		IfStatNode ifStat = new IfStatNode(ifCond, thenStat, elseStat);
 		ifStat.check(functionSymbolTable, currentSymbolTable, ctx);
-		currentSymbolTable = currentSymbolTable.getParent();
 		
 		return ifStat;
 	}

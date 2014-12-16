@@ -30,6 +30,7 @@ public class ReturnStatNode extends StatNode {
 	@Override
 	public boolean check(SymbolTable funcSt, SymbolTable st, ParserRuleContext ctx) {
 		WACCType returnType = expr.getType();
+		st.checkType(returnType);
 		if( !funcSt.checkType(returnType) ) {
 			new IncompatibleTypesException("A return of type " + returnType.toString() + " was not expected.");
 			return false;
