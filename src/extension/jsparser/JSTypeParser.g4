@@ -8,10 +8,12 @@ library: function*;
 
 typeDef: COL type;
 
-type: NUMBER 
+base_type: NUMBER 
 | BOOL 
 | CHAR 
-| STRING
+| STRING;
+
+type: base_type
 | array
 | pair;
 

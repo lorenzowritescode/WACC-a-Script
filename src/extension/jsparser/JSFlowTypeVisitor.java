@@ -5,8 +5,11 @@ import java.util.List;
 
 import jsparser.build.JSTypeParser.ArglistContext;
 import jsparser.build.JSTypeParser.ArgumentContext;
+import jsparser.build.JSTypeParser.ArrayContext;
+import jsparser.build.JSTypeParser.Base_typeContext;
 import jsparser.build.JSTypeParser.FunctionContext;
 import jsparser.build.JSTypeParser.LibraryContext;
+import jsparser.build.JSTypeParser.PairContext;
 import jsparser.build.JSTypeParser.TypeDefContext;
 import jsparser.build.JSTypeParserBaseVisitor;
 
@@ -14,11 +17,12 @@ public class JSFlowTypeVisitor extends JSTypeParserBaseVisitor<Object> {
 
 	@Override
 	public Object visitArgument(ArgumentContext ctx) {
-		return new LibArg(LibType.parse(ctx.getText()));
+		LibType type = (LibType) visit(ctx.typeDef());
+		return new LibArg(type);
 	}
 
 	@Override
-	public Object visitLibrary(LibraryContext ctx) {
+	public List<LibFunc> visitLibrary(LibraryContext ctx) {
 		List<LibFunc> library = new ArrayList<>();
 		for (FunctionContext f:ctx.function()) {
 			LibFunc lf = (LibFunc) visit(f);
@@ -30,7 +34,7 @@ public class JSFlowTypeVisitor extends JSTypeParserBaseVisitor<Object> {
 	@Override
 	public Object visitFunction(FunctionContext ctx) {
 		String fName = ctx.IDENTITY().getText();
-		LibType returnType = (LibType) visit(ctx.typeDef());
+		LibBaseType returnType = (LibBaseType) visit(ctx.typeDef());
 		LibArgList args = (LibArgList) visit(ctx.arglist());
 		
 		return new LibFunc(fName, returnType, args);
@@ -38,7 +42,7 @@ public class JSFlowTypeVisitor extends JSTypeParserBaseVisitor<Object> {
 
 	@Override
 	public Object visitTypeDef(TypeDefContext ctx) {
-		return LibType.parse(ctx.type().getText());
+		return visit(ctx.type());
 	}
 	
 	@Override
@@ -49,6 +53,24 @@ public class JSFlowTypeVisitor extends JSTypeParserBaseVisitor<Object> {
 			argList.add((LibArg)visit(ac));
 		}
 		return argList;
+	}
+
+	@Override
+	public Object visitBase_type(Base_typeContext ctx) {
+		return LibBaseType.parse(ctx.getText());
+	}
+
+	@Override
+	public Object visitArray(ArrayContext ctx) {
+		LibType inner = (LibType) visit(ctx.type());
+		return new LibArray(inner);
+	}
+
+	@Override
+	public Object visitPair(PairContext ctx) {
+		LibType fst = (LibType) visit(ctx.type(0));
+		LibType snd = (LibType) visit(ctx.type(1));
+		return new LibPair(fst, snd);
 	}
 
 }
