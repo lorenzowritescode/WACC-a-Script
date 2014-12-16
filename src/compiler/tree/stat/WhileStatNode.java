@@ -69,6 +69,11 @@ public class WhileStatNode extends StatNode {
 	public StatNode getLoopBody() {
 		return loopBody;
 	}
+	
+	@Override
+	public boolean checkExpectation() {
+		return loopBody.checkExpectation();
+	}
 
 	@Override
 	public int getVarCounter() {

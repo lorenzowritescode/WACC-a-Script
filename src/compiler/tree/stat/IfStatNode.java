@@ -60,6 +60,11 @@ public class IfStatNode extends StatNode {
 	}
 
 	@Override
+	public boolean checkExpectation() {
+		return thenStat.checkExpectation() && elseStat.checkExpectation();
+	}
+	
+	@Override
 	public <T> T accept(WACCTreeVisitor<T> visitor) {
 		return visitor.visitIfStatNode(this);
 	}
