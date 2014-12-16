@@ -27,7 +27,7 @@ public class JSProg implements JSTree {
 		}
 		
 		String result = requireCore + "(function() {\n " + bodyString;
-		
+		result += "\ncore.terminate();\n";
 		for(int i = 0; i < DEPTH_COUNTER; i++) {
 			result += "})\n";
 		}
