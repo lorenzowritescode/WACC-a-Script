@@ -8,17 +8,19 @@ library: function*;
 
 typeDef: COL type;
 
-type: NUMBER 
+base_type: NUMBER 
 | BOOL 
 | CHAR 
-| STRING
+| STRING;
+
+type: base_type
 | array
 | pair;
 
 array: ARRAY OP_ANGLE type CL_ANGLE;
 pair: PAIR OP_ANGLE type COMMA type CL_ANGLE;
 
-function: FUNC IDENTITY OP_BR arglist CL_BR typeDef BLOCK;
+function: FUNC IDENTITY OP_BR arglist CL_BR typeDef;
 
 argument: IDENTITY typeDef;
 

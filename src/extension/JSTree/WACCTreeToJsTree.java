@@ -3,6 +3,7 @@ package JSTree;
 import java.util.ArrayList;
 import java.util.List;
 
+import JSTree.assignable.JSArrayElem;
 import JSTree.assignable.JSArrayLiter;
 import JSTree.func.JSFuncCall;
 import tree.ProgNode;

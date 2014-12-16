@@ -12,7 +12,7 @@ public class JSPrint implements JSStat {
 
 	@Override
 	public String toCode() {
-		return "console.log(" + expr.toCode() + ")";
+		return "core.print(" + expr.toCode() + ")";
 	}
 	
 }

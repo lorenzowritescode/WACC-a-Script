@@ -30,4 +30,18 @@ public abstract class StatNode extends WACCTree {
 		return false;
 	}
 
+
+	/**
+	 * 
+	 * @return This method will return the number of variables declared 
+	 * in the Statement.
+	 * 
+	 * Most statements will return 0, so this method is only overridden in VarDecNode,
+	 * and statements with other nested statements (e.g. seqStatNode)
+	 * 
+	 */
+	public int getVarCounter() {
+		return 0;
+	}
+
 }

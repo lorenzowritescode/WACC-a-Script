@@ -83,5 +83,8 @@ public class VarDecNode extends StatNode {
 		return rhsTree;
 	}
 	
-	
+	@Override
+	public int getVarCounter() {
+		return 1;
+	}
 }

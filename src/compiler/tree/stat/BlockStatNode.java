@@ -31,4 +31,8 @@ public class BlockStatNode extends StatNode {
 	public StatNode getStat() {
 		return statNode;
 	}
+	@Override
+	public int getVarCounter() {
+		return statNode.getVarCounter();
+	}
 }

@@ -30,6 +30,6 @@ IDENTITY: ID_BEGIN_CHAR ID_CHAR* ;
 //whitespace
 WS : [ \t\r\n]+ -> skip ;
 
-ANY_CHAR: .;
-ANY_STRING: (WS | ANY_CHAR) -> skip;
-BLOCK: OP_CURLY ANY_STRING CL_CURLY;
+fragment ANY_CHAR: ~('}' | '}' ) ;
+fragment ANY_STRING: (WS | ANY_CHAR)+;
+BLOCK: OP_CURLY ANY_STRING BLOCK? ANY_STRING CL_CURLY -> skip;

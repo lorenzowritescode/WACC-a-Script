@@ -1,0 +1,67 @@
+#!/usr/bin/ruby
+
+def recursiveTest (directory)
+	allFiles = Dir.entries(directory)
+	allFiles.delete(".")
+	allFiles.delete("..")
+
+	allFiles.each do |waccFile|
+		waccFilePath = directory + waccFile
+		if(File.extname(waccFilePath) == ".wacc")
+			testFile(waccFilePath)
+		elsif (File.directory?(waccFilePath))
+			recursiveTest(waccFilePath + '/')
+		else
+			puts "[INFO] Ignoring file #{waccFilePath}"
+		end
+	end
+end
+
+def testFile (waccFilePath)
+	jsOutput = `./compile -js -f #{waccFilePath} > tmp.js`
+	expectedOutput = getOutput(waccFilePath)
+	outOutput = `node tmp.js`
+	if (ourOutput != expectedOutput)
+		incorrectOutputError(waccFilePath)
+	elsif (jsOutput.start_with?('line'))
+		syntaxError(waccFilePath)
+	else(jsOutput.start_with?('WACCExceptions'))
+		semanticError(waccFilePath)
+	end
+end
+
+def getOutput (waccFilePath)
+	f = File.open(waccFilePath, "r")
+	lines = f.each_line
+	lines.splice(0, lines.index("# Output: ")+1)
+	lines.splice(lines.index("# Program: ")-1, lines.length - lines.index("# Program: "))
+	lines.each do |line|
+		line.slice!(0, 2)
+	end
+	return lines
+end
+
+def incorrectOutputError(waccFilePath)
+	puts "Output does not match expected for #{waccFilePath}"
+end
+
+def syntaxError (waccFilePath)
+	puts "Syntax Error Found within #{waccFilePath}"
+end
+
+def semanticError (waccFilePath)
+	puts "Semantic Error Found within #{waccFilePath}"
+end
+
+
+arg0 = ARGV[0]
+
+if (arg0 == nil)
+	recursiveTest(".")
+elsif (File.directory?(arg0))
+	recursiveTest(arg0)
+elsif (File.extname(arg0) == ".wacc")
+	testFile(arg0)
+else
+	puts "jsTest: Invalid arguments provided"
+end

@@ -6,6 +6,7 @@ import JSTree.func.JSFunc;
 import JSTree.stat.JSStat;
 
 public class JSProg implements JSTree {
+	public static int DEPTH_COUNTER = 0;
 
 	private List<JSFunc> functions;
 	private JSStat body;
@@ -17,6 +18,7 @@ public class JSProg implements JSTree {
 
 	@Override
 	public String toCode() {
+		String requireCore = "var core = require('./src/extension/raw-js-lib/core.js');\n";
 		String bodyString = body.toCode();
 		
 		String functionDecs = "";
@@ -24,7 +26,15 @@ public class JSProg implements JSTree {
 			functionDecs += "\n" + f.toCode();
 		}
 		
-		return "(function() {\n " + bodyString + functionDecs + "})();\n";
+		String result = requireCore + "(function() {\n " + bodyString;
+		result += "\ncore.terminate();\n";
+		for(int i = 0; i < DEPTH_COUNTER; i++) {
+			result += "})\n";
+		}
+		
+		result += functionDecs + "})();\n";
+		
+		return result;
 	}
 
 }

@@ -36,4 +36,9 @@ public class SeqStatNode extends StatNode {
 	public StatNode getRhs() {
 		return rhs;
 	}
+	
+	@Override
+	public int getVarCounter() {
+		return lhs.getVarCounter() + rhs.getVarCounter();
+	}
 }
