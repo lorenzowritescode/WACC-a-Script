@@ -18,7 +18,7 @@ def recursiveTest (directory)
 end
 
 def testFile (waccFilePath)
-	`./compile -js -f #{waccFilePath} > tmp.js`
+	`./compile -j -f #{waccFilePath} -o tmp.js` 
 	expectedOutput = getOutput(waccFilePath)
 	jsOutput = `node tmp.js`
 	toCompare = jsOutput.lines
