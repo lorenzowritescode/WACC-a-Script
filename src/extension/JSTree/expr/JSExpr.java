@@ -2,6 +2,6 @@ package JSTree.expr;
 
 import JSTree.JSTree;
 
-public interface JSExpr extends JSTree {
+public abstract class JSExpr extends JSTree {
 
 }
