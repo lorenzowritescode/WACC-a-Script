@@ -60,6 +60,7 @@ import JSTree.expr.JSVar;
 import JSTree.func.JSArgList;
 import JSTree.func.JSFunc;
 import JSTree.func.JSFuncCall;
+import JSTree.func.JSLibFuncCall;
 import JSTree.func.JSParam;
 import JSTree.func.JSParamList;
 import JSTree.stat.JSAssignStat;

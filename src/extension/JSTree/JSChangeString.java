@@ -1,6 +1,6 @@
 package JSTree;
 
-public class JSChangeString implements JSTree {
+public class JSChangeString extends JSTree {
 	
 	private String var;
 	private int index;

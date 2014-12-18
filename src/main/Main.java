@@ -56,8 +56,6 @@ public class Main {
 		// Build the tokens AST
 		ParseTree tree = getParseTree(tokens);
 		
-		
-		
 		// Get external JS source file
 		SymbolTable libTable = new SymbolTable();
 		LibraryLoader ll = new LibraryLoader(libTable);
@@ -74,8 +72,6 @@ public class Main {
 				ll.loadIntoSymbolTable(funcs);
 				funcDependancies.putAll(ll.findDependancies(lib, funcs));
 			}
-			
-
 		}
 		
 		// Check for semantic errors
