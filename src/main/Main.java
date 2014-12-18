@@ -106,7 +106,13 @@ public class Main {
 			extension = ".s";
 		}
 		
-		String outputFileName = p.getFileName().toString().replace(".wacc", extension);
+		String outputFileName;
+		
+		if(cmd.hasOption("o")) {
+			outputFileName = cmd.getOptionValue("o");
+		} else {
+			outputFileName = p.getFileName().toString().replace(".wacc", extension);
+		}
 		
 		// If the s flag is on we want to print to stdout;
 		if (cmd.hasOption("s")) {
@@ -266,6 +272,7 @@ public class Main {
 		options.addOption("s", false, "force printing assembly to std-out");
 		options.addOption("j", false, "Compile into Javascript");
 		options.addOption("l", true, "Include external javaScript libraries (e.g. \"core.js:math.js\"");
+		options.addOption("o", true, "The destination filename");
 		
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;
