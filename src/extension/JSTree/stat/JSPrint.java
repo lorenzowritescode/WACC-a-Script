@@ -2,7 +2,7 @@ package JSTree.stat;
 
 import JSTree.expr.JSExpr;
 
-public class JSPrint implements JSStat {
+public class JSPrint extends JSStat {
 
 	private JSExpr expr;
 	

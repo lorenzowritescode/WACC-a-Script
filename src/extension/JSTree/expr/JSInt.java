@@ -1,7 +1,7 @@
 package JSTree.expr;
 
 
-public class JSInt implements JSExpr {
+public class JSInt extends JSExpr {
 	
 	private int val;
 	

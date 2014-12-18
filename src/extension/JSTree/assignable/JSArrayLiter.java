@@ -6,7 +6,7 @@ import java.util.Iterator;
 import JSTree.JSTree;
 import JSTree.expr.JSExpr;
 
-public class JSArrayLiter implements JSTree {
+public class JSArrayLiter extends JSTree {
 	private ArrayList<JSExpr> exprs;
 	
 	public JSArrayLiter(ArrayList<JSExpr> exprs) {

@@ -10,8 +10,7 @@ import java.util.TreeSet;
 import JSTree.func.JSFunc;
 import JSTree.stat.JSStat;
 
-public class JSProg implements JSTree {
-	public static int DEPTH_COUNTER = 0;
+public class JSProg extends JSTree {
 
 	private List<JSFunc> functions;
 	private JSStat body;
@@ -46,7 +45,7 @@ public class JSProg implements JSTree {
 		
 		String result = requireCore + "(function() {\n " + bodyString;
 		result += "\ncore.terminate();\n";
-		for(int i = 0; i < DEPTH_COUNTER; i++) {
+		for(int i = 0; i < body.depthIncremented(); i++) {
 			result += "})\n";
 		}
 		

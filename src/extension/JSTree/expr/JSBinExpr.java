@@ -2,7 +2,7 @@ package JSTree.expr;
 
 import JSTree.JSTree;
 
-public class JSBinExpr implements JSExpr {
+public class JSBinExpr extends JSExpr {
 	
 	private JSTree lhs;
 	private String op;

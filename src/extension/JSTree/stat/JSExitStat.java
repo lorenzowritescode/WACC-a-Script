@@ -1,6 +1,6 @@
 package JSTree.stat;
 
-public class JSExitStat implements JSStat {
+public class JSExitStat extends JSStat {
 
 	public JSExitStat() {
 	}

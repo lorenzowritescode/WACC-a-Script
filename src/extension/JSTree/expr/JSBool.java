@@ -1,7 +1,7 @@
 package JSTree.expr;
 
 
-public class JSBool implements JSExpr {
+public class JSBool extends JSExpr {
 
 	private boolean value;
 

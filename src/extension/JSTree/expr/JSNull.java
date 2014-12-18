@@ -1,6 +1,6 @@
 package JSTree.expr;
 
-public class JSNull implements JSExpr {
+public class JSNull extends JSExpr {
 	
 	public JSNull() {
 	}
