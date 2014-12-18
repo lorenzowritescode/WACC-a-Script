@@ -1,7 +1,7 @@
 package JSTree.expr;
 
 
-public class JSString implements JSExpr {
+public class JSString extends JSExpr {
 	
 	private String text;
 

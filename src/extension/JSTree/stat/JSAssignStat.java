@@ -1,8 +1,9 @@
 package JSTree.stat;
 
 import JSTree.JSTree;
+import JSTree.func.JSFuncCall;
 
-public class JSAssignStat implements JSStat {
+public class JSAssignStat extends JSStat {
 
 	private JSTree lhs;
 	private JSTree rhs;
@@ -14,8 +15,18 @@ public class JSAssignStat implements JSStat {
 
 	@Override
 	public String toCode() {
+		if(rhs instanceof JSFuncCall) {
+			JSFuncCall fcall = (JSFuncCall) rhs;
+			if (fcall.isAsync()) {
+				return fcall.toCode(lhs);
+			}
+		}
 		return lhs.toCode() + " = " + rhs.toCode();
 	}
-	
+
+	@Override
+	public int depthIncremented() {
+		return rhs.depthIncremented();
+	}
 	
 }

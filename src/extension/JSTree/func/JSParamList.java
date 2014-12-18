@@ -4,7 +4,7 @@ import java.util.List;
 
 import JSTree.JSTree;
 
-public class JSParamList implements JSTree {
+public class JSParamList extends JSTree {
 	
 	private List<JSParam> params;
 	
@@ -15,6 +15,10 @@ public class JSParamList implements JSTree {
 	@Override
 	public String toCode() {
 		return JSFunc.encodeArgs(params);
+	}
+	
+	public void addCallback() {
+		params.add(new JSParam("callback"));
 	}
 
 }

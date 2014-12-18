@@ -1,6 +1,6 @@
 package JSTree.expr;
 
-public class JSPair implements JSExpr {
+public class JSPair extends JSExpr {
 
 	private String ident;
 	

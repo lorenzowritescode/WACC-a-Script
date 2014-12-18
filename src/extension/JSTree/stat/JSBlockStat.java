@@ -1,6 +1,6 @@
 package JSTree.stat;
 
-public class JSBlockStat implements JSStat {
+public class JSBlockStat extends JSStat {
 
 	private JSStat stat;
 	

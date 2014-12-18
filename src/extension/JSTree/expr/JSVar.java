@@ -1,7 +1,7 @@
 package JSTree.expr;
 
 
-public class JSVar implements JSExpr {
+public class JSVar extends JSExpr {
 	
 	private String ident;
 

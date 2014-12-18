@@ -1,9 +1,8 @@
 package JSTree.func;
 
-import JSTree.JSProg;
 import JSTree.JSTree;
 
-public class JSReadWrapper implements JSTree {
+public class JSReadWrapper extends JSTree {
 	
 	private JSTree target;
 	
@@ -13,7 +12,6 @@ public class JSReadWrapper implements JSTree {
 
 	@Override
 	public String toCode() {
-		JSProg.DEPTH_COUNTER++;
 		return "function (answer) {"
 				+ target.toCode() + "= answer";
 	}

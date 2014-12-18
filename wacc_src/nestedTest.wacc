@@ -1,0 +1,17 @@
+begin
+  int g(int y) is
+  	int z = 5;
+  	read z;
+  	return y + z
+  end
+  
+  int f(int x) is
+    int y = 3;
+    read y;
+    int p = call g(y);
+    return p
+  end
+  
+  int x = call f(5);
+  println x
+end

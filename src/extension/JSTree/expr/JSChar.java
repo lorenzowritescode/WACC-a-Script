@@ -1,7 +1,7 @@
 package JSTree.expr;
 
 
-public class JSChar implements JSExpr {
+public class JSChar extends JSExpr {
 	
 	private String text;
 	

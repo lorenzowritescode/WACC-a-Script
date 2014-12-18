@@ -6,7 +6,7 @@ import java.util.List;
 import JSTree.JSTree;
 import JSTree.stat.JSStat;
 
-public class JSFunc implements JSTree {
+public class JSFunc extends JSTree {
 	
 	private String functionName;
 	private JSStat functionBody;
@@ -16,13 +16,30 @@ public class JSFunc implements JSTree {
 		this.functionBody = body;
 		this.params = params;
 		this.functionName = ident;
+		
+		if (isAsync())
+			params.addCallback();
 	}
 
 	@Override
 	public String toCode() {
+		
+		String depthFiller = "";
+		for (int i = 0; i < functionBody.depthIncremented(); i++) {
+			depthFiller += "\n})";
+		}
 		return "function " + functionName + params.toCode() + " {"
 				+ functionBody.toCode()
-				+ "}";
+				+ depthFiller
+				+ "\n}";
+	}
+
+	public boolean isAsync() {
+		return functionBody.isAsync();
+	}
+	
+	public String getFunctionName() {
+		return functionName;
 	}
 	
 	public static String encodeArgs(List<? extends JSTree> args) {
@@ -36,5 +53,4 @@ public class JSFunc implements JSTree {
 		
 		return argString + ")";
 	}
-
 }

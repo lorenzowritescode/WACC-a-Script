@@ -5,7 +5,7 @@ import java.util.List;
 import JSTree.JSTree;
 import JSTree.expr.JSExpr;
 
-public class JSArgList implements JSTree {
+public class JSArgList extends JSTree {
 	
 	List<JSExpr> args;
 
@@ -17,5 +17,4 @@ public class JSArgList implements JSTree {
 	public String toCode() {
 		return JSFunc.encodeArgs(args);
 	}
-
 }

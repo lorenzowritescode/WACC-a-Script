@@ -2,7 +2,7 @@ package JSTree.stat;
 
 import JSTree.expr.JSExpr;
 
-public class JSWhileStat implements JSStat {
+public class JSWhileStat extends JSStat {
 	
 	private JSExpr condition;
 	private JSStat loopBody;

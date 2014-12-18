@@ -1,5 +1,10 @@
 package JSTree;
 
-public interface JSTree {
-	String toCode();
+public abstract class JSTree {
+	
+	public abstract String toCode();
+	
+	public int depthIncremented() {
+		return 0;
+	}
 }

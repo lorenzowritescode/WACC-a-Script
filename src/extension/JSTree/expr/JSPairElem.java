@@ -2,7 +2,7 @@ package JSTree.expr;
 
 import tree.assignments.PairElemNode.ORDER;
 
-public class JSPairElem implements JSExpr {
+public class JSPairElem extends JSExpr {
 	
 	private JSExpr expr;
 	private ORDER order;

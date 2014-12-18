@@ -3,7 +3,7 @@ package JSTree.stat;
 import JSTree.WACCTreeToJsTree;
 import JSTree.expr.JSExpr;
 
-public class JSIfStat implements JSStat {
+public class JSIfStat extends JSStat {
 	
 	private JSExpr cond;
 	private JSStat thenStat;

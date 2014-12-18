@@ -1,7 +1,7 @@
 package JSTree.expr;
 
 
-public abstract class JSUnOpExpr implements JSExpr {
+public abstract class JSUnOpExpr extends JSExpr {
 	
 	protected JSExpr expr;
 
