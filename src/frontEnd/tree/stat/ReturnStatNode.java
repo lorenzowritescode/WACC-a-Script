@@ -2,7 +2,6 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import symboltable.Expectation;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import tree.expr.ExprNode;

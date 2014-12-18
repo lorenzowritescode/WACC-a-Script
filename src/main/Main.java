@@ -1,4 +1,4 @@
-package antlr;
+package main;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,6 +25,10 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
+import antlr.WACCLexer;
+import antlr.WACCParser;
+import compiler.WACCCompiler;
+import semanticChecking.SemanticChecker;
 import symboltable.SymbolTable;
 import tree.WACCTree;
 import JSTree.WACCTreeToJsTree;

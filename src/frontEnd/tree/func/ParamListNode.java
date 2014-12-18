@@ -11,7 +11,6 @@ import tree.type.WACCType;
 import visitor.WACCTreeVisitor;
 import WACCExceptions.NotUniqueIdentifierException;
 import assembly.Register;
-import assembly.StackAllocator;
 import assembly.StackPosition;
 import assembly.TokenSequence;
 
