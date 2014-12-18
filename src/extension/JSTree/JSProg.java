@@ -33,7 +33,8 @@ public class JSProg extends JSTree {
 		for(String filePath : deps) {
 			String fileName = new File(filePath).getName();
 			fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-			requireCore = requireCore + "var " + fileName + " = require('./" + filePath + "');\n";
+			String rawFilePath = filePath.replace("js-lib", "raw-js-lib");
+			requireCore = requireCore + "var " + fileName + " = require('./" + rawFilePath + "');\n";
 		}
 		
 		String bodyString = body.toCode();

@@ -106,8 +106,13 @@ public class Main {
 			extension = ".s";
 		}
 
-		String outputFileName = p.getFileName().toString()
-				.replace(".wacc", extension);
+		String outputFileName;
+		
+		if(cmd.hasOption("o")) {
+			outputFileName = cmd.getOptionValue("o");
+		} else {
+			outputFileName = p.getFileName().toString().replace(".wacc", extension);
+		}
 
 		// If the s flag is on we want to print to stdout;
 		if (cmd.hasOption("s")) {
@@ -117,8 +122,9 @@ public class Main {
 		}
 	}
 
-	private static String compileToJavaScript(WACCTree wt,
-			HashMap<String, String> funcDeps) {
+
+
+	private static String compileToJavaScript(WACCTree wt, HashMap<String, String> funcDeps) {
 		WACCTreeToJsTree converter = new WACCTreeToJsTree(wt, funcDeps);
 		return converter.init();
 	}
@@ -131,14 +137,9 @@ public class Main {
 		return compilerOutput;
 	}
 
-	/**
-	 * Utility method to extract the assembly filename and write to file
-	 * 
-	 * @param resultString
-	 *            A String containing the assembly output
-	 * @param fileName
-	 *            The String containing the path of the source file. It works
-	 *            with just the filename.
+	/** Utility method to extract the assembly filename and write to file
+	 * @param resultString A String containing the assembly output
+	 * @param fileName The String containing the path of the source file. It works with just the filename.
 	 */
 	private static void writeToFile(String resultString, String fileName) {
 		// Write to file
@@ -268,6 +269,7 @@ public class Main {
 		options.addOption("j", false, "Compile into Javascript");
 		options.addOption("l", true,
 				"Include external javaScript libraries (e.g. \"core.js:math.js\"");
+		options.addOption("o", true, "The destination filename");
 
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;
