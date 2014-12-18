@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import JSTree.JSProg;
+import JSTree.JSTree;
 import JSTree.assignable.JSArrayElem;
 import JSTree.assignable.JSArrayLiter;
 import JSTree.func.JSFuncCall;
@@ -30,13 +32,15 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	private WACCTree progTree;
 	private HashMap<String, String> funcDeps;
+	private HashMap<String, JSFunc> symboltable;
 	
 	public WACCTreeToJsTree(WACCTree progTree) {
 		this.progTree = progTree;
+		this.symboltable = new HashMap<>();
 	}
 	
 	public WACCTreeToJsTree(WACCTree progTree, HashMap<String, String> funcDeps) {
-		this.progTree = progTree;
+		this(progTree);
 		this.funcDeps = funcDeps;
 	}
 
@@ -106,8 +110,8 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
 	@Override
 	public JSSeqStat visitSeqStatNode(SeqStatNode node) {
-		JSTree lhs = visit(node.getLhs());
-		JSTree rhs = visit(node.getRhs());
+		JSStat lhs = (JSStat) visit(node.getLhs());
+		JSStat rhs = (JSStat) visit(node.getRhs());
 		return new JSSeqStat(lhs, rhs);
 	}
 
@@ -145,6 +149,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		List<JSFunc> functions = new ArrayList<>();
 		for(FuncDecNode f:node.getFunctions()) {
 			JSFunc jsf = visitFuncDecNode(f);
+			symboltable.put(f.getFuncName(), jsf);
 			functions.add(jsf);
 		}
 		
@@ -186,13 +191,19 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	public JSTree visitCallStatNode(CallStatNode node) {
 		JSArgList args = visitArgListNode(node.getArgs());
 		String functionName = node.getIdent();
-		if (funcDeps.containsKey(functionName)) {
+		
+		// This block strips down the dependency name from the path
+		if (funcDeps.containsKey(functionName)
+				&& !symboltable.containsKey(functionName)) {
 			String filePath = funcDeps.get(functionName);
 			String dep = new File(filePath).getName();
 			dep = dep.substring(0, dep.lastIndexOf('.'));
-			return new JSFuncCall(dep, functionName, args);
+			return new JSLibFuncCall(dep, functionName, args);
+		} else if ( symboltable.containsKey(functionName)) {
+			return new JSFuncCall(symboltable.get(functionName), args);
 		}
-		return new JSFuncCall(functionName, args);
+		
+		throw new RuntimeException("The function " + functionName + " was not found.");
 	}
 
 	@Override
