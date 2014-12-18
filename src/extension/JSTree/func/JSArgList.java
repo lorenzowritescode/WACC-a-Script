@@ -1,6 +1,5 @@
 package JSTree.func;
 
-import java.util.Iterator;
 import java.util.List;
 
 import JSTree.JSTree;

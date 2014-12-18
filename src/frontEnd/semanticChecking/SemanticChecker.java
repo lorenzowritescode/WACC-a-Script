@@ -1,4 +1,4 @@
-package antlr;
+package semanticChecking;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ import tree.stat.*;
 import tree.type.*;
 import util.DebugHelper;
 import WACCExceptions.*;
+import antlr.WACCParserBaseVisitor;
 import antlr.WACCParser.*;
 
 // library used for debugging

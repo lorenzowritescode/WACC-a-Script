@@ -1,4 +1,4 @@
-package antlr;
+package compiler;
 
 import tree.WACCTree;
 import assembly.Register;

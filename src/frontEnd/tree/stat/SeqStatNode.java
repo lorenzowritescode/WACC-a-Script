@@ -1,6 +1,5 @@
 package tree.stat;
 
-import tree.WACCTree;
 import visitor.WACCTreeVisitor;
 import assembly.Register;
 import assembly.TokenSequence;

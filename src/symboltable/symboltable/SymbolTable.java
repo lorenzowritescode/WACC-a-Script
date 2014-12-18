@@ -1,22 +1,9 @@
 package symboltable;
 
 import java.util.HashMap;
-import java.util.List;
 
-import jsparser.LibArg;
-import jsparser.LibFunc;
-import jsparser.types.LibArray;
-import jsparser.types.LibBaseType;
-import jsparser.types.LibPair;
-import jsparser.types.LibType;
 import tree.WACCTree;
-import tree.func.FuncDecNode;
-import tree.func.ParamListNode;
-import tree.func.ParamNode;
-import tree.type.ArrayType;
-import tree.type.PairType;
 import tree.type.WACCType;
-import WACCExceptions.InvalidTypeException;
 import WACCExceptions.UnresolvedExpectationException;
 
 public class SymbolTable {

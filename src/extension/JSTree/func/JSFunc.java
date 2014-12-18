@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import JSTree.JSTree;
-import JSTree.expr.JSExpr;
 import JSTree.stat.JSStat;
 
 public class JSFunc implements JSTree {

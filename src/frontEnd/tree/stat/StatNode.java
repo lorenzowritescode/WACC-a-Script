@@ -2,16 +2,13 @@ package tree.stat;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 
+import symboltable.SymbolTable;
+import tree.WACCTree;
+import tree.type.WACCType;
 /**
  * Abstract class used to group together all WACCTree statement nodes
  * 
  */
-
-
-import symboltable.Expectation;
-import symboltable.SymbolTable;
-import tree.WACCTree;
-import tree.type.WACCType;
 
 public abstract class StatNode extends WACCTree {
 
