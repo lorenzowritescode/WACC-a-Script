@@ -2,7 +2,7 @@ package JSTree.stat;
 
 import JSTree.JSTree;
 
-public class JSReturnStat implements JSStat {
+public class JSReturnStat extends JSStat {
 
 	private JSTree expr;
 	
@@ -12,7 +12,10 @@ public class JSReturnStat implements JSStat {
 	
 	@Override
 	public String toCode() {
-		return "return " + expr.toCode();
+		return "if (callback)\n\t"
+					+ "{ callback(" + expr.toCode() + ") }\n"
+				+ "else\n\t"
+					+ "{ return " + expr.toCode() + "}";
 	}
 
 }
