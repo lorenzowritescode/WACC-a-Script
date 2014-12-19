@@ -53,3 +53,5 @@ doc/
 !wacc_src/*
 #Ignore compiled javaScript
 *.js
+*.out
+*.in
