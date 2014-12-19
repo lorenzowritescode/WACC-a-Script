@@ -60,7 +60,7 @@ public class JSProg extends JSTree {
 		String coreDec = "";
 		String functionDec = "function program (core) {\n";
 		String functionEnd = "}\n";
-		String moduleExport = "module.export = { program: program }\n";
+		String moduleExport = "module.exports = { program: program }\n";
 		
 		if (requiresCore) {
 			coreDec = "var core = require('" + corePath + "');\n";
