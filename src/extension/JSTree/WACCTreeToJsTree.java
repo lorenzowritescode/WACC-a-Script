@@ -103,8 +103,9 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 		return node.accept(this);
 	}
 
-	public String init() {
-		JSTree finalTree = progTree.accept(this);
+	public String init(String corePath) {
+		JSProg finalTree = (JSProg) progTree.accept(this);
+		finalTree.setCorePath(corePath);
 		return finalTree.toCode();
 	}
 

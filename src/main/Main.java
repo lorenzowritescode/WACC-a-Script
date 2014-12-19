@@ -99,7 +99,10 @@ public class Main {
 
 		// Get the filename and replace the extension
 		if (cmd.hasOption('j')) {
-			outputString = compileToJavaScript(wt, funcDependancies);
+			String corePath = cmd.hasOption("c") ? cmd.getOptionValue("c")
+					: "./src/extension/raw-js-lib/core.js";
+
+			outputString = compileToJavaScript(wt, funcDependancies, corePath);
 			extension = ".js";
 		} else {
 			outputString = compileToArmAssembly(wt);
@@ -124,9 +127,9 @@ public class Main {
 
 
 
-	private static String compileToJavaScript(WACCTree wt, HashMap<String, String> funcDeps) {
+	private static String compileToJavaScript(WACCTree wt, HashMap<String, String> funcDeps, String corePath) {
 		WACCTreeToJsTree converter = new WACCTreeToJsTree(wt, funcDeps);
-		return converter.init();
+		return converter.init(corePath);
 	}
 
 	private static String compileToArmAssembly(WACCTree wt) {
@@ -144,8 +147,7 @@ public class Main {
 	private static void writeToFile(String resultString, String fileName) {
 		// Write to file
 		try {
-			File file = new File(fileName);
-			BufferedWriter output = new BufferedWriter(new FileWriter(file));
+			BufferedWriter output = new BufferedWriter(new FileWriter(fileName));
 			output.write(resultString);
 			output.close();
 		} catch (IOException e) {
@@ -270,6 +272,7 @@ public class Main {
 		options.addOption("l", true,
 				"Include external javaScript libraries (e.g. \"core.js:math.js\"");
 		options.addOption("o", true, "The destination filename");
+		options.addOption("c", true, "The core javascripts library path. Defaults to src/extension/js-lib/core.js");
 
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;

@@ -15,6 +15,7 @@ public class JSProg extends JSTree {
 	private List<JSFunc> functions;
 	private JSStat body;
 	private HashMap<String, String> funcDeps;
+	private String corePath;
 	
 	public JSProg(List<JSFunc> functions, JSStat body, HashMap<String, String> funcDeps) {
 		this.functions = functions;
@@ -24,7 +25,7 @@ public class JSProg extends JSTree {
 
 	@Override
 	public String toCode() {
-		String requireCore = "var core = require('./src/extension/raw-js-lib/core.js');\n";
+		String requireCore = "var core = require('" + corePath + "');\n";
 		
 		Set<String> set = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         set.addAll(funcDeps.values());
@@ -53,6 +54,10 @@ public class JSProg extends JSTree {
 		result += functionDecs + "})();\n";
 		
 		return result;
+	}
+
+	public void setCorePath(String corePath) {
+		this.corePath = corePath;
 	}
 
 }
