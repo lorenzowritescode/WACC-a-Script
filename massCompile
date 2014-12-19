@@ -27,9 +27,35 @@ end
 def compileFile(filepath, targetdir)
 	filename = File.basename(filepath, ".wacc")
 	targetfile = targetdir + "/" + filename + ".js"
-	`./compile -jf #{filepath} -o #{targetfile}`
+	`./compile -jf #{filepath} -o #{targetfile} -c no_core`
 	check($?.exitstatus, targetfile)
+
+	inputFile = filepath.sub(".wacc", ".in")
+	if(File.exists?(inputFile))
+		`cp #{inputFile} #{targetdir}`
+	end
+
+	output = extractOutput(filepath)
+	outFile = targetdir + "/" + filename + ".out"
+	`echo #{output} > #{outFile}`
 end
+
+def extractOutput(filepath)
+	fileContents = `cat #{filepath}`.lines
+	result = []
+	fileContents.each_index do |line_index|
+		line = fileContents[line_index]
+		if(fileContents[line_index].include?("Output:"))
+			rest = fileContents[(line_index+1)..(fileContents.length)]
+			result = rest.take_while { |i| !i.include?("Program") }
+			break
+		end
+	end
+	strippedResult = result.map { |x| x[2..(x.length)] }
+	# puts strippedResult
+	return strippedResult
+end
+
 
 $totalTests = 0
 $passedTests = 0
