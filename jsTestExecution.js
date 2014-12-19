@@ -1,13 +1,3 @@
-function arraysEqual(a, b) {
-	if (a === b) return true;
-	if (a == null || b == null) return false;
-	if (a.length != b.length) return false;
-	for (var i = 0; i < a.length; ++i) {
-		if (a[i] !== b[i]) return false;
-	}
-	return true;
-}
-
 function Test(programFunction, expOut, input, filePath) {
 	return {
 		program: programFunction,
@@ -31,6 +21,16 @@ function Test(programFunction, expOut, input, filePath) {
 				console.log("Actual Output: \n\t" + this.core.actOut.join('\n\t'));
 			}
 		}
+	};
+
+	function arraysEqual(a, b) {
+		if (a === b) return true;
+		if (a == null || b == null) return false;
+		if (a.length != b.length) return false;
+		for (var i = 0; i < a.length; ++i) {
+			if (a[i] !== b[i]) return false;
+		}
+		return true;
 	}
 }
 
@@ -42,6 +42,9 @@ var programFunction = function (core) {
 	})
 }
 
-var test1 = new Test(programFunction, [5], [6], "blah");
-test1.run();
+new Test(programFunction, [5], [4], "blah").run();
+
+module.exports = {
+	Test: Test
+}
 
