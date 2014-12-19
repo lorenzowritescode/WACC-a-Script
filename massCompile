@@ -1,0 +1,52 @@
+#!/usr/bin/ruby
+def compile(inputPath, outputPath)
+	# puts "COMPILE: " + inputPath
+	if (File.directory?(inputPath))
+		compileDir(inputPath, outputPath)
+	elsif(File.stat(inputPath).file? && File.extname(inputPath) == ".wacc")
+		compileFile(inputPath, outputPath)
+	end
+end
+
+def compileDir(dirPath, outputPath)
+	files = Dir.entries(dirPath) - [".", ".."]
+	newTarget = outputPath + "/" + File.basename(dirPath)
+	# puts newTarget
+	if (!File.directory?(newTarget))
+		`mkdir #{newTarget}`
+	end
+
+	files.each do |fileName|
+		# puts fileName
+		filePath = dirPath + "/" + fileName
+		# puts filePath
+		compile(filePath, newTarget)
+	end
+end
+
+def compileFile(filepath, targetdir)
+	filename = File.basename(filepath, ".wacc")
+	targetfile = targetdir + "/" + filename + ".js"
+	puts "[INFO] Compiling: " + filepath
+	`./compile -jf #{filepath} -o #{targetfile}`
+	check($?.exitstatus)
+end
+
+$totalTests = 0
+$passedTests = 0
+def check(exit_status)
+	if (exit_status == 0)
+		$passedTests += 1
+	end
+
+	$totalTests += 1
+end
+
+basedir = ARGV[0] || "../wacc_examples/valid"
+targetdir = ARGV[1] || "./js-examples"
+
+compileDir(basedir, targetdir)
+puts "=" * 50
+puts "PASSED TESTS: " + $passedTests.to_s + "/" + $totalTests.to_s
+puts "=" * 50
+

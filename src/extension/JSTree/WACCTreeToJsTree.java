@@ -257,7 +257,7 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 			return new JSFuncCall(symboltable.get(functionName), args);
 		}
 		
-		throw new RuntimeException("The function " + functionName + " was not found.");
+		return new JSFuncCall(functionName, args, symboltable);
 	}
 
 	@Override
