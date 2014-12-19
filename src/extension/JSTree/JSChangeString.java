@@ -1,6 +1,8 @@
 package JSTree;
 
-public class JSChangeString extends JSTree {
+import JSTree.stat.JSStat;
+
+public class JSChangeString extends JSStat {
 	
 	private String var;
 	private int index;
