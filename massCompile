@@ -27,16 +27,19 @@ end
 def compileFile(filepath, targetdir)
 	filename = File.basename(filepath, ".wacc")
 	targetfile = targetdir + "/" + filename + ".js"
-	puts "[INFO] Compiling: " + filepath
 	`./compile -jf #{filepath} -o #{targetfile}`
-	check($?.exitstatus)
+	check($?.exitstatus, targetfile)
 end
 
 $totalTests = 0
 $passedTests = 0
-def check(exit_status)
+def check(exit_status, targetfile)
 	if (exit_status == 0)
 		$passedTests += 1
+		`js-beautify -r #{targetfile}`
+	else
+		puts "[ERROR] Compilation failed for #{targetfile}."
+		puts "Exit Code: " + exit_status.to_s
 	end
 
 	$totalTests += 1
