@@ -14,12 +14,14 @@ function Test(programFunction, expOut, input, filePath) {
 			}
 		},
 		run: function() {
-			programFunction(this.core);
+			this.program(this.core);
 			if(!arraysEqual(this.expOut, this.core.actOut)) {
 				console.log("Test for " + filePath + " failed.");
 				console.log("Output Expected: \n\t" + expOut.join('\n\t'));
 				console.log("Actual Output: \n\t" + this.core.actOut.join('\n\t'));
+				return false;
 			}
+			return true;
 		}
 	};
 
@@ -42,7 +44,7 @@ var programFunction = function (core) {
 	})
 }
 
-new Test(programFunction, [5], [4], "blah").run();
+// new Test(programFunction, [5], [4], "blah").run();
 
 module.exports = {
 	Test: Test

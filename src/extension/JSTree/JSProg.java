@@ -25,35 +25,51 @@ public class JSProg extends JSTree {
 
 	@Override
 	public String toCode() {
-		String requireCore = "var core = require('" + corePath + "');\n";
-		
+		// Loading dependencies
 		Set<String> set = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
         set.addAll(funcDeps.values());
         ArrayList<String> deps = new ArrayList<>(set);
+		String dependencies = "";
 		
 		for(String filePath : deps) {
 			String fileName = new File(filePath).getName();
 			fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+			
 			String rawFilePath = filePath.replace("js-lib", "raw-js-lib");
-			requireCore = requireCore + "var " + fileName + " = require('./" + rawFilePath + "');\n";
+			dependencies += "var " + fileName + " = require('./" + rawFilePath + "');\n";
 		}
-		
-		String bodyString = body.toCode();
 		
 		String functionDecs = "";
 		for (JSFunc f:functions) {
 			functionDecs += "\n" + f.toCode();
 		}
 		
-		String result = requireCore + "(function() {\n " + bodyString;
-		result += "\ncore.terminate();\n";
+		String bodyString = body.toCode();
+		
+		bodyString += "\ncore.terminate();\n";
 		for(int i = 0; i < body.depthIncremented(); i++) {
-			result += "})\n";
+			bodyString += "})\n";
 		}
 		
-		result += functionDecs + "})();\n";
+		bodyString += functionDecs;
 		
-		return result;
+		return dependencies + wrapMainBody(bodyString, !corePath.equalsIgnoreCase("no_core"));
+	}
+	
+	private String wrapMainBody(String body, boolean requiresCore) {
+		String coreDec = "";
+		String functionDec = "function program (core) {\n";
+		String functionEnd = "}\n";
+		String moduleExport = "module.export = { program: program }\n";
+		
+		if (requiresCore) {
+			coreDec = "var core = require('" + corePath + "');\n";
+			functionDec = "(function() {\n";
+			functionEnd = "})();";
+			moduleExport = "";
+		}
+		
+		return coreDec + functionDec + body + functionEnd + moduleExport;
 	}
 
 	public void setCorePath(String corePath) {
