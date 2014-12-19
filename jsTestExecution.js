@@ -11,11 +11,12 @@ function Test(programFunction, expOut, input, filePath) {
 			},
 			print: function(s) {
 				this.actOut.push(s);
-			}
+			},
+			terminate: function() {}
 		},
 		run: function() {
 			if (typeof this.program != 'function') {
-				console.log("The program field is not a function. File: " + filePath);
+				console.log("The 'program' field is not a function. File: " + filePath);
 				return false;
 			}
 
@@ -28,11 +29,12 @@ function Test(programFunction, expOut, input, filePath) {
 
 			if(!arraysEqual(this.expOut, this.core.actOut)) {
 				console.log("Test for " + filePath + " failed.");
+				console.log("Input: \n\t" + input.join('\n\t'));
 				console.log("Output Expected: \n\t" + expOut.join('\n\t'));
 				console.log("Actual Output: \n\t" + this.core.actOut.join('\n\t'));
 				return false;
 			}
-			console.log("SUCCESS");
+			console.log("[INFO] Success on execution. File: " + filePath);
 			return true;
 		}
 	};
@@ -42,7 +44,10 @@ function Test(programFunction, expOut, input, filePath) {
 		if (a == null || b == null) return false;
 		if (a.length != b.length) return false;
 		for (var i = 0; i < a.length; ++i) {
-			if (a[i] !== b[i]) return false;
+			if (a[i] == '#input#' || a[i] == '#output#')
+				continue;
+			if (a[i] != b[i])
+				return false;
 		}
 		return true;
 	}

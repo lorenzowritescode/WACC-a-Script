@@ -3,11 +3,13 @@ function square(x :number) :number {
 	return x * x;
 }
 
+function mod(x :number, y :number) :number {
+	return x % y;
+}
 
 function log(x :number) :number {
 	return Math.log10(x);
 }
-
 
 function arraySum(xs :Array<number>) :number {
 
