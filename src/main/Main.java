@@ -21,6 +21,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
@@ -273,15 +274,24 @@ public class Main {
 				"Include external javaScript libraries (e.g. \"core.js:math.js\"");
 		options.addOption("o", true, "The destination filename");
 		options.addOption("c", true, "The core javascripts library path. Defaults to src/extension/js-lib/core.js");
-
+		options.addOption("h", false, "Display this help message");
+		
 		CommandLineParser flagsParser = new PosixParser();
 		CommandLine cmd = null;
 		try {
 			cmd = flagsParser.parse(options, args);
 		} catch (ParseException e) {
 			System.err.println("There were problems parsing the flags");
-			System.err.println(e.toString());
+			System.err.println(e.getMessage());
+			System.exit(404);
 		}
+		
+		if (cmd.hasOption("h")) {
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("compile", options);
+			System.exit(0);
+		}
+		
 		return cmd;
 	}
 
