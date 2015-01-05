@@ -35,9 +35,9 @@ def compileFile(filepath, targetdir)
 		`cp #{inputFile} #{targetdir}`
 	end
 
-	output = extractOutput(filepath)
+	output = extractOutput(filepath).join('\n');
 	outFile = targetdir + "/" + filename + ".out"
-	`echo #{output} > #{outFile}`
+	File.open(outFile, 'w') { |f| f.write(output); }
 end
 
 def extractOutput(filepath)

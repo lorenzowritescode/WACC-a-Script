@@ -271,9 +271,11 @@ public class Main {
 		options.addOption("s", false, "force printing assembly to std-out");
 		options.addOption("j", false, "Compile into Javascript");
 		options.addOption("l", true,
-				"Include external javaScript libraries (e.g. \"core.js:math.js\"");
+				"Include external javaScript libraries (e.g. \"string.js:math.js\"");
 		options.addOption("o", true, "The destination filename");
-		options.addOption("c", true, "The core javascripts library path. Defaults to src/extension/js-lib/core.js");
+		options.addOption("c", true, "The core javascripts library path. "
+				+ "Defaults to src/extension/js-lib/core.js\n"
+				+ "You can use \"no-core\" to wrap the program in a function that takes the core as an argument.");
 		options.addOption("h", false, "Display this help message");
 		
 		CommandLineParser flagsParser = new PosixParser();

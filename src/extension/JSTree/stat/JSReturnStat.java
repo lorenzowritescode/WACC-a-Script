@@ -12,7 +12,7 @@ public class JSReturnStat extends JSStat {
 	
 	@Override
 	public String toCode() {
-		return "if (callback)\n\t"
+		return "if (typeof callback !== 'undefined')\n\t"
 					+ "{ callback(" + expr.toCode() + ") }\n"
 				+ "else\n\t"
 					+ "{ return " + expr.toCode() + "}";

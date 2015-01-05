@@ -1,15 +1,17 @@
 package JSTree.stat;
 
+import JSTree.expr.JSExpr;
+
 public class JSExitStat extends JSStat {
 
-	public JSExitStat() {
+	private JSExpr exitCode;
+
+	public JSExitStat(JSExpr exitCode) {
+		this.exitCode = exitCode;
 	}
 
 	@Override
 	public String toCode() {
-		return "return";
+		return "core.terminate("+exitCode.toCode()+")";
 	}
-	
-	
-
 }
