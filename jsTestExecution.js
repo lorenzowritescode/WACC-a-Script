@@ -1,3 +1,7 @@
+var _ = require('underscore'),
+	arraysEqual = require('./test-utils/isContaminated.js').arraysEqual,
+	codes = require('./test-utils/isContaminated.js').codes;
+
 function Test(programFunction, expOut, input, filePath) {
 	return {
 		program: programFunction,
@@ -18,14 +22,6 @@ function Test(programFunction, expOut, input, filePath) {
 			}
 		},
 		run: function() {
-			var codes = {
-				success: 0,
-				syntax: 1,
-				runtime: 2,
-				wrongOutput: 3,
-				dontknow: 4
-			};
-
 			if (typeof this.program != 'function') {
 				console.log("The 'program' field is not a function. File: " + filePath);
 				return codes.syntax;
@@ -40,7 +36,7 @@ function Test(programFunction, expOut, input, filePath) {
 
 			var result = arraysEqual(this.expOut, this.core.actOut);
 
-			if(result == 3) {
+			if(result == codes.wrongOutput) {
 				console.log("Test for " + filePath + " failed.");
 				console.log("Input: \n\t" + input.join('\n\t'));
 				console.log("Output Expected: \n\t" + expOut.join('\n\t'));
@@ -48,33 +44,6 @@ function Test(programFunction, expOut, input, filePath) {
 			}
 
 			return result;
-
-			function arraysEqual(expOut, actualOut) {
-				if (expOut === actualOut) 
-					return codes.success;
-
-				if (expOut.length != actualOut.length)
-					return codes.wrongOutput;
-
-				var ignores = ['#input#', '#output#', '#addrs#'],
-					containsIgnores = false;
-
-				expOut.forEach(function(s) {
-					containsIgnores = containsIgnores ||
-						ignores.reduce(function(previous, current, index, array) {
-							return previous || (s.indexOf(current) > 0);
-						}, false);
-				});
-
-				if (containsIgnores)
-					return codes.dontknow;
-
-				for (var i = 0; i < expOut.length; ++i) {
-					if (expOut[i] != actualOut[i])
-						return codes.wrongOutput;
-				}
-				return codes.success;
-			}
 		}
 	};
 }
@@ -87,7 +56,8 @@ var programFunction = function (core) {
 	})
 }
 
-// new Test(programFunction, [5], [4], "blah").run();
+// Sample usage:
+console.log(new Test(programFunction, ['#addrs#'], [4], "blah").run());
 
 module.exports = {
 	Test: Test
