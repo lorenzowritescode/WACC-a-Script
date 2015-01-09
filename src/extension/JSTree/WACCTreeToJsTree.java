@@ -9,71 +9,17 @@ import JSTree.JSProg;
 import JSTree.JSTree;
 import tree.ProgNode;
 import tree.WACCTree;
-import tree.assignments.ArgListNode;
-import tree.assignments.ArrayElemNode;
-import tree.assignments.ArrayLiterNode;
-import tree.assignments.CallStatNode;
-import tree.assignments.NewPairNode;
-import tree.assignments.PairElemNode;
+import tree.assignments.*;
 import tree.assignments.PairElemNode.ORDER;
-import tree.expr.BinExprNode;
-import tree.expr.BoolLeaf;
-import tree.expr.CharLeaf;
-import tree.expr.ExprNode;
-import tree.expr.IntLeaf;
-import tree.expr.PairLeaf;
-import tree.expr.PairLiterNode;
-import tree.expr.StringLeaf;
-import tree.expr.UnExprNode;
-import tree.expr.VarNode;
-import tree.func.FuncDecNode;
-import tree.func.ParamListNode;
-import tree.func.ParamNode;
-import tree.stat.AssignStatNode;
-import tree.stat.BlockStatNode;
-import tree.stat.ExitStat;
-import tree.stat.FreeStat;
-import tree.stat.IfStatNode;
-import tree.stat.PrintLnStat;
-import tree.stat.PrintStat;
-import tree.stat.ReadStatNode;
-import tree.stat.ReturnStatNode;
-import tree.stat.SeqStatNode;
-import tree.stat.SkipStatNode;
-import tree.stat.VarDecNode;
-import tree.stat.WhileStatNode;
+import tree.expr.*;
+import tree.func.*;
+import tree.stat.*;
 import tree.type.WACCUnOp;
 import visitor.WACCTreeVisitor;
-import JSTree.assignable.JSArrayElem;
-import JSTree.assignable.JSArrayLiter;
-import JSTree.expr.JSBinExpr;
-import JSTree.expr.JSBool;
-import JSTree.expr.JSChar;
-import JSTree.expr.JSExpr;
-import JSTree.expr.JSInt;
-import JSTree.expr.JSNewPair;
-import JSTree.expr.JSNull;
-import JSTree.expr.JSPair;
-import JSTree.expr.JSPairElem;
-import JSTree.expr.JSString;
-import JSTree.expr.JSVar;
-import JSTree.func.JSArgList;
-import JSTree.func.JSFunc;
-import JSTree.func.JSFuncCall;
-import JSTree.func.JSLibFuncCall;
-import JSTree.func.JSParam;
-import JSTree.func.JSParamList;
-import JSTree.stat.JSAssignStat;
-import JSTree.stat.JSBlockStat;
-import JSTree.stat.JSExitStat;
-import JSTree.stat.JSIfStat;
-import JSTree.stat.JSPrint;
-import JSTree.stat.JSReadStat;
-import JSTree.stat.JSReturnStat;
-import JSTree.stat.JSSeqStat;
-import JSTree.stat.JSStat;
-import JSTree.stat.JSVarDec;
-import JSTree.stat.JSWhileStat;
+import JSTree.assignable.*;
+import JSTree.expr.*;
+import JSTree.func.*;
+import JSTree.stat.*;
 
 public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 
@@ -141,9 +87,9 @@ public class WACCTreeToJsTree extends WACCTreeVisitor<JSTree> {
 	}
 
 	@Override
-	public JSPrint visitPrintLnStat(PrintLnStat node) {
+	public JSPrintLn visitPrintLnStat(PrintLnStat node) {
 		JSExpr expr = (JSExpr) visit(node.getExpr());
-		return new JSPrint(expr);
+		return new JSPrintLn(expr);
 	}
 
 	@Override
