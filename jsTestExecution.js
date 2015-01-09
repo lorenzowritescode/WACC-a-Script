@@ -14,8 +14,28 @@ function Test(programFunction, expOut, input, filePath) {
 			read: function(callback) {
 				callback(input[this.index]);
 			},
+			onNewline: true,
 			print: function(s) {
-				this.actOut.push(s);
+				s = s != null ? s.toString() : '';
+				if (this.onNewline) {
+					this.actOut.push(s);
+				} else {
+					var lastMessage = this.actOut.pop(),
+						newMessage = lastMessage + s;
+
+					this.actOut.push(newMessage);
+				}
+
+				this.onNewline = false;
+			},
+			println: function(s) {
+				s = s != null ? s.toString() : '';
+				if(this.onNewline) {
+					this.actOut.push(s);
+				} else {
+					this.print(s);
+					this.onNewline = true;
+				}
 			},
 			terminate: function(exitCode) {
 				this.exitStatus = exitCode || 0;

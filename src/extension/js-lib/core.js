@@ -43,7 +43,8 @@ function replaceString(target :string, index :number, c: string) :string {
 }
 
 module.exports = {
-	print: print, 
+	print: print,
+	println: print,
 	read: read,
 	terminate: terminate,
 	iostream : rl,

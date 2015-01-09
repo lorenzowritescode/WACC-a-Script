@@ -1,5 +1,5 @@
 var _ = require('underscore'),
-	ignores = ['#input#', '#output#', '#addrs#', '#runtime_error#'];
+	ignores = ['#input#', '#output#', '#addrs#', '#runtime_error#', '#empty#', '(nil)'];
 
 function isContaminated(expOut) {
 
