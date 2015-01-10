@@ -1,15 +1,38 @@
 .tree-browser {
   overflow: auto;
 }
+
 .file-viewer {
   padding-left: 50px;
   overflow: auto;
 }
-.jstree-custom-folder{
+
+.jstree-custom-folder {
   background-image: url('../imgs/folder.png') !important;
   background-position: 0 !important;
 }
+
 .jstree-custom-file {
   background-image: url('../imgs/file.png') !important;
+  background-position: 0 !important;
+}
+
+.correct {
+  background-image: url('../imgs/correct.png') !important;
+  background-position: 0 !important;
+}
+
+.dontknow {
+  background-image: url('../imgs/dontknow.png') !important;
+  background-position: 0 !important;
+}
+
+.error {
+  background-image: url('../imgs/error.png') !important;
+  background-position: 0 !important;
+}
+
+.compiler {
+  background-image: url('../imgs/compiler.png') !important;
   background-position: 0 !important;
 }
