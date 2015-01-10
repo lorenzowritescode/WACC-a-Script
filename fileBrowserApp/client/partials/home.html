@@ -1,9 +1,32 @@
-<div ng-controller="HomeCtrl">
 <div class="row">
-<div class="col-md-4 tree-browser">
-<js-tree tree-events="select_node:nodeSelected" tree-ajax="/api/tree"></js-tree>
+<div class="col-md-2 tree-browser">
+	<js-tree tree-events="select_node:nodeSelected" tree-ajax="/api/tree"></js-tree>
 </div>
-<div class="col-md-8 file-viewer">
-<pre><code>{{fileViewer}}</pre></code>
+<div class="col-md-10">
+	<div class="col-md-5">
+		<h4>WACC source</h4>
+		<pre rainbow-block><code data-language="generic">{{waccSource}}</code></pre>
+	</div>
+
+	<div class="col-md-7">
+		<h4>Transpiled JS</h4>
+		<pre rainbow-block><code data-language="javascript">{{fileViewer}}</code></pre>
+	</div>
+	<div class="col-md-12" style="display: block;">
+		<h3>Test</h3>
+	</div>
+	<div class="col-md-6">
+		<p>Test Input</p>
+		<pre><code>{{testInput}}</code></pre>
+	</div>
+
+	<div class="col-md-6">
+		<p>Expected Output</p>
+		<pre><code>{{expOut}}</code></pre>
+	</div>
+	<div class="col-md-12">
+		<p>Test Output</p>
+		<pre><code>{{testOut}}</code></pre>
+	</div>
 </div>
 </div>

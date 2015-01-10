@@ -41,26 +41,26 @@ function Test(programFunction, expOut, input, filePath) {
 				this.exitStatus = exitCode || 0;
 			}
 		},
-		run: function() {
+		run: function(printer) {
 			if (typeof this.program != 'function') {
-				console.log("The 'program' field is not a function. File: " + filePath);
+				printer.log("The 'program' field is not a function. File: " + filePath);
 				return codes.syntax;
 			}
 
 			try {
 				this.program(this.core);
 			} catch (err) {
-				console.log("Something went wrong when executing this file: " + filePath, err);
+				printer.log("Something went wrong when executing this file: " + filePath, err);
 				return codes.runtime;
 			}
 
 			var result = arraysEqual(this.expOut, this.core.actOut);
 
 			if(result == codes.wrongOutput) {
-				console.log("Test for " + filePath + " failed.");
-				console.log("Input: \n\t" + input.join('\n\t'));
-				console.log("Output Expected: \n\t" + expOut.join('\n\t'));
-				console.log("Actual Output: \n\t" + this.core.actOut.join('\n\t'));
+				printer.log("Test for " + filePath + " failed.");
+				printer.log("Input: \n\t" + input.join('\n\t'));
+				printer.log("Output Expected: \n\t" + expOut.join('\n\t'));
+				printer.log("Actual Output: \n\t" + this.core.actOut.join('\n\t'));
 			}
 
 			return result;

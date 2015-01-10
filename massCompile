@@ -30,6 +30,8 @@ def compileFile(filepath, targetdir)
 	`./compile -jf #{filepath} -o #{targetfile} -c no_core`
 	check($?.exitstatus, targetfile)
 
+	`cp #{filepath} #{targetdir}`
+	
 	inputFile = filepath.sub(".wacc", ".in")
 	if(File.exists?(inputFile))
 		`cp #{inputFile} #{targetdir}`
