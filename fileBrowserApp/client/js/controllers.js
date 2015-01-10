@@ -9,7 +9,10 @@
                     var original = data.node.original,
                         test = original.test;
 
-                    requestFile(_l.base, 'fileViewer');
+                    $scope.fileViewer = original.text;
+                    $scope.icon = original.icon? original.icon + '-big' : '';
+
+                    requestFile(_l.base, 'jsSource');
                     requestFile(original.source, 'waccSource');
 
                     $scope.testInput = test.input;

@@ -3,14 +3,22 @@
 	<js-tree tree-events="select_node:nodeSelected" tree-ajax="/api/tree"></js-tree>
 </div>
 <div class="col-md-10">
+	<div class="col-md-12" style="display: block;">
+		<div class="col-md-6">
+			<h2>{{fileViewer}}</h2>
+		</div>
+		<div class="col-md-6">
+			<img ng-attr-src="../imgs/{{icon}}.png" style="float: right;">
+		</div>
+	</div>
 	<div class="col-md-5">
 		<h4>WACC source</h4>
-		<pre rainbow-block><code data-language="generic">{{waccSource}}</code></pre>
+		<pre><code data-language="generic">{{waccSource}}</code></pre>
 	</div>
 
 	<div class="col-md-7">
 		<h4>Transpiled JS</h4>
-		<pre rainbow-block><code data-language="javascript">{{fileViewer}}</code></pre>
+		<pre><code data-language="javascript">{{jsSource}}</code></pre>
 	</div>
 	<div class="col-md-12" style="display: block;">
 		<h3>Test</h3>
