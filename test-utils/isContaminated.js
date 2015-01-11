@@ -26,11 +26,27 @@ function arraysEqual(expOut, actualOut) {
 	if (expOut.length != actualOut.length)
 		return codes.wrongOutput;
 
+	expOut = sanitiseArray(expOut);
+	actualOut = sanitiseArray(actualOut);
+
 	for (var i = 0; i < expOut.length; ++i) {
 		if (expOut[i] != actualOut[i])
 			return codes.wrongOutput;
 	}
 	return codes.success;
+}
+
+function sanitiseArray(arr) {
+	arr = trim(arr);
+	arr = _.map(arr, function(val) {
+		try {
+			return val.toString();
+		} catch (e) {
+			return val;
+		}
+	})
+
+	return arr;
 }
 
 function trim(expOut) {
