@@ -7,6 +7,10 @@
   overflow: auto;
 }
 
+.container {
+  width: 1350px;
+}
+
 .jstree-custom-folder {
   background-image: url('../imgs/folder.png') !important;
   background-position: 0 !important;
