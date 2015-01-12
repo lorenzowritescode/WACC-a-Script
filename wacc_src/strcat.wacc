@@ -1,0 +1,6 @@
+begin
+  string x = "Hello ";
+  string y = "World!";
+  string z = call concat(x,y);
+  print z
+end

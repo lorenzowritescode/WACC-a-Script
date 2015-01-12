@@ -1,0 +1,10 @@
+begin
+  int x = 5;
+  int y = 3;
+  print (x == y);
+  print (x * y);
+
+  pair(int, int) p = newpair(x, y);
+  int z = fst p;
+  print z
+end

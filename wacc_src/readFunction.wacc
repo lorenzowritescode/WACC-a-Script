@@ -1,0 +1,11 @@
+begin
+  string readString() is
+    string s = "---";
+    read s;
+    return s
+  end
+
+  string res = call readString();
+  print res
+end
+

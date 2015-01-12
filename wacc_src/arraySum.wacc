@@ -1,0 +1,5 @@
+begin
+  int[] x = [1, 2, 3];
+  int y = call arraySum(x);
+  print y
+end
