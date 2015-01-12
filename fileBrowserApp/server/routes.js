@@ -40,7 +40,7 @@
             log: function(s) {
                 this.buffer.push(s);
             }
-        }
+        };
     }
 
     function processReq(_p, res) {
@@ -87,9 +87,13 @@
             // require the program function in a try catch block as to not crash the entire app.
             try{
                 var programFunction = require(pathName).program,
-                    printer = new Printer(),
-                    expOut = _.filter(expOut, function(v) { return !(v == null || v == '') }),
-                    test = new Test(programFunction, expOut, input, pathName),
+                    printer = new Printer();
+                
+                expOut = _.filter(expOut, function(v) { 
+                    return !(v === null || v === '');
+                });
+
+                var test = new Test(programFunction, expOut, input, pathName),
                     result = test.run(printer);
 
                 testResultResponse = {
@@ -105,7 +109,8 @@
                     "log": "There was an error parsing the file.\n" + err,
                     "input": input.join('\n'),
                     "expOut": expOut.join('\n')
-                }
+                };
+                
                 icon = pickIcon(1);
             }
         }
@@ -135,7 +140,8 @@
         2: 'compiler',
         3: 'error',
         4: 'dontknow'
-    }
+    };
+
     function pickIcon(resultCode) {
         return icons[resultCode];
     }

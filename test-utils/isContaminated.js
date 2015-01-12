@@ -17,6 +17,9 @@ function containsIgnores(s) {
 };
 
 function arraysEqual(expOut, actualOut) {
+	expOut = sanitiseArray(expOut);
+	actualOut = sanitiseArray(actualOut);
+
 	if (expOut === actualOut) 
 		return codes.success;
 
@@ -25,9 +28,6 @@ function arraysEqual(expOut, actualOut) {
 
 	if (expOut.length != actualOut.length)
 		return codes.wrongOutput;
-
-	expOut = sanitiseArray(expOut);
-	actualOut = sanitiseArray(actualOut);
 
 	for (var i = 0; i < expOut.length; ++i) {
 		if (expOut[i] != actualOut[i])

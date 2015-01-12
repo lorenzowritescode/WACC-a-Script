@@ -20,7 +20,6 @@ function arraySum(xs :Array<number>) :number {
 	return xs.reduce(foldSum, 0);
 }
 
-
 function arrayAvg(xs :Array<number>) :number {
 	var sum :number = arraySum(xs);
 	return sum / xs.length;

@@ -16,7 +16,7 @@ public class JSLibFuncCall extends JSStat {
 
 	@Override
 	public String toCode() {
-		return dependency + fName + args.toCode();
+		return dependency + "." + fName + args.toCode();
 	}
 
 }
